@@ -1,10 +1,10 @@
 import Layout from "../layout/layout";
 import { useRouter } from "next/router";
-import MintNFT from "@components/minting-page/mint-nft";
-import { Visualisation } from "./visualisation/visualisation";
+import MintNFT from "@components/minting-page/MintNFT";
 import { useEffect, useState } from "react";
 import { Error } from "@components/error";
 import { getFirstArrayElementOrValue } from "utils/formatUtils";
+import { Visualisation } from "./visualisation/visualisation";
 
 const MintingPage: React.FC = () => {
   const router = useRouter();

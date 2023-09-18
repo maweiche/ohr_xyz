@@ -1,5 +1,5 @@
 import { Stars, Center } from "@react-three/drei";
-import ThreeDLogo from "./three-d-logo";
+import ThreeDLogo from "./ThreeDLogo";
 
 const Scene = () => {
   return (

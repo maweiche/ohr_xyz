@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import styles from "./recording-page.module.css";
 import Layout from "../layout/layout";
-import Timer from "./timer";
+
 import EarBtn from "@components/layout/btns/ear-btn";
 import { Loading } from "@components/loading";
 import { getCurrentDateFormatted } from "utils/formatUtils";
+import Timer from "./timer";
 
 const RecordingPage: React.FC = () => {
   const router = useRouter();
