@@ -1,7 +1,7 @@
-import Layout from "@components/layout/layout";
+import Layout from "@components/layout/Layout";
 import { useRouter } from "next/router";
 import React from "react";
-import TweetButton from "./tweet-button";
+import TweetButton from "./TweetBtn";
 import { getFirstArrayElementOrValue } from "utils/formatUtils";
 
 export const SuccessPage = () => {

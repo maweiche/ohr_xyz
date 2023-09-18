@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
-import styles from "./recording-page.module.css";
+import styles from "./recording.module.css";
 
 interface TimerProps {
   isRecording: boolean;

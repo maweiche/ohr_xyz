@@ -1,4 +1,4 @@
-import styles from "../../landing-page/landing-page.module.css";
+import styles from "../../landing/landing.module.css";
 import Image from "next/image";
 import ohr from "../../../assets/ear_big.png";
 

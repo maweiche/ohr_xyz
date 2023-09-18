@@ -1,7 +1,7 @@
 import React from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import Scene from "./scene";
+import Scene from "./Scene";
 
 export const Visualisation = () => {
   return (

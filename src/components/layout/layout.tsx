@@ -1,5 +1,5 @@
-import { Header } from "./header/header";
-import { Footer } from "./footer/footer";
+import { Header } from "./header/Header";
+import { Footer } from "./footer/Footer";
 import { ReactNode } from "react";
 import Image from "next/image";
 

@@ -1,8 +1,8 @@
-import Layout from "../layout/layout";
+import Layout from "../layout/Layout";
 import { useRouter } from "next/router";
-import MintNFT from "@components/minting-page/MintNFT";
+import MintNFT from "@components/minting/MintNFT";
 import { useEffect, useState } from "react";
-import { Error } from "@components/error";
+import { Error } from "@components/Error";
 import { getFirstArrayElementOrValue } from "utils/formatUtils";
 import { Visualisation } from "./visualisation/visualisation";
 

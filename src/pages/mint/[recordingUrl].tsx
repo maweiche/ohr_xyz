@@ -1,4 +1,4 @@
-import MintingPage from "@components/minting-page/MintingPage";
+import MintingPage from "@components/minting/MintingPage";
 
 const Minting = () => {
   return <MintingPage />;

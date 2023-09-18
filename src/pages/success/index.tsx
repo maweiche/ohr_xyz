@@ -1,5 +1,5 @@
 import styles from "@styles/Home.module.css";
-import { SuccessPage } from "@components/success-page/success-page";
+import { SuccessPage } from "@components/success/SuccessPage";
 
 const Success = () => {
   return <SuccessPage />;

@@ -5,7 +5,7 @@ interface TweetButtonProps {
   tweetText: string;
 }
 
-const TweetButton: React.FC<TweetButtonProps> = ({ nftLink, tweetText }) => {
+const TweetBtn: React.FC<TweetButtonProps> = ({ nftLink, tweetText }) => {
   const tweetButtonLink = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
     tweetText + " " + nftLink
   )}`;
@@ -23,4 +23,4 @@ const TweetButton: React.FC<TweetButtonProps> = ({ nftLink, tweetText }) => {
   );
 };
 
-export default TweetButton;
+export default TweetBtn;

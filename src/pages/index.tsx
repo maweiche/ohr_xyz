@@ -1,6 +1,6 @@
 import Head from "next/head";
-import { LandingPage } from "@components/landing-page/landing-page";
-import Layout from "@components/layout/layout";
+import { LandingPage } from "@components/landing/LandingPage";
+import Layout from "@components/layout/Layout";
 
 export default function Home() {
   const IS_APP_ACTIVE = true;

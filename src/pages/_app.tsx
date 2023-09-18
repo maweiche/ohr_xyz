@@ -5,10 +5,10 @@ import { clusterApiUrl } from "@solana/web3.js";
 import { ConnectionProvider } from "@solana/wallet-adapter-react";
 import type { AppProps } from "next/app";
 import dynamic from "next/dynamic";
-import WalletRerouter from "context/wallet-rerouter";
+import WalletRerouter from "context/WalletRerouter";
 
 const ClientWalletProvider = dynamic(
-  () => import("../context/client-wallet-provider"),
+  () => import("../context/ClientWalletProvider"),
   { ssr: false }
 );
 

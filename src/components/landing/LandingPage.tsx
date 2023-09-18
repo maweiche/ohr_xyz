@@ -1,9 +1,9 @@
 import ohr from "../../assets/ear_big.png";
 import Image from "next/image";
-import styles from "./landing-page.module.css";
+import styles from "./landing.module.css";
 import { motion } from "framer-motion";
-import { ActiveAppDescription } from "./active-app-description";
-import { PassiveAppDescription } from "./passive-app-description";
+import { ActiveAppDescription } from "./ActiveAppDescription";
+import { PassiveAppDescription } from "./PassiveAppDescription";
 
 interface LandingPageProps {
   isAppActive: boolean;
