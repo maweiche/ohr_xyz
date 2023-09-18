@@ -48,6 +48,8 @@ const RecordingPage: React.FC = () => {
         setRecordingUrl(URL.createObjectURL(audioBlob));
         setIsRecording(false);
         setIsRecordingCompleted(true);
+
+        stream.getTracks().forEach((track) => track.stop());
       };
 
       setDiscardRecording(false);
