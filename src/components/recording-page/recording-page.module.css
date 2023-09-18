@@ -1,0 +1,22 @@
+.timer {
+  left: 50%;
+  position: absolute;
+  top: 22%;
+  transform: translate(-50%, -25%);
+}
+
+.continue-btn {
+  left: 50%;
+  position: absolute;
+  top: 82%;
+  transform: translate(-50%, -25%);
+}
+
+.help-text {
+  left: 50%;
+  width: 16rem;
+  position: absolute;
+  text-align: center;
+  top: 82%;
+  transform: translate(-50%, -25%);
+}

@@ -1,0 +1,15 @@
+.connect-button {
+  color: #64ed14 !important;
+  text-shadow: 2px 2px #210059 !important;
+  background: #e60073 !important;
+  font: 18px Gajraj One, cursive !important;
+  border-radius: 25mm !important;
+  text-transform: lowercase !important;
+  max-width: 50vw;
+  width: 100%;
+  animation: glow 3s ease-in-out infinite alternate;
+}
+
+.connect-button:hover {
+  font-style: italic !important;
+}

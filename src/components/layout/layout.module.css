@@ -1,0 +1,33 @@
+.container {
+  height: 100svh;
+}
+
+.app-title {
+  padding-left: 3.8%;
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073,
+      0 0 60px #fd9d02;
+  }
+
+  to {
+    box-shadow: 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #ff4da6,
+      0 0 60px #ff4da6, 0 0 70px #ac4dff;
+  }
+}
+
+@media (min-width: 450px) {
+  .app-title {
+    padding-left: 1.1%;
+  }
+
+  .mobile-frame {
+    background-image: url("/phone-frame.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: green;
+  }
+}

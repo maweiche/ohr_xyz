@@ -1,0 +1,85 @@
+@import url("https://fonts.googleapis.com/css2?family=Gajraj+One&family=Tilt+Warp&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Russo+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&family=Russo+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Dosis:wght@300&family=Roboto+Slab:wght@300&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 98, 0, 128;
+  --background-end-rgb: 255, 20, 147;
+  --text-color: rgb(243, 219, 242);
+  --font-mono: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono",
+    "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
+    "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
+
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to right bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+.secondary-font {
+  font-family: "Dosis", sans-serif;
+  font-family: "Roboto Slab", serif;
+  font-weight: bolder;
+  font-size: 1.2rem;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: "Rubik Mono One", sans-serif;
+}
+
+html,
+body {
+  max-height: 100vh;
+  max-width: 100vw;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  line-height: 1.5rem;
+}
+
+body {
+  background: var(--background-color);
+  font-family: "Gajraj One", cursive;
+  color: var(--text-color);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.wallet-adapter-button {
+  color: #64ed14 !important;
+  text-shadow: 2px 2px #210059 !important;
+  background: #7e2986 !important; /*#5d2462*/
+  border: 1px solid #a223ad !important;
+  font: 20px Gajraj One, cursive !important;
+  border-radius: 25mm !important;
+  text-transform: lowercase !important;
+  max-width: 50vw;
+  width: 100%;
+  animation: glow 3s ease-in-out infinite alternate;
+}
+
+.wallet-adapter-button:hover {
+  font-style: italic !important;
+}
+
+.small-title {
+  position: absolute;
+  left: 50%;
+  top: 12%;
+  transform: translate(-50%, -25%);
+}
