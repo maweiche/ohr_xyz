@@ -33,30 +33,38 @@ const RecordingPage: React.FC = () => {
   }, [router.query.discard]);
 
   const toggleRecording = async (): Promise<void> => {
-    if (isRecording && mediaRecorder) {
-      mediaRecorder.stop();
-      return;
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+      const recorder = new MediaRecorder(stream);
+      const chunks: Blob[] = [];
+
+      recorder.ondataavailable = function (e: BlobEvent) {
+        chunks.push(e.data);
+      };
+
+      recorder.onstop = function (e: Event) {
+        const audioBlob = new Blob(chunks, { type: "audio/wav" });
+        setRecordingUrl(URL.createObjectURL(audioBlob));
+        setIsRecording(false);
+        setIsRecordingCompleted(true);
+      };
+
+      setDiscardRecording(false);
+      setIsRecording(true);
+      setMediaRecorder(recorder);
+
+      recorder.start();
+
+      if (isRecording && mediaRecorder) {
+        mediaRecorder.stop();
+        return;
+      }
+    } catch (error) {
+      // Handle the error. This will typically be a DOMException with name
+      // "NotAllowedError" if the user denies permission.
+      console.error("Error starting the recording:", error);
     }
-
-    setDiscardRecording(false);
-    setIsRecording(true);
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    const recorder = new MediaRecorder(stream);
-    setMediaRecorder(recorder);
-    const chunks: Blob[] = [];
-
-    recorder.ondataavailable = function (e: BlobEvent) {
-      chunks.push(e.data);
-    };
-
-    recorder.onstop = function (e: Event) {
-      const audioBlob = new Blob(chunks, { type: "audio/wav" });
-      setRecordingUrl(URL.createObjectURL(audioBlob));
-      setIsRecording(false);
-      setIsRecordingCompleted(true);
-    };
-
-    recorder.start();
   };
 
   const handleContinue = (): void => {

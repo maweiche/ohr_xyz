@@ -26,11 +26,26 @@ interface MintNFTProps {
 const connectToBlockChain = (wallet: WalletContextState) => {
   if (!process.env.NEXT_PUBLIC_RPC) return;
 
-  // const connection = new Connection(clusterApiUrl("devnet"), "confirmed"); // devnet
   const connection = new Connection(process.env.NEXT_PUBLIC_RPC); // mainnet
   const metaplex = Metaplex.make(connection);
   metaplex.use(walletAdapterIdentity(wallet));
   metaplex.use(bundlrStorage()); /// mainnet
+
+  return metaplex;
+};
+
+const connectToBlockChainDevNet = (wallet: WalletContextState) => {
+  if (!process.env.NEXT_PUBLIC_RPC) return;
+
+  const connection = new Connection(clusterApiUrl("devnet"), "confirmed"); // devnet
+  const metaplex = Metaplex.make(connection);
+  metaplex.use(walletAdapterIdentity(wallet));
+  metaplex.use(
+    bundlrStorage({
+      address: "https://devnet.bundlr.network",
+      timeout: 60000,
+    })
+  );
 
   return metaplex;
 };
@@ -89,7 +104,8 @@ const MintNFT: React.FC<MintNFTProps> = ({
   const router = useRouter();
 
   const uploadMetaDataAndMint = async (recordingUrl: string) => {
-    const metaplexInstance = connectToBlockChain(wallet);
+    // const metaplexInstance = connectToBlockChain(wallet); // mainnet
+    const metaplexInstance = connectToBlockChainDevNet(wallet);
 
     if (!metaplexInstance) return;
 
