@@ -116,6 +116,8 @@ const MintNFT: React.FC<MintNFTProps> = ({
       theVibe
     );
 
+    console.log("props: ", properties, attributes, audioUrl);
+
     const metadataUri = await uploadMetadata(
       METADATA.name,
       METADATA.image,
@@ -126,6 +128,8 @@ const MintNFT: React.FC<MintNFTProps> = ({
       properties,
       metaplexInstance
     );
+
+    console.log("MetadataUri: ", metadataUri);
 
     mintNFT(
       metadataUri,
@@ -142,6 +146,7 @@ const MintNFT: React.FC<MintNFTProps> = ({
 
     try {
       const response = await uploadMetaDataAndMint(recordingUrl);
+      console.log("onSubmitNFT response: ", response);
     } catch (err) {
       console.error("Error in onSubmitNFT:", err);
       setHasError(true);
@@ -149,7 +154,7 @@ const MintNFT: React.FC<MintNFTProps> = ({
   };
 
   const onDiscard = () => {
-    router.push("/record?discard=true");
+    router.push("/create/record?discard=true");
   };
 
   const mintButtonAnimation = {

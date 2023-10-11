@@ -52,7 +52,7 @@ export async function mintNFT(
   console.log(`   Minted NFT: ${solscanLink}`);
 
   router.push({
-    pathname: "/success",
+    pathname: "/create/success",
     query: { solscanLink },
   });
 }

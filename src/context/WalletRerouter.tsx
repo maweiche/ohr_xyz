@@ -7,7 +7,7 @@ const WalletRerouter = () => {
   const wallet = useWallet();
 
   useEffect(() => {
-    wallet.connected ? router.push("/record") : router.push("/");
+    // wallet.connected ? router.push("/record") : router.push("/home");
   }, [wallet.connected]);
 
   return <></>;

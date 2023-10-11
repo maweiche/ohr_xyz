@@ -1,3 +1,5 @@
+import { ProtocolOptions } from "@spling/social-protocol";
+
 export const METADATA = {
   name: "Berlinøhr",
   // GIF
@@ -11,3 +13,9 @@ export const METADATA = {
   sellerFeeBasisPoints: 500, //500 bp = 5%
   symbol: "ØHR",
 };
+
+export const options = {
+  rpcUrl:
+    "https://devnet.helius-rpc.com/?api-key=4ca65c1f-7b30-4387-b937-acc01dc63653",
+  useIndexer: true,
+} as ProtocolOptions;
