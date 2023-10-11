@@ -18,7 +18,7 @@ export const DescribePage = () => {
     setIsLoading(true);
 
     router.push({
-      pathname: "/mint/[recordingUrl]",
+      pathname: "/create/mint/[recordingUrl]",
       query: { recordingUrl, timeStamp, theVibe },
     });
   };

@@ -14,8 +14,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout
-        showWallet={IS_APP_ACTIVE ? "footer" : "none"}
-        showLogo={!IS_APP_ACTIVE && true}
+        showWallet={IS_APP_ACTIVE && "none"}
+        showLogo={IS_APP_ACTIVE && true}
       >
         <LandingPage isAppActive={IS_APP_ACTIVE} />
       </Layout>

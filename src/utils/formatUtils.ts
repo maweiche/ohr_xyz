@@ -1,3 +1,5 @@
+import { StaticImageData } from "next/image";
+
 export const getCurrentDateFormatted = (): string => {
   const now = new Date();
 
@@ -31,4 +33,19 @@ export const getFirstArrayElementOrValue = (
     return undefined;
   }
   return Array.isArray(value) ? value[0] : value;
+};
+
+export const convertBase64 = (file: File) => {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+
+    fileReader.onload = () => {
+      resolve(fileReader.result);
+    };
+
+    fileReader.onerror = (error) => {
+      reject(error);
+    };
+  });
 };

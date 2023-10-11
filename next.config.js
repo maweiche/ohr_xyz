@@ -1,6 +1,10 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-};
+module.exports = {
+  webpack: (config, options) => {
+    config.module.rules.push({
+      test: /\.(ts|tsx)$/,
+      use: [options.defaultLoaders.babel],
+    });
 
-module.exports = nextConfig;
+    return config;
+  },
+};

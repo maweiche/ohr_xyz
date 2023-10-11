@@ -5,7 +5,7 @@ export const Error = () => {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push("/record?discard=true");
+    router.push("/create/record?discard=true");
   };
 
   return (
