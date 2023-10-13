@@ -1,4 +1,4 @@
-import { DescribePage } from "@components/describe/DescribePage";
+import { DescribePage } from "@components/create/describe/DescribePage";
 import styles from "@styles/Home.module.css";
 
 const Describe = () => {

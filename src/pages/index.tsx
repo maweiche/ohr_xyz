@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { LandingPage } from "@components/landing/LandingPage";
 import Layout from "@components/layout/Layout";
+import Toaster from "@components/Toaster";
 
 export default function Home() {
   const IS_APP_ACTIVE = true;
@@ -17,6 +18,7 @@ export default function Home() {
         showWallet={IS_APP_ACTIVE && "none"}
         showLogo={IS_APP_ACTIVE && true}
       >
+        <Toaster />
         <LandingPage isAppActive={IS_APP_ACTIVE} />
       </Layout>
     </>

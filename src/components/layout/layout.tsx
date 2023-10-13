@@ -1,13 +1,13 @@
-import { Header } from "./header/Header";
-import { Footer } from "./footer/Footer";
 import { ReactNode } from "react";
-import Image from "next/image";
+import { Header } from "./header/header";
+import { Footer } from "./footer/footer";
 
 interface LayoutProps {
   showWallet: "footer" | "header" | "none";
   children: ReactNode;
   justifyStyling?: string;
   showLogo?: boolean;
+  showTitle?: string;
 }
 
 const Layout: React.FC<LayoutProps> = ({
@@ -15,6 +15,7 @@ const Layout: React.FC<LayoutProps> = ({
   showWallet,
   justifyStyling,
   showLogo,
+  showTitle,
 }) => {
   return (
     <div
@@ -22,7 +23,7 @@ const Layout: React.FC<LayoutProps> = ({
       style={{ height: "100svh" }}
     >
       {/* <Image src="/phone-frame.png" width={100} height={300} /> */}
-      <Header showWallet={showWallet} />
+      <Header showTitle={showTitle} />
       <main
         className={`overflow-none h-full flex flex-col justify-${
           justifyStyling ? justifyStyling : "center"

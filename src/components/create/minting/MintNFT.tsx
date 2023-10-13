@@ -11,8 +11,8 @@ import { useRouter } from "next/router";
 import { mintNFT, uploadMetadata } from "utils/mintNFTUtils";
 import { METADATA } from "utils/constants";
 import { Dispatch, SetStateAction } from "react";
-import { Loading } from "@components/Loading";
 import { dataUrlToBytes } from "utils/arrayBufferUtils";
+import { Loading } from "@components/loading";
 
 interface MintNFTProps {
   recordingUrl: string;

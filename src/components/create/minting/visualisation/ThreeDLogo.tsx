@@ -1,7 +1,7 @@
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { extend, Object3DNode, useFrame } from "@react-three/fiber";
-import Nabla from "../../../assets/Nabla_Regular.json";
+import Nabla from "../../../../assets/Nabla_Regular.json";
 import { useRef } from "react";
 
 // extending Three.js with custom geometry

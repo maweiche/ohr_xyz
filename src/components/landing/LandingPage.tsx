@@ -1,52 +1,68 @@
 import { ActiveAppDescription } from "./ActiveAppDescription";
 import { PassiveAppDescription } from "./PassiveAppDescription";
 import { useContext, useEffect, useState } from "react";
-import { useWallet } from "@solana/wallet-adapter-react";
+import { useWallet, WalletContextState } from "@solana/wallet-adapter-react";
 import SignUpModal from "./SignUpModal";
 import { ProtocolOptions, SocialProtocol } from "@spling/social-protocol";
 import { Keypair } from "@solana/web3.js";
-import SplingContext from "context/SplingContext";
-import { options } from "utils/constants";
+// import SplingContext from "context/SplingContext";
+import { SplingProtocol } from "@spling-labs/spling-protocol";
 interface LandingPageProps {
   isAppActive: boolean;
 }
 
 export const LandingPage: React.FC<LandingPageProps> = ({ isAppActive }) => {
-  const SplingContextValue = useContext(SplingContext);
+  // const SplingContextValue = useContext(SplingContext);
   const [showSignUpModal, setShowSignUpModal] = useState<boolean>(false);
   const [socialProtocolValue, setSocialProtocolValue] =
     useState<SocialProtocol | null>(null);
   const wallet = useWallet();
 
-  useEffect(() => {
-    // init socialProtocol
-    const initSocialProtocolWithUserWallet = async () => {
-      const socialProtocol: SocialProtocol = await new SocialProtocol(
-        Keypair.generate(),
-        null,
-        options
-      ).init();
+  // useEffect(() => {
+  //   // init socialProtocl
 
-      console.log(socialProtocol);
+  //   const options = {
+  //     rpcUrl: process.env.,
+  //     useIndexer: true,
+  //   } as ProtocolOptions;
 
-      if (socialProtocol !== null) {
-        SplingContextValue.updateSocialProtocol(socialProtocol);
-      }
-      setSocialProtocolValue(socialProtocol);
-    };
+  //   const splingProtocol: splingProtocol = new SplingProtocol(
+  //     Keypair.generate(),
+  //     wallet,
+  //     options
+  //   ).init();
 
-    initSocialProtocolWithUserWallet();
-  }, []);
+  //   const initSocialProtocolWithUserWallet = async () => {
+  //     const socialProtocol: SocialProtocol = await new SocialProtocol(
+  //       Keypair.generate(),
+  //       null,
+  //       options
+  //     ).init();
+  //     console.log(socialProtocol);
+
+  //     if (socialProtocol !== null) {
+  //       SplingContextValue.updateSocialProtocol(socialProtocol);
+  //     }
+  //     setSocialProtocolValue(socialProtocol);
+  //   };
+
+  //   initSocialProtocolWithUserWallet();
+  // }, []);
 
   // useEffect(() => {
   //   // init socialProtocl
+  //   const options = {
+  //     rpcUrl:
+  //       "https://devnet.helius-rpc.com/?api-key=4ca65c1f-7b30-4387-b937-acc01dc63653",
+  //     useIndexer: true,
+  //   } as ProtocolOptions;
+
   //   const initSocialProtocolWithUserWallet = async () => {
   //     const socialProtocol: SocialProtocol = await new SocialProtocol(
   //       wallet,
   //       null,
   //       options
   //     ).init();
-
   //     console.log(socialProtocol);
 
   //     if (socialProtocol !== null) {

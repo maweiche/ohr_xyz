@@ -5,21 +5,17 @@ import { useRouter } from "next/router";
 import { useWallet } from "@solana/wallet-adapter-react";
 
 interface HeaderProps {
-  showWallet: "footer" | "header" | "none";
+  showTitle?: string;
 }
 
-export const Header: React.FC<HeaderProps> = ({ showWallet }) => {
+export const Header: React.FC<HeaderProps> = ({ showTitle }) => {
   const router = useRouter();
   const wallet = useWallet();
 
   return (
     <header className="w-full md:py-4 ">
-      <div className="flex justify-center">
-        <div>
-          {showWallet === "header" && (
-            <WalletMultiButton className={styles["connect-button"]} />
-          )}
-        </div>
+      <div className="fixed top-10 left-1/2">
+        {showTitle && <h3 className="small-title">{showTitle}</h3>}
       </div>
     </header>
   );

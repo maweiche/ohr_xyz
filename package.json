@@ -19,7 +19,7 @@
     "@react-three/fiber": "^8.12.1",
     "@solana/wallet-adapter-nextjs-starter": "^0.8.17",
     "@solana/web3.js": "^1.78.4",
-    "@spling/social-protocol": "^1.5.9",
+    "@spling-labs/spling-protocol": "^1.0.7",
     "@types/react": "^18.0.32",
     "@types/react-dom": "18.0.11",
     "@types/three": "^0.155.0",
@@ -42,6 +42,7 @@
     "react-hot-toast": "^2.4.1",
     "rimraf": "^5.0.1",
     "sass": "^1.65.1",
+    "sonner": "^1.0.3",
     "three": "^0.151.3"
   },
   "devDependencies": {

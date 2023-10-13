@@ -1,5 +1,5 @@
 import styles from "@styles/Home.module.css";
-import RecordingPage from "@components/recording/RecordingPage";
+import RecordingPage from "@components/create/recording/RecordingPage";
 
 const Record = () => {
   return (

@@ -1,10 +1,10 @@
-import Layout from "../layout/Layout";
+import Layout from "../../layout/Layout";
 import { useRouter } from "next/router";
-import MintNFT from "@components/minting/MintNFT";
+import MintNFT from "@components/create/minting/MintNFT";
 import { useEffect, useState } from "react";
-import { Error } from "@components/Error";
+import { Error } from "../../Error";
 import { getFirstArrayElementOrValue } from "utils/formatUtils";
-import { Visualisation } from "./visualisation/visualisation";
+import { Visualisation } from "./visualisation/Visualisation";
 
 const MintingPage: React.FC = () => {
   const router = useRouter();
@@ -30,8 +30,7 @@ const MintingPage: React.FC = () => {
   }, [recordingUrl]);
 
   return (
-    <Layout showWallet="header" justifyStyling="between">
-      <h3 className="small-title">Mint</h3>
+    <Layout showWallet="header" justifyStyling="between" showTitle="mint">
       <div className="h-4/6 w-full flex flex-col justify-center mt-10 ">
         {hasError ? (
           <div className="p-4 flex justify-center align-center">
