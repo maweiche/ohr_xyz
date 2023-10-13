@@ -1,65 +1,122 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ImageUpload from "./ImageUpload";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { convertBase64 } from "utils/formatUtils";
 import defaultProfilePic from "../../assets/💅-5.png";
-import { StaticImageData } from "next/image";
+import {
+  FileData,
+  FileUriData,
+  SplingProtocol,
+} from "@spling-labs/spling-protocol";
+import { protocolOptions } from "utils/constants";
+import { toast } from "sonner";
+import { useRouter } from "next/router";
 
 export const Profile = () => {
-  const [selectedImage, setSelectedImage] = useState<string | StaticImageData>(
-    defaultProfilePic
-  );
+  //   const [profilePic, setProfilePic] = useState<File | StaticImageData>(
+  //     defaultProfilePic
+  //   );
   const [username, setUsername] = useState<string>("");
   const [bio, setBio] = useState<string>("");
-  const wallet = useWallet();
+  const [socialProtocol, setSocialProtocol] = useState<SplingProtocol | null>(
+    null
+  );
+  const [profilePicFile, setProfilePicFile] = useState<File | undefined>(
+    undefined
+  );
 
-  const handleClick = async () => {
-    // if (!wallet || typeof wallet == "undefined")
-    //   return toast.error("Wallet not connected");
-    // if (!username) return toast.error("Please enter a username");
-    // if (!profileImageFile) return toast.error("Please upload a profile image");
-    // if (!profileDescription)
-    //   return toast.error("Please enter a profile description");
-    // const toastID = toast.loading(
-    //   "Creating your profile. This may take a while..."
-    // );
-    // try {
-    //   let bs64 = await convertBase64(selectedImage);
-    //   let finalObj = {
-    //     base64: bs64,
-    //     size: selectedImage.size,
-    //     type: selectedImage.type,
-    //   };
-    //   const user = await socialProtocol.createUser(
-    //     username,
-    //     finalObj,
-    //     profileDescription
-    //   );
-    //   if (user) {
-    //     // toast.dismiss(toastID);
-    //     // toast.success("Profile created successfully");
-    //     //after 2 seconds redirect to home
-    //     // setTimeout(() => {
-    //     //   SplingContextValue.updateSelfInfo(user);
-    //     //   navigate("/");
-    //     // }, 2000);
-    //   } else {
-    //     // toast.dismiss(toastID);
-    //     // toast.error("Something went wrong");
-    //   }
-    // } catch (err) {
-    //   console.log(err);
-    //   //   toast.dismiss(toastID);
-    //   //   toast.error(`Something went wrong. Please Try again.${err}`);
-    // }
-  };
+  const wallet = useWallet();
+  const router = useRouter();
+
+  // useEffect(() => {
+  //   async function initApp() {
+  //     const socialProtocolVal = await new SplingProtocol(
+  //       wallet,
+  //       null,
+  //       protocolOptions
+  //     ).init();
+  //     setSocialProtocol(socialProtocolVal);
+  //   }
+  //   if (wallet?.publicKey && typeof wallet !== "undefined") {
+  //     initApp();
+  //   }
+  // }, [wallet]);
+
+  // const updateProfile = async () => {
+  //   // error handling
+  //   if (!wallet || typeof wallet == "undefined")
+  //     return toast.error("Wallet not connected");
+
+  //   if (!username) return toast.error("Please enter a username");
+
+  //   if (!profilePicFile) return toast.error("Please upload a profile pic");
+
+  //   if (!bio) return toast.error("Please enter a bio");
+
+  //   const toastID = toast.loading(
+  //     "Creating your profile. This may take a while..."
+  //   );
+
+  //   try {
+  //     let bs64 = await convertBase64(profilePicFile);
+  //     let finalImageObj: FileData | FileUriData;
+
+  //     if (profilePicFile instanceof File) {
+  //       finalImageObj = {
+  //         base64: bs64,
+  //         size: profilePicFile.size,
+  //         type: profilePicFile.type,
+  //       };
+  //       console.log("finalImageObj is File, size: ", finalImageObj.size);
+  //     } else {
+  //       console.log("finalImageObj is StaticImg");
+  //       finalImageObj = {
+  //         base64: bs64,
+  //         size: 100,
+  //         type: "image/png",
+  //       };
+  //     }
+
+  //     if (socialProtocol !== null) {
+  //       console.log("Social Protocol: ", socialProtocol);
+  //       const user = await x.createUser(
+  //         username,
+  //         finalImageObj,
+  //         bio
+  //       );
+  //       console.log(user);
+  //       if (user) {
+  //         console.log(user);
+  //         toast.dismiss(toastID);
+  //         toast.success("Profile created successfully");
+  //         //   after 2 seconds redirect to home
+  //         setTimeout(() => {
+  //           // SplingContextValue.updateSelfInfo(user);
+  //           router.push("/home");
+  //         }, 2000);
+  //       } else {
+  //         console.log("no user");
+  //         toast.dismiss(toastID);
+  //         toast.error("Something went wrong");
+  //       }
+  //     }
+  //   } catch (err) {
+  //     console.log("got to error");
+  //     //   socialProtocol?.getUser();
+  //     console.log("Social Protocol after user creation: ", socialProtocol);
+  //     console.log(err);
+  //     console.error("Server response: ", err);
+  //     toast.dismiss(toastID);
+  //     toast.error(`Something went wrong. Please try again.${err}`);
+  //   }
+  // };
 
   return (
     <div className="flex flex-col justify-between align-center w-full h-full mt-2 items-center">
       <h2 className="text-xl">Create Profile</h2>
       <ImageUpload
-        selectedImage={selectedImage}
-        setSelectedImage={setSelectedImage}
+        profilePicFile={profilePicFile}
+        setProfilePicFile={setProfilePicFile}
       />
       <div className="flex flex-col align-center justify-between items-center self-center">
         <div className="flex flex-col">
@@ -83,7 +140,7 @@ export const Profile = () => {
         <div className="mt-6">
           <button
             className="btn bg-purple-900/30 border-2 txt-secondary color-secondary rounded-xl"
-            onClick={handleClick}
+            // onClick={updateProfile}
           >
             create
           </button>

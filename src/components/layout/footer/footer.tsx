@@ -2,6 +2,7 @@ import React from "react";
 import { Twitter } from "./components/twitter";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import styles from "./footer.module.css";
+import { NavBar } from "../NavBar";
 
 interface FooterProps {
   showWallet: "footer" | "header" | "none";
@@ -16,6 +17,7 @@ export const Footer: React.FC<FooterProps> = ({ showWallet, showLogo }) => {
       {showLogo && (
         <p className={`${styles["ohr-logo-title"]} text-3xl`}>øhr</p>
       )}
+      <NavBar />
     </footer>
   );
 };

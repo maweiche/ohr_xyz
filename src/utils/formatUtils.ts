@@ -35,17 +35,34 @@ export const getFirstArrayElementOrValue = (
   return Array.isArray(value) ? value[0] : value;
 };
 
-export const convertBase64 = (file: File) => {
+export const convertBase64 = (
+  file: File | StaticImageData
+): Promise<string> => {
   return new Promise((resolve, reject) => {
-    const fileReader = new FileReader();
-    fileReader.readAsDataURL(file);
-
-    fileReader.onload = () => {
-      resolve(fileReader.result);
-    };
-
-    fileReader.onerror = (error) => {
-      reject(error);
-    };
+    if (file instanceof File) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    } else if (typeof file === "object" && "src" in file) {
+      resolve(file.src);
+    } else {
+      reject("Invalid input: Expected a File or StaticImageData object.");
+    }
   });
+};
+
+export const timeStampToTimeAgo = (p_timeStampNanoSeconds: number): string => {
+  const milliseconds: number = p_timeStampNanoSeconds / 1000000;
+  const durationUntilNowInMilliseconds: number =
+    new Date().getTime() - milliseconds;
+  const durationInMinutes: number = durationUntilNowInMilliseconds / 1000 / 60;
+
+  if (durationInMinutes < 60) return Math.floor(durationInMinutes) + "m";
+
+  const durationInHours: number = durationInMinutes / 60;
+  if (durationInHours < 24) return Math.floor(durationInHours) + "h";
+
+  const durationInDays: number = durationInHours / 24;
+  return Math.floor(durationInDays) + "d";
 };

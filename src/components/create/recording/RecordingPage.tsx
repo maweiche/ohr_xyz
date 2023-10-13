@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import styles from "./recording.module.css";
-import Layout from "../layout/Layout";
+import Layout from "../../layout/Layout";
 
-import EarBtn from "@components/layout/btns/EarBtn";
+import EarBtn from "@components/create/recording/EarBtn";
 import { getCurrentDateFormatted } from "utils/formatUtils";
 import Timer from "./Timer";
 import { Loading } from "@components/loading";
@@ -79,9 +79,8 @@ const RecordingPage: React.FC = () => {
 
   return (
     <>
-      <Layout showWallet="header">
-        <h3 className="small-title">Record</h3>
-        <div className="flex flex-col justify-center items-center">
+      <Layout showWallet="none" showTitle="record">
+        <div className="flex flex-col items-center align-center">
           {showTimer && (
             <Timer
               isRecording={isRecording}

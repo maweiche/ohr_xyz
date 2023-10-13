@@ -29,7 +29,7 @@ export const DescribePage = () => {
   };
 
   return (
-    <Layout showWallet="header">
+    <Layout showWallet="header" showTitle="describe">
       <motion.div
         className="flex flex-col items-center justify-center h-full"
         initial="initial"
@@ -40,7 +40,6 @@ export const DescribePage = () => {
           <Loading />
         ) : (
           <div className="flex flex-col justify-evenly align-center w-full h-full mt-2 items-center">
-            <h2 className="small-title">describe</h2>
             <div className="flex flex-col align-center justify-between items-center m-2 self-center">
               <div className="flex flex-col  items-center">
                 <p className="mb-2">describe the vibe</p>

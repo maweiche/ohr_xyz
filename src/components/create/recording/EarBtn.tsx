@@ -14,11 +14,11 @@ const EarBtn: React.FC<EarProps> = ({
   isRecordingCompleted,
 }) => {
   return (
-    <div className="flex z-0 fixed justify-center items-center md:flex-col md:py-12">
+    <div className="flex z-0 justify-center items-center mb-5">
       <button
         onClick={onClick}
         disabled={isRecordingCompleted}
-        className=" text-center z-10"
+        className="text-center z-10 w-60"
       >
         <Image
           className={isRecording ? styles["ear-img-active"] : "ear-img"}

@@ -1,49 +1,72 @@
 import React, { FC, ChangeEvent, useState, useEffect } from "react";
 import Image, { StaticImageData } from "next/image";
 import defaultProfilePic from "../../assets/💅-5.png";
+import { toast } from "sonner";
 
 interface ImageUploadProps {
-  selectedImage: string | StaticImageData;
-  setSelectedImage: React.Dispatch<
-    React.SetStateAction<string | StaticImageData>
-  >;
+  profilePicFile: File | undefined;
+  setProfilePicFile: React.Dispatch<React.SetStateAction<File | undefined>>;
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({
-  selectedImage,
-  setSelectedImage,
+  profilePicFile,
+  setProfilePicFile,
 }) => {
   const [fileName, setFileName] = useState<string>("upload avatar");
+  const [imageSrc, setImageSrc] = useState<string | StaticImageData>(
+    defaultProfilePic
+  );
 
-  useEffect(() => {
-    return () => {
-      // Clean up function to revoke object URLs created (to avoid memory leaks)
-      if (
-        typeof selectedImage === "string" &&
-        selectedImage !== defaultProfilePic.src
-      ) {
-        URL.revokeObjectURL(selectedImage);
-      }
-    };
-  }, [selectedImage]);
+  // useEffect(() => {
+  //   return () => {
+  //     if (
+  //       typeof profilePic === "string" &&
+  //       profilePic !== defaultProfilePic.src
+  //     ) {
+  //       URL.revokeObjectURL(profilePic);
+  //     }
+  //   };
+  // }, [profilePic]);
+
+  // useEffect(() => {
+  //   let currentImageSrc: string;
+  //   if (profilePicFile instanceof File) {
+  //     currentImageSrc = URL.createObjectURL(profilePic);
+  //     setImageSrc(currentImageSrc);
+  //   } else {
+  //     setImageSrc((profilePic as StaticImageData).src);
+  //   }
+
+  //   return () => {
+  //     if (profilePic instanceof File) {
+  //       URL.revokeObjectURL(currentImageSrc);
+  //     }
+  //   };
+  // }, [profilePic]);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0];
-    if (!file) return;
+    if (!file) return toast.error("Please select a file");
+    if (file.size > 1000000) return toast.error("File size too large");
+    if (!file.type.includes("image"))
+      return toast.error("Please upload an image file");
+
+    setImageSrc(URL.createObjectURL(file));
+    console.log(file);
+
+    setProfilePicFile(file);
 
     setFileName(file.name);
-    setSelectedImage(URL.createObjectURL(file));
   };
 
   return (
     <div className="avatar flex flex-col justify-center items-center">
       <div className="w-44 h-44 rounded-full ring overflow-hidden">
         <Image
-          src={selectedImage as string | StaticImageData}
+          src={imageSrc}
           alt="User Profile Picture"
           width={176}
           height={176}
-          unoptimized={typeof selectedImage === "string"}
         />
       </div>
       <input
