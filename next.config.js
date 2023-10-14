@@ -1,6 +1,7 @@
 // next.config.js
 
 const webpack = require("webpack");
+require("dotenv").config();
 
 module.exports = {
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {

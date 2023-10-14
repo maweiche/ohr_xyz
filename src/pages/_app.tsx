@@ -1,5 +1,5 @@
 import "@styles/globals.css";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { clusterApiUrl } from "@solana/web3.js";
 import { ConnectionProvider } from "@solana/wallet-adapter-react";
@@ -7,6 +7,7 @@ import type { AppProps } from "next/app";
 import dynamic from "next/dynamic";
 import WalletRerouter from "context/WalletRerouter";
 import "mapbox-gl/dist/mapbox-gl.css";
+import { AudioBlobContext } from "context/AudioBlobContext";
 
 const ClientWalletProvider = dynamic(
   () => import("../context/ClientWalletProvider"),
@@ -18,13 +19,16 @@ export default function App({ Component, pageProps }: AppProps) {
   // const network = WalletAdapterNetwork.Mainnet;
   const network = WalletAdapterNetwork.Devnet;
   const endpoint = useMemo(() => clusterApiUrl(network), [network]);
+  const [audioBlob, setAudioBlob] = useState<Blob | undefined>(undefined);
 
   return (
     <ConnectionProvider endpoint={endpoint}>
-      <ClientWalletProvider>
-        <WalletRerouter />
-        <Component {...pageProps} />
-      </ClientWalletProvider>
+      <AudioBlobContext.Provider value={{ audioBlob, setAudioBlob }}>
+        <ClientWalletProvider>
+          <WalletRerouter />
+          <Component {...pageProps} />
+        </ClientWalletProvider>
+      </AudioBlobContext.Provider>
     </ConnectionProvider>
   );
 }

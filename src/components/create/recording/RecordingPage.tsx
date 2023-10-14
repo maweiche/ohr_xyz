@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import styles from "./recording.module.css";
 import Layout from "../../layout/Layout";
@@ -7,6 +7,7 @@ import EarBtn from "@components/create/recording/EarBtn";
 import { getCurrentDateFormatted } from "utils/formatUtils";
 import Timer from "./Timer";
 import { Loading } from "@components/Loading";
+import { AudioBlobContext } from "context/AudioBlobContext";
 
 const RecordingPage: React.FC = () => {
   const router = useRouter();
@@ -21,6 +22,7 @@ const RecordingPage: React.FC = () => {
   );
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [timeStamp, setTimeStamp] = useState<string>(getCurrentDateFormatted());
+  const { setAudioBlob } = useContext(AudioBlobContext);
 
   useEffect(() => {
     if (router.query.discard === "true") {
@@ -59,6 +61,8 @@ const RecordingPage: React.FC = () => {
       setRecordingUrl(URL.createObjectURL(audioBlob));
       setIsRecording(false);
       setIsRecordingCompleted(true);
+
+      setAudioBlob(audioBlob);
     };
 
     recorder.start();

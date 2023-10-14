@@ -6,26 +6,27 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const { method } = req;
-
+  console.log("got in the handler");
   const { Video } = new Mux();
+
+  const assetId = req.body;
   // if (!process.env.MUX_SECRET_KEY || !process.env.MUX_ACCESS_TOKEN)
   switch (method) {
-    case "POST":
+    case "PUT":
+      console.log(assetId.assetId);
+
       try {
-        const upload = await Video.Uploads.create({
-          new_asset_settings: {
-            playback_policy: "public",
-            master_access: "temporary",
-          },
-          cors_origin: "*",
+        const data = await Video.Assets.updateMp4Support(assetId.assetId, {
+          mp4_support: "standard",
         });
-        console.log(upload);
-        return res.json({
-          id: upload.id,
-          url: upload.url,
-        });
+
+        // const data = await Video.Assets.createPlaybackId(videoAssetId, {
+        //   policy: "public",
+        // });
+        console.log("data createPlaybackId", data);
+        res.json({ playbackId: data.id });
       } catch (e) {
-        res.json({ error: "Error creating upload" });
+        res.json({ error: "Error creating upload", e });
       }
       break;
     default:
@@ -33,5 +34,3 @@ export default async function handler(
       res.status(405).end(`Method ${method} Not Allowed`);
   }
 }
-
-// https://docs.mux.com/guides/video/upload-files-directly#2-use-that-url-to-upload-in-your-client

@@ -5,6 +5,13 @@ import { useEffect, useState } from "react";
 import { Error } from "../../Error";
 import { getFirstArrayElementOrValue } from "utils/formatUtils";
 import { Visualisation } from "./visualisation/Visualisation";
+import Mux from "@mux/mux-node";
+import { useAudioContext } from "context/AudioBlobContext";
+
+interface VideoAsset {
+  id: string;
+  url: string;
+}
 
 const MintingPage: React.FC = () => {
   const router = useRouter();
@@ -19,6 +26,10 @@ const MintingPage: React.FC = () => {
 
   const [isMinting, setIsMinting] = useState<boolean>(false);
   const [hasError, setHasError] = useState<boolean>(false);
+  const { audioBlob } = useAudioContext();
+  const [videoAsset, setVideoAsset] = useState<VideoAsset | undefined>(
+    undefined
+  );
 
   // const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
 
@@ -30,6 +41,52 @@ const MintingPage: React.FC = () => {
   //     });
   //   }
   // }, [recordingUrl]);
+
+  const uploadToMux = async (audioBlob: Blob | undefined) => {
+    if (!audioBlob) return;
+
+    const response = await fetch(`/api/upload`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    });
+    console.log("response", response);
+
+    const uploadResponse = await response.json();
+    console.log("uploadUrl", uploadResponse);
+
+    const uploadUrl = uploadResponse.url;
+    try {
+      let res = await fetch(uploadUrl.url, {
+        method: "PUT",
+        body: audioBlob,
+        headers: { "content-type": audioBlob.type },
+      });
+      console.log("Upload is complete");
+      setVideoAsset(uploadResponse);
+    } catch (error) {
+      console.error("Error uploading to Mux:", error);
+    }
+  };
+
+  const getVideoAsset = async (videoAssetId: string) => {
+    const response = await fetch(`/api/playback`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ videoAssetId }),
+    });
+    console.log("response video asset", response);
+  };
+
+  useEffect(() => {
+    uploadToMux(audioBlob);
+  }, [audioBlob]);
+
+  useEffect(() => {
+    if (videoAsset) {
+      getVideoAsset(videoAsset.id);
+      console.log("videoasset updated");
+    }
+  }, [videoAsset]);
 
   return (
     <Layout showWallet="header" justifyStyling="between" showTitle="mint">
