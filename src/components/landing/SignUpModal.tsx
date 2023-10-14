@@ -18,12 +18,12 @@ const SignUpModal: React.FC<SignUpModalProps> = ({
 
   const router = useRouter();
 
-  useEffect(() => {
-    if (publicKey) {
-      setShowModal(false);
-      router.push("/signup");
-    }
-  }, [publicKey, router, setShowModal]);
+  // useEffect(() => {
+  //   if (publicKey) {
+  //     setShowModal(false);
+  //     router.push("/signup");
+  //   }
+  // }, [publicKey, router, setShowModal]);
 
   return (
     <>

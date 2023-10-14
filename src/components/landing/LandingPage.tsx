@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useWallet, WalletContextState } from "@solana/wallet-adapter-react";
 import SignUpModal from "./SignUpModal";
 import { Keypair } from "@solana/web3.js";
+import { Visualisation } from "@components/create/minting/visualisation/Visualisation";
 interface LandingPageProps {
   isAppActive: boolean;
 }
@@ -19,10 +20,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({ isAppActive }) => {
         showModal={showSignUpModal}
         setShowModal={setShowSignUpModal}
       />
-      <div className="z-10 text-center flex flex-col h-full">
-        <h1 className="text-5xl">
-          {isAppActive ? "CATCH YOUR MOMENT" : "WE'RE GRINDING"}
-        </h1>
+      <div className="z-10 text-center flex flex-col justify-center h-full">
+        <div className="flex">
+          <h1 className="text-5xl mt-5">
+            {isAppActive ? "CATCH YOUR MOMENT" : "WE'RE GRINDING"}
+          </h1>
+        </div>
+
         <div className="mt-2">
           {isAppActive ? (
             <ActiveAppDescription
@@ -33,6 +37,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ isAppActive }) => {
             <PassiveAppDescription />
           )}
         </div>
+        <Visualisation />
       </div>
     </div>
   );

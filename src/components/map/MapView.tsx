@@ -4,25 +4,35 @@ import { Loading } from "@components/loading";
 import marker from "../../assets/marker.png";
 import Image from "next/image";
 
-interface Coordinates {
+export interface Coordinates {
   longitude: number;
   latitude: number;
 }
 
-export const MapView = () => {
-  const [currentCoordinates, setCurrentCoordinates] =
-    useState<Coordinates | null>(null);
+interface MapViewProps {
+  setCoordinates?: React.Dispatch<
+    React.SetStateAction<Coordinates | undefined>
+  >;
+}
+
+export const MapView: React.FC<MapViewProps> = ({ setCoordinates }) => {
+  const [currentCoordinates, setCurrentCoordinates] = useState<
+    Coordinates | undefined
+  >(undefined);
   const accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
   useEffect(() => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
-        console.log("position", position);
         setCurrentCoordinates({
           longitude: position.coords.longitude,
           latitude: position.coords.latitude,
         });
-        console.log("current location", position.coords);
+        setCoordinates &&
+          setCoordinates({
+            longitude: position.coords.longitude,
+            latitude: position.coords.latitude,
+          });
       });
     }
   }, []);
@@ -59,7 +69,9 @@ export const MapView = () => {
           </div>
         </>
       ) : (
-        <Loading />
+        <div className="h-full w-full flex justify-center items-center">
+          <Loading />
+        </div>
       )}
     </div>
   );

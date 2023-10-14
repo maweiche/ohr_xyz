@@ -21,6 +21,8 @@ interface MintNFTProps {
   setHasError: Dispatch<boolean>;
   timeStamp: string;
   theVibe: string;
+  long: string;
+  lat: string;
 }
 
 const connectToBlockChain = (wallet: WalletContextState) => {
@@ -64,7 +66,9 @@ const setMetaData = async (
   metaplexInstance: Metaplex,
   recordingUrl: string,
   timeStamp: string,
-  theVibe: string
+  theVibe: string,
+  long: string,
+  lat: string
 ) => {
   const audioUrl = await setAudioBuffer(metaplexInstance, recordingUrl);
 
@@ -88,6 +92,8 @@ const setMetaData = async (
     { trait_type: "Date", value: timeStamp },
     { trait_type: "Motivation", value: "LFG" },
     { trait_type: "Vibe", value: theVibe },
+    { trait_type: "Long", value: long },
+    { trait_type: "Lat", value: lat },
   ];
   return { properties, attributes, audioUrl };
 };
@@ -99,6 +105,8 @@ const MintNFT: React.FC<MintNFTProps> = ({
   setHasError,
   timeStamp,
   theVibe,
+  long,
+  lat,
 }) => {
   const wallet = useWallet();
   const router = useRouter();
@@ -113,7 +121,9 @@ const MintNFT: React.FC<MintNFTProps> = ({
       metaplexInstance,
       recordingUrl,
       timeStamp,
-      theVibe
+      theVibe,
+      long,
+      lat
     );
 
     console.log("props: ", properties, attributes, audioUrl);

@@ -2,7 +2,7 @@ import Layout from "@components/layout/Layout";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
-import { Loading } from "@components/Loading";
+import { Loading } from "@components/loading";
 
 export const DescribePage = () => {
   const router = useRouter();
@@ -18,7 +18,7 @@ export const DescribePage = () => {
     setIsLoading(true);
 
     router.push({
-      pathname: "/create/mint/[recordingUrl]",
+      pathname: "/create/locate",
       query: { recordingUrl, timeStamp, theVibe },
     });
   };

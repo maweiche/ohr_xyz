@@ -9,50 +9,54 @@ import { Visualisation } from "./visualisation/Visualisation";
 const MintingPage: React.FC = () => {
   const router = useRouter();
 
-  const { recordingUrl, timeStamp, theVibe } = router.query;
+  const { recordingUrl, timeStamp, theVibe, coordinates } = router.query;
 
   const parsedRecordingUrl = getFirstArrayElementOrValue(recordingUrl);
   const parsedTimeStamp = getFirstArrayElementOrValue(timeStamp);
   const parsedVibe = getFirstArrayElementOrValue(theVibe);
+  const parsedCoordinates = JSON.parse(coordinates as string);
+  console.log(parsedCoordinates);
 
   const [isMinting, setIsMinting] = useState<boolean>(false);
   const [hasError, setHasError] = useState<boolean>(false);
 
-  const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
+  // const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
 
-  useEffect(() => {
-    if (recordingUrl && recordingUrl.length > 1) {
-      const newAudio = new Audio(parsedRecordingUrl);
-      newAudio.addEventListener("loadedmetadata", () => {
-        setAudio(newAudio);
-      });
-    }
-  }, [recordingUrl]);
+  // useEffect(() => {
+  //   if (recordingUrl && recordingUrl.length > 1) {
+  //     const newAudio = new Audio(parsedRecordingUrl);
+  //     newAudio.addEventListener("loadedmetadata", () => {
+  //       setAudio(newAudio);
+  //     });
+  //   }
+  // }, [recordingUrl]);
 
   return (
     <Layout showWallet="header" justifyStyling="between" showTitle="mint">
-      <div className="h-4/6 w-full flex flex-col justify-center mt-10 ">
-        {hasError ? (
-          <div className="p-4 flex justify-center align-center">
-            <Error />
+      <div>
+        <div className="h-4/6 w-full flex flex-col justify-center mt-10 ">
+          {hasError && (
+            <div className="p-4 flex justify-center align-center">
+              <Error />
+            </div>
+          )}
+        </div>
+
+        {parsedRecordingUrl && parsedTimeStamp && (
+          <div className="flex self-center">
+            <MintNFT
+              recordingUrl={parsedRecordingUrl}
+              isMinting={isMinting}
+              setIsMinting={setIsMinting}
+              setHasError={setHasError}
+              timeStamp={parsedTimeStamp}
+              theVibe={parsedVibe ?? "Bullish"}
+              long={parsedCoordinates.longitude}
+              lat={parsedCoordinates.latitude}
+            />
           </div>
-        ) : (
-          <Visualisation />
         )}
       </div>
-
-      {parsedRecordingUrl && parsedTimeStamp && (
-        <div className="flex self-center">
-          <MintNFT
-            recordingUrl={parsedRecordingUrl}
-            isMinting={isMinting}
-            setIsMinting={setIsMinting}
-            setHasError={setHasError}
-            timeStamp={parsedTimeStamp}
-            theVibe={parsedVibe ?? "Bullish"}
-          />
-        </div>
-      )}
     </Layout>
   );
 };

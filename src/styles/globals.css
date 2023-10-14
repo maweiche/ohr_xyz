@@ -65,11 +65,13 @@ a {
   text-shadow: 2px 2px #210059 !important;
   background: #7e2986 !important; /*#5d2462*/
   border: 1px solid #a223ad !important;
-  font: 20px Gajraj One, cursive !important;
+  font: 30px Gajraj One, cursive !important;
   border-radius: 25mm !important;
   text-transform: lowercase !important;
-  max-width: 50vw;
+  max-width: 70vw;
   width: 100%;
+
+  padding: 3rem !important;
   animation: glow 3s ease-in-out infinite alternate;
 }
 

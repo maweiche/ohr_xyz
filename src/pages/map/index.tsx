@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import Layout from "@components/layout/Layout";
-import { MapView } from "@components/map/MapView";
+import { Coordinates, MapView } from "@components/map/MapView";
 
 const MapScreen: React.FC = () => {
   return (
