@@ -21,4 +21,4 @@ export default async function handler(
   }
 }
 
-https://docs.mux.com/guides/video/upload-files-directly#2-use-that-url-to-upload-in-your-client
+// https://docs.mux.com/guides/video/upload-files-directly#2-use-that-url-to-upload-in-your-client

@@ -3,7 +3,7 @@ import ImageUpload from "./ImageUpload";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { convertBase64 } from "utils/formatUtils";
 import defaultProfilePic from "../../assets/💅-5.png";
-import { protocolOptions } from "utils/constants";
+// import { protocolOptions } from "utils/constants";
 import { toast } from "sonner";
 import { useRouter } from "next/router";
 import { SocialProtocol } from "@spling/social-protocol";

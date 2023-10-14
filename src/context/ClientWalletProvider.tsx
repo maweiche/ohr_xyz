@@ -31,7 +31,7 @@ const ClientWalletProvider = (
       new SolletExtensionWalletAdapter(),
       new SolletWalletAdapter(),
     ],
-    []
+    [network]
   );
 
   return (

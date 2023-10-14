@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Map, { GeolocateControl, Marker } from "react-map-gl";
 import { Loading } from "@components/loading";
 import marker from "../../assets/marker.png";
+import marker2 from "../../assets/marker2.png";
+import marker3 from "../../assets/marker3.png";
 import Image from "next/image";
 
 export interface Coordinates {
@@ -35,7 +37,7 @@ export const MapView: React.FC<MapViewProps> = ({ setCoordinates }) => {
           });
       });
     }
-  }, []);
+  }, [setCoordinates]);
 
   return (
     <div className="h-full w-full">
@@ -63,7 +65,7 @@ export const MapView: React.FC<MapViewProps> = ({ setCoordinates }) => {
                 latitude={currentCoordinates.latitude}
                 color="red"
               >
-                <Image src={marker} alt="øhr logo" width={50} height={50} />
+                <Image src={marker3} alt="øhr logo" width={50} height={50} />
               </Marker>
             </Map>
           </div>

@@ -1,4 +1,4 @@
-import { ProtocolOptions } from "@spling-labs/spling-protocol";
+// import { ProtocolOptions } from "@spling-labs/spling-protocol";
 
 export const METADATA = {
   name: "Berlinøhr",
@@ -14,8 +14,8 @@ export const METADATA = {
   symbol: "ØHR",
 };
 
-export const protocolOptions = {
-  rpcUrl:
-    "https://rpc.helius.xyz/?api-key=4ca65c1f-7b30-4387-b937-acc01dc63653",
-  useIndexer: true,
-} as ProtocolOptions;
+// export const protocolOptions = {
+//   rpcUrl:
+//     "https://rpc.helius.xyz/?api-key=4ca65c1f-7b30-4387-b937-acc01dc63653",
+//   useIndexer: true,
+// } as ProtocolOptions;
