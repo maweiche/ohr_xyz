@@ -19,7 +19,7 @@ const Layout: React.FC<LayoutProps> = ({
 }) => {
   return (
     <div
-      className={`flex justify-between w-full h-full flex-col mobile-frame p-4`}
+      className={`flex justify-between w-full h-full flex-col mobile-frame`}
       style={{ height: "100svh" }}
     >
       {/* <Image src="/phone-frame.png" width={100} height={300} /> */}

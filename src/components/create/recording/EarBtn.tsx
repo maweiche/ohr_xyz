@@ -14,7 +14,7 @@ const EarBtn: React.FC<EarProps> = ({
   isRecordingCompleted,
 }) => {
   return (
-    <div className="flex z-0 justify-center items-center mb-5">
+    <div className="flex z-0 justify-center items-center">
       <button
         onClick={onClick}
         disabled={isRecordingCompleted}
@@ -28,13 +28,6 @@ const EarBtn: React.FC<EarProps> = ({
           height={300}
           style={{ objectFit: "contain", opacity: 0.7 }}
         />
-        {/* {!isRecordingCompleted && (
-          <p
-            className={`${styles["ear-btn-text"]} text-center text-2xl z-10 absolute `}
-          >
-            {isRecording ? "stop" : "start"}
-          </p>
-        )} */}
       </button>
     </div>
   );

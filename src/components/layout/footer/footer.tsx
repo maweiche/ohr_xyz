@@ -10,7 +10,7 @@ interface FooterProps {
 }
 export const Footer: React.FC<FooterProps> = ({ showWallet, showLogo }) => {
   return (
-    <footer className="flex justify-center mt-4 items-end md:justify-end self-center">
+    <footer className="flex justify-center mt-4 items-end md:justify-end self-center h-10">
       {showWallet === "footer" && (
         <WalletMultiButton className={styles["connect-btn"]} />
       )}

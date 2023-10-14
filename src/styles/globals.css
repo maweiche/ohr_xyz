@@ -104,3 +104,7 @@ a {
 .color-secondary {
   color: #64ed14;
 }
+
+.mapboxgl-ctrl {
+  visibility: hidden;
+}

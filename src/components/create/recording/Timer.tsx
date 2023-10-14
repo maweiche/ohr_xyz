@@ -48,7 +48,7 @@ const Timer: React.FC<TimerProps> = ({
   };
 
   return (
-    <div className={`${styles["timer"]} italic text-5xl z-10`}>
+    <div className={`${styles["timer"]} italic text-5xl z-10 `}>
       {formatTime(passedTime)}
     </div>
   );

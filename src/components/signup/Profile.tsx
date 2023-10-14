@@ -3,24 +3,15 @@ import ImageUpload from "./ImageUpload";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { convertBase64 } from "utils/formatUtils";
 import defaultProfilePic from "../../assets/💅-5.png";
-import {
-  FileData,
-  FileUriData,
-  SplingProtocol,
-} from "@spling-labs/spling-protocol";
 import { protocolOptions } from "utils/constants";
 import { toast } from "sonner";
 import { useRouter } from "next/router";
+import { SocialProtocol } from "@spling/social-protocol";
 
 export const Profile = () => {
-  //   const [profilePic, setProfilePic] = useState<File | StaticImageData>(
-  //     defaultProfilePic
-  //   );
   const [username, setUsername] = useState<string>("");
   const [bio, setBio] = useState<string>("");
-  const [socialProtocol, setSocialProtocol] = useState<SplingProtocol | null>(
-    null
-  );
+
   const [profilePicFile, setProfilePicFile] = useState<File | undefined>(
     undefined
   );
