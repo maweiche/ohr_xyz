@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Map, { GeolocateControl, Marker } from "react-map-gl";
-import { Loading } from "@components/loading";
+import { Loading } from "@components/Loading";
 import marker from "../../assets/marker.png";
 import marker2 from "../../assets/marker2.png";
 import marker3 from "../../assets/marker3.png";

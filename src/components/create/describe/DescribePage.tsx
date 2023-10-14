@@ -1,8 +1,8 @@
-import Layout from "@components/layout/Layout";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
-import { Loading } from "@components/loading";
+import { Loading } from "@components/Loading";
+import Layout from "@components/layout/Layout";
 
 export const DescribePage = () => {
   const router = useRouter();

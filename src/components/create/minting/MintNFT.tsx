@@ -12,7 +12,7 @@ import { mintNFT, uploadMetadata } from "utils/mintNFTUtils";
 import { METADATA } from "utils/constants";
 import { Dispatch, SetStateAction } from "react";
 import { dataUrlToBytes } from "utils/arrayBufferUtils";
-import { Loading } from "@components/loading";
+import { Loading } from "@components/Loading";
 
 interface MintNFTProps {
   recordingUrl: string;
