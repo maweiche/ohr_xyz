@@ -20,10 +20,13 @@ export default function App({ Component, pageProps }: AppProps) {
   const network = WalletAdapterNetwork.Devnet;
   const endpoint = useMemo(() => clusterApiUrl(network), [network]);
   const [audioBlob, setAudioBlob] = useState<Blob | undefined>(undefined);
+  const [uploadId, setUploadId] = useState<string | undefined>(undefined);
 
   return (
     <ConnectionProvider endpoint={endpoint}>
-      <AudioBlobContext.Provider value={{ audioBlob, setAudioBlob }}>
+      <AudioBlobContext.Provider
+        value={{ audioBlob, setAudioBlob, uploadId, setUploadId }}
+      >
         <ClientWalletProvider>
           <WalletRerouter />
           <Component {...pageProps} />

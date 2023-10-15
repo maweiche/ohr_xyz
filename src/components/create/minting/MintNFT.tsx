@@ -13,9 +13,11 @@ import { METADATA } from "utils/constants";
 import { Dispatch, SetStateAction } from "react";
 import { dataUrlToBytes } from "utils/arrayBufferUtils";
 import { Loading } from "@components/Loading";
+import { useAudioContext } from "context/AudioBlobContext";
+import { getMuxAssetId, getPlaybackId as getAudioUrl } from "utils/mux";
 
 interface MintNFTProps {
-  recordingUrl: string;
+  // recordingUrl: string;
   setIsMinting: Dispatch<SetStateAction<boolean>>;
   isMinting: boolean;
   setHasError: Dispatch<boolean>;
@@ -70,21 +72,22 @@ const setMetaData = async (
   long: string,
   lat: string
 ) => {
-  const audioUrl = await setAudioBuffer(metaplexInstance, recordingUrl);
+  // const audioUrl = await setAudioBuffer(metaplexInstance, recordingUrl);
 
-  const properties = {
-    files: [
-      {
-        uri: audioUrl,
-        type: "audio/mp3",
-      },
-      {
-        uri: "https://6f6rppqqwzhgdw5wi6ik4uieokb5kxaa2zufucwquqhg63e3ss3q.arweave.net/8X0XvhC2TmHbtkeQrlEEcoPVXADWaFoK0KQOb2yblLc?ext=png",
-        type: "image/png",
-      },
-    ],
-    category: "video",
-  };
+  // const properties = {
+  //   files: [
+  //     {
+  //       // uri: audioUrl,
+  //       uri: "https://master.mux.com/NzkRg700an3lMQ7n0136yNLkkAyOWNWSV6/master.m4a?skid=default&signature=NjUyYzM4ZjlfODZjM2U0MDllZGYwNzIxMGM0Mzg3MDE0ZjhlNTgxYWQ3ZTY0ODFiMTk0MDYxMzc0YmJjOTZmZmVlZjZlOWI2NQ==",
+  //       type: "audio/m4a",
+  //     },
+  //     {
+  //       uri: "https://6f6rppqqwzhgdw5wi6ik4uieokb5kxaa2zufucwquqhg63e3ss3q.arweave.net/8X0XvhC2TmHbtkeQrlEEcoPVXADWaFoK0KQOb2yblLc?ext=png",
+  //       type: "image/png",
+  //     },
+  //   ],
+  //   category: "video",
+  // };
 
   const attributes = [
     { trait_type: "Location", value: "Berlin" },
@@ -95,11 +98,11 @@ const setMetaData = async (
     { trait_type: "Long", value: long },
     { trait_type: "Lat", value: lat },
   ];
-  return { properties, attributes, audioUrl };
+  return { attributes };
 };
 
 const MintNFT: React.FC<MintNFTProps> = ({
-  recordingUrl,
+  // recordingUrl,
   setIsMinting,
   isMinting,
   setHasError,
@@ -110,6 +113,7 @@ const MintNFT: React.FC<MintNFTProps> = ({
 }) => {
   const wallet = useWallet();
   const router = useRouter();
+  const { uploadId } = useAudioContext();
 
   const uploadMetaDataAndMint = async (recordingUrl: string) => {
     // const metaplexInstance = connectToBlockChain(wallet); // mainnet
@@ -117,7 +121,8 @@ const MintNFT: React.FC<MintNFTProps> = ({
 
     if (!metaplexInstance) return;
 
-    const { properties, attributes, audioUrl } = await setMetaData(
+    // const { properties, attributes, audioUrl } = await setMetaData(
+    const { attributes } = await setMetaData(
       metaplexInstance,
       recordingUrl,
       timeStamp,
@@ -126,16 +131,15 @@ const MintNFT: React.FC<MintNFTProps> = ({
       lat
     );
 
-    console.log("props: ", properties, attributes, audioUrl);
-
     const metadataUri = await uploadMetadata(
       METADATA.name,
       METADATA.image,
       METADATA.description,
-      audioUrl,
+      recordingUrl,
+      // "https://master.mux.com/NzkRg700an3lMQ7n0136yNLkkAyOWNWSV6/master.m4a?skid=default&signature=NjUyYzM4ZjlfODZjM2U0MDllZGYwNzIxMGM0Mzg3MDE0ZjhlNTgxYWQ3ZTY0ODFiMTk0MDYxMzc0YmJjOTZmZmVlZjZlOWI2NQ==",
       METADATA.external_url,
       attributes,
-      properties,
+      // properties,
       metaplexInstance
     );
 
@@ -155,6 +159,11 @@ const MintNFT: React.FC<MintNFTProps> = ({
     setIsMinting(true);
 
     try {
+      if (!uploadId) {
+        throw new Error("Upload missing.");
+      }
+      const assetId = await getMuxAssetId(uploadId);
+      const recordingUrl = await getAudioUrl(assetId);
       const response = await uploadMetaDataAndMint(recordingUrl);
       console.log("onSubmitNFT response: ", response);
     } catch (err) {

@@ -8,13 +8,13 @@ export async function uploadMetadata(
   animation_url: string,
   external_url: string,
   attributes: { trait_type: string; value: string }[],
-  properties: {
-    files: {
-      uri: string;
-      type: string;
-    }[];
-    category: string;
-  },
+  // properties: {
+  //   files: {
+  //     uri: string;
+  //     type: string;
+  //   }[];
+  //   category: string;
+  // },
   metaplexInstance: Metaplex
 ) {
   const { uri } = await metaplexInstance.nfts().uploadMetadata({
@@ -24,7 +24,7 @@ export async function uploadMetadata(
     animation_url: animation_url,
     external_url: external_url,
     attributes: attributes,
-    properties: properties,
+    // properties: properties,
   });
   return uri;
 }

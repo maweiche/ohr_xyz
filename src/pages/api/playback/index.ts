@@ -6,27 +6,27 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const { method } = req;
-  console.log("got in the handler");
   const { Video } = new Mux();
 
-  const assetId = req.body;
-  // if (!process.env.MUX_SECRET_KEY || !process.env.MUX_ACCESS_TOKEN)
   switch (method) {
-    case "PUT":
-      console.log(assetId.assetId);
+    case "GET":
+      const assetId = req.query.assetId;
+      console.log(assetId);
 
-      try {
-        const data = await Video.Assets.updateMp4Support(assetId.assetId, {
-          mp4_support: "standard",
-        });
+      if (typeof assetId === "string") {
+        try {
+          const data = await Video.Assets.createPlaybackId(assetId, {
+            policy: "public",
+          });
+          console.log("data createPlaybackId", data);
+          const audioUrl = `https://stream.mux.com/${data.id}/audio.m4a`;
 
-        // const data = await Video.Assets.createPlaybackId(videoAssetId, {
-        //   policy: "public",
-        // });
-        console.log("data createPlaybackId", data);
-        res.json({ playbackId: data.id });
-      } catch (e) {
-        res.json({ error: "Error creating upload", e });
+          res.json(audioUrl);
+        } catch (e) {
+          res.json({ error: "Error creating upload", e });
+        }
+      } else {
+        res.status(400).json({ error: "Invalid uploadId" });
       }
       break;
     default:

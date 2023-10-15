@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import Mux from "@mux/mux-node";
+const { json, send } = require("micro");
 
 export default async function handler(
   req: NextApiRequest,
@@ -8,26 +9,41 @@ export default async function handler(
   const { method } = req;
 
   const { Video } = new Mux();
-  // if (!process.env.MUX_SECRET_KEY || !process.env.MUX_ACCESS_TOKEN)
   switch (method) {
     case "POST":
       try {
         const upload = await Video.Uploads.create({
           new_asset_settings: {
             playback_policy: "public",
-            master_access: "temporary",
+            // master_access: "temporary",
+            mp4_support: "standard",
           },
           cors_origin: "*",
         });
-        console.log(upload);
+        console.log("upload", upload);
+
         return res.json({
           id: upload.id,
           url: upload.url,
+          assetId: upload.asset_id,
         });
       } catch (e) {
         res.json({ error: "Error creating upload" });
       }
       break;
+    case "GET":
+      let uploadId = req.query.uploadId;
+      if (typeof uploadId === "string") {
+        try {
+          const data = await Video.Uploads.get(uploadId);
+          return res.json(data);
+        } catch (e) {
+          res.json({ error: "Error Video Upload" });
+        }
+      } else {
+        res.status(400).json({ error: "Invalid uploadId" });
+      }
+
     default:
       res.setHeader("Allow", ["POST"]);
       res.status(405).end(`Method ${method} Not Allowed`);

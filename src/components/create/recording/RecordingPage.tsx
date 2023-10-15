@@ -8,6 +8,7 @@ import { getCurrentDateFormatted } from "utils/formatUtils";
 import Timer from "./Timer";
 import { Loading } from "@components/Loading";
 import { AudioBlobContext } from "context/AudioBlobContext";
+import { createMuxUpload } from "../../../utils/mux";
 
 const RecordingPage: React.FC = () => {
   const router = useRouter();
@@ -22,7 +23,7 @@ const RecordingPage: React.FC = () => {
   );
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [timeStamp, setTimeStamp] = useState<string>(getCurrentDateFormatted());
-  const { setAudioBlob } = useContext(AudioBlobContext);
+  const { setAudioBlob, audioBlob, setUploadId } = useContext(AudioBlobContext);
 
   useEffect(() => {
     if (router.query.discard === "true") {
@@ -68,8 +69,12 @@ const RecordingPage: React.FC = () => {
     recorder.start();
   };
 
-  const handleContinue = (): void => {
+  const handleContinue = async (): Promise<void> => {
     setIsLoading(true);
+
+    if (audioBlob) {
+      setUploadId(await createMuxUpload(audioBlob));
+    }
 
     router.push({
       pathname: "/create/describe",
