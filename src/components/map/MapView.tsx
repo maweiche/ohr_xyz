@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Map, { GeolocateControl, Marker } from "react-map-gl";
-import { LoadingComponent } from "@components/LoadingComponent";
+import { LoadingComponent } from "../LoadingComponent";
 import marker from "../../assets/marker2.png";
 import Image from "next/image";
 import { NFTattributes } from "utils/nftUtils";

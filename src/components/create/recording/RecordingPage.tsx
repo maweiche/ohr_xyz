@@ -3,10 +3,10 @@ import { useRouter } from "next/router";
 import styles from "./recording.module.css";
 import { LayoutComponent } from "../../layout/LayoutComponent";
 import { useWallet } from "@solana/wallet-adapter-react";
-import EarBtn from "@components/create/recording/EarBtn";
+import EarBtn from "../../../components/create/recording/EarBtn";
 import { getCurrentDateFormatted } from "utils/formatUtils";
 import Timer from "./Timer";
-import { LoadingComponent } from "@components/LoadingComponent";
+import { LoadingComponent } from "../../LoadingComponent";
 import { AudioBlobContext } from "context/AudioBlobContext";
 import { createMuxUpload } from "../../../utils/mux";
 

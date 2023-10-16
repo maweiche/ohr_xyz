@@ -2,9 +2,9 @@ import { ActiveAppDescription } from "./ActiveAppDescription";
 import { PassiveAppDescription } from "./PassiveAppDescription";
 import { useState } from "react";
 import { useWallet, WalletContextState } from "@solana/wallet-adapter-react";
-import SignUpModal from "./SignUpModal";
 import { Keypair } from "@solana/web3.js";
-import { Visualisation } from "@components/create/minting/visualisation/Visualisation";
+// import { Visualisation } from "@components/create/minting/visualisation/Visualisation";
+import { Visualisation } from "../../components/create/minting/visualisation/Visualisation";
 interface LandingPageProps {
   isAppActive: boolean;
 }
@@ -16,10 +16,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ isAppActive }) => {
 
   return (
     <div className="h-full">
-      <SignUpModal
-        showModal={showSignUpModal}
-        setShowModal={setShowSignUpModal}
-      />
       <div className="z-10 text-center flex flex-col justify-center h-full">
         <div className="flex">
           <h1 className="text-5xl mt-5">
