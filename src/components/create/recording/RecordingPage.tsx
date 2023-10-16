@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import styles from "./recording.module.css";
-import Layout from "../../layout/Layout";
 
 import EarBtn from "@components/create/recording/EarBtn";
 import { getCurrentDateFormatted } from "utils/formatUtils";
 import Timer from "./Timer";
-import { Loading } from "@components/loading";
+import { Loading as LoadingComponent } from "@components/loading";
+import Layout from "@components/layout/layout";
 
 const RecordingPage: React.FC = () => {
   const router = useRouter();
@@ -89,7 +89,7 @@ const RecordingPage: React.FC = () => {
             />
           )}
           {isLoading ? (
-            <Loading />
+            <LoadingComponent />
           ) : (
             <EarBtn
               isRecording={isRecording}

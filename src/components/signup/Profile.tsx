@@ -3,11 +3,6 @@ import ImageUpload from "./ImageUpload";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { convertBase64 } from "utils/formatUtils";
 import defaultProfilePic from "../../assets/💅-5.png";
-import {
-  FileData,
-  FileUriData,
-  SplingProtocol,
-} from "@spling-labs/spling-protocol";
 import { protocolOptions } from "utils/constants";
 import { toast } from "sonner";
 import { useRouter } from "next/router";
@@ -18,9 +13,9 @@ export const Profile = () => {
   //   );
   const [username, setUsername] = useState<string>("");
   const [bio, setBio] = useState<string>("");
-  const [socialProtocol, setSocialProtocol] = useState<SplingProtocol | null>(
-    null
-  );
+  // const [socialProtocol, setSocialProtocol] = useState<SplingProtocol | null>(
+  //   null
+  // );
   const [profilePicFile, setProfilePicFile] = useState<File | undefined>(
     undefined
   );
@@ -112,7 +107,7 @@ export const Profile = () => {
   // };
 
   return (
-    <div className="flex flex-col justify-between align-center w-full h-full mt-2 items-center">
+    <div className="flex flex-col justify-center gap-5 align-center w-full h-full mt-2 items-center">
       <h2 className="text-xl">Create Profile</h2>
       <ImageUpload
         profilePicFile={profilePicFile}
@@ -138,12 +133,12 @@ export const Profile = () => {
           ></textarea>
         </div>
         <div className="mt-6">
-          <button
+          {/* <button
             className="btn bg-purple-900/30 border-2 txt-secondary color-secondary rounded-xl"
             // onClick={updateProfile}
           >
             create
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

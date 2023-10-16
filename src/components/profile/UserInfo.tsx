@@ -7,12 +7,12 @@ export const UserInfo = () => {
     <div className="flex flex-col w-full justify-start border-2 h-1/4 font-mono ">
       <div className="flex">
         <div className="avatar">
-          <div className="w-24 rounded-full">
+          <div className="w-24 rounded-full flex justify-center align-center">
             <Image
               src={default_img}
               alt="Profile Picture"
-              width={300}
-              height={300}
+              width={150}
+              height={150}
             />
           </div>
         </div>
