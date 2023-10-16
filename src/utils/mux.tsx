@@ -17,8 +17,6 @@ export const createMuxUpload = async (audioBlob: Blob): Promise<string> => {
   });
 
   return initialData.id;
-  // return getMuxAssetId(initialData.id);
-  // return getPlaybackId(assetId);
 };
 
 export const waitFor = async (seconds: number) => {
@@ -51,7 +49,6 @@ export const getMuxAssetId = async (uploadId: string): Promise<string> => {
   return data.asset_id;
 };
 
-// get playbackId after assetId is updated
 export const getPlaybackId = async (assetId: string) => {
   const response = await fetch(`/api/playback?assetId=${assetId}`);
   const data = await response.json();

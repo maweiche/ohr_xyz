@@ -7,7 +7,7 @@ import { Coordinates, MapView } from "@components/map/MapView";
 
 const Locate: React.FC = () => {
   const router = useRouter();
-  const { recordingUrl, timeStamp, theVibe } = router.query;
+  const { timeStamp, theVibe } = router.query;
 
   const [coordinates, setCoordinates] = useState<Coordinates | undefined>(
     undefined
@@ -17,9 +17,8 @@ const Locate: React.FC = () => {
     const coordinatesString = JSON.stringify(coordinates);
 
     router.push({
-      pathname: "/create/mint/[recordingUrl]",
+      pathname: "/create/mint/",
       query: {
-        recordingUrl,
         timeStamp,
         theVibe,
         coordinates: coordinatesString,
