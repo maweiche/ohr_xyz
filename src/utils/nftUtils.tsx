@@ -1,5 +1,14 @@
-import { useRouter } from "next/router";
-import { Dispatch, SetStateAction } from "react";
+import { AudioNFT } from "@components/map/MapView";
+
+export interface NFTattributes {
+  Event: string;
+  Location: string;
+  Date: string;
+  Motivation: string;
+  Vibe: string;
+  Long: string;
+  Lat: string;
+}
 
 export const createNFT = (
   receiverAddress: string,
@@ -47,6 +56,29 @@ export const createNFT = (
         resolve(false);
       });
   });
+};
+
+export const getNFTs = (
+  setAudioNFTs: React.Dispatch<React.SetStateAction<AudioNFT[] | undefined>>
+) => {
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      authorization: `Bearer ${process.env.NEXT_PUBLIC_UNDERDOG_API_KEY}`,
+    },
+  };
+
+  fetch(
+    "https://devnet.underdogprotocol.com/v2/projects/1/nfts?page=1&limit=10",
+    options
+  )
+    .then((response) => response.json())
+    .then((response) => {
+      console.log(response);
+      setAudioNFTs(response.results);
+    })
+    .catch((err) => console.error(err));
 };
 
 // API CALL FOR PROTECTED .ENV FILE

@@ -1,29 +1,26 @@
 import { Dialog, Transition } from "@headlessui/react";
-import React, { Dispatch, Fragment, SetStateAction, useEffect } from "react";
+import React, { Dispatch, Fragment, SetStateAction } from "react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import { useWallet } from "@solana/wallet-adapter-react";
-import { useRouter } from "next/router";
+import { AudioNFT } from "./MapView";
+import Image from "next/image";
+import MuxPlayer from "@mux/mux-player-react";
+import { extractPlayBackIdFromUrl } from "utils/formatUtils";
 
-interface SignUpModalProps {
+interface NFTModalProps {
   showModal: boolean;
   setShowModal: Dispatch<SetStateAction<boolean>>;
+  audioNFT: AudioNFT;
 }
 
-const SignUpModal: React.FC<SignUpModalProps> = ({
+const NFTModal: React.FC<NFTModalProps> = ({
   showModal,
   setShowModal,
+  audioNFT,
 }) => {
-  const { publicKey } = useWallet();
-  console.log("publicKey: ", publicKey);
-
-  const router = useRouter();
-
-  // useEffect(() => {
-  //   if (publicKey) {
-  //     setShowModal(false);
-  //     router.push("/signup");
-  //   }
-  // }, [publicKey, router, setShowModal]);
+  const getPlaybackIdForPlayer = () => {
+    const extractedPlaybackId = extractPlayBackIdFromUrl(audioNFT.animationUrl);
+    return extractedPlaybackId ?? "undefined";
+  };
 
   return (
     <>
@@ -59,30 +56,25 @@ const SignUpModal: React.FC<SignUpModalProps> = ({
                 <Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-2xl border text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
-                    className="text-lg py-4 px-6 font-semibold leading-6 border-b primaryBorder text-white"
+                    className="text-lg py-4 px-6 font-semibold leading-6 border-b primaryBorder text-center  flex justify-between text-[#64ed14]"
                   >
-                    Login with Solana Wallet
+                    <p className="txt-secondary">{audioNFT.name}</p>
+                    <p>{audioNFT.symbol}</p>
                   </Dialog.Title>
-                  <div className="mt-4 px-6">
-                    <p className="primaryTextColor">
-                      You need a Solana wallet to use{" "}
-                      <span className="txt-secondary text-[#64ed14]">øhr</span>.
-                      Connect your wallet to continue.
-                    </p>
-                  </div>
-                  <div className="mt-6 flex justify-center py-3 px-6 secondaryBg">
-                    <WalletMultiButton />
+                  <div className="mt-4 px-6">{audioNFT.description}</div>
+                  <div className="mt-4">
+                    <img src={audioNFT.image} alt="AudioNFT image" />
                   </div>
 
-                  <div className="mt-6 flex justify-end space-x-4 py-3 px-6 bg-gray-100">
-                    <button
-                      type="button"
-                      className="inline-flex justify-center rounded-full  border px-4 py-2 text-sm font-medium  bg-red-500 text-white hover:bg-red-600"
-                      onClick={() => setShowModal(false)}
-                    >
-                      Cancel
-                    </button>
-                  </div>
+                  <MuxPlayer
+                    streamType="on-demand"
+                    playbackId={getPlaybackIdForPlayer()}
+                    // metadata={{
+                    //   video_id: "video-id-54321",
+                    //   video_title: "Test video title",
+                    //   viewer_user_id: "user-id-007",
+                    // }}
+                  />
                 </Dialog.Panel>
               </Transition.Child>
             </div>
@@ -93,4 +85,4 @@ const SignUpModal: React.FC<SignUpModalProps> = ({
   );
 };
 
-export default SignUpModal;
+export default NFTModal;

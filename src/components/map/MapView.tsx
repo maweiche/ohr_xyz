@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Map, { GeolocateControl, Marker } from "react-map-gl";
 import { Loading } from "@components/Loading";
 import marker from "../../assets/marker2.png";
 import Image from "next/image";
+import { NFTattributes } from "utils/nftUtils";
+import NFTModal from "./NFTModal";
 
 export interface Coordinates {
   longitude: number;
@@ -13,9 +15,27 @@ interface MapViewProps {
   setCoordinates?: React.Dispatch<
     React.SetStateAction<Coordinates | undefined>
   >;
+  markers?: JSX.Element[];
 }
 
-export const MapView: React.FC<MapViewProps> = ({ setCoordinates }) => {
+export interface AudioNFT {
+  animationUrl: string;
+  attributes: NFTattributes;
+  description: string;
+  externalUrl: string;
+  id: number;
+  image: string;
+  mintAddress: string;
+  name: string;
+  projectId: number;
+  status: string;
+  symbol: string;
+}
+
+export const MapView: React.FC<MapViewProps> = ({
+  setCoordinates,
+  markers,
+}) => {
   const [currentCoordinates, setCurrentCoordinates] = useState<
     Coordinates | undefined
   >(undefined);
@@ -58,13 +78,17 @@ export const MapView: React.FC<MapViewProps> = ({ setCoordinates }) => {
                 showAccuracyCircle={true}
                 showUserLocation={true}
               />
-              <Marker
-                longitude={currentCoordinates.longitude}
-                latitude={currentCoordinates.latitude}
-                color="red"
-              >
-                <Image src={marker} alt="øhr logo" width={50} height={50} />
-              </Marker>
+              {!markers ? (
+                <Marker
+                  longitude={currentCoordinates.longitude}
+                  latitude={currentCoordinates.latitude}
+                  color="red"
+                >
+                  <Image src={marker} alt="øhr logo" width={50} height={50} />
+                </Marker>
+              ) : (
+                markers
+              )}
             </Map>
           </div>
         </>
