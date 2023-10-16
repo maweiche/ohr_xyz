@@ -18,12 +18,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({ isAppActive }) => {
     <div className="h-full">
       <div className="z-10 text-center flex flex-col justify-center h-full">
         <div className="flex">
-          <h1 className="text-5xl mt-5">
+          <h1 className="text-5xl mt-7 mx-2 ">
             {isAppActive ? "CATCH YOUR MOMENT" : "WE'RE GRINDING"}
           </h1>
         </div>
 
-        <div className="mt-2">
+        <div className="mt-10">
           {isAppActive ? (
             <ActiveAppDescription
               setShowSignUpModal={setShowSignUpModal}
