@@ -1,16 +1,11 @@
+# øhr
+
+We envision to build a decentralised social media platform that is using sound as its primary medium.
+With this repo, you will be able to mint an audioNFT, share and listen to other audioNFTs through a map that is publicly available.
+
 ## Getting Started
 
-Change to true to make the app work in index.tsx
-```
-const APP_IS_ACTIVE = false 
-```
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+````
+npm i
+npm run dev```
+````

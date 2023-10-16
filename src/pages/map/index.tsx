@@ -12,6 +12,7 @@ const MapScreen: React.FC = () => {
   const [audioNFTs, setAudioNFTs] = useState<AudioNFT[] | undefined>(undefined);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [audioNFT, setAudioNFT] = useState<AudioNFT | undefined>(undefined);
+
   useEffect(() => {
     getNFTs(setAudioNFTs);
   }, []);
