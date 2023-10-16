@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Map, { GeolocateControl, Marker } from "react-map-gl";
-import { Loading } from "@components/Loading";
+import { LoadingComponent } from "@components/LoadingComponent";
 import marker from "../../assets/marker2.png";
 import Image from "next/image";
 import { NFTattributes } from "utils/nftUtils";
@@ -94,7 +94,7 @@ export const MapView: React.FC<MapViewProps> = ({
         </>
       ) : (
         <div className="h-full w-full flex justify-center items-center">
-          <Loading />
+          <LoadingComponent />
         </div>
       )}
     </div>

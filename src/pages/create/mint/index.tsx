@@ -1,4 +1,4 @@
-import { Error as ErrorComponent } from "@components/Error";
+import { ErrorComponent } from "@components/ErrorComponent";
 import { CompressedMint } from "@components/create/minting/CompressedMint";
 import { LayoutComponent } from "@components/layout/LayoutComponent";
 import { useRouter } from "next/router";

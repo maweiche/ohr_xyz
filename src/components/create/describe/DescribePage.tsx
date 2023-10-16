@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
-import { Loading } from "@components/Loading";
 import { LayoutComponent } from "../../layout/LayoutComponent";
+import { LoadingComponent } from "../../LoadingComponent";
 
 export const DescribePage = () => {
   const router = useRouter();
@@ -37,7 +37,7 @@ export const DescribePage = () => {
         variants={containerAnimation}
       >
         {isLoading ? (
-          <Loading />
+          <LoadingComponent />
         ) : (
           <div className="flex flex-col justify-evenly align-center w-full h-full mt-2 items-center">
             <div className="flex flex-col align-center justify-between items-center m-2 self-center">

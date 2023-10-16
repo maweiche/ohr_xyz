@@ -6,7 +6,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import EarBtn from "@components/create/recording/EarBtn";
 import { getCurrentDateFormatted } from "utils/formatUtils";
 import Timer from "./Timer";
-import { Loading } from "@components/Loading";
+import { LoadingComponent } from "@components/LoadingComponent";
 import { AudioBlobContext } from "context/AudioBlobContext";
 import { createMuxUpload } from "../../../utils/mux";
 
@@ -106,7 +106,7 @@ const RecordingPage: React.FC = () => {
             />
           )}
           {isLoading ? (
-            <Loading />
+            <LoadingComponent />
           ) : (
             <EarBtn
               isRecording={isRecording}

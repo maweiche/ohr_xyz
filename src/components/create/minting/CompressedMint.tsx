@@ -4,7 +4,7 @@ import { useAudioContext } from "context/AudioBlobContext";
 import { getMuxAssetId, getPlaybackId as getAudioUrl } from "utils/mux";
 import { createNFT } from "../../../utils/nftUtils";
 import { useRouter } from "next/router";
-import { Loading as LoadingComponent } from "@components/Loading";
+import { LoadingComponent } from "@components/LoadingComponent";
 import { motion } from "framer-motion";
 
 const getRecordingUrl = async (uploadId: string) => {
