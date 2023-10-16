@@ -61,7 +61,15 @@ const NFTModal: React.FC<NFTModalProps> = ({
                     <p className="txt-secondary">{audioNFT.name}</p>
                     <p>{audioNFT.symbol}</p>
                   </Dialog.Title>
-                  <div className="mt-4 px-6">{audioNFT.description}</div>
+                  <div className="mt-4 px-6 text-center">
+                    {`"${audioNFT.attributes.Vibe}"`}
+                  </div>
+                  <div className="mt-4 px-6 text-center">
+                    {audioNFT.attributes.Date}
+                  </div>
+                  <div className="mt-4 px-6 text-center">
+                    {audioNFT.description}
+                  </div>
                   <div className="mt-2">
                     <img src={audioNFT.image} alt="AudioNFT image" />
                   </div>
@@ -78,6 +86,7 @@ const NFTModal: React.FC<NFTModalProps> = ({
                       playbackId={getPlaybackIdForPlayer()}
                     />
                   )}
+                  <div className="text-sm">{audioNFT.mintAddress}</div>
                 </Dialog.Panel>
               </Transition.Child>
             </div>

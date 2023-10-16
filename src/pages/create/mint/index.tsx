@@ -43,20 +43,6 @@ const Minting = () => {
           setIsMinting={setIsMinting}
           isMinting={isMinting}
         />
-
-        {/* {parsedTimeStamp && (
-          <div className="flex self-center">
-            <MintNFT
-              isMinting={isMinting}
-              setIsMinting={setIsMinting}
-              setHasError={setHasError}
-              timeStamp={parsedTimeStamp}
-              theVibe={parsedVibe ?? "Bullish"}
-              long={parsedCoordinates.longitude}
-              lat={parsedCoordinates.latitude}
-            />
-          </div>
-        )} */}
       </div>
     </Layout>
   );

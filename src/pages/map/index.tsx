@@ -26,8 +26,8 @@ const MapScreen: React.FC = () => {
         ? audioNFTs.map((audioNFT) => (
             <Marker
               key={audioNFT.id}
-              longitude={Number(audioNFT.attributes.Long) + 0.01 * audioNFT.id}
-              latitude={Number(audioNFT.attributes.Lat) - 0.01 * audioNFT.id}
+              longitude={Number(audioNFT.attributes.Long)}
+              latitude={Number(audioNFT.attributes.Lat)}
               color="red"
               onClick={() => {
                 setAudioNFT(audioNFT);

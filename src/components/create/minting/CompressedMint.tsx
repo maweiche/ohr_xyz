@@ -79,7 +79,7 @@ export const CompressedMint: React.FC<CompressedNFTProps> = ({
         recordingUrl
       );
       if (success) {
-        router.push("/create/success");
+        router.push("/map");
       }
     } else {
       throw new Error("No connection to wallet.");
@@ -96,10 +96,10 @@ export const CompressedMint: React.FC<CompressedNFTProps> = ({
   };
 
   return (
-    <div className="flex justify-center align-center items-center">
+    <div className="flex justify-center align-center items-center mt-4">
       {!isMinting ? (
-        <div className="flex justify-center ">
-          <button
+        <div className="flex justify-center align-center items-center h-full">
+          {/* <button
             className={
               "text-xl p-2 text-[#d6dfd1] border-2 rounded-lg border-[#b754c0] mx-2 "
             }
@@ -107,7 +107,7 @@ export const CompressedMint: React.FC<CompressedNFTProps> = ({
             onClick={onDiscard}
           >
             back
-          </button>
+          </button> */}
           <motion.button
             className={
               "text-6xl rounded-lg p-2 border-2 border-[#b754c0] bg-[#8c2a87] text-[#f6faf6]"
