@@ -7,12 +7,17 @@ import { getFirstArrayElementOrValue } from "utils/formatUtils";
 
 const Minting = () => {
   const router = useRouter();
-
+  let parsedVibe;
   const { timeStamp, theVibe, coordinates } = router.query;
 
   const parsedTimeStamp = getFirstArrayElementOrValue(timeStamp);
-  console.log(theVibe);
-  const parsedVibe = getFirstArrayElementOrValue(theVibe);
+
+  if (theVibe === "") {
+    parsedVibe = "Bullish";
+  } else {
+    parsedVibe = getFirstArrayElementOrValue(theVibe);
+  }
+
   const parsedCoordinates = JSON.parse(coordinates as string);
   console.log(parsedCoordinates);
   const [hasError, setHasError] = useState<boolean>(false);

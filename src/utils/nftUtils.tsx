@@ -35,7 +35,7 @@ export const createNFT = (
         attributes: attributes,
         name: "øhr",
         symbol: "ØHR",
-        description: "I minted this NFT on the Solana Hacker House.",
+        description: "I minted this NFT at the Solana Hacker House.",
         image:
           "https://shdw-drive.genesysgo.net/CihGZb6sJ94yrPDfQ2ABC7ZeUQam8ChY19p7PSSs1avA/ohr-logo.jpeg",
         animationUrl: recordingUrl,
@@ -45,7 +45,7 @@ export const createNFT = (
       }),
     };
 
-    fetch("https://devnet.underdogprotocol.com/v2/projects/1/nfts", options)
+    fetch("https://devnet.underdogprotocol.com/v2/projects/2/nfts", options)
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
@@ -70,7 +70,7 @@ export const getNFTs = (
   };
 
   fetch(
-    "https://devnet.underdogprotocol.com/v2/projects/1/nfts?page=1&limit=10",
+    "https://devnet.underdogprotocol.com/v2/projects/2/nfts?page=1&limit=10",
     options
   )
     .then((response) => response.json())

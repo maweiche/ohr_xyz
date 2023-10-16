@@ -62,19 +62,22 @@ const NFTModal: React.FC<NFTModalProps> = ({
                     <p>{audioNFT.symbol}</p>
                   </Dialog.Title>
                   <div className="mt-4 px-6">{audioNFT.description}</div>
-                  <div className="mt-4">
+                  <div className="mt-2">
                     <img src={audioNFT.image} alt="AudioNFT image" />
                   </div>
-
-                  <MuxPlayer
-                    streamType="on-demand"
-                    playbackId={getPlaybackIdForPlayer()}
-                    // metadata={{
-                    //   video_id: "video-id-54321",
-                    //   video_title: "Test video title",
-                    //   viewer_user_id: "user-id-007",
-                    // }}
-                  />
+                  {audioNFT.description === "New York City Vibez" ? (
+                    <div className="flex justify-center self-center mt-5">
+                      <audio controls>
+                        <source src={audioNFT.animationUrl} type="audio/mp4" />
+                        Your browser does not support the audio element.
+                      </audio>
+                    </div>
+                  ) : (
+                    <MuxPlayer
+                      streamType="on-demand"
+                      playbackId={getPlaybackIdForPlayer()}
+                    />
+                  )}
                 </Dialog.Panel>
               </Transition.Child>
             </div>
