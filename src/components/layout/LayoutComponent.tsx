@@ -10,7 +10,7 @@ interface LayoutProps {
   showTitle?: string;
 }
 
-const Layout: React.FC<LayoutProps> = ({
+export const LayoutComponent: React.FC<LayoutProps> = ({
   children,
   showWallet,
   justifyStyling,
@@ -36,5 +36,3 @@ const Layout: React.FC<LayoutProps> = ({
     </div>
   );
 };
-
-export default Layout;

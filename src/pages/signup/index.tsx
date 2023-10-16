@@ -1,12 +1,12 @@
-import Layout from "@components/layout/Layout";
+import { LayoutComponent } from "@components/layout/LayoutComponent";
 import { Profile } from "@components/signup/Profile";
 import React from "react";
 
 const Signup = () => {
   return (
-    <Layout showWallet="none">
+    <LayoutComponent showWallet="none">
       <Profile />
-    </Layout>
+    </LayoutComponent>
   );
 };
 

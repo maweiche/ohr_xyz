@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 import { Loading } from "@components/Loading";
-import Layout from "@components/layout/Layout";
+import { LayoutComponent } from "../../layout/LayoutComponent";
 
 export const DescribePage = () => {
   const router = useRouter();
@@ -29,7 +29,7 @@ export const DescribePage = () => {
   };
 
   return (
-    <Layout showWallet="header" showTitle="describe">
+    <LayoutComponent showWallet="header" showTitle="describe">
       <motion.div
         className="flex flex-col items-center justify-center h-full"
         initial="initial"
@@ -66,6 +66,6 @@ export const DescribePage = () => {
           </div>
         )}
       </motion.div>
-    </Layout>
+    </LayoutComponent>
   );
 };

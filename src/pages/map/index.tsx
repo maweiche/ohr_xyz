@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 
-import Layout from "@components/layout/Layout";
+import { LayoutComponent } from "@components/layout/LayoutComponent";
 import { AudioNFT, MapView } from "@components/map/MapView";
 import { Marker } from "react-map-gl";
 import { getNFTs } from "utils/nftUtils";
@@ -42,7 +42,7 @@ const MapScreen: React.FC = () => {
   );
 
   return (
-    <Layout showWallet="none" justifyStyling="start">
+    <LayoutComponent showWallet="none" justifyStyling="start">
       {audioNFT && (
         <NFTModal
           showModal={showModal}
@@ -51,7 +51,7 @@ const MapScreen: React.FC = () => {
         />
       )}
       <MapView markers={markers} />
-    </Layout>
+    </LayoutComponent>
   );
 };
 

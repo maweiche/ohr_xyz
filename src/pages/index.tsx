@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { LandingPage } from "@components/landing/LandingPage";
-import Layout from "@components/layout/Layout";
+import { LayoutComponent } from "@components/layout/LayoutComponent";
 import Toaster from "@components/Toaster";
 
 export default function Home() {
@@ -14,13 +14,13 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Layout
+      <LayoutComponent
         showWallet={IS_APP_ACTIVE && "none"}
         showLogo={IS_APP_ACTIVE && true}
       >
         <Toaster />
         <LandingPage isAppActive={IS_APP_ACTIVE} />
-      </Layout>
+      </LayoutComponent>
     </>
   );
 }

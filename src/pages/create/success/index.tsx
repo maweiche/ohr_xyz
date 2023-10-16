@@ -1,4 +1,4 @@
-import Layout from "@components/layout/Layout";
+import { LayoutComponent } from "@components/layout/LayoutComponent";
 import { useRouter } from "next/router";
 import React from "react";
 import TweetButton from "../../../components/create/success/TweetBtn";
@@ -11,7 +11,7 @@ const SuccessPage = () => {
 
   return (
     <>
-      <Layout showWallet="header" showLogo={true}>
+      <LayoutComponent showWallet="header" showLogo={true}>
         <h1 className="my-4 text-center text-3xl">Check your wallet!</h1>
         <h2 className="my-4 text-center">You minted your audio NFT</h2>
         {solscanLink && (
@@ -20,7 +20,7 @@ const SuccessPage = () => {
             tweetText="Hey, check out this audio NFT I minted on @ohr_xyz 👂 at the Hacker House in Berlin @hackerhouses: "
           />
         )}
-      </Layout>
+      </LayoutComponent>
     </>
   );
 };

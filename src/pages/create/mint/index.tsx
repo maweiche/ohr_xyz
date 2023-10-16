@@ -1,6 +1,6 @@
 import { Error as ErrorComponent } from "@components/Error";
 import { CompressedMint } from "@components/create/minting/CompressedMint";
-import Layout from "@components/layout/Layout";
+import { LayoutComponent } from "@components/layout/LayoutComponent";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { getFirstArrayElementOrValue } from "utils/formatUtils";
@@ -26,7 +26,11 @@ const Minting = () => {
   console.log("parsedVibe", parsedVibe);
 
   return (
-    <Layout showWallet="header" justifyStyling="between" showTitle="mint">
+    <LayoutComponent
+      showWallet="header"
+      justifyStyling="between"
+      showTitle="mint"
+    >
       <div>
         <div className="h-4/6 w-full flex flex-col justify-center mt-10 ">
           {hasError && (
@@ -44,7 +48,7 @@ const Minting = () => {
           isMinting={isMinting}
         />
       </div>
-    </Layout>
+    </LayoutComponent>
   );
 };
 

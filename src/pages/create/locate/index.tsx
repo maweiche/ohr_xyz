@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import Layout from "@components/layout/Layout";
+import { LayoutComponent } from "@components/layout/LayoutComponent";
 import MapScreen from "@pages/map";
 import { useRouter } from "next/router";
 import { Coordinates, MapView } from "@components/map/MapView";
@@ -41,7 +41,11 @@ const Locate: React.FC = () => {
   };
 
   return (
-    <Layout showWallet="none" justifyStyling="center" showTitle="locate & mint">
+    <LayoutComponent
+      showWallet="none"
+      justifyStyling="center"
+      showTitle="locate & mint"
+    >
       <div className="h-2/3">
         <MapView setCoordinates={setCoordinates} />
       </div>
@@ -60,7 +64,7 @@ const Locate: React.FC = () => {
           />
         )}
       </div>
-    </Layout>
+    </LayoutComponent>
   );
 };
 

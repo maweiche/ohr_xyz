@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import styles from "./recording.module.css";
-import Layout from "../../layout/Layout";
+import { LayoutComponent } from "../../layout/LayoutComponent";
 import { useWallet } from "@solana/wallet-adapter-react";
 import EarBtn from "@components/create/recording/EarBtn";
 import { getCurrentDateFormatted } from "utils/formatUtils";
@@ -96,7 +96,7 @@ const RecordingPage: React.FC = () => {
 
   return (
     <>
-      <Layout showWallet="none" showTitle="record">
+      <LayoutComponent showWallet="none" showTitle="record">
         <div className="flex flex-col items-center align-center">
           {showTimer && (
             <Timer
@@ -128,7 +128,7 @@ const RecordingPage: React.FC = () => {
             </button>
           </div>
         )}
-      </Layout>
+      </LayoutComponent>
     </>
   );
 };
