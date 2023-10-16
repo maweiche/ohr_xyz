@@ -11,14 +11,12 @@ export default async function handler(
   switch (method) {
     case "GET":
       const assetId = req.query.assetId;
-      console.log(assetId);
 
       if (typeof assetId === "string") {
         try {
           const data = await Video.Assets.createPlaybackId(assetId, {
             policy: "public",
           });
-          console.log("data createPlaybackId", data);
           const audioUrl = `https://stream.mux.com/${data.id}/audio.m4a`;
 
           res.json(audioUrl);

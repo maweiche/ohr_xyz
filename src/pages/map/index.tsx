@@ -16,10 +16,6 @@ const MapScreen: React.FC = () => {
     getNFTs(setAudioNFTs);
   }, []);
 
-  useEffect(() => {
-    console.log("audioNFTs", audioNFTs);
-  }, [audioNFTs]);
-
   const markers: JSX.Element[] = useMemo(
     () =>
       audioNFTs

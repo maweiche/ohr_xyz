@@ -49,7 +49,6 @@ export async function mintNFT(
   );
 
   const solscanLink = `https://solscan.io/token/${nft.address}`;
-  console.log(`   Minted NFT: ${solscanLink}`);
 
   router.push({
     pathname: "/create/success",

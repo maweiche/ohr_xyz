@@ -30,7 +30,6 @@ const RecordingPage: React.FC = () => {
     if (!wallet.connected) {
       router.push("/");
     }
-    console.log(wallet);
   }, [wallet, router]);
 
   useEffect(() => {
@@ -63,9 +62,6 @@ const RecordingPage: React.FC = () => {
 
     recorder.onstop = function (e: Event) {
       const audioBlob = new Blob(chunks, { type: "audio/wav" });
-
-      console.log("audioBlob: ", audioBlob);
-      console.log("blob url: ", URL.createObjectURL(audioBlob));
 
       setRecordingUrl(URL.createObjectURL(audioBlob));
       setIsRecording(false);

@@ -20,7 +20,6 @@ export default async function handler(
           },
           cors_origin: "*",
         });
-        console.log("upload", upload);
 
         return res.json({
           id: upload.id,

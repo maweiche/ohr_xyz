@@ -12,7 +12,6 @@ export default async function handler(
         const { receiverAddress, attributes, recordingUrl } = req.body;
         const underdogApiKey = process.env.UNDERDOG_API_KEY;
 
-        console.log(underdogApiKey, receiverAddress, attributes, recordingUrl);
         const options = {
           method: "POST",
           headers: {
@@ -38,7 +37,6 @@ export default async function handler(
         );
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
           res.status(200).json(data);
         } else {
           console.error("Failed to create NFT");

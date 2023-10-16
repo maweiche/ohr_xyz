@@ -19,11 +19,8 @@ const Minting = () => {
   }
 
   const parsedCoordinates = JSON.parse(coordinates as string);
-  console.log(parsedCoordinates);
   const [hasError, setHasError] = useState<boolean>(false);
   const [isMinting, setIsMinting] = useState<boolean>(false);
-
-  console.log("parsedVibe", parsedVibe);
 
   return (
     <LayoutComponent

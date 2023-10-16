@@ -52,6 +52,5 @@ export const getMuxAssetId = async (uploadId: string): Promise<string> => {
 export const getPlaybackId = async (assetId: string) => {
   const response = await fetch(`/api/playback?assetId=${assetId}`);
   const data = await response.json();
-  console.log("response video asset", data);
   return data;
 };
