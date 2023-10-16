@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import default_img from "/Users/noam/Documents/ohr_xyz/src/assets/💅-5.png";
+import default_img from "/Users/noam/Documents/ohr_xyz/src/assets/default-img-5.png";
 
 export const UserInfo = () => {
   return (
