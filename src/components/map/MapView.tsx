@@ -59,44 +59,44 @@ export const MapView: React.FC<MapViewProps> = ({
 
   return (
     <div className="h-full w-full">
-      {currentCoordinates ? (
-        <>
-          <div className="h-full w-full">
-            <Map
-              mapboxAccessToken={accessToken}
-              mapStyle={`mapbox://styles/mapbox/dark-v11`}
-              initialViewState={{
-                longitude: currentCoordinates?.longitude,
-                latitude: currentCoordinates?.latitude,
-                zoom: 10,
-              }}
-            >
-              <GeolocateControl
-                positionOptions={{ enableHighAccuracy: true }}
-                fitBoundsOptions={{ maxZoom: 12 }}
-                trackUserLocation={true}
-                showAccuracyCircle={true}
-                showUserLocation={true}
-              />
-              {!markers ? (
-                <Marker
-                  longitude={currentCoordinates.longitude}
-                  latitude={currentCoordinates.latitude}
-                  color="red"
-                >
-                  <Image src={marker} alt="øhr logo" width={50} height={50} />
-                </Marker>
-              ) : (
-                markers
-              )}
-            </Map>
-          </div>
-        </>
-      ) : (
+      {/* {currentCoordinates ? ( */}
+      <>
+        <div className="h-full w-full">
+          <Map
+            mapboxAccessToken={accessToken}
+            mapStyle={`mapbox://styles/mapbox/dark-v11`}
+            initialViewState={{
+              longitude: currentCoordinates?.longitude,
+              latitude: currentCoordinates?.latitude,
+              zoom: 10,
+            }}
+          >
+            <GeolocateControl
+              positionOptions={{ enableHighAccuracy: true }}
+              fitBoundsOptions={{ maxZoom: 12 }}
+              trackUserLocation={true}
+              showAccuracyCircle={true}
+              showUserLocation={true}
+            />
+            {!markers && currentCoordinates ? (
+              <Marker
+                longitude={currentCoordinates.longitude}
+                latitude={currentCoordinates.latitude}
+                color="red"
+              >
+                <Image src={marker} alt="øhr logo" width={50} height={50} />
+              </Marker>
+            ) : (
+              markers
+            )}
+          </Map>
+        </div>
+      </>
+      {/* ) : (
         <div className="h-full w-full flex justify-center items-center">
           <LoadingComponent />
         </div>
-      )}
+      )} */}
     </div>
   );
 };
