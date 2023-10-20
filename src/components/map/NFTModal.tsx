@@ -17,9 +17,14 @@ const NFTModal: React.FC<NFTModalProps> = ({
   setShowModal,
   audioNFT,
 }) => {
-  const getPlaybackIdForPlayer = () => {
-    const extractedPlaybackId = extractPlayBackIdFromUrl(audioNFT.animationUrl);
-    return extractedPlaybackId ?? "undefined";
+  const getPlaybackIdForPlayer = (audioNFT: any) => {
+    if (audioNFT.animationUrl) {
+      console.log("AudioNFT animationURL: ", audioNFT.animationUrl);
+      const extractedPlaybackId = extractPlayBackIdFromUrl(
+        audioNFT.animationUrl
+      );
+      return extractedPlaybackId ?? "undefined";
+    }
   };
 
   return (
@@ -83,7 +88,7 @@ const NFTModal: React.FC<NFTModalProps> = ({
                   ) : (
                     <MuxPlayer
                       streamType="on-demand"
-                      playbackId={getPlaybackIdForPlayer()}
+                      playbackId={getPlaybackIdForPlayer(audioNFT)}
                     />
                   )}
                   <div className="text-sm">{audioNFT.mintAddress}</div>

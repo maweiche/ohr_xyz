@@ -40,8 +40,6 @@ export const MapView: React.FC<MapViewProps> = ({
     Coordinates | undefined
   >(undefined);
   const accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-  console.log("AccessToken: ", accessToken);
-  console.log("RPC: ", process.env.NEXT_PUBLIC_RPC);
 
   useEffect(() => {
     if ("geolocation" in navigator) {
@@ -82,8 +80,8 @@ export const MapView: React.FC<MapViewProps> = ({
               />
               {!markers ? (
                 <Marker
-                  longitude={currentCoordinates.longitude + 33}
-                  latitude={currentCoordinates.latitude + 34}
+                  longitude={currentCoordinates.longitude}
+                  latitude={currentCoordinates.latitude}
                   color="red"
                 >
                   <Image src={marker} alt="øhr logo" width={50} height={50} />

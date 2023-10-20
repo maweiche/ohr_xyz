@@ -56,6 +56,9 @@ export const CompressedMint: React.FC<CompressedNFTProps> = ({
   const { uploadId } = useAudioContext();
   const router = useRouter();
 
+  let newLong = Number(longitude) + 0.04;
+  let newLat = Number(latitude) - 0.02;
+
   const handleMintNFT = async () => {
     setIsMinting(true);
 
@@ -67,8 +70,8 @@ export const CompressedMint: React.FC<CompressedNFTProps> = ({
     const attributes = setAttributes(
       timeStamp,
       theVibe,
-      longitude,
-      latitude
+      newLong.toString(),
+      newLat.toString()
     )[0];
     const receiverAddress = publicKey?.toBase58();
 

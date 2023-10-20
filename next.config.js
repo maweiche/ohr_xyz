@@ -24,16 +24,16 @@ module.exports = {
     );
 
     // Exclude transpilation of Mapbox GL JS bundle
-    config.module.rules.push({
-      test: /\.js$/,
-      exclude: /node_modules\/mapbox-gl\//,
-      use: {
-        loader: "babel-loader",
-        options: {
-          // Your Babel options here
-        },
-      },
-    });
+    // config.module.rules.push({
+    //   test: /\.js$/,
+    //   exclude: /node_modules\/mapbox-gl\//,
+    //   use: {
+    //     loader: "babel-loader",
+    //     options: {
+    //       // Your Babel options here
+    //     },
+    //   },
+    // });
 
     // Return the modified config
     return config;
