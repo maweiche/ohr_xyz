@@ -39,10 +39,8 @@ export const MapView: React.FC<MapViewProps> = ({
   const [currentCoordinates, setCurrentCoordinates] = useState<
     Coordinates | undefined
   >(undefined);
-  const accessTokenENV = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-  const accessToken =
-    "pk.eyJ1Ijoibm9hbWllMjIiLCJhIjoiY2xncDBkN2ZmMDExdDNmbXIydmIxdDRwaSJ9._n4FW8d0fFlLLeCqAchbuA";
-  console.log("AccessToken: ", accessTokenENV);
+  const accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+  console.log("AccessToken: ", accessToken);
   console.log("RPC: ", process.env.NEXT_PUBLIC_RPC);
 
   useEffect(() => {
