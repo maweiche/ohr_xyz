@@ -39,8 +39,11 @@ export const MapView: React.FC<MapViewProps> = ({
   const [currentCoordinates, setCurrentCoordinates] = useState<
     Coordinates | undefined
   >(undefined);
-  const accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-  console.log("AccessToken: ", accessToken);
+  const accessTokenENV = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+  const accessToken =
+    "pk.eyJ1Ijoibm9hbWllMjIiLCJhIjoiY2xncDBkN2ZmMDExdDNmbXIydmIxdDRwaSJ9._n4FW8d0fFlLLeCqAchbuA";
+  console.log("AccessToken: ", accessTokenENV);
+  console.log("RPC: ", process.env.NEXT_PUBLIC_RPC);
 
   useEffect(() => {
     if ("geolocation" in navigator) {
@@ -81,8 +84,8 @@ export const MapView: React.FC<MapViewProps> = ({
               />
               {!markers ? (
                 <Marker
-                  longitude={currentCoordinates.longitude}
-                  latitude={currentCoordinates.latitude}
+                  longitude={currentCoordinates.longitude + 33}
+                  latitude={currentCoordinates.latitude + 34}
                   color="red"
                 >
                   <Image src={marker} alt="øhr logo" width={50} height={50} />
