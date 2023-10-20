@@ -40,6 +40,7 @@ export const MapView: React.FC<MapViewProps> = ({
     Coordinates | undefined
   >(undefined);
   const accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+  console.log("AccessToken: ", accessToken);
 
   useEffect(() => {
     if ("geolocation" in navigator) {
