@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
 
 import { LayoutComponent } from "@components/layout/LayoutComponent";
-import { AudioNFT, MapView } from "@components/map/MapView";
+import { MapView } from "@components/map/MapView";
 import { Marker } from "react-map-gl";
 import { getNFTs } from "utils/nftUtils";
-import NFTModal from "@components/map/NFTModal";
+import NFTModal, { AudioNFT } from "@components/map/NFTModal";
 import Image from "next/image";
 import marker from "../../assets/marker2.png";
 

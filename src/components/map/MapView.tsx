@@ -11,8 +11,8 @@ export interface Coordinates {
 
 interface MapViewProps {
   markers?: JSX.Element[];
-  setLong: (longitude: string) => void;
-  setLat: (latitude: string) => void;
+  setLong?: (longitude: string) => void;
+  setLat?: (latitude: string) => void;
   shouldAddLocation?: boolean;
 }
 
@@ -35,12 +35,14 @@ export const MapView: React.FC<MapViewProps> = ({
           latitude: position.coords.latitude,
         });
 
-        if (shouldAddLocation === true) {
-          setLat(position.coords.latitude.toString());
-          setLong(position.coords.longitude.toString());
-        } else if (shouldAddLocation === false) {
-          setLat("");
-          setLong("");
+        if (setLat && setLong) {
+          if (shouldAddLocation === true) {
+            setLat(position.coords.latitude.toString());
+            setLong(position.coords.longitude.toString());
+          } else if (shouldAddLocation === false) {
+            setLat("");
+            setLong("");
+          }
         }
       });
     }
