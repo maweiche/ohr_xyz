@@ -2,6 +2,7 @@ import Head from "next/head";
 import { LandingPage } from "@components/landing/LandingPage";
 import { LayoutComponent } from "@components/layout/LayoutComponent";
 import Toaster from "@components/Toaster";
+import RecordingPage from "@components/create/recording/RecordingPage";
 
 export default function Home() {
   const IS_APP_ACTIVE = true;
@@ -19,7 +20,8 @@ export default function Home() {
         showLogo={IS_APP_ACTIVE && true}
       >
         <Toaster />
-        <LandingPage isAppActive={IS_APP_ACTIVE} />
+        {/* <LandingPage isAppActive={IS_APP_ACTIVE} /> */}
+        <RecordingPage />
       </LayoutComponent>
     </>
   );

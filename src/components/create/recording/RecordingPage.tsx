@@ -9,6 +9,7 @@ import Timer from "./Timer";
 import { LoadingComponent } from "../../LoadingComponent";
 import { AudioBlobContext } from "context/AudioBlobContext";
 import { createMuxUpload } from "../../../utils/mux";
+import useMetadataStore from "utils/useMetadataStore";
 
 const RecordingPage: React.FC = () => {
   const router = useRouter();
@@ -22,15 +23,16 @@ const RecordingPage: React.FC = () => {
     undefined
   );
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [timeStamp, setTimeStamp] = useState<string>(getCurrentDateFormatted());
   const { setAudioBlob, audioBlob, setUploadId } = useContext(AudioBlobContext);
   const wallet = useWallet();
+  const { metadata, setMetadata, setUploadID, setTimeStamp } =
+    useMetadataStore();
 
-  useEffect(() => {
-    if (!wallet.connected) {
-      router.push("/");
-    }
-  }, [wallet, router]);
+  // useEffect(() => {
+  //   if (!wallet.connected) {
+  //     router.push("/");
+  //   }
+  // }, [wallet, router]);
 
   useEffect(() => {
     if (router.query.discard === "true") {
@@ -51,6 +53,7 @@ const RecordingPage: React.FC = () => {
 
     setDiscardRecording(false);
     setIsRecording(true);
+    setTimeStamp(getCurrentDateFormatted());
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     const recorder = new MediaRecorder(stream);
     setMediaRecorder(recorder);
@@ -77,12 +80,11 @@ const RecordingPage: React.FC = () => {
     setIsLoading(true);
 
     if (audioBlob) {
-      setUploadId(await createMuxUpload(audioBlob));
+      setUploadID(await createMuxUpload(audioBlob));
     }
 
     router.push({
       pathname: "/create/describe",
-      query: { recordingUrl, timeStamp },
     });
   };
 

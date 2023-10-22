@@ -3,11 +3,14 @@ import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 import { LayoutComponent } from "../../layout/LayoutComponent";
 import { LoadingComponent } from "../../LoadingComponent";
+import useMetadataStore from "utils/useMetadataStore";
 
 export const DescribePage = () => {
   const router = useRouter();
+  const { metadata } = useMetadataStore();
+  console.log(metadata);
 
-  const { recordingUrl, timeStamp } = router.query;
+  const { timeStamp } = router.query;
 
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -19,7 +22,7 @@ export const DescribePage = () => {
 
     router.push({
       pathname: "/create/locate",
-      query: { recordingUrl, timeStamp, theVibe },
+      query: { timeStamp, theVibe },
     });
   };
 

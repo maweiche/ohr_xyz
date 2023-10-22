@@ -36,6 +36,7 @@
     "@react-three/cannon": "^6.5.2",
     "@react-three/drei": "^9.65.4",
     "@react-three/fiber": "^8.12.1",
+    "@redux-devtools/extension": "^3.2.5",
     "@solana/wallet-adapter-nextjs-starter": "^0.8.17",
     "@solana/web3.js": "^1.78.4",
     "@spling/social-protocol": "^1.5.9",
@@ -66,7 +67,8 @@
     "rimraf": "^5.0.1",
     "sass": "^1.65.1",
     "sonner": "^1.0.3",
-    "three": "^0.151.3"
+    "three": "^0.151.3",
+    "zustand": "^4.4.4"
   },
   "devDependencies": {
     "@types/node": "^20.8.4",

@@ -27,7 +27,7 @@ const Locate: React.FC = () => {
   const [hasError, setHasError] = useState<boolean>(false);
   const [isMinting, setIsMinting] = useState<boolean>(false);
 
-  const handleClick = () => {
+  const handleWithLocation = () => {
     const coordinatesString = JSON.stringify(coordinates);
 
     router.push({
@@ -40,6 +40,13 @@ const Locate: React.FC = () => {
     });
   };
 
+  const handleWithoutLocation = () => {
+    router.push({
+      pathname: "/create/mint/",
+      query: { timeStamp, theVibe, coordinates: "none" },
+    });
+  };
+
   return (
     <LayoutComponent
       showWallet="none"
@@ -49,11 +56,23 @@ const Locate: React.FC = () => {
       <div className="h-2/3">
         <MapView setCoordinates={setCoordinates} />
       </div>
+      <div className="flex flex-col text-center">
+        <p className="text-xl my-2">add location?</p>
+
+        <div className="flex justify-center gap-8 ">
+          <button className="border-2 p-2 w-20" onClick={handleWithoutLocation}>
+            NO
+          </button>
+          <button className="border-2 p-2 w-20" onClick={handleWithLocation}>
+            YES
+          </button>
+        </div>
+      </div>
       <div className="flex justify-center align-center items-center">
         {/* <button className="text-xl m-10 p-2" onClick={handleClick}>
           next
         </button> */}
-        {coordinates && (
+        {/* {coordinates && (
           <CompressedMint
             timeStamp={parsedTimeStamp ?? new Date().toString()}
             theVibe={parsedVibe ?? "Bullish"}
@@ -62,7 +81,7 @@ const Locate: React.FC = () => {
             setIsMinting={setIsMinting}
             isMinting={isMinting}
           />
-        )}
+        )} */}
       </div>
     </LayoutComponent>
   );
