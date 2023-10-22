@@ -1,33 +1,32 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import styles from "./recording.module.css";
 import { LayoutComponent } from "../../layout/LayoutComponent";
-import { useWallet } from "@solana/wallet-adapter-react";
 import EarBtn from "../../../components/create/recording/EarBtn";
 import { getCurrentDateFormatted } from "utils/formatUtils";
 import Timer from "./Timer";
 import { LoadingComponent } from "../../LoadingComponent";
-import { AudioBlobContext } from "context/AudioBlobContext";
 import { createMuxUpload } from "../../../utils/mux";
 import useMetadataStore from "utils/useMetadataStore";
 
 const RecordingPage: React.FC = () => {
   const router = useRouter();
+  const { setUploadID, setTimeStamp, setAudioBlob, metadata } =
+    useMetadataStore();
 
   const [isRecording, setIsRecording] = useState<boolean>(false);
-  const [discardRecording, setDiscardRecording] = useState<boolean>(false);
   const [isRecordingCompleted, setIsRecordingCompleted] =
     useState<boolean>(false);
-  const [recordingUrl, setRecordingUrl] = useState<string>("");
+  const [discardRecording, setDiscardRecording] = useState<boolean>(false);
+
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | undefined>(
     undefined
   );
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { setAudioBlob, audioBlob, setUploadId } = useContext(AudioBlobContext);
-  const wallet = useWallet();
-  const { metadata, setMetadata, setUploadID, setTimeStamp } =
-    useMetadataStore();
+  const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  // const wallet = useWallet();
   // useEffect(() => {
   //   if (!wallet.connected) {
   //     router.push("/");
@@ -39,7 +38,6 @@ const RecordingPage: React.FC = () => {
       setDiscardRecording(true);
       setIsRecording(false);
       setIsRecordingCompleted(false);
-      setRecordingUrl("");
       setMediaRecorder(undefined);
       setIsLoading(false);
     }
@@ -48,17 +46,30 @@ const RecordingPage: React.FC = () => {
   const toggleRecording = async (): Promise<void> => {
     if (isRecording && mediaRecorder) {
       mediaRecorder.stop();
+
+      // stop mic
+      if (mediaStream) {
+        mediaStream.getTracks().forEach((track) => {
+          track.stop();
+        });
+      }
+
       return;
     }
 
-    setDiscardRecording(false);
-    setIsRecording(true);
-    setTimeStamp(getCurrentDateFormatted());
+    // user is being asked for mic allowance
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    const recorder = new MediaRecorder(stream);
-    setMediaRecorder(recorder);
-    const chunks: Blob[] = [];
 
+    // start recording
+    setIsRecording(true);
+    setDiscardRecording(false);
+    setTimeStamp(getCurrentDateFormatted());
+    const recorder = new MediaRecorder(stream);
+
+    setMediaRecorder(recorder);
+    setMediaStream(stream);
+
+    const chunks: Blob[] = [];
     recorder.ondataavailable = function (e: BlobEvent) {
       chunks.push(e.data);
     };
@@ -66,10 +77,8 @@ const RecordingPage: React.FC = () => {
     recorder.onstop = function (e: Event) {
       const audioBlob = new Blob(chunks, { type: "audio/wav" });
 
-      setRecordingUrl(URL.createObjectURL(audioBlob));
       setIsRecording(false);
       setIsRecordingCompleted(true);
-
       setAudioBlob(audioBlob);
     };
 
@@ -79,8 +88,8 @@ const RecordingPage: React.FC = () => {
   const handleContinue = async (): Promise<void> => {
     setIsLoading(true);
 
-    if (audioBlob) {
-      setUploadID(await createMuxUpload(audioBlob));
+    if (metadata.audioBlob) {
+      setUploadID(await createMuxUpload(metadata.audioBlob));
     }
 
     router.push({

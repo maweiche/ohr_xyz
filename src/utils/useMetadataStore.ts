@@ -4,8 +4,8 @@ import type {} from "@redux-devtools/extension"; //
 
 interface MetadataState {
   theVibe: string;
-  longitude?: string;
-  latitude?: string;
+  longitude: string;
+  latitude: string;
   timeStamp: string;
   uploadID: string;
   audioBlob: Blob | null;
@@ -13,7 +13,6 @@ interface MetadataState {
 
 interface MetadataStore {
   metadata: MetadataState;
-  setMetadata: (metadata: Partial<MetadataState>) => void;
   resetMetadata: () => void;
   setTheVibe: (theVibe: string) => void;
   setLongitude: (longitude: string) => void;
@@ -35,8 +34,6 @@ const useMetadataStore = create<MetadataStore>()(
           uploadID: "",
           audioBlob: null,
         },
-        setMetadata: (metadata: Partial<MetadataState>) =>
-          set((state) => ({ metadata: { ...state.metadata, ...metadata } })),
         resetMetadata: () =>
           set({
             metadata: {

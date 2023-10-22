@@ -1,4 +1,4 @@
-import { AudioNFT } from "@components/map/MapView";
+import { AudioNFT } from "@components/map/NFTModal";
 
 export interface NFTattributes {
   Event: string;
@@ -69,7 +69,7 @@ export const getNFTs = (
   };
 
   fetch(
-    "https://devnet.underdogprotocol.com/v2/projects/2/nfts?page=1&limit=100",
+    "https://devnet.underdogprotocol.com/v2/projects/3/nfts?page=1&limit=100",
     options
   )
     .then((response) => response.json())

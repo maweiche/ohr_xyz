@@ -1,11 +1,14 @@
 import React, { Dispatch, SetStateAction } from "react";
-import { useWallet } from "@solana/wallet-adapter-react";
-import { useAudioContext } from "context/AudioBlobContext";
 import { getMuxAssetId, getPlaybackId as getAudioUrl } from "utils/mux";
 import { createNFT } from "../../../utils/nftUtils";
 import { useRouter } from "next/router";
 import { LoadingComponent } from "../../LoadingComponent";
 import { motion } from "framer-motion";
+import useMetadataStore from "utils/useMetadataStore";
+import Image from "next/image";
+import breakpointNFT from "../../../assets/nft-bp.jpg";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
 const getRecordingUrl = async (uploadId: string) => {
   try {
@@ -44,6 +47,17 @@ interface CompressedNFTProps {
   setIsMinting: Dispatch<SetStateAction<boolean>>;
 }
 
+const mintButtonAnimation = {
+  initial: { x: "100%", opacity: 0 },
+  animate: { x: "0%", opacity: 1 },
+};
+
+const getRandomCoordinates = (coordinates: string) => {
+  const randomOffset = 0.01 + Math.random() * 0.04;
+  let newCoordinates = Number(coordinates) + randomOffset;
+  return newCoordinates.toString();
+};
+
 export const CompressedMint: React.FC<CompressedNFTProps> = ({
   timeStamp,
   theVibe,
@@ -52,27 +66,26 @@ export const CompressedMint: React.FC<CompressedNFTProps> = ({
   isMinting,
   setIsMinting,
 }) => {
-  const { publicKey } = useWallet();
-  const { uploadId } = useAudioContext();
+  const { publicKey, connected } = useWallet();
+  const { metadata, resetMetadata } = useMetadataStore();
   const router = useRouter();
-
-  let newLong = Number(longitude) + 0.04;
-  let newLat = Number(latitude) - 0.02;
 
   const handleMintNFT = async () => {
     setIsMinting(true);
 
-    if (!uploadId) {
+    if (!metadata.uploadID) {
       throw new Error("Upload missing.");
     }
 
-    const recordingUrl = await getRecordingUrl(uploadId);
+    const recordingUrl = await getRecordingUrl(metadata.uploadID);
+
     const attributes = setAttributes(
-      timeStamp,
-      theVibe,
-      newLong.toString(),
-      newLat.toString()
+      metadata.timeStamp,
+      metadata.theVibe,
+      getRandomCoordinates(metadata.longitude),
+      getRandomCoordinates(metadata.latitude)
     )[0];
+
     const receiverAddress = publicKey?.toBase58();
 
     if (receiverAddress) {
@@ -81,8 +94,10 @@ export const CompressedMint: React.FC<CompressedNFTProps> = ({
         attributes,
         recordingUrl
       );
+
       if (success) {
-        router.push("/map");
+        router.push("/create/success");
+        resetMetadata();
       }
     } else {
       throw new Error("No connection to wallet.");
@@ -93,15 +108,10 @@ export const CompressedMint: React.FC<CompressedNFTProps> = ({
     router.push("/create/record?discard=true");
   };
 
-  const mintButtonAnimation = {
-    initial: { x: "100%", opacity: 0 },
-    animate: { x: "0%", opacity: 1 },
-  };
-
   return (
     <div className="flex justify-center align-center items-center mt-4">
       {!isMinting ? (
-        <div className="flex justify-center align-center items-center h-full">
+        <div className="flex flex-col justify-center align-center items-center h-full">
           {/* <button
             className={
               "text-xl p-2 text-[#d6dfd1] border-2 rounded-lg border-[#b754c0] mx-2 "
@@ -111,6 +121,17 @@ export const CompressedMint: React.FC<CompressedNFTProps> = ({
           >
             back
           </button> */}
+          <Image
+            src={breakpointNFT}
+            alt="Breakpoint NFT"
+            width={220}
+            height={220}
+          />
+          {!connected && (
+            <div className="m-6">
+              <WalletMultiButton />
+            </div>
+          )}
           <motion.button
             className={
               "text-6xl rounded-lg p-2 border-2 border-[#b754c0] bg-[#8c2a87] text-[#f6faf6]"
