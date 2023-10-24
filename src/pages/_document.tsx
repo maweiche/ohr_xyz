@@ -10,7 +10,7 @@ export default function Document() {
           rel="stylesheet"
         ></link>
         <link
-          href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css"
+          href="https://unpkg.com/maplibre-gl@3.2.1/dist/maplibre-gl.css"
           rel="stylesheet"
         />
       </Head>
