@@ -32,7 +32,7 @@ export const LayoutComponent: React.FC<LayoutProps> = ({
         {children}
       </main>
 
-      <Footer showWallet={showWallet} showLogo={showLogo} />
+      <Footer showWallet={showWallet} />
     </div>
   );
 };

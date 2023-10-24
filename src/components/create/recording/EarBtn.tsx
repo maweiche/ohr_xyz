@@ -18,15 +18,12 @@ const EarBtn: React.FC<EarProps> = ({
       <button
         onClick={onClick}
         disabled={isRecordingCompleted}
-        className="text-center z-10 w-60"
+        className="text-center z-10"
       >
         <Image
           className={isRecording ? styles["ear-img-active"] : "ear-img"}
           src={ohr}
           alt="our logo - picture of the ear"
-          width={300}
-          height={300}
-          style={{ objectFit: "contain", opacity: 0.7 }}
         />
       </button>
     </div>

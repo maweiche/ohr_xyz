@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Gajraj+One&family=Tilt+Warp&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Gajraj+One&family=Rubik+Mono+One&family=Space+Grotesk:wght@300&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Russo+One&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat&family=Russo+One&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300&display=swap");
@@ -38,6 +38,7 @@
   padding: 0;
   margin: 0;
   font-family: "Rubik Mono One", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
 }
 
 html,
@@ -51,8 +52,8 @@ body {
 
 body {
   background: var(--background-color);
-  font-family: "Gajraj One", cursive;
   color: var(--text-color);
+  font-family: "Space Grotesk", sans-serif;
 }
 
 a {

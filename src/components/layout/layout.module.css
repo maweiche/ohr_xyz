@@ -31,3 +31,25 @@
     background-color: green;
   }
 }
+
+.navbar {
+  border-radius: 1rem;
+  background: #a60989;
+  width: 90vw;
+  margin: 1rem;
+  padding: 0.4rem;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-btn {
+  width: 50%;
+}
+
+.active {
+  border-radius: 0.5rem;
+  margin: 0.4rem;
+  /* opacity: 0.4; */
+  background: #e33d98;
+  width: 50%;
+}

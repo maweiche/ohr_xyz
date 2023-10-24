@@ -49,12 +49,12 @@ export const MapView: React.FC<MapViewProps> = ({
   }, [setLong, setLat, shouldAddLocation]);
 
   return (
-    <div className="h-full w-full">
+    <div className="h-5/6 flex justify-center m-4  rounded-md">
       {currentCoordinates ? (
         <div className="h-full w-full">
           <Map
             mapboxAccessToken={accessToken}
-            mapStyle={`mapbox://styles/mapbox/light-v11`}
+            mapStyle={`mapbox://styles/mapbox/dark-v11`}
             initialViewState={{
               longitude: currentCoordinates?.longitude,
               latitude: currentCoordinates?.latitude,

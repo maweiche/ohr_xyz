@@ -6,3 +6,14 @@
   max-height: 100vh;
   background: var(--background-transparent-layer);
 }
+
+.help-text {
+  color: #fff;
+  text-align: center;
+  text-shadow: 0px 4px 13px rgba(0, 0, 0, 0.25);
+  font-family: Space Grotesk;
+  font-size: 1.4375rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}

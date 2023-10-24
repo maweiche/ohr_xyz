@@ -17,7 +17,7 @@ export const ActiveAppDescription: React.FC<ActiveAppDescriptionProps> = ({
 
   useEffect(() => {
     if (publicKey) {
-      router.push("/create");
+      router.push("/");
     }
   }, [publicKey, router]);
 
