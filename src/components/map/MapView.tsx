@@ -84,13 +84,13 @@ export const MapView: React.FC<MapViewProps> = ({
 
   return (
     <div className="h-5/6 flex justify-center m-4 rounded-md">
-      {currentCoordinates ? (
-        <div className="h-full w-full" ref={mapContainerRef}></div>
-      ) : (
+      {/* {currentCoordinates ? ( */}
+      <div className="h-full w-full" ref={mapContainerRef}></div>
+      {/* ) : (
         <div className="h-full w-full flex justify-center items-center">
           <LoadingComponent />
-        </div>
-      )}
+        </div> */}
+      {/* )} */}
     </div>
   );
 };
