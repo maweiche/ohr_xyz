@@ -120,17 +120,14 @@ const RecordingPage = () => {
           />
         )}
       </div>
-      {showHelpText && (
-        <div className={`${styles["help-text"]}`}>click the ear to record</div>
-      )}
 
-      {showContinueButton && (
-        <div className={`${styles["help-text"]}`}>
-          <button className="btn-ghost" onClick={handleContinue}>
-            continue
-          </button>
-        </div>
-      )}
+      {showHelpText ? (
+        <div className={styles["help-text"]}>click the ear to record</div>
+      ) : showContinueButton ? (
+        <button className="btn-ghost text-md" onClick={handleContinue}>
+          continue
+        </button>
+      ) : null}
     </>
   );
 };

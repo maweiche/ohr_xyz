@@ -1,5 +1,5 @@
 .ear-img-active {
-  animation: ear-animation 1s ease-in infinite alternate;
+  animation: ear-animation 1.5s ease-in-out infinite alternate;
 }
 
 .ear-img-active-slow {
@@ -9,10 +9,10 @@
 @keyframes ear-animation {
   from {
     opacity: 0.4;
-    transform: scale(0.8);
+    transform: scale(1);
   }
   to {
     opacity: 0.9;
-    transform: scale(1.02);
+    transform: scale(0.8);
   }
 }

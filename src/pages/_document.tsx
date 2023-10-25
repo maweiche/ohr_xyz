@@ -13,6 +13,10 @@ export default function Document() {
           href="https://unpkg.com/maplibre-gl@3.2.1/dist/maplibre-gl.css"
           rel="stylesheet"
         />
+        <link
+          href="https://cdn.maptiler.com/maptiler-sdk-js/v1.1.1/maptiler-sdk.css"
+          rel="stylesheet"
+        />
       </Head>
       <body>
         <Main />

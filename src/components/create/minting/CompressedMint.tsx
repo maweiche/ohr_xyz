@@ -112,40 +112,30 @@ export const CompressedMint: React.FC<CompressedNFTProps> = ({
     <div className="flex justify-center align-center items-center mt-4">
       {!isMinting ? (
         <div className="flex flex-col justify-center align-center items-center h-full">
-          {/* <button
-            className={
-              "text-xl p-2 text-[#d6dfd1] border-2 rounded-lg border-[#b754c0] mx-2 "
-            }
-            disabled={isMinting}
-            onClick={onDiscard}
-          >
-            back
-          </button> */}
           <Image
             src={breakpointNFT}
             alt="Breakpoint NFT"
             width={220}
             height={220}
           />
-          {!connected && (
+          {connected ? (
+            <motion.button
+              className={"primary-btn text-3xl mt-5"}
+              onClick={handleMintNFT}
+              variants={mintButtonAnimation}
+              initial="initial"
+              animate="animate"
+              transition={{
+                duration: 1,
+              }}
+            >
+              {isMinting ? <i>mint</i> : "mint"}
+            </motion.button>
+          ) : (
             <div className="m-6">
               <WalletMultiButton />
             </div>
           )}
-          <motion.button
-            className={
-              "text-6xl rounded-lg p-2 border-2 border-[#b754c0] bg-[#8c2a87] text-[#f6faf6]"
-            }
-            onClick={handleMintNFT}
-            variants={mintButtonAnimation}
-            initial="initial"
-            animate="animate"
-            transition={{
-              duration: 1,
-            }}
-          >
-            {isMinting ? <i>mint</i> : "mint"}
-          </motion.button>
         </div>
       ) : (
         <div className="m-6">

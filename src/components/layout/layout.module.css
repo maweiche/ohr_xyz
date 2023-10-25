@@ -34,22 +34,31 @@
 
 .navbar {
   border-radius: 1rem;
-  background: #a60989;
+  /* background: #a60989; */
   width: 90vw;
   margin: 1rem;
-  padding: 0.4rem;
+  /* padding: 0.8rem; */
   display: flex;
   align-items: center;
 }
 
 .navbar-btn {
   width: 50%;
+  /* height: 2rem; */
+  margin: 0.4rem;
+  /* padding: 0.8rem; */
+  /* height: 5rem; */
 }
 
 .active {
   border-radius: 0.5rem;
-  margin: 0.4rem;
+  /* height: 3rem; */
+
   /* opacity: 0.4; */
-  background: #e33d98;
+  background: rgba(254, 174, 218, 0.4);
   width: 50%;
+}
+
+.ear-icon {
+  transform: scaleX(-1);
 }

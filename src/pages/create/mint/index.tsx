@@ -14,13 +14,16 @@ const Minting = () => {
     <LayoutComponent
       showWallet="header"
       justifyStyling="center"
-      showTitle="mint"
+      showTitle="Mint"
     >
       <div>
         {hasError && (
           <div className="h-4/6 w-full flex flex-col justify-center mt-10 ">
             <div className="p-4 flex justify-center align-center">
-              <ErrorComponent />
+              <ErrorComponent
+                message={"Test message"}
+                buttonText={"Try again"}
+              />
             </div>
           </div>
         )}

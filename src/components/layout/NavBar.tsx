@@ -1,6 +1,9 @@
 import { useRouter } from "next/router";
 import styles from "./layout.module.css";
 import React from "react";
+import nftMap from "../../assets/NFT_icon-05.png";
+import earIcon from "../../assets/small_ear_02.png";
+import Image from "next/image";
 
 export const NavBar = () => {
   const router = useRouter();
@@ -19,7 +22,10 @@ export const NavBar = () => {
         }
         onClick={() => router.push("/")}
       >
-        <p className="m-2 text-3xl">👂</p>
+        <div className={styles["ear-icon"]}>
+          <p className="text-3xl m-2">👂</p>
+        </div>
+        {/* <Image src={earIcon} alt="Ear" width={20} height={28} /> */}
       </button>
       <button
         className={
@@ -27,7 +33,9 @@ export const NavBar = () => {
         }
         onClick={() => router.push("/map")}
       >
-        <p className="m-2 text-3xl">🗺</p>
+        <div className="m-2">
+          <Image src={nftMap} alt="NFT location" width={32} height={32} />
+        </div>
       </button>
     </div>
   );

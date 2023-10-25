@@ -31,6 +31,7 @@ const NFTModal: React.FC<NFTModalProps> = ({
   setShowModal,
   audioNFT,
 }) => {
+  console.log("should show");
   return (
     <Transition appear show={showModal} as={Fragment}>
       <Dialog

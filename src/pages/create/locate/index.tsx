@@ -24,30 +24,24 @@ const Locate: React.FC = () => {
     <LayoutComponent
       showWallet="none"
       justifyStyling="center"
-      showTitle="locate & mint"
+      showTitle="Locate"
     >
-      <div className="h-2/3">
+      <div className="h-1/2">
         <MapView
           setLong={setLongitude}
           setLat={setLatitude}
           shouldAddLocation={shouldAddLocation}
         />
       </div>
-      <div className="flex flex-col text-center">
+      <div className="flex flex-col text-center mt-8">
         <p className="text-xl my-2">add location?</p>
 
         <div className="flex justify-center gap-8 ">
-          <button
-            className="border-2 p-2 w-20"
-            onClick={() => addLocation(false)}
-          >
-            NO
+          <button className="primary-btn" onClick={() => addLocation(false)}>
+            no
           </button>
-          <button
-            className="border-2 p-2 w-20"
-            onClick={() => addLocation(true)}
-          >
-            YES
+          <button className="primary-btn" onClick={() => addLocation(true)}>
+            yes
           </button>
         </div>
       </div>

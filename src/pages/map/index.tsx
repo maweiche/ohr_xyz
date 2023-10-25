@@ -17,37 +17,28 @@ const MapScreen: React.FC = () => {
     getNFTs(setAudioNFTs);
   }, []);
 
-  const markers: JSX.Element[] = useMemo(
-    () =>
-      audioNFTs
-        ? audioNFTs.map((audioNFT) => (
-            <Marker
-              key={audioNFT.id}
-              longitude={Number(audioNFT.attributes.Long)}
-              latitude={Number(audioNFT.attributes.Lat)}
-              color="red"
-              onClick={() => {
-                setAudioNFT(audioNFT);
-                setShowModal(true);
-              }}
-            >
-              <Image src={marker} alt="øhr logo" width={50} height={50} />
-            </Marker>
-          ))
-        : [],
-    [audioNFTs]
-  );
-
   return (
-    <LayoutComponent showWallet="none" justifyStyling="start">
-      {audioNFT && (
-        <NFTModal
-          showModal={showModal}
-          setShowModal={setShowModal}
-          audioNFT={audioNFT}
-        />
-      )}
-      <MapView markers={markers} />
+    <LayoutComponent
+      showWallet="none"
+      justifyStyling="center"
+      showTitle="Explore"
+    >
+      <div className="h-5/6">
+        {audioNFT && (
+          <NFTModal
+            showModal={showModal}
+            setShowModal={setShowModal}
+            audioNFT={audioNFT}
+          />
+        )}
+        {audioNFTs && (
+          <MapView
+            audioNFTs={audioNFTs}
+            setAudioNFT={setAudioNFT}
+            setShowModal={setShowModal}
+          />
+        )}
+      </div>
     </LayoutComponent>
   );
 };
