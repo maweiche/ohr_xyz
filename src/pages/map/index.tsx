@@ -12,9 +12,26 @@ const MapScreen: React.FC = () => {
   const [audioNFTs, setAudioNFTs] = useState<AudioNFT[] | undefined>(undefined);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [audioNFT, setAudioNFT] = useState<AudioNFT | undefined>(undefined);
+  const [position, setPosition] = useState<{
+    longitude: number;
+    latitude: number;
+  }>({ longitude: 4.9041, latitude: 52.3676 });
 
   useEffect(() => {
     getNFTs(setAudioNFTs);
+  }, []);
+
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const latitude = url.searchParams.get("latitude");
+    const longitude = url.searchParams.get("longitude");
+
+    if (latitude && longitude) {
+      setPosition({
+        longitude: Number(longitude),
+        latitude: Number(longitude),
+      });
+    }
   }, []);
 
   return (
@@ -36,6 +53,7 @@ const MapScreen: React.FC = () => {
             audioNFTs={audioNFTs}
             setAudioNFT={setAudioNFT}
             setShowModal={setShowModal}
+            {...position}
           />
         )}
       </div>

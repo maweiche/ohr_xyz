@@ -1,5 +1,5 @@
 import { ErrorComponent } from "@components/ErrorComponent";
-import { CompressedMint } from "@components/create/minting/CompressedMint";
+import { MintNFT } from "@components/create/minting/MintNFT";
 import { LayoutComponent } from "@components/layout/LayoutComponent";
 import { useState } from "react";
 import useMetadataStore from "utils/useMetadataStore";
@@ -27,11 +27,11 @@ const Minting = () => {
             </div>
           </div>
         )}
-        <CompressedMint
+        <MintNFT
           timeStamp={metadata.timeStamp}
           theVibe={metadata.theVibe ?? "Bullish"}
-          longitude={metadata.longitude ?? ""}
-          latitude={metadata.latitude ?? ""}
+          longitude={metadata.longitude}
+          latitude={metadata.latitude}
           setIsMinting={setIsMinting}
           isMinting={isMinting}
         />

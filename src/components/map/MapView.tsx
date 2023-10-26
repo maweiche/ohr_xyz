@@ -4,6 +4,7 @@ import Image from "next/image";
 import markerImg from "../../assets/marker2.png";
 import { LoadingComponent } from "@components/LoadingComponent";
 import { AudioNFT } from "./NFTModal";
+import useMetadataStore from "utils/useMetadataStore";
 
 export interface Coordinates {
   longitude: number;
@@ -12,38 +13,32 @@ export interface Coordinates {
 
 interface MapViewProps {
   audioNFTs?: AudioNFT[];
-  setLong?: (longitude: string) => void;
-  setLat?: (latitude: string) => void;
-  shouldAddLocation?: boolean;
   setAudioNFT?: React.Dispatch<React.SetStateAction<AudioNFT | undefined>>;
   setShowModal?: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowSuccessModal?: React.Dispatch<React.SetStateAction<boolean>>;
+  latitude: number;
+  longitude: number;
 }
 
 export const MapView: React.FC<MapViewProps> = ({
-  setLong,
-  setLat,
   audioNFTs,
-  shouldAddLocation,
   setAudioNFT,
   setShowModal,
+  setShowSuccessModal,
+  longitude,
+  latitude,
 }) => {
-  const [currentCoordinates, setCurrentCoordinates] = useState<
-    Coordinates | undefined
-  >(undefined);
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
 
   console.log(audioNFTs);
+
   useEffect(() => {
     if (mapContainerRef.current) {
-      const centerCoordinates: [number, number] = currentCoordinates
-        ? [currentCoordinates.longitude, currentCoordinates.latitude]
-        : [52.3676, 4.9041];
-
       mapRef.current = new maplibregl.Map({
         container: mapContainerRef.current,
         style: "https://demotiles.maplibre.org/style.json",
-        center: centerCoordinates, // default to Amsterdam
+        center: [longitude, latitude], // default to Amsterdam
         zoom: 6,
         pitch: 45,
       });
@@ -53,6 +48,7 @@ export const MapView: React.FC<MapViewProps> = ({
           const marker = new maplibregl.Marker()
             .setLngLat([Number(el.attributes.Long), Number(el.attributes.Lat)])
             .addTo(mapRef.current);
+
           marker.getElement().addEventListener("click", () => {
             if (el && setAudioNFT && setShowModal) {
               setAudioNFT(el);
@@ -63,15 +59,10 @@ export const MapView: React.FC<MapViewProps> = ({
         }
       });
 
-      if (currentCoordinates) {
-        new maplibregl.Marker()
-          .setLngLat([
-            currentCoordinates.longitude,
-            currentCoordinates.latitude,
-          ])
-          .setOffset([-25, -25])
-          .addTo(mapRef.current);
-      }
+      new maplibregl.Marker()
+        .setLngLat([longitude, latitude])
+        .setOffset([-25, -25])
+        .addTo(mapRef.current);
     }
 
     return () => {
@@ -79,71 +70,12 @@ export const MapView: React.FC<MapViewProps> = ({
         mapRef.current.remove();
       }
     };
-  }, [currentCoordinates, audioNFTs]);
-
-  const [passError, setPassError] = useState<string | undefined>(undefined);
-
-  const showPosition = (position: GeolocationPosition) => {
-    const coords = {
-      longitude: position.coords.longitude,
-      latitude: position.coords.latitude,
-    };
-    setCurrentCoordinates(coords);
-
-    if (setLat && setLong) {
-      if (shouldAddLocation) {
-        setLat(coords.latitude.toString());
-        setLong(coords.longitude.toString());
-      } else {
-        setLat("");
-        setLong("");
-      }
-    }
-
-    setPassError(
-      "Latitude: " +
-        position.coords.latitude +
-        "<br>Longitude: " +
-        position.coords.longitude
-    );
-  };
-
-  const showError = (error: GeolocationPositionError) => {
-    switch (error.code) {
-      case error.PERMISSION_DENIED:
-        setPassError("User denied the request for Geolocation.");
-        break;
-      case error.POSITION_UNAVAILABLE:
-        setPassError("Location information is unavailable.");
-        break;
-      case error.TIMEOUT:
-        setPassError("The request to get user location timed out.");
-        break;
-      default:
-        setPassError("An unknown error occurred.");
-        break;
-    }
-  };
-
-  useEffect(() => {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(showPosition, showError, {
-        enableHighAccuracy: true,
-        timeout: 5000,
-        maximumAge: 0,
-      });
-    } else {
-      setPassError("Geolocation is not supported by this browser.");
-    }
-  }, []);
+  }, [audioNFTs, longitude, latitude]);
 
   return (
     <div className="h-full flex justify-center items-center m-4 rounded-md">
-      {currentCoordinates ? (
-        <div className="h-full w-full" ref={mapContainerRef}></div>
-      ) : (
-        <p>{passError} </p>
-      )}
+      <div className="h-full w-full" ref={mapContainerRef}></div>
+
       {/* <p>{(currentCoordinates?.latitude, currentCoordinates?.longitude)}</p> */}
 
       {/* ) : (

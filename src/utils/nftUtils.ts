@@ -18,8 +18,8 @@ export const createNFT = (
     Date: string;
     Motivation: string;
     Vibe: string;
-    Long: string;
-    Lat: string;
+    Long?: number;
+    Lat?: number;
   },
   recordingUrl: string
 ): Promise<boolean> => {
