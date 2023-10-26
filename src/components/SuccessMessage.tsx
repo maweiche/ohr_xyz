@@ -53,7 +53,9 @@ const SuccessMessage: React.FC<SuccessMessageProps> = ({
                 <div className="flex justify-center self-center mt-5">
                   <p>Successfull added location</p>
                 </div>
-                <button onClick={onClick}>NEXT</button>
+                <button className="border-2 rounded-md p-2" onClick={onClick}>
+                  NEXT
+                </button>
               </Dialog.Panel>
             </Transition.Child>
           </div>

@@ -4,9 +4,10 @@ import React from "react";
 
 const SuccessPage = () => {
   const router = useRouter();
+  const { longitude, latitude } = router.query;
 
   const handleClick = () => {
-    router.push("/map");
+    router.push({ pathname: "/map", query: { longitude, latitude } });
   };
   return (
     <>

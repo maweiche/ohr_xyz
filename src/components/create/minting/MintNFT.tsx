@@ -9,7 +9,6 @@ import Image from "next/image";
 import breakpointNFT from "../../../assets/nft-bp.jpg";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import { Attributes } from "@mux/mux-video/.";
 
 const getRecordingUrl = async (uploadId: string) => {
   try {
@@ -26,17 +25,28 @@ const setTheAttributes = (
   longitude?: number,
   latitude?: number
 ) => {
-  return [
-    {
-      Event: "Solana HyperDrive",
-      Location: "Berlin Build Station",
+  let attributes;
+
+  if (latitude && longitude) {
+    attributes = {
+      Event: "Solana Breakpoint",
+      Location: "Amsterdam",
       Date: timeStamp,
       Motivation: "LFG",
       Vibe: theVibe,
       Long: longitude,
       Lat: latitude,
-    },
-  ];
+    };
+  } else {
+    attributes = {
+      Event: "Solana Breakpoint",
+      Location: "Amsterdam",
+      Date: timeStamp,
+      Motivation: "LFG",
+      Vibe: theVibe,
+    };
+  }
+  return attributes;
 };
 
 interface MintNFTProps {
@@ -46,6 +56,7 @@ interface MintNFTProps {
   latitude?: number;
   isMinting: boolean;
   setIsMinting: Dispatch<SetStateAction<boolean>>;
+  uploadID: string;
 }
 
 const mintButtonAnimation = {
@@ -66,12 +77,11 @@ export const MintNFT: React.FC<MintNFTProps> = ({
   latitude,
   isMinting,
   setIsMinting,
+  uploadID,
 }) => {
   const { publicKey, connected } = useWallet();
   const { metadata, resetMetadata } = useMetadataStore();
   const router = useRouter();
-  const [vibe, setTheVibe] = useState<string>("false");
-  const [date, setTheDate] = useState<string>("false");
 
   const handleMintNFT = async () => {
     setIsMinting(true);
@@ -80,35 +90,56 @@ export const MintNFT: React.FC<MintNFTProps> = ({
     //   throw new Error("Upload missing.");
     // }
 
-    if (metadata.uploadID) {
-      const receiverAddress = publicKey?.toBase58();
+    const receiverAddress = publicKey?.toBase58();
 
-      if (receiverAddress) {
-        const recordingUrl = await getRecordingUrl(metadata.uploadID);
+    if (receiverAddress) {
+      const recordingUrl = await getRecordingUrl(uploadID);
 
-        console.log("the Vibe, meta: ", metadata.theVibe);
-        console.log("the time, meta: ", metadata.timeStamp);
+      console.log("the Vibe, meta: ", metadata.theVibe);
+      console.log("the time, meta: ", metadata.timeStamp);
 
-        const attributes = setTheAttributes(
-          metadata.timeStamp,
-          metadata.theVibe,
-          metadata.longitude,
-          metadata.latitude
-        )[0];
+      const attributes = setTheAttributes(
+        timeStamp,
+        theVibe,
+        longitude,
+        latitude
+      );
 
-        const success = await createNFT(
-          receiverAddress,
-          attributes,
-          recordingUrl
-        );
+      const success = await createNFT(
+        receiverAddress,
+        attributes,
+        recordingUrl
+      );
 
-        if (success) {
-          router.push("/create/success");
-          resetMetadata();
-        }
-      } else {
-        throw new Error("No connection to wallet.");
+      let queryParams;
+      if (longitude && latitude) {
+        queryParams = {
+          longitude: longitude.toString(),
+          latitude: latitude.toString(),
+        };
       }
+
+      router.push({
+        pathname: `/create/mint`,
+        query: queryParams,
+      });
+
+      if (success) {
+        if (latitude && longitude) {
+          router.push({
+            pathname: "/create/success",
+            query: {
+              longitude: longitude.toString(),
+              latitude: latitude.toString(),
+            },
+          });
+        } else {
+          router.push("/create/success");
+        }
+        resetMetadata();
+      }
+    } else {
+      throw new Error("No connection to wallet.");
     }
   };
 
@@ -140,8 +171,6 @@ export const MintNFT: React.FC<MintNFTProps> = ({
               >
                 {isMinting ? <i>mint</i> : "mint"}
               </motion.button>
-              <p>{vibe}</p>
-              <p>{date}</p>
             </>
           ) : (
             <div className="m-6">

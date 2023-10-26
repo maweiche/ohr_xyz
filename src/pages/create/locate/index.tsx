@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { LayoutComponent } from "@components/layout/LayoutComponent";
 import { useRouter } from "next/router";
-import { Coordinates, MapView } from "@components/map/MapView";
+import { MapView } from "@components/map/MapView";
 import useMetadataStore from "utils/useMetadataStore";
 import SuccessMessage from "@components/SuccessMessage";
 
@@ -76,8 +76,6 @@ const Locate: React.FC = () => {
         timeStamp: timeStamp,
       };
 
-      console.log("queryParams", queryParams);
-
       router.push({
         pathname: `/create/mint`,
         query: queryParams,
@@ -95,7 +93,6 @@ const Locate: React.FC = () => {
     >
       <div className="h-1/2">
         <MapView
-          setShowSuccessModal={setShowSuccessModal}
           longitude={longitude ?? 4.9041}
           latitude={latitude ?? 52.3676}
         />

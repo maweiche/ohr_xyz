@@ -22,15 +22,7 @@ const RecordingPage = () => {
     undefined
   );
   const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
-
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  // const wallet = useWallet();
-  // useEffect(() => {
-  //   if (!wallet.connected) {
-  //     router.push("/");
-  //   }
-  // }, [wallet, router]);
 
   useEffect(() => {
     if (router.query.discard === "true") {

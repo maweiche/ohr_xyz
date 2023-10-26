@@ -1,12 +1,10 @@
-import React, { useEffect, useMemo, useState } from "react";
-
+import React, { useEffect, useState } from "react";
 import { LayoutComponent } from "@components/layout/LayoutComponent";
 import { MapView } from "@components/map/MapView";
-import { Marker } from "react-map-gl";
 import { getNFTs } from "utils/nftUtils";
 import NFTModal, { AudioNFT } from "@components/map/NFTModal";
-import Image from "next/image";
-import marker from "../../assets/marker2.png";
+import maplibregl from "maplibre-gl";
+import { useRouter } from "next/router";
 
 const MapScreen: React.FC = () => {
   const [audioNFTs, setAudioNFTs] = useState<AudioNFT[] | undefined>(undefined);
@@ -23,16 +21,39 @@ const MapScreen: React.FC = () => {
 
   useEffect(() => {
     const url = new URL(window.location.href);
-    const latitude = url.searchParams.get("latitude");
     const longitude = url.searchParams.get("longitude");
+    const latitude = url.searchParams.get("latitude");
+
+    console.log("LATI", latitude);
+    console.log("LONG", longitude);
 
     if (latitude && longitude) {
       setPosition({
         longitude: Number(longitude),
-        latitude: Number(longitude),
+        latitude: Number(latitude),
       });
     }
   }, []);
+
+  const onMapLoad = (mapInstance: maplibregl.Map) => {
+    audioNFTs?.forEach((el) => {
+      console.log("AudioNFTS", audioNFTs);
+      if (mapInstance !== null) {
+        const marker = new maplibregl.Marker()
+          .setLngLat([Number(el.attributes.Long), Number(el.attributes.Lat)])
+          .addTo(mapInstance);
+
+        marker.getElement().addEventListener("click", () => {
+          if (el && setAudioNFT) {
+            console.log("clcked");
+            setAudioNFT(el);
+            setShowModal(true);
+            console.log(el);
+          }
+        });
+      }
+    });
+  };
 
   return (
     <LayoutComponent
@@ -49,12 +70,7 @@ const MapScreen: React.FC = () => {
           />
         )}
         {audioNFTs && (
-          <MapView
-            audioNFTs={audioNFTs}
-            setAudioNFT={setAudioNFT}
-            setShowModal={setShowModal}
-            {...position}
-          />
+          <MapView audioNFTs={audioNFTs} {...position} onLoad={onMapLoad} />
         )}
       </div>
     </LayoutComponent>
