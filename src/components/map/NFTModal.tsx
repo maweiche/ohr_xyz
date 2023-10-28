@@ -1,9 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react";
 import React, { Dispatch, Fragment, SetStateAction } from "react";
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import Image from "next/image";
-import MuxPlayer from "@mux/mux-player-react";
-import { extractPlayBackIdFromUrl } from "utils/formatUtils";
 import { NFTattributes } from "utils/nftUtils";
 
 export interface AudioNFT {
