@@ -5,15 +5,11 @@ import Timer from "@components/create/recording/Timer";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { getCurrentDateFormatted } from "utils/formatUtils";
-import { createMuxUpload } from "utils/mux";
 import useMetadataStore from "utils/useMetadataStore";
-import WaveSurfer from "wavesurfer.js";
-import PopupMessage from "@components/PopupMessage";
 
 const RecordingPage = () => {
   const router = useRouter();
-  const { setUploadID, setTimeStamp, setAudioBlob, metadata } =
-    useMetadataStore();
+  const { setTimeStamp, setAudioBlob, metadata } = useMetadataStore();
 
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [isRecordingCompleted, setIsRecordingCompleted] =
@@ -25,7 +21,6 @@ const RecordingPage = () => {
   );
   const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [blobUrl, setBlobUrl] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     if (router.query.discard === "true") {
@@ -37,14 +32,16 @@ const RecordingPage = () => {
     }
   }, [router.query.discard]);
 
-  useEffect(() => {
-    if (metadata.audioBlob) {
-      router.push({
-        pathname: "/create/listen",
-        query: { isRecordingFound: true },
-      });
-    }
-  }, []);
+  // TODO: this is still work in progress
+
+  // useEffect(() => {
+  //   if (metadata.audioBlob) {
+  //     router.push({
+  //       pathname: "/create/listen",
+  //       query: { isRecordingFound: true },
+  //     });
+  //   }
+  // }, [metadata.audioBlob, router]);
 
   const toggleRecording = async (): Promise<void> => {
     if (isRecording && mediaRecorder) {

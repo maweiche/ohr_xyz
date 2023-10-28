@@ -3,7 +3,6 @@ import { LayoutComponent } from "@components/layout/LayoutComponent";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { getFirstArrayElementOrValue } from "utils/formatUtils";
 import { createMuxUpload } from "utils/mux";
 import useMetadataStore from "utils/useMetadataStore";
 
@@ -17,7 +16,8 @@ const Listen = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { setUploadID, setAudioBlob, metadata } = useMetadataStore();
 
-  const { isRecordingFound } = router.query;
+  // TODO: make sure audioBlob can be received
+  //   const { isRecordingFound } = router.query;
 
   let audioBlobUrl;
   if (metadata.audioBlob) {
@@ -58,9 +58,7 @@ const Listen = () => {
         ) : (
           <div className=" flex flex-col justify-center h-full items-center">
             <h1 className="text-2xl text-center mx-10">
-              {isRecordingFound
-                ? "Do you want to keep this recording?"
-                : "Add your recording"}
+              Do you want to keep this recording?
             </h1>
             <audio controls className="m-10">
               <source src={audioBlobUrl} type="audio/mp3" />

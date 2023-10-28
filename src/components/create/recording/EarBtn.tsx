@@ -14,11 +14,13 @@ const EarBtn: React.FC<EarProps> = ({
   isRecordingCompleted,
 }) => {
   return (
-    <button onClick={onClick} disabled={isRecordingCompleted} className="mt-2">
+    <button onClick={onClick} disabled={isRecordingCompleted} className="mt-4">
       <Image
         className={isRecording ? styles["ear-img-active"] : styles["ear-img"]}
         src={ohr}
         alt="our logo - picture of the ear"
+        height={320}
+        width={320}
       />
     </button>
   );

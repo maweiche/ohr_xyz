@@ -66,3 +66,15 @@ export const timeStampToTimeAgo = (p_timeStampNanoSeconds: number): string => {
   const durationInDays: number = durationInHours / 24;
   return Math.floor(durationInDays) + "d";
 };
+
+export const convertBlobToBase64 = (blob: Blob) =>
+  new Promise<string | null>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = reject;
+    reader.onload = () => {
+      const dataUrl = reader.result as string;
+      const base64String = dataUrl.split(",")[1];
+      resolve(base64String);
+    };
+    reader.readAsDataURL(blob);
+  });
