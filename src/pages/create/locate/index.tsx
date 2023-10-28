@@ -3,14 +3,18 @@ import { LayoutComponent } from "@components/layout/LayoutComponent";
 import { useRouter } from "next/router";
 import { MapView } from "@components/map/MapView";
 import useMetadataStore from "utils/useMetadataStore";
-import SuccessMessage from "@components/SuccessMessage";
+import SuccessMessage from "@components/PopupMessage";
+import PopupMessage from "@components/PopupMessage";
 
 const Locate: React.FC = () => {
   const router = useRouter();
 
   const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
+  // const [showErrorModal, setShowErrorModal] = useState<boolean>("Location information is unavailable.");
 
-  const [passError, setPassError] = useState<string | undefined>(undefined);
+  const [errorMessage, setErrorMessage] = useState<string | undefined>(
+    undefined
+  );
   const {
     setLongitude,
     setLatitude,
@@ -30,7 +34,7 @@ const Locate: React.FC = () => {
           }
         );
       } else {
-        setPassError("Geolocation is not supported by this browser.");
+        setErrorMessage("Geolocation is not supported by this browser.");
       }
     }
   };
@@ -52,16 +56,18 @@ const Locate: React.FC = () => {
   const showError = (error: GeolocationPositionError) => {
     switch (error.code) {
       case error.PERMISSION_DENIED:
-        setPassError("User denied the request for Geolocation.");
+        setErrorMessage(
+          "User denied the request for Geolocation. Try to change the location permissions or change your browser."
+        );
         break;
       case error.POSITION_UNAVAILABLE:
-        setPassError("Location information is unavailable.");
+        setErrorMessage("Location information is unavailable.");
         break;
       case error.TIMEOUT:
-        setPassError("The request to get user location timed out.");
+        setErrorMessage("The request to get user location timed out.");
         break;
       default:
-        setPassError("An unknown error occurred.");
+        setErrorMessage("An unknown error occurred.");
         break;
     }
   };
@@ -85,6 +91,12 @@ const Locate: React.FC = () => {
     }
   };
 
+  const handleBack = () => {
+    router.push({
+      pathname: `/`,
+    });
+  };
+
   return (
     <LayoutComponent
       showWallet="none"
@@ -98,11 +110,26 @@ const Locate: React.FC = () => {
         />
       </div>
 
-      <SuccessMessage
-        showSuccessModal={showSuccessModal}
-        setShowSuccessModal={setShowSuccessModal}
-        onClick={handleContinue}
-      />
+      {showSuccessModal && (
+        <PopupMessage
+          showModal={showSuccessModal}
+          handleContinue={handleContinue}
+          buttonText="Continue"
+          description="Your location was successfully added"
+          title="Success"
+        />
+      )}
+
+      {errorMessage && (
+        <PopupMessage
+          showModal={Boolean(errorMessage) ?? false}
+          handleContinue={handleBack}
+          buttonText="Go back"
+          description={errorMessage}
+          title="Error"
+        />
+      )}
+
       <div className="flex flex-col text-center mt-8">
         <p className="text-xl my-2">add location?</p>
 
@@ -115,7 +142,6 @@ const Locate: React.FC = () => {
           </button>
         </div>
       </div>
-      <p>{passError} </p>
     </LayoutComponent>
   );
 };
