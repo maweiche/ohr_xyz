@@ -28,6 +28,7 @@ const MapScreen: React.FC = () => {
 
     console.log("LATI", latitude);
     console.log("LONG", longitude);
+    console.log(process.env.NEXT_PUBLIC_MAPBOX_API_KEY);
 
     if (latitude && longitude) {
       setPosition({
