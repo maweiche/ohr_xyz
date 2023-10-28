@@ -50,7 +50,7 @@ const Describe = () => {
                 ></motion.input>
               </div>
               <motion.button
-                className="mt-10 p-4"
+                className="primary-btn m-10"
                 onClick={handleClick}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}

@@ -6,12 +6,17 @@ import useMetadataStore from "utils/useMetadataStore";
 import SuccessMessage from "@components/PopupMessage";
 import PopupMessage from "@components/PopupMessage";
 
+enum ModalType {
+  None,
+  Success,
+  SkipLocation,
+  Error,
+}
+
 const Locate: React.FC = () => {
   const router = useRouter();
 
-  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
-  // const [showErrorModal, setShowErrorModal] = useState<boolean>("Location information is unavailable.");
-
+  const [modalType, setModalType] = useState<ModalType>(ModalType.None);
   const [errorMessage, setErrorMessage] = useState<string | undefined>(
     undefined
   );
@@ -21,22 +26,33 @@ const Locate: React.FC = () => {
     metadata: { latitude, longitude, theVibe, timeStamp, uploadID },
   } = useMetadataStore((state) => state);
 
-  const addLocation = (addLocation: boolean) => {
-    if (addLocation) {
-      if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition(
-          handleCurrentPosition,
-          showError,
-          {
-            enableHighAccuracy: true,
-            timeout: 5000,
-            maximumAge: 0,
-          }
-        );
-      } else {
-        setErrorMessage("Geolocation is not supported by this browser.");
-      }
+  const addLocation = () => {
+    setModalType(ModalType.None);
+    console.log("in addlocation");
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        handleCurrentPosition,
+        showError,
+        {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0,
+        }
+      );
+    } else {
+      setErrorMessage("Geolocation is not supported by this browser.");
+      setModalType(ModalType.Error);
     }
+  };
+
+  const handleCurrentPosition = (position: GeolocationPosition) => {
+    showPosition(position);
+    setModalType(ModalType.Success);
+    setErrorMessage(undefined); // Reset error message
+  };
+
+  const skipAddLocation = () => {
+    setModalType(ModalType.SkipLocation);
   };
 
   const showPosition = (position: GeolocationPosition) => {
@@ -46,11 +62,6 @@ const Locate: React.FC = () => {
     };
     setLatitude(coords.latitude);
     setLongitude(coords.longitude);
-  };
-
-  const handleCurrentPosition = (position: GeolocationPosition) => {
-    showPosition(position);
-    setShowSuccessModal(true);
   };
 
   const showError = (error: GeolocationPositionError) => {
@@ -70,6 +81,7 @@ const Locate: React.FC = () => {
         setErrorMessage("An unknown error occurred.");
         break;
     }
+    setModalType(ModalType.Error);
   };
 
   const handleContinue = () => {
@@ -87,7 +99,16 @@ const Locate: React.FC = () => {
         query: queryParams,
       });
     } else {
-      console.error("Location not set yet");
+      const queryParams = {
+        theVibe: theVibe,
+        uploadID: uploadID,
+        timeStamp: timeStamp,
+      };
+
+      router.push({
+        pathname: `/create/mint`,
+        query: queryParams,
+      });
     }
   };
 
@@ -103,42 +124,53 @@ const Locate: React.FC = () => {
       justifyStyling="center"
       showTitle="Locate"
     >
+      <p className="text-2xl text-center ">Add your location</p>
       <div className="h-1/2">
-        <MapView
-          longitude={longitude ?? 4.9041}
-          latitude={latitude ?? 52.3676}
-        />
+        <MapView longitude={longitude} latitude={latitude} />
       </div>
 
-      {showSuccessModal && (
+      {modalType === ModalType.Success && (
         <PopupMessage
-          showModal={showSuccessModal}
+          showModal={true}
           handleContinue={handleContinue}
           buttonText="Continue"
           description="Your location was successfully added"
           title="Success"
+          handleClose={() => setModalType(ModalType.None)}
         />
       )}
 
-      {errorMessage && (
+      {modalType === ModalType.SkipLocation && (
         <PopupMessage
-          showModal={Boolean(errorMessage) ?? false}
+          showModal={true}
+          handleContinue={handleContinue}
+          buttonText="Don't add location"
+          secondaryButtonText="Cancel"
+          secondaryHandleClick={() => setModalType(ModalType.None)}
+          description="It would mean your øhr will only be available in your wallet and no one will see it on the map."
+          title="Sure you don't want to add your location?"
+          handleClose={() => setModalType(ModalType.None)}
+        />
+      )}
+
+      {modalType === ModalType.Error && errorMessage && (
+        <PopupMessage
+          showModal={true}
           handleContinue={handleBack}
           buttonText="Go back"
           description={errorMessage}
           title="Error"
+          handleClose={() => setModalType(ModalType.None)}
         />
       )}
 
       <div className="flex flex-col text-center mt-8">
-        <p className="text-xl my-2">add location?</p>
-
         <div className="flex justify-center gap-8 ">
-          <button className="primary-btn" onClick={() => addLocation(false)}>
-            no
+          <button className="primary-btn" onClick={skipAddLocation}>
+            skip
           </button>
-          <button className="primary-btn" onClick={() => addLocation(true)}>
-            yes
+          <button className="primary-btn" onClick={addLocation}>
+            add
           </button>
         </div>
       </div>

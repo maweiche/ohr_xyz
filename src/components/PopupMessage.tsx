@@ -4,9 +4,12 @@ import React, { Fragment, useState } from "react";
 interface PopupMessageProps {
   showModal: boolean;
   handleContinue: () => void;
+  secondaryHandleClick?: () => void;
   buttonText: string;
+  secondaryButtonText?: string;
   description: string;
   title: string;
+  handleClose: () => void;
 }
 
 const PopupMessage: React.FC<PopupMessageProps> = ({
@@ -15,6 +18,9 @@ const PopupMessage: React.FC<PopupMessageProps> = ({
   buttonText,
   title,
   description,
+  secondaryButtonText,
+  secondaryHandleClick,
+  handleClose,
 }) => {
   let [isOpen, setIsOpen] = useState(showModal);
 
@@ -36,7 +42,10 @@ const PopupMessage: React.FC<PopupMessageProps> = ({
     >
       <Dialog
         open={isOpen}
-        onClose={() => setIsOpen(false)}
+        onClose={() => {
+          setIsOpen(false);
+          handleClose();
+        }}
         className="relative z-50"
       >
         <Transition.Child
@@ -67,12 +76,17 @@ const PopupMessage: React.FC<PopupMessageProps> = ({
               </Dialog.Description>
 
               <div className="flex justify-end gap-2 mt-4">
-                <button
-                  onClick={handleClick}
-                  className="border-1 rounded-md p-3 bg-[#774087] shadow-lg"
-                >
-                  Try again
-                </button>
+                {secondaryButtonText && secondaryHandleClick && (
+                  <button
+                    onClick={() => {
+                      secondaryHandleClick();
+                      setIsOpen(false);
+                    }}
+                    className="border-1 rounded-md p-3 bg-[#774087] shadow-lg"
+                  >
+                    {secondaryButtonText}
+                  </button>
+                )}
                 <button
                   onClick={handleClick}
                   className="rounded-md p-3 bg-[#61356e] shadow-lg"
