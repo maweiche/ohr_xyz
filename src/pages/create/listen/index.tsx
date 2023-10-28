@@ -17,6 +17,8 @@ const Listen = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { setUploadID, setAudioBlob, metadata } = useMetadataStore();
 
+  const { isRecordingFound } = router.query;
+
   let audioBlobUrl;
   if (metadata.audioBlob) {
     audioBlobUrl = URL.createObjectURL(metadata.audioBlob);
@@ -55,7 +57,11 @@ const Listen = () => {
           <LoadingComponent />
         ) : (
           <div className=" flex flex-col justify-center h-full items-center">
-            <h1 className="text-2xl text-center mx-10">Add your recording</h1>
+            <h1 className="text-2xl text-center mx-10">
+              {isRecordingFound
+                ? "Do you want to keep this recording?"
+                : "Add your recording"}
+            </h1>
             <audio controls className="m-10">
               <source src={audioBlobUrl} type="audio/mp3" />
               Your browser does not support the audio element.

@@ -94,10 +94,6 @@ export const MintNFT: React.FC<MintNFTProps> = ({
 
     if (receiverAddress) {
       const recordingUrl = await getRecordingUrl(uploadID);
-
-      console.log("the Vibe, meta: ", metadata.theVibe);
-      console.log("the time, meta: ", metadata.timeStamp);
-
       const attributes = setTheAttributes(
         timeStamp,
         theVibe,

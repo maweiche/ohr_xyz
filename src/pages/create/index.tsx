@@ -37,6 +37,15 @@ const RecordingPage = () => {
     }
   }, [router.query.discard]);
 
+  useEffect(() => {
+    if (metadata.audioBlob) {
+      router.push({
+        pathname: "/create/listen",
+        query: { isRecordingFound: true },
+      });
+    }
+  }, []);
+
   const toggleRecording = async (): Promise<void> => {
     if (isRecording && mediaRecorder) {
       mediaRecorder.stop();
