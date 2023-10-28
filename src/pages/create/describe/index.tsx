@@ -24,7 +24,7 @@ const Describe = () => {
   };
 
   return (
-    <LayoutComponent showWallet="header" showTitle="describe">
+    <LayoutComponent showWallet="header" showTitle="Describe">
       <motion.div
         className="flex flex-col items-center justify-center h-full"
         initial="initial"
@@ -35,14 +35,13 @@ const Describe = () => {
           <LoadingComponent />
         ) : (
           <div className="flex flex-col justify-evenly align-center w-full h-full mt-2 items-center">
-            <div className="flex flex-col align-center justify-between items-center m-2 self-center">
+            <div className="flex flex-col  m-10 align-center justify-between items-center self-center">
               <div className="flex flex-col  items-center">
-                <p className="mb-2 text-center">
-                  how would you describe this moment?
-                </p>
+                <h2 className="mb-10 text-center text-2xl ">
+                  How would you describe this moment?
+                </h2>
                 <motion.input
                   className="input input-bordered placeholder-purple-200 text-center rounded-xl w-full p-3 bg-purple-300/30 border-purple-300"
-                  placeholder="what's the vibe"
                   value={metadata.theVibe}
                   onChange={(e) => setTheVibe(e.target.value)}
                   initial={{ opacity: 0 }}

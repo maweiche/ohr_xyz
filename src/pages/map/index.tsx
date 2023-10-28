@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { LayoutComponent } from "@components/layout/LayoutComponent";
 import { MapView } from "@components/map/MapView";
 import { getNFTs } from "utils/nftUtils";
 import NFTModal, { AudioNFT } from "@components/map/NFTModal";
-import maplibregl from "maplibre-gl";
-import { useRouter } from "next/router";
+import { Marker } from "react-map-gl";
+import Image from "next/image";
+import marker from "../../assets/marker2.png";
+import { LoadingComponent } from "@components/LoadingComponent";
 
 const MapScreen: React.FC = () => {
   const [audioNFTs, setAudioNFTs] = useState<AudioNFT[] | undefined>(undefined);
@@ -35,25 +37,26 @@ const MapScreen: React.FC = () => {
     }
   }, []);
 
-  const onMapLoad = (mapInstance: maplibregl.Map) => {
-    audioNFTs?.forEach((el) => {
-      console.log("AudioNFTS", audioNFTs);
-      if (mapInstance !== null) {
-        const marker = new maplibregl.Marker()
-          .setLngLat([Number(el.attributes.Long), Number(el.attributes.Lat)])
-          .addTo(mapInstance);
-
-        marker.getElement().addEventListener("click", () => {
-          if (el && setAudioNFT) {
-            console.log("clcked");
-            setAudioNFT(el);
-            setShowModal(true);
-            console.log(el);
-          }
-        });
-      }
-    });
-  };
+  const markers: JSX.Element[] = useMemo(
+    () =>
+      audioNFTs
+        ? audioNFTs.map((audioNFT) => (
+            <Marker
+              key={audioNFT.id}
+              longitude={Number(audioNFT.attributes.Long)}
+              latitude={Number(audioNFT.attributes.Lat)}
+              color="red"
+              onClick={() => {
+                setAudioNFT(audioNFT);
+                setShowModal(true);
+              }}
+            >
+              <Image src={marker} alt="øhr logo" width={50} height={50} />
+            </Marker>
+          ))
+        : [],
+    [audioNFTs]
+  );
 
   return (
     <LayoutComponent
@@ -69,8 +72,12 @@ const MapScreen: React.FC = () => {
             audioNFT={audioNFT}
           />
         )}
-        {audioNFTs && (
-          <MapView audioNFTs={audioNFTs} {...position} onLoad={onMapLoad} />
+        {audioNFTs ? (
+          <MapView {...position} markers={markers} />
+        ) : (
+          <div className="flex h-full justify-center align-center">
+            <LoadingComponent />
+          </div>
         )}
       </div>
     </LayoutComponent>

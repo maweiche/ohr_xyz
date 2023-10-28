@@ -14,7 +14,7 @@ const SuccessPage = () => {
       <LayoutComponent showWallet="header" showLogo={true}>
         <div className="flex flex-col justify-center items-center">
           <h1 className="my-4 text-center text-3xl">You minted your øhr!</h1>
-          <p>check it on the map</p>
+          <p>check it on the map or your wallet</p>
           <button className="my-4 t border-2 p-5 w-94" onClick={handleClick}>
             Go
           </button>

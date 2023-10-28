@@ -148,9 +148,9 @@ export const MintNFT: React.FC<MintNFTProps> = ({
   };
 
   return (
-    <div className="flex justify-center align-center items-center mt-4">
+    <div className="flex justify-center align-center items-center h-full mt-4">
       {!isMinting ? (
-        <div className="flex flex-col justify-center align-center items-center h-full">
+        <div className="flex flex-col align-center items-center h-full">
           <Image
             src={breakpointNFT}
             alt="Breakpoint NFT"

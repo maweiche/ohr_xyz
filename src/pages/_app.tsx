@@ -6,7 +6,6 @@ import { ConnectionProvider } from "@solana/wallet-adapter-react";
 import type { AppProps } from "next/app";
 import dynamic from "next/dynamic";
 import WalletRerouter from "context/WalletRerouter";
-import "mapbox-gl/dist/mapbox-gl.css";
 import { AudioBlobContext } from "context/AudioBlobContext";
 
 const ClientWalletProvider = dynamic(

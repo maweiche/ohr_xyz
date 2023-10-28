@@ -60,7 +60,7 @@ const PopupMessage: React.FC<PopupMessageProps> = ({
           leaveTo="opacity-0 scale-95"
         >
           <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
-            <Dialog.Panel className="mx-auto max-w-sm rounded-2xl bg-[#c058b4] text-[#FFD1EA] border-2 border-[#9D58B2] p-5 shadow-lg">
+            <Dialog.Panel className="mx-auto max-w-sm rounded-2xl bg-[#5a1a52] text-[#FFD1EA] border-2 border-[#9D58B2] p-5 shadow-lg">
               <Dialog.Title className="text-xl font-bold">{title}</Dialog.Title>
               <Dialog.Description className="mt-1">
                 {description}
@@ -69,13 +69,13 @@ const PopupMessage: React.FC<PopupMessageProps> = ({
               <div className="flex justify-end gap-2 mt-4">
                 <button
                   onClick={handleClick}
-                  className="border-1 rounded-md p-3 bg-[#9D58B2] shadow-lg"
+                  className="border-1 rounded-md p-3 bg-[#774087] shadow-lg"
                 >
                   Try again
                 </button>
                 <button
                   onClick={handleClick}
-                  className="rounded-md p-3 bg-[#9D58B2] shadow-lg"
+                  className="rounded-md p-3 bg-[#61356e] shadow-lg"
                 >
                   {buttonText}
                 </button>

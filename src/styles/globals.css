@@ -63,18 +63,10 @@ a {
 }
 
 .wallet-adapter-button {
-  color: #64ed14 !important;
-  text-shadow: 2px 2px #210059 !important;
-  background: #7e2986 !important; /*#5d2462*/
-  border: 1px solid #a223ad !important;
-  font: 30px Gajraj One, cursive !important;
-  border-radius: 25mm !important;
-  text-transform: lowercase !important;
-  max-width: 70vw;
-  width: 100%;
-
-  padding: 3rem !important;
-  animation: glow 3s ease-in-out infinite alternate;
+  background-color: rgba(254, 174, 218, 0.4) !important;
+  padding: 0.4rem;
+  border-radius: 0.5rem !important;
+  font-family: "Space Grotesk", sans-serif !important;
 }
 
 .wallet-adapter-button:hover {
@@ -106,7 +98,6 @@ a {
   width: 5rem;
   padding: 0.4rem;
   border-radius: 10%;
-  /* opacity: 0.3; */
 }
 
 .txt-secondary {
@@ -119,4 +110,9 @@ a {
 
 .mapboxgl-ctrl {
   visibility: hidden;
+}
+
+.mapboxgl-canvas {
+  border-radius: 2rem;
+  padding: 0.2rem;
 }
