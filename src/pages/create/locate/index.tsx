@@ -28,7 +28,6 @@ const Locate: React.FC = () => {
 
   const addLocation = () => {
     setModalType(ModalType.None);
-    console.log("in addlocation");
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         handleCurrentPosition,
@@ -124,7 +123,7 @@ const Locate: React.FC = () => {
       justifyStyling="center"
       showTitle="Locate"
     >
-      <p className="text-2xl text-center ">Add your location</p>
+      <p className="text-2xl text-center">Add your location</p>
       <div className="h-1/2">
         <MapView longitude={longitude} latitude={latitude} />
       </div>

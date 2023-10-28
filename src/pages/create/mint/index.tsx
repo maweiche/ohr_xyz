@@ -18,12 +18,6 @@ const Minting = () => {
   console.log("metadata: ", metadata);
   const { theVibe, timeStamp, longitude, latitude, uploadID } = router.query;
 
-  console.log("theVibe: ", theVibe);
-  console.log("timeStamp: ", timeStamp);
-  console.log("longitude: ", longitude);
-  console.log("latitude: ", latitude);
-  console.log("uploadID: ", uploadID);
-
   const parsedUploadID = getFirstArrayElementOrValue(uploadID);
   return (
     <LayoutComponent

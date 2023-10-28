@@ -67,6 +67,7 @@
     "sass": "^1.65.1",
     "sonner": "^1.0.3",
     "three": "^0.151.3",
+    "wavesurfer.js": "^7.4.2",
     "zustand": "^4.4.4"
   },
   "devDependencies": {

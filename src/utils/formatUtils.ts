@@ -66,14 +66,3 @@ export const timeStampToTimeAgo = (p_timeStampNanoSeconds: number): string => {
   const durationInDays: number = durationInHours / 24;
   return Math.floor(durationInDays) + "d";
 };
-
-export const extractPlayBackIdFromUrl = (url: string): string | null => {
-  const regex = /\.com\/(.*?)\/audio\.m4a/;
-  const match = url.match(regex);
-
-  if (match && match[1]) {
-    return match[1];
-  } else {
-    return null;
-  }
-};

@@ -3,12 +3,10 @@ import { LandingPage } from "@components/landing/LandingPage";
 import { LayoutComponent } from "@components/layout/LayoutComponent";
 import Toaster from "@components/Toaster";
 import RecordingPage from "./create";
-import SuccessMessage from "@components/PopupMessage";
 import { SetStateAction, useState } from "react";
 
 export default function Home() {
   const IS_APP_ACTIVE = true;
-  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
 
   return (
     <>

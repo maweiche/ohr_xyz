@@ -13,6 +13,7 @@ export const NavBar = () => {
         className={
           router.pathname === "/" ||
           router.pathname === "/create/locate" ||
+          router.pathname === "/create/listen" ||
           router.pathname === "/create/describe" ||
           router.pathname === "/create/mint" ||
           router.pathname === "/create/success"

@@ -7,6 +7,8 @@ import { useState, useEffect } from "react";
 import { getCurrentDateFormatted } from "utils/formatUtils";
 import { createMuxUpload } from "utils/mux";
 import useMetadataStore from "utils/useMetadataStore";
+import WaveSurfer from "wavesurfer.js";
+import PopupMessage from "@components/PopupMessage";
 
 const RecordingPage = () => {
   const router = useRouter();
@@ -23,6 +25,7 @@ const RecordingPage = () => {
   );
   const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [blobUrl, setBlobUrl] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     if (router.query.discard === "true") {
@@ -77,14 +80,8 @@ const RecordingPage = () => {
   };
 
   const handleContinue = async (): Promise<void> => {
-    setIsLoading(true);
-
-    if (metadata.audioBlob) {
-      setUploadID(await createMuxUpload(metadata.audioBlob));
-    }
-
     router.push({
-      pathname: "/create/describe",
+      pathname: "/create/listen",
     });
   };
 
@@ -111,17 +108,20 @@ const RecordingPage = () => {
             isRecordingCompleted={isRecordingCompleted}
           />
         )}
+        {showHelpText ? (
+          <p className={styles["help-text"]}>click the ear to record</p>
+        ) : showContinueButton ? (
+          <button className="btn-ghost text-md" onClick={handleContinue}>
+            continue
+          </button>
+        ) : null}
       </div>
-
-      {showHelpText ? (
-        <div className={styles["help-text"]}>click the ear to record</div>
-      ) : showContinueButton ? (
-        <button className="btn-ghost text-md" onClick={handleContinue}>
-          continue
-        </button>
-      ) : null}
     </>
   );
 };
 
 export default RecordingPage;
+
+// when recording is completed
+// show mp3 player and let user listen to its sound
+// two buttons: continue and record
