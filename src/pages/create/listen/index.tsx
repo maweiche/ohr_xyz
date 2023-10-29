@@ -66,7 +66,7 @@ const Listen = () => {
             </audio>
             <div className="flex flex-col text-center mt-8">
               <div className="flex justify-center gap-8">
-                <button className="primary-btn" onClick={handleBack}>
+                <button className="secondary-btn" onClick={handleBack}>
                   discard
                 </button>
                 <button className="primary-btn " onClick={handleContinue}>

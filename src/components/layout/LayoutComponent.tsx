@@ -1,6 +1,7 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { Header } from "./header/header";
 import { Footer } from "./footer/footer";
+import AboutDialog from "@components/landing/AboutDialog";
 
 interface LayoutProps {
   showWallet: "footer" | "header" | "none";
@@ -17,13 +18,18 @@ export const LayoutComponent: React.FC<LayoutProps> = ({
   showLogo,
   showTitle,
 }) => {
+  const [showAboutDialog, setShowAboutDialog] = useState<boolean>(false);
+
   return (
     <div
       className={`flex justify-between w-full h-full flex-col mobile-frame`}
       style={{ height: "100svh" }}
     >
-      {/* <Image src="/phone-frame.png" width={100} height={300} /> */}
-      <Header showTitle={showTitle} />
+      <AboutDialog
+        setShowAboutDialog={setShowAboutDialog}
+        showAboutDialog={showAboutDialog}
+      />
+      <Header showTitle={showTitle} setShowAboutDialog={setShowAboutDialog} />
       <main
         className={`overflow-none h-full flex flex-col justify-${
           justifyStyling ? justifyStyling : "center"

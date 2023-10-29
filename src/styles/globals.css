@@ -94,7 +94,16 @@ a {
 }
 
 .primary-btn {
-  background-color: rgba(254, 174, 218, 0.4);
+  background-color: rgba(232, 159, 195, 0.4);
+  border: 2px solid rgba(232, 219, 225, 0.4);
+  min-width: 5rem;
+  padding: 0.4rem;
+  border-radius: 0.5rem;
+}
+
+.secondary-btn {
+  background-color: rgba(232, 159, 195, 0.4);
+  border: 2px solid rgba(140, 88, 112, 0.4);
   min-width: 5rem;
   padding: 0.4rem;
   border-radius: 0.5rem;
