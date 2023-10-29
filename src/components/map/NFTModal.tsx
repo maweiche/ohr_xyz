@@ -2,6 +2,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import React, { Dispatch, Fragment, SetStateAction, useState } from "react";
 import { NFTattributes } from "utils/nftUtils";
 import { useCopyToClipboard } from "react-use";
+import Image from "next/image";
 
 export interface AudioNFT {
   animationUrl: string;
@@ -41,6 +42,7 @@ const NFTModal: React.FC<NFTModalProps> = ({
   const [state, copyToClipboard] = useCopyToClipboard();
   const [isCopied, setIsCopied] = useState(false);
   setTimeout(() => setIsCopied(false), 3000);
+
   return (
     <Transition appear show={showModal} as={Fragment}>
       <Dialog
@@ -74,11 +76,11 @@ const NFTModal: React.FC<NFTModalProps> = ({
               <Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-2xl border text-left align-middle shadow-xl transition-all">
                 <Dialog.Title
                   as="h3"
-                  className="text-lg py-2 px-6 font-semibold leading-6 border-b text-center flex justify-between text-[#64ed14]"
+                  className="py-2 px-6 font-black border-b flex justify-between text-[#64ed14]"
                 >
                   <p className="txt-secondary ">{audioNFT.name}</p>
-                  <p>{`"${audioNFT.attributes.Vibe}"`}</p>
-                  <p>{audioNFT.symbol}</p>
+                  <p className="text-center text-2xl ">{`"${audioNFT.attributes.Vibe}"`}</p>
+                  <p className="mt-1"> {audioNFT.symbol}</p>
                 </Dialog.Title>
 
                 <div className="mt-2 px-6">
@@ -95,10 +97,11 @@ const NFTModal: React.FC<NFTModalProps> = ({
                 </div>
 
                 <div className="mt-2 w-full flex justify-center align-center items-center">
-                  <img
+                  <Image
                     src={audioNFT.image}
                     alt="AudioNFT image"
                     width={250}
+                    height={250}
                     className="rounded-xl"
                   />
                 </div>

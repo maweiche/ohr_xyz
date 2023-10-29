@@ -4,6 +4,9 @@ const webpack = require("webpack");
 require("dotenv").config();
 
 module.exports = {
+  images: {
+    domains: ["dev.updg8.com"],
+  },
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     // Resolve fallbacks
     config.resolve.fallback = {

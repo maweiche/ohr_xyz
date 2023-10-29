@@ -69,14 +69,13 @@ const AboutDialog: React.FC<PopupMessageProps> = ({
                     us feel deeply and activates our imagination.
                   </p>
                   <p className="my-2">
-                    Join us on a sound journey to discover its untapped
-                    potential:
+                    Join us on an explorative sound journey to discover the
+                    untapped potential of sound.
                   </p>
                   <p className="font-bold">
                     {" "}
                     Mint your own audio memory and share it on the map 🗺️
                   </p>
-                  <p className="my-2">lov3</p>
                   <div className="flex  justify-between">
                     <OhrLogo />
                     <Twitter />
