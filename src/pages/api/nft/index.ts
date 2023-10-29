@@ -22,7 +22,7 @@ export default async function handler(
             attributes,
             name: "øhr",
             symbol: "ØHR",
-            description: "I minted this NFT on the Solana Hacker House.",
+            description: "I minted this NFT on the Solana Hyper Drive.",
             image:
               "https://shdw-drive.genesysgo.net/CihGZb6sJ94yrPDfQ2ABC7ZeUQam8ChY19p7PSSs1avA/ohr-logo.jpeg",
             animationUrl: recordingUrl,

@@ -1,6 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
-import React, { Dispatch, Fragment, SetStateAction } from "react";
+import React, { Dispatch, Fragment, SetStateAction, useState } from "react";
 import { NFTattributes } from "utils/nftUtils";
+import { useCopyToClipboard } from "react-use";
 
 export interface AudioNFT {
   animationUrl: string;
@@ -22,11 +23,24 @@ interface NFTModalProps {
   audioNFT: AudioNFT;
 }
 
+const getFormattedMintAddress = (mintAddress: string) => {
+  const mintAddressLength = mintAddress.length;
+  const startMintAddress = mintAddress.substring(0, 4);
+  const endMintAddress = mintAddress.substring(
+    mintAddressLength - 4,
+    mintAddressLength
+  );
+  return startMintAddress + "..." + endMintAddress;
+};
+
 const NFTModal: React.FC<NFTModalProps> = ({
   showModal,
   setShowModal,
   audioNFT,
 }) => {
+  const [state, copyToClipboard] = useCopyToClipboard();
+  const [isCopied, setIsCopied] = useState(false);
+  setTimeout(() => setIsCopied(false), 3000);
   return (
     <Transition appear show={showModal} as={Fragment}>
       <Dialog
@@ -67,24 +81,46 @@ const NFTModal: React.FC<NFTModalProps> = ({
                   <p>{audioNFT.symbol}</p>
                 </Dialog.Title>
 
-                <div className="mt-1 px-6 text-center text-xs">
-                  {audioNFT.attributes.Date}
+                <div className="mt-2 px-6">
+                  <p className="text-center text-xs">
+                    {audioNFT.attributes.Date}
+                  </p>
                 </div>
-                {/* <div className="mt-4 px-6 text-center text-sm">
-                    {audioNFT.description}
-                  </div> */}
-                <div className="mt-2">
-                  <img src={audioNFT.image} alt="AudioNFT image" />
-                </div>
-                <div className="flex justify-center self-center mt-5">
+
+                <div className="flex justify-center self-center mt-3">
                   <audio controls>
                     <source src={audioNFT.animationUrl} type="audio/mp4" />
                     Your browser does not support the audio element.
                   </audio>
                 </div>
-                <div className="text-sm">{audioNFT.mintAddress}</div>
+
+                <div className="mt-2 w-full flex justify-center align-center items-center">
+                  <img
+                    src={audioNFT.image}
+                    alt="AudioNFT image"
+                    width={250}
+                    className="rounded-xl"
+                  />
+                </div>
+
+                <div className="flex justify-center w-full px-2">
+                  <button
+                    className="gap-2 border-2 m-3 p-2 px-4 flex justify-center rounded-xl"
+                    onClick={() => {
+                      copyToClipboard(audioNFT.mintAddress);
+                      setIsCopied(true);
+                    }}
+                  >
+                    <p className="text-sm ">
+                      {isCopied ? "Copied" : "Copy"} mint address:
+                    </p>
+                    <p className="text-sm ">
+                      {getFormattedMintAddress(audioNFT.mintAddress)}
+                    </p>
+                  </button>
+                </div>
               </Dialog.Panel>
-            </Transition.Child>
+            </Transition.Child>{" "}
           </div>
         </div>
       </Dialog>

@@ -12,7 +12,6 @@ export const Header: React.FC<HeaderProps> = ({
   setShowAboutDialog,
 }) => {
   const handleClick = () => {
-    console.log("handleClick");
     setShowAboutDialog(true);
   };
 

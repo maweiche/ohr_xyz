@@ -10,7 +10,7 @@ import { LoadingComponent } from "@components/LoadingComponent";
 
 const MapScreen: React.FC = () => {
   const [audioNFTs, setAudioNFTs] = useState<AudioNFT[] | undefined>(undefined);
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(true);
   const [audioNFT, setAudioNFT] = useState<AudioNFT | undefined>(undefined);
   const [position, setPosition] = useState<{
     longitude: number;
@@ -25,10 +25,6 @@ const MapScreen: React.FC = () => {
     const url = new URL(window.location.href);
     const longitude = url.searchParams.get("longitude");
     const latitude = url.searchParams.get("latitude");
-
-    console.log("LATI", latitude);
-    console.log("LONG", longitude);
-    console.log(process.env.NEXT_PUBLIC_MAPBOX_API_KEY);
 
     if (latitude && longitude) {
       setPosition({
