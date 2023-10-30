@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { getMuxAssetId, getPlaybackId as getAudioUrl } from "utils/mux";
 import { createNFT } from "../../../utils/nftUtils";
 import { useRouter } from "next/router";
@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import useMetadataStore from "utils/useMetadataStore";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import PopupMessage from "@components/PopupMessage";
 
 export const getRecordingUrl = async (uploadId: string) => {
   try {
@@ -66,18 +67,14 @@ interface MintNFTProps {
   setIsMinting: Dispatch<SetStateAction<boolean>>;
   uploadID: string;
   isOnBreakpoint: boolean;
+  setIsMintSuccessful: Dispatch<SetStateAction<boolean>>;
+  setHasError: Dispatch<SetStateAction<string | undefined>>;
 }
 
 const mintButtonAnimation = {
   initial: { x: "100%", opacity: 0 },
   animate: { x: "0%", opacity: 1 },
 };
-
-// const getRandomCoordinates = (coordinates: string) => {
-//   const randomOffset = 0.01 + Math.random() * 0.04;
-//   let newCoordinates = Number(coordinates) + randomOffset;
-//   return newCoordinates.toString();
-// };
 
 export const MintNFT: React.FC<MintNFTProps> = ({
   timeStamp,
@@ -88,6 +85,8 @@ export const MintNFT: React.FC<MintNFTProps> = ({
   setIsMinting,
   uploadID,
   isOnBreakpoint,
+  setIsMintSuccessful,
+  setHasError,
 }) => {
   const { publicKey, connected } = useWallet();
   const { metadata, resetMetadata } = useMetadataStore();
@@ -96,9 +95,9 @@ export const MintNFT: React.FC<MintNFTProps> = ({
   const handleMintNFT = async () => {
     setIsMinting(true);
 
-    // if (!metadata.uploadID) {
-    //   throw new Error("Upload missing.");
-    // }
+    if (!metadata.uploadID) {
+      setHasError("Your recording is missing.");
+    }
 
     const receiverAddress = publicKey?.toBase58();
 
@@ -133,26 +132,13 @@ export const MintNFT: React.FC<MintNFTProps> = ({
       });
 
       if (success) {
-        if (latitude && longitude) {
-          router.push({
-            pathname: "/create/success",
-            query: {
-              longitude: longitude.toString(),
-              latitude: latitude.toString(),
-            },
-          });
-        } else {
-          router.push("/create/success");
-        }
-        resetMetadata();
+        setIsMintSuccessful(true);
+      } else {
+        setHasError("Something didn't work out with the mint");
       }
     } else {
-      throw new Error("No connection to wallet.");
+      setHasError("Your wallet was not connected.");
     }
-  };
-
-  const onDiscard = () => {
-    router.push("/create/record?discard=true");
   };
 
   return (
