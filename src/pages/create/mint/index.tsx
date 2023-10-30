@@ -2,25 +2,15 @@ import { ErrorComponent } from "@components/ErrorComponent";
 import { MintNFT } from "@components/create/minting/MintNFT";
 import { LayoutComponent } from "@components/layout/LayoutComponent";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   getCurrentDateFormatted,
   getFirstArrayElementOrValue,
 } from "utils/formatUtils";
-import { getMuxAssetId, getPlaybackId as getAudioUrl } from "utils/mux";
 import useMetadataStore from "utils/useMetadataStore";
 import Image from "next/image";
 import { isUserOnBreakpoint } from "utils/nftUtils";
 import { BREAKPOINT_NFT_IMG, GENERAL_NFT_IMG } from "utils/constants";
-
-const getRecordingUrl = async (uploadId: string) => {
-  try {
-    const assetId = await getMuxAssetId(uploadId);
-    return await getAudioUrl(assetId);
-  } catch (err) {
-    console.error("Error in getRecording NFT: ", err);
-  }
-};
 
 const Minting = () => {
   const router = useRouter();
@@ -29,7 +19,6 @@ const Minting = () => {
   const [isMinting, setIsMinting] = useState<boolean>(false);
   const { metadata } = useMetadataStore();
   const { theVibe, timeStamp, longitude, latitude, uploadID } = router.query;
-  const [recUrl, setRecUrl] = useState<string | undefined>(undefined);
 
   const parsedUploadID = getFirstArrayElementOrValue(uploadID);
   const parsedLat = Number(getFirstArrayElementOrValue(latitude));
@@ -66,10 +55,6 @@ const Minting = () => {
             className="rounded-xl"
           />
           <h2 className="mt-4 text-xl">{timeStamp}</h2>
-          <audio controls className="mt-4">
-            <source src={recUrl} type="audio/mp3" />
-            Your browser does not support the audio element.
-          </audio>
           {parsedUploadID && (
             <MintNFT
               timeStamp={
