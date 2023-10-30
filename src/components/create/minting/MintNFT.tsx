@@ -1,12 +1,10 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { getMuxAssetId, getPlaybackId as getAudioUrl } from "utils/mux";
 import { createNFT } from "../../../utils/nftUtils";
 import { useRouter } from "next/router";
 import { LoadingComponent } from "../../LoadingComponent";
 import { motion } from "framer-motion";
 import useMetadataStore from "utils/useMetadataStore";
-import Image from "next/image";
-import breakpointNFT from "../../../assets/nft-bp.jpg";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
@@ -20,6 +18,7 @@ const getRecordingUrl = async (uploadId: string) => {
 };
 
 const setTheAttributes = (
+  isOnBreakpoint: boolean,
   timeStamp: string,
   theVibe: string,
   longitude?: number,
@@ -28,24 +27,33 @@ const setTheAttributes = (
   let attributes;
 
   if (latitude && longitude) {
-    attributes = {
-      Event: "Solana Breakpoint",
-      Location: "Amsterdam",
-      Date: timeStamp,
-      Motivation: "LFG",
-      Vibe: theVibe,
-      Long: longitude,
-      Lat: latitude,
-    };
+    if (isOnBreakpoint) {
+      attributes = {
+        Event: "Solana Breakpoint",
+        Location: "Amsterdam",
+        Date: timeStamp,
+        Motivation: "LFG",
+        Vibe: theVibe,
+        Long: longitude,
+        Lat: latitude,
+      };
+    } else {
+      attributes = {
+        Date: timeStamp,
+        Motivation: "LFG",
+        Vibe: theVibe,
+        Long: longitude,
+        Lat: latitude,
+      };
+    }
   } else {
     attributes = {
-      Event: "Solana Breakpoint",
-      Location: "Amsterdam",
       Date: timeStamp,
       Motivation: "LFG",
       Vibe: theVibe,
     };
   }
+  console.log("attributes: ", attributes);
   return attributes;
 };
 
@@ -57,6 +65,7 @@ interface MintNFTProps {
   isMinting: boolean;
   setIsMinting: Dispatch<SetStateAction<boolean>>;
   uploadID: string;
+  isOnBreakpoint: boolean;
 }
 
 const mintButtonAnimation = {
@@ -64,11 +73,11 @@ const mintButtonAnimation = {
   animate: { x: "0%", opacity: 1 },
 };
 
-const getRandomCoordinates = (coordinates: string) => {
-  const randomOffset = 0.01 + Math.random() * 0.04;
-  let newCoordinates = Number(coordinates) + randomOffset;
-  return newCoordinates.toString();
-};
+// const getRandomCoordinates = (coordinates: string) => {
+//   const randomOffset = 0.01 + Math.random() * 0.04;
+//   let newCoordinates = Number(coordinates) + randomOffset;
+//   return newCoordinates.toString();
+// };
 
 export const MintNFT: React.FC<MintNFTProps> = ({
   timeStamp,
@@ -78,6 +87,7 @@ export const MintNFT: React.FC<MintNFTProps> = ({
   isMinting,
   setIsMinting,
   uploadID,
+  isOnBreakpoint,
 }) => {
   const { publicKey, connected } = useWallet();
   const { metadata, resetMetadata } = useMetadataStore();
@@ -95,6 +105,7 @@ export const MintNFT: React.FC<MintNFTProps> = ({
     if (receiverAddress) {
       const recordingUrl = await getRecordingUrl(uploadID);
       const attributes = setTheAttributes(
+        isOnBreakpoint,
         timeStamp,
         theVibe,
         longitude,
@@ -104,7 +115,8 @@ export const MintNFT: React.FC<MintNFTProps> = ({
       const success = await createNFT(
         receiverAddress,
         attributes,
-        recordingUrl
+        recordingUrl,
+        isOnBreakpoint
       );
 
       let queryParams;
@@ -146,13 +158,7 @@ export const MintNFT: React.FC<MintNFTProps> = ({
   return (
     <div className="flex justify-center align-center items-center h-full mt-4">
       {!isMinting ? (
-        <div className="flex flex-col align-center items-center h-full">
-          <Image
-            src={breakpointNFT}
-            alt="Breakpoint NFT"
-            width={220}
-            height={220}
-          />
+        <div className="flex flex-col align-center items-center h-full rounded-xl">
           {connected ? (
             <>
               <motion.button

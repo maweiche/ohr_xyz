@@ -32,7 +32,7 @@ const Listen = () => {
     }
 
     router.push({
-      pathname: "/create/locate",
+      pathname: "/create/describe",
     });
   };
 

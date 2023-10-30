@@ -84,7 +84,7 @@ const NFTModal: React.FC<NFTModalProps> = ({
                 </Dialog.Title>
 
                 <div className="mt-2 px-6">
-                  <p className="text-center text-xs">
+                  <p className="text-center text-md text-white">
                     {audioNFT.attributes.Date}
                   </p>
                 </div>
@@ -114,7 +114,7 @@ const NFTModal: React.FC<NFTModalProps> = ({
                       setIsCopied(true);
                     }}
                   >
-                    <p className="text-sm ">
+                    <p className="text-sm text-white ">
                       {isCopied ? "Copied" : "Copy"} mint address:
                     </p>
                     <p className="text-sm ">

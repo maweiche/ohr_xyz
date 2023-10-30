@@ -65,12 +65,12 @@ const AboutDialog: React.FC<PopupMessageProps> = ({
                   <p>We believe in the power of sound!</p>
 
                   <p className="my-2">
-                    It grabs our attention instantly, triggers memories, makes
-                    us feel deeply and activates our imagination.
+                    Sound grabs our attention instantly, makes us feel deeply ,
+                    activates imagination, and triggers memories intensely.
                   </p>
                   <p className="my-2">
-                    Join us on an explorative sound journey to discover the
-                    untapped potential of sound.
+                    Join us on an explorative sound journey to discover its
+                    untapped potential.
                   </p>
                   <p className="font-bold">
                     {" "}

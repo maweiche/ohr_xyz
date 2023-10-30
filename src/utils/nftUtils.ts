@@ -1,4 +1,11 @@
 import { AudioNFT } from "@components/map/NFTModal";
+import {
+  BREAKPOINT_COORDINATES,
+  BREAKPOINT_DESCR,
+  BREAKPOINT_NFT_IMG,
+  GENERAL_DESCR,
+  GENERAL_NFT_IMG,
+} from "./constants";
 
 export interface NFTattributes {
   Event: string;
@@ -10,18 +17,50 @@ export interface NFTattributes {
   Lat: string;
 }
 
+export const isUserOnBreakpoint = (
+  longitude?: number,
+  latitude?: number
+): boolean => {
+  if (!latitude || !longitude) {
+    return false;
+  }
+
+  let inside = false;
+
+  for (
+    let i = 0, j = BREAKPOINT_COORDINATES.length - 1;
+    i < BREAKPOINT_COORDINATES.length;
+    j = i++
+  ) {
+    const xi = BREAKPOINT_COORDINATES[i][0];
+    const yi = BREAKPOINT_COORDINATES[i][1];
+    const xj = BREAKPOINT_COORDINATES[j][0];
+    const yj = BREAKPOINT_COORDINATES[j][1];
+
+    const intersect =
+      yi > longitude !== yj > longitude &&
+      latitude < ((xj - xi) * (longitude - yi)) / (yj - yi) + xi;
+
+    if (intersect) {
+      inside = !inside;
+    }
+  }
+  return inside;
+};
+
 export const createNFT = (
   receiverAddress: string,
   attributes: {
-    Event: string;
-    Location: string;
+    Event?: string;
+    Location?: string;
     Date: string;
     Motivation: string;
     Vibe: string;
     Long?: number;
     Lat?: number;
   },
-  recordingUrl: string
+  recordingUrl: string,
+  onBreakpoint: boolean
 ): Promise<boolean> => {
   return new Promise((resolve) => {
     const options = {
@@ -35,9 +74,8 @@ export const createNFT = (
         attributes: attributes,
         name: "øhr",
         symbol: "ØHR",
-        description: "I minted this NFT at the Solana Breakpoint festival.",
-        image:
-          "https://shdw-drive.genesysgo.net/CihGZb6sJ94yrPDfQ2ABC7ZeUQam8ChY19p7PSSs1avA/ohr-logo.jpeg",
+        description: onBreakpoint ? BREAKPOINT_DESCR : GENERAL_DESCR,
+        image: onBreakpoint ? BREAKPOINT_NFT_IMG : GENERAL_NFT_IMG,
         animationUrl: recordingUrl,
         externalUrl: "https://ohr-community.xyz",
         receiverAddress: receiverAddress,

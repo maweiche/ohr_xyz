@@ -3,7 +3,6 @@ import { LayoutComponent } from "@components/layout/LayoutComponent";
 import { useRouter } from "next/router";
 import { MapView } from "@components/map/MapView";
 import useMetadataStore from "utils/useMetadataStore";
-import SuccessMessage from "@components/PopupMessage";
 import PopupMessage from "@components/PopupMessage";
 
 enum ModalType {
@@ -146,8 +145,8 @@ const Locate: React.FC = () => {
           buttonText="Don't add location"
           secondaryButtonText="Cancel"
           secondaryHandleClick={() => setModalType(ModalType.None)}
-          description="It would mean your øhr will only be available in your wallet and no one will see it on the map."
-          title="Sure you don't want to add your location?"
+          description="your øhr will only be available in your wallet. No one will see it on the map."
+          title="Are you sure?"
           handleClose={() => setModalType(ModalType.None)}
         />
       )}
