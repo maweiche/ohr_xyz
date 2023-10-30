@@ -75,7 +75,7 @@ const Locate: React.FC = () => {
     switch (error.code) {
       case error.PERMISSION_DENIED:
         setErrorMessage(
-          "Looks like the request for GeoLocation was denied. Change your location permissions or browser."
+          "Looks like the request for location was denied. Change your location permissions, browser or continue without adding a location."
         );
         break;
       case error.POSITION_UNAVAILABLE:
@@ -167,7 +167,7 @@ const Locate: React.FC = () => {
           showModal={true}
           handleContinue={() => setModalType(ModalType.None)}
           buttonText="Try again"
-          secondaryButtonText="Go back"
+          secondaryButtonText="Back 2 start"
           secondaryHandleClick={() => handleChangeRoute("/create/listen")}
           description={errorMessage}
           title="Something went wrong"
