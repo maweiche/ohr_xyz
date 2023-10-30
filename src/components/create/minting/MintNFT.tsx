@@ -92,6 +92,8 @@ export const MintNFT: React.FC<MintNFTProps> = ({
   const { metadata, resetMetadata } = useMetadataStore();
   const router = useRouter();
 
+  console.log("ISONBREAKPOINT: ", isOnBreakpoint);
+
   const handleMintNFT = async () => {
     setIsMinting(true);
 
@@ -134,7 +136,7 @@ export const MintNFT: React.FC<MintNFTProps> = ({
       if (success) {
         setIsMintSuccessful(true);
       } else {
-        setHasError("Something didn't work out with the mint");
+        setHasError("Something didn't work out with the mint. ");
       }
     } else {
       setHasError("Your wallet was not connected.");

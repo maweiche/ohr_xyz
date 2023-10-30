@@ -38,8 +38,10 @@ export const isUserOnBreakpoint = (
     const yj = BREAKPOINT_COORDINATES[j][1];
 
     const intersect =
-      yi > longitude !== yj > longitude &&
-      latitude < ((xj - xi) * (longitude - yi)) / (yj - yi) + xi;
+      yi < latitude &&
+      yj >= latitude &&
+      xi <= longitude &&
+      xi + ((latitude - yi) / (yj - yi)) * (xj - xi) < longitude;
 
     if (intersect) {
       inside = !inside;

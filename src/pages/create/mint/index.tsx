@@ -1,7 +1,7 @@
 import { MintNFT } from "@components/create/minting/MintNFT";
 import { LayoutComponent } from "@components/layout/LayoutComponent";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   getCurrentDateFormatted,
   getFirstArrayElementOrValue,
@@ -19,21 +19,36 @@ const Minting = () => {
   const [hasError, setHasError] = useState<string | undefined>(undefined);
   const [isMinting, setIsMinting] = useState<boolean>(false);
   const { metadata, resetMetadata } = useMetadataStore();
-  const { theVibe, timeStamp, longitude, latitude, uploadID } = router.query;
-
-  const parsedUploadID = getFirstArrayElementOrValue(uploadID);
-  const parsedLat = Number(getFirstArrayElementOrValue(latitude));
-  const parsedLong = Number(getFirstArrayElementOrValue(longitude));
-  const [isOnBreakpoint, setIsOnBreakpoint] = useState<boolean>(
-    isUserOnBreakpoint(parsedLong, parsedLat)
+  const [isOnBreakpoint, setIsOnBreakpoint] = useState<boolean | undefined>(
+    undefined
   );
   const [isMintSuccessful, setIsMintSuccessful] = useState<boolean>(false);
+  const [long, setLong] = useState<number | undefined>(undefined);
+  const [lat, setLat] = useState<number | undefined>(undefined);
+
+  const url = new URL(window.location.href);
+  const timeStamp = url.searchParams.get("timeStamp");
+  const theVibe = url.searchParams.get("theVibe");
+  const uploadID = url.searchParams.get("uploadID");
+
+  useEffect(() => {
+    const longitude = url.searchParams.get("longitude");
+    const latitude = url.searchParams.get("latitude");
+
+    if (latitude && longitude) {
+      setLong(Number(longitude));
+      setLat(Number(latitude));
+      setIsOnBreakpoint(
+        isUserOnBreakpoint(Number(longitude), Number(latitude))
+      );
+    }
+  }, [url.searchParams]);
 
   const handleSuccessfulMint = () => {
-    if (latitude && longitude) {
+    if (long && lat) {
       router.push({
         pathname: "/map",
-        query: { longitude, latitude },
+        query: { long, lat },
       });
     } else {
       router.push("/map");
@@ -42,12 +57,12 @@ const Minting = () => {
   };
 
   const handleBack = () => {
-    if (longitude && latitude) {
+    if (long && lat) {
       const queryParams = {
         theVibe: theVibe,
         uploadID: uploadID,
-        longitude: longitude.toString(),
-        latitude: latitude.toString(),
+        longitude: long.toString(),
+        latitude: lat.toString(),
         timeStamp: timeStamp,
       };
 
@@ -112,16 +127,13 @@ const Minting = () => {
             className="rounded-xl"
           />
           <h2 className="mt-2 text-xl">{timeStamp}</h2>
-          {parsedUploadID && (
+          {uploadID && isOnBreakpoint != undefined && (
             <MintNFT
-              timeStamp={
-                getFirstArrayElementOrValue(timeStamp) ??
-                getCurrentDateFormatted()
-              }
-              theVibe={getFirstArrayElementOrValue(theVibe) ?? "Bullish"}
-              longitude={parsedLong}
-              latitude={parsedLat}
-              uploadID={parsedUploadID}
+              timeStamp={timeStamp ?? getCurrentDateFormatted()}
+              theVibe={theVibe ?? "Bullish"}
+              longitude={long}
+              latitude={lat}
+              uploadID={uploadID}
               setIsMinting={setIsMinting}
               isMinting={isMinting}
               isOnBreakpoint={isOnBreakpoint}
