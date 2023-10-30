@@ -69,7 +69,7 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({
           leaveTo="opacity-0 scale-95"
         >
           <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
-            <Dialog.Panel className="mx-auto max-w-sm rounded-2xl bg-[#c2bfbf] text-[#541b4d]  border-2 border-[#727272] p-5 shadow-lg">
+            <Dialog.Panel className="mx-auto max-w-sm rounded-2xl bg-[#c2bfbf] text-[#dcd6db]  border-2 border-[#727272] p-5 shadow-lg">
               <Dialog.Title className="text-xl font-black">
                 {title}
               </Dialog.Title>

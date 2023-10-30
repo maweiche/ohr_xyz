@@ -33,7 +33,6 @@ const AboutDialog: React.FC<PopupMessageProps> = ({
         <Dialog
           open={showAboutDialog}
           onClose={() => {
-            // setIsOpen(false);
             setShowAboutDialog(false);
           }}
           className="relative z-50"
@@ -62,25 +61,25 @@ const AboutDialog: React.FC<PopupMessageProps> = ({
               <Dialog.Panel className="mx-auto max-w-sm rounded-2xl bg-[#5a1a52] text-[#FFD1EA] border-2 border-[#9D58B2] p-5 shadow-lg">
                 <Dialog.Title className="text-lg font-bold">GM 👂</Dialog.Title>
                 <Dialog.Description className="mt-1">
-                  <p>We believe in the power of sound!</p>
-
-                  <p className="my-2">
-                    Sound grabs our attention instantly, makes us feel deeply ,
-                    activates imagination, and triggers memories intensely.
-                  </p>
-                  <p className="my-2">
-                    Join us on an explorative sound journey to discover its
-                    untapped potential.
-                  </p>
-                  <p className="font-bold">
-                    {" "}
-                    Mint your own audio memory and share it on the map 🗺️
-                  </p>
-                  <div className="flex  justify-between">
-                    <OhrLogo />
-                    <Twitter />
-                  </div>
+                  Sound grabs our attention instantly, makes us feel deeply,
+                  activates our imagination, and triggers memories in a profound
+                  way.
                 </Dialog.Description>
+                <Dialog.Description className="mt-2">
+                  We believe in the power of sound!{" "}
+                </Dialog.Description>
+                <Dialog.Description className="mt-2">
+                  Join us on an explorative sound journey to discover its
+                  untapped potential.
+                </Dialog.Description>
+                <Dialog.Description className="mt-2 font-semibold">
+                  {" "}
+                  Mint your own audio memory and share it on the map 🗺️
+                </Dialog.Description>
+                <div className="flex  justify-between">
+                  <OhrLogo />
+                  <Twitter />
+                </div>
               </Dialog.Panel>
             </div>
           </Transition.Child>

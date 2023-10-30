@@ -75,14 +75,16 @@ const Locate: React.FC = () => {
     switch (error.code) {
       case error.PERMISSION_DENIED:
         setErrorMessage(
-          "User denied the request for Geolocation. Try to change the location permissions or change your browser."
+          "Looks like the request for GeoLocation was denied. Change your location permissions or browser."
         );
         break;
       case error.POSITION_UNAVAILABLE:
-        setErrorMessage("Location information is unavailable.");
+        setErrorMessage(
+          "The location information is unavailable. Change your location permissions or browser, or continue without adding a location. "
+        );
         break;
       case error.TIMEOUT:
-        setErrorMessage("The request to get user location timed out.");
+        setErrorMessage("It took you too long so the request got timed out!");
         break;
       default:
         setErrorMessage("An unknown error occurred.");
@@ -148,7 +150,7 @@ const Locate: React.FC = () => {
         <PopupMessage
           showModal={true}
           handleContinue={() => handleChangeRoute("/create/mint")}
-          buttonText="Don't add location"
+          buttonText="Don't add"
           secondaryButtonText="Cancel"
           secondaryHandleClick={() => setModalType(ModalType.None)}
           description="Your øhr will only be available in your wallet. No one will see it on the map."
