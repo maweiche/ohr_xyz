@@ -8,7 +8,7 @@ import useMetadataStore from "utils/useMetadataStore";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
-const getRecordingUrl = async (uploadId: string) => {
+export const getRecordingUrl = async (uploadId: string) => {
   try {
     const assetId = await getMuxAssetId(uploadId);
     return await getAudioUrl(assetId);
@@ -156,7 +156,7 @@ export const MintNFT: React.FC<MintNFTProps> = ({
   };
 
   return (
-    <div className="flex justify-center align-center items-center h-full mt-4">
+    <div className="flex justify-center align-center items-center h-full">
       {!isMinting ? (
         <div className="flex flex-col align-center items-center h-full rounded-xl">
           {connected ? (

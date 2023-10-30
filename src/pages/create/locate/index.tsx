@@ -4,12 +4,21 @@ import { useRouter } from "next/router";
 import { MapView } from "@components/map/MapView";
 import useMetadataStore from "utils/useMetadataStore";
 import PopupMessage from "@components/PopupMessage";
+import ErrorMessage from "@components/ErrorMessage";
 
 enum ModalType {
   None,
   Success,
   SkipLocation,
   Error,
+}
+
+interface QueryParams {
+  theVibe: string;
+  uploadID: string;
+  longitude?: string;
+  latitude?: string;
+  timeStamp: string;
 }
 
 const Locate: React.FC = () => {
@@ -82,7 +91,7 @@ const Locate: React.FC = () => {
     setModalType(ModalType.Error);
   };
 
-  const handleContinue = () => {
+  const handleChangeRoute = (location: string) => {
     if (longitude && latitude) {
       const queryParams = {
         theVibe: theVibe,
@@ -93,7 +102,7 @@ const Locate: React.FC = () => {
       };
 
       router.push({
-        pathname: `/create/mint`,
+        pathname: location,
         query: queryParams,
       });
     } else {
@@ -104,16 +113,10 @@ const Locate: React.FC = () => {
       };
 
       router.push({
-        pathname: `/create/mint`,
+        pathname: location,
         query: queryParams,
       });
     }
-  };
-
-  const handleBack = () => {
-    router.push({
-      pathname: `/`,
-    });
   };
 
   return (
@@ -130,38 +133,45 @@ const Locate: React.FC = () => {
       {modalType === ModalType.Success && (
         <PopupMessage
           showModal={true}
-          handleContinue={handleContinue}
+          handleContinue={() => handleChangeRoute("/create/mint")}
           buttonText="Continue"
           description="Your location was successfully added"
           title="Success"
-          handleClose={() => setModalType(ModalType.None)}
+          handleClose={() => {
+            setModalType(ModalType.None);
+            handleChangeRoute("/create/mint");
+          }}
         />
       )}
 
       {modalType === ModalType.SkipLocation && (
         <PopupMessage
           showModal={true}
-          handleContinue={handleContinue}
+          handleContinue={() => handleChangeRoute("/create/mint")}
           buttonText="Don't add location"
           secondaryButtonText="Cancel"
           secondaryHandleClick={() => setModalType(ModalType.None)}
-          description="your øhr will only be available in your wallet. No one will see it on the map."
+          description="Your øhr will only be available in your wallet. No one will see it on the map."
           title="Are you sure?"
-          handleClose={() => setModalType(ModalType.None)}
+          handleClose={() => {
+            setModalType(ModalType.None);
+            handleChangeRoute("/create/mint");
+          }}
         />
       )}
 
       {modalType === ModalType.Error && errorMessage && (
-        <PopupMessage
+        <ErrorMessage
           showModal={true}
-          handleContinue={handleBack}
-          buttonText="Go back"
+          handleContinue={() => setModalType(ModalType.None)}
+          buttonText="Try again"
+          secondaryButtonText="Go back"
+          secondaryHandleClick={() => handleChangeRoute("/create/listen")}
           description={errorMessage}
-          title="Error"
+          title="Something went wrong"
           handleClose={() => setModalType(ModalType.None)}
         />
       )}
-
       <div className="flex flex-col text-center mt-8">
         <div className="flex justify-center gap-8 ">
           <button className="secondary-btn" onClick={skipAddLocation}>

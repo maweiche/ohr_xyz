@@ -34,7 +34,7 @@ const Minting = () => {
       showTitle="Mint"
     >
       <div className="w-full h-full flex justify-center align-center items-center">
-        <div className="flex flex-col justify-center items-center border-2 border-black w-96 p-3 rounded-xl">
+        <div className="flex flex-col justify-center items-center w-84 p-3 rounded-xl">
           <h2 className="text-2xl m-2 font-bold text-center">{theVibe}</h2>
           <Image
             src={isOnBreakpoint ? BREAKPOINT_NFT_IMG : GENERAL_NFT_IMG}
@@ -43,7 +43,7 @@ const Minting = () => {
             height={220}
             className="rounded-xl"
           />
-          <h2 className="mt-4 text-xl">{timeStamp}</h2>
+          <h2 className="mt-2 text-xl">{timeStamp}</h2>
           {parsedUploadID && (
             <MintNFT
               timeStamp={

@@ -4,9 +4,13 @@ import EarBtn from "@components/create/recording/EarBtn";
 import Timer from "@components/create/recording/Timer";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { getCurrentDateFormatted } from "utils/formatUtils";
+import {
+  getCurrentDateFormatted,
+  getFirstArrayElementOrValue,
+} from "utils/formatUtils";
 import useMetadataStore from "utils/useMetadataStore";
 import ErrorMessage from "@components/ErrorMessage";
+import { getRecordingUrl } from "@components/create/minting/MintNFT";
 
 const RecordingPage = () => {
   const router = useRouter();
@@ -25,16 +29,6 @@ const RecordingPage = () => {
   const [isRecordingTooShort, setIsRecordingTooShort] =
     useState<boolean>(false);
 
-  useEffect(() => {
-    if (router.query.discard === "true") {
-      setDiscardRecording(true);
-      setIsRecording(false);
-      setIsRecordingCompleted(false);
-      setMediaRecorder(undefined);
-      setIsLoading(false);
-    }
-  }, [router.query.discard]);
-
   const resetRecording = () => {
     setDiscardRecording(true);
     setIsRecording(false);
@@ -43,16 +37,6 @@ const RecordingPage = () => {
     setIsLoading(false);
     setIsRecordingTooShort(false);
   };
-  // TODO: this is still work in progress
-
-  // useEffect(() => {
-  //   if (metadata.audioBlob) {
-  //     router.push({
-  //       pathname: "/create/listen",
-  //       query: { isRecordingFound: true },
-  //     });
-  //   }
-  // }, [metadata.audioBlob, router]);
 
   const toggleRecording = async (): Promise<void> => {
     if (isRecording && mediaRecorder) {
@@ -119,7 +103,7 @@ const RecordingPage = () => {
             buttonText={"Okay"}
             description={"Try again"}
             title={"Your recording was too short"}
-            handleClose={() => console.log("handle close")}
+            handleClose={() => resetRecording()}
           />
         )}
         {showTimer && (

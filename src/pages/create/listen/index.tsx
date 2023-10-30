@@ -1,8 +1,10 @@
 import { LoadingComponent } from "@components/LoadingComponent";
+import { getRecordingUrl } from "@components/create/minting/MintNFT";
 import { LayoutComponent } from "@components/layout/LayoutComponent";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getFirstArrayElementOrValue } from "utils/formatUtils";
 import { createMuxUpload } from "utils/mux";
 import useMetadataStore from "utils/useMetadataStore";
 
@@ -15,9 +17,29 @@ const Listen = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { setUploadID, setAudioBlob, metadata } = useMetadataStore();
+  const [isRecordingFound, setIsRecordingFound] = useState<boolean>(false);
+  const [recordingUrl, setRecordingUrl] = useState<string | undefined>(
+    undefined
+  );
 
-  // TODO: make sure audioBlob can be received
-  //   const { isRecordingFound } = router.query;
+  const { uploadID } = router.query;
+  const parsedUploadID = getFirstArrayElementOrValue(uploadID);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (parsedUploadID) {
+        setIsRecordingFound(true);
+        try {
+          const recUrl = await getRecordingUrl(parsedUploadID);
+          setRecordingUrl(recUrl);
+        } catch (error) {
+          console.error("Error fetching recording URL:", error);
+        }
+      }
+    };
+
+    fetchData();
+  }, [parsedUploadID]);
 
   let audioBlobUrl;
   if (metadata.audioBlob) {
@@ -61,7 +83,10 @@ const Listen = () => {
               Do you want to keep this recording?
             </h1>
             <audio controls className="m-10">
-              <source src={audioBlobUrl} type="audio/mp3" />
+              <source
+                src={isRecordingFound ? recordingUrl : audioBlobUrl}
+                type="audio/mp3"
+              />
               Your browser does not support the audio element.
             </audio>
             <div className="flex flex-col text-center mt-8">
