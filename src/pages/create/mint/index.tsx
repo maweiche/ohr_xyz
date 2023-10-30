@@ -25,7 +25,7 @@ const Minting = () => {
   const parsedLat = Number(getFirstArrayElementOrValue(latitude));
   const parsedLong = Number(getFirstArrayElementOrValue(longitude));
   const [isOnBreakpoint, setIsOnBreakpoint] = useState<boolean>(
-    isUserOnBreakpoint(parsedLat, parsedLong)
+    isUserOnBreakpoint(parsedLong, parsedLat)
   );
   const [isMintSuccessful, setIsMintSuccessful] = useState<boolean>(false);
 

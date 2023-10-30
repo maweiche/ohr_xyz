@@ -35,8 +35,10 @@ const Locate: React.FC = () => {
   } = useMetadataStore((state) => state);
 
   const addLocation = () => {
+    setErrorMessage("in add location");
     setModalType(ModalType.None);
     if ("geolocation" in navigator) {
+      setErrorMessage("in first if");
       navigator.geolocation.getCurrentPosition(
         handleCurrentPosition,
         showError,
@@ -53,6 +55,7 @@ const Locate: React.FC = () => {
   };
 
   const handleCurrentPosition = (position: GeolocationPosition) => {
+    setErrorMessage("position");
     showPosition(position);
     setModalType(ModalType.Success);
     setErrorMessage(undefined); // Reset error message
@@ -63,15 +66,18 @@ const Locate: React.FC = () => {
   };
 
   const showPosition = (position: GeolocationPosition) => {
+    setErrorMessage("showposition");
     const coords = {
       longitude: position.coords.longitude,
       latitude: position.coords.latitude,
     };
+    setErrorMessage("coords");
     setLatitude(coords.latitude);
     setLongitude(coords.longitude);
   };
 
   const showError = (error: GeolocationPositionError) => {
+    setErrorMessage("someerror");
     switch (error.code) {
       case error.PERMISSION_DENIED:
         setErrorMessage(
@@ -175,6 +181,7 @@ const Locate: React.FC = () => {
         />
       )}
       <div className="flex flex-col text-center mt-8">
+        <h1>{errorMessage}</h1>
         <div className="flex justify-center gap-8 ">
           <button className="secondary-btn" onClick={skipAddLocation}>
             skip
