@@ -5,12 +5,14 @@ interface TimerProps {
   isRecording: boolean;
   discardRecording: boolean;
   setDiscardRecording: Dispatch<SetStateAction<boolean>>;
+  setIsRecordingTooShort: Dispatch<SetStateAction<boolean>>;
 }
 
 const Timer: React.FC<TimerProps> = ({
   isRecording,
   discardRecording,
   setDiscardRecording,
+  setIsRecordingTooShort,
 }) => {
   const [passedTime, setPassedTime] = useState<number>(0);
 
@@ -21,6 +23,10 @@ const Timer: React.FC<TimerProps> = ({
       timer = setInterval(() => {
         setPassedTime((prevPassedTime) => prevPassedTime + 0.01);
       }, 10);
+    } else {
+      if (passedTime < 1) {
+        setIsRecordingTooShort(true);
+      }
     }
 
     return () => {
@@ -28,7 +34,7 @@ const Timer: React.FC<TimerProps> = ({
         clearInterval(timer);
       }
     };
-  }, [isRecording]);
+  }, [isRecording, passedTime, setIsRecordingTooShort]);
 
   useEffect(() => {
     if (discardRecording) {

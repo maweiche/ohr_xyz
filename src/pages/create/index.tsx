@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { getCurrentDateFormatted } from "utils/formatUtils";
 import useMetadataStore from "utils/useMetadataStore";
+import ErrorMessage from "@components/ErrorMessage";
 
 const RecordingPage = () => {
   const router = useRouter();
@@ -21,6 +22,8 @@ const RecordingPage = () => {
   );
   const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isRecordingTooShort, setIsRecordingTooShort] =
+    useState<boolean>(false);
 
   useEffect(() => {
     if (router.query.discard === "true") {
@@ -32,6 +35,14 @@ const RecordingPage = () => {
     }
   }, [router.query.discard]);
 
+  const resetRecording = () => {
+    setDiscardRecording(true);
+    setIsRecording(false);
+    setIsRecordingCompleted(false);
+    setMediaRecorder(undefined);
+    setIsLoading(false);
+    setIsRecordingTooShort(false);
+  };
   // TODO: this is still work in progress
 
   // useEffect(() => {
@@ -98,11 +109,25 @@ const RecordingPage = () => {
   return (
     <>
       <div className="flex flex-col items-center align-center">
+        {isRecordingTooShort && (
+          <ErrorMessage
+            showModal={isRecordingTooShort}
+            handleContinue={() => {
+              router.push("/");
+              resetRecording();
+            }}
+            buttonText={"Okay"}
+            description={"Try again"}
+            title={"Your recording was too short"}
+            handleClose={() => console.log("handle close")}
+          />
+        )}
         {showTimer && (
           <Timer
             isRecording={isRecording}
             discardRecording={discardRecording}
             setDiscardRecording={setDiscardRecording}
+            setIsRecordingTooShort={setIsRecordingTooShort}
           />
         )}
         {isLoading ? (
@@ -127,7 +152,3 @@ const RecordingPage = () => {
 };
 
 export default RecordingPage;
-
-// when recording is completed
-// show mp3 player and let user listen to its sound
-// two buttons: continue and record

@@ -1,4 +1,3 @@
-import { ErrorComponent } from "@components/ErrorComponent";
 import { MintNFT } from "@components/create/minting/MintNFT";
 import { LayoutComponent } from "@components/layout/LayoutComponent";
 import { useRouter } from "next/router";
@@ -35,16 +34,6 @@ const Minting = () => {
       showTitle="Mint"
     >
       <div className="w-full h-full flex justify-center align-center items-center">
-        {hasError && (
-          <div className="h-4/6 w-full flex flex-col justify-center mt-10 ">
-            <div className="p-4 flex justify-center align-center">
-              <ErrorComponent
-                message={"Test message"}
-                buttonText={"Try again"}
-              />
-            </div>
-          </div>
-        )}
         <div className="flex flex-col justify-center items-center border-2 border-black w-96 p-3 rounded-xl">
           <h2 className="text-2xl m-2 font-bold text-center">{theVibe}</h2>
           <Image
