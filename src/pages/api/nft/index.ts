@@ -32,7 +32,7 @@ export default async function handler(
           }),
         };
         const response = await fetch(
-          "https://devnet.underdogprotocol.com/v2/projects/1/nfts",
+          "https://mainnet.underdogprotocol.com/v2/projects/1/nfts",
           options
         );
         if (response.ok) {

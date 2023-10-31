@@ -85,7 +85,7 @@ export const createNFT = (
       }),
     };
 
-    fetch("https://devnet.underdogprotocol.com/v2/projects/4/nfts", options)
+    fetch("https://mainnet.underdogprotocol.com/v2/projects/1/nfts", options)
       .then((response) => response.json())
       .then((response) => {
         resolve(true);
@@ -109,7 +109,7 @@ export const getNFTs = (
   };
 
   fetch(
-    "https://devnet.underdogprotocol.com/v2/projects/4/nfts?page=1&limit=100",
+    "https://mainnet.underdogprotocol.com/v2/projects/1/nfts?page=1&limit=100",
     options
   )
     .then((response) => response.json())
