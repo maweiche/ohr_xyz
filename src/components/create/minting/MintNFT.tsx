@@ -92,8 +92,6 @@ export const MintNFT: React.FC<MintNFTProps> = ({
   const { metadata, resetMetadata } = useMetadataStore();
   const router = useRouter();
 
-  console.log("ISONBREAKPOINT: ", isOnBreakpoint);
-
   const handleMintNFT = async () => {
     setIsMinting(true);
 

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { LayoutComponent } from "@components/layout/LayoutComponent";
 import { useRouter } from "next/router";
-import { MapView } from "@components/map/MapView";
 import useMetadataStore from "utils/useMetadataStore";
 import PopupMessage from "@components/PopupMessage";
 import ErrorMessage from "@components/ErrorMessage";
@@ -11,14 +10,6 @@ enum ModalType {
   Success,
   SkipLocation,
   Error,
-}
-
-interface QueryParams {
-  theVibe: string;
-  uploadID: string;
-  longitude?: string;
-  latitude?: string;
-  timeStamp: string;
 }
 
 const Locate: React.FC = () => {
@@ -35,7 +26,6 @@ const Locate: React.FC = () => {
   } = useMetadataStore((state) => state);
 
   const addLocation = () => {
-    setErrorMessage("in add location");
     setModalType(ModalType.None);
     if ("geolocation" in navigator) {
       setErrorMessage("in first if");
@@ -55,7 +45,6 @@ const Locate: React.FC = () => {
   };
 
   const handleCurrentPosition = (position: GeolocationPosition) => {
-    setErrorMessage("position");
     showPosition(position);
     setModalType(ModalType.Success);
     setErrorMessage(undefined); // Reset error message
@@ -66,12 +55,10 @@ const Locate: React.FC = () => {
   };
 
   const showPosition = (position: GeolocationPosition) => {
-    setErrorMessage("showposition");
     const coords = {
       longitude: position.coords.longitude,
       latitude: position.coords.latitude,
     };
-    setErrorMessage("coords");
     setLatitude(coords.latitude);
     setLongitude(coords.longitude);
   };
@@ -133,11 +120,7 @@ const Locate: React.FC = () => {
       justifyStyling="center"
       showTitle="Locate"
     >
-      <p className="text-2xl text-center">Add your location</p>
-      <div className="h-1/2">
-        <MapView longitude={longitude} latitude={latitude} />
-      </div>
-
+      <p className="text-2xl text-center">Add your location?</p>
       {modalType === ModalType.Success && (
         <PopupMessage
           showModal={true}
@@ -163,7 +146,6 @@ const Locate: React.FC = () => {
           title="Are you sure?"
           handleClose={() => {
             setModalType(ModalType.None);
-            handleChangeRoute("/create/mint");
           }}
         />
       )}
@@ -181,12 +163,11 @@ const Locate: React.FC = () => {
         />
       )}
       <div className="flex flex-col text-center mt-8">
-        <h1>{errorMessage}</h1>
         <div className="flex justify-center gap-8 ">
-          <button className="secondary-btn" onClick={skipAddLocation}>
+          <button className="secondary-btn text-xl" onClick={skipAddLocation}>
             skip
           </button>
-          <button className="primary-btn" onClick={addLocation}>
+          <button className="primary-btn text-xl" onClick={addLocation}>
             add
           </button>
         </div>

@@ -126,7 +126,7 @@ const RecordingPage = () => {
         {showHelpText ? (
           <p className={styles["help-text"]}>click the ear to record</p>
         ) : showContinueButton ? (
-          <button className="btn-ghost text-md" onClick={handleContinue}>
+          <button className="primary-btn text-md" onClick={handleContinue}>
             continue
           </button>
         ) : null}
