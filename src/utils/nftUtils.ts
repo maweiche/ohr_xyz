@@ -97,9 +97,40 @@ export const createNFT = (
   });
 };
 
-export const getNFTs = (
-  setAudioNFTs: React.Dispatch<React.SetStateAction<AudioNFT[] | undefined>>
+// export const getNFTs = (
+//   setAudioNFTs: React.Dispatch<React.SetStateAction<AudioNFT[] | undefined>>,
+//   pageNumber: number
+// ) => {
+//   const options = {
+//     method: "GET",
+//     headers: {
+//       accept: "application/json",
+//       authorization: `Bearer ${process.env.NEXT_PUBLIC_UNDERDOG_API_KEY}`,
+//     },
+//   };
+
+//   fetch(
+//     `https://mainnet.underdogprotocol.com/v2/projects/1/nfts?page=${pageNumber}&limit=100`,
+//     options
+//   )
+//     .then((response) => response.json())
+//     .then((response) => {
+//       if (response.results.length >= 99) {
+//         getNFTs(setAudioNFTs, pageNumber + 1);
+//       }
+//       setAudioNFTs(response.results);
+//     })
+//     .catch((err) => console.error(err));
+// };
+
+export const getNFTs = async (
+  setAudioNFTs: React.Dispatch<React.SetStateAction<AudioNFT[] | undefined>>,
+  initialPageNumber: number
 ) => {
+  let pageNumber = initialPageNumber;
+  const limit = 100;
+  const apiUrl = `https://mainnet.underdogprotocol.com/v2/projects/1/nfts`;
+
   const options = {
     method: "GET",
     headers: {
@@ -108,16 +139,34 @@ export const getNFTs = (
     },
   };
 
-  fetch(
-    "https://mainnet.underdogprotocol.com/v2/projects/1/nfts?page=1&limit=100",
-    options
-  )
-    .then((response) => response.json())
-    .then((response) => {
-      console.log(response);
-      setAudioNFTs(response.results);
-    })
-    .catch((err) => console.error(err));
+  try {
+    while (true) {
+      const response = await fetch(
+        `${apiUrl}?page=${pageNumber}&limit=${limit}`,
+        options
+      );
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch NFTs: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+
+      if (data.results.length > 0) {
+        // Append the new batch of NFTs to the existing array
+        setAudioNFTs((prevAudioNFTs) =>
+          prevAudioNFTs ? [...prevAudioNFTs, ...data.results] : data.results
+        );
+
+        pageNumber++; // Increment the page number for the next fetch
+      } else {
+        // No more data to fetch, exit the loop
+        break;
+      }
+    }
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 // API CALL FOR PROTECTED .ENV FILE

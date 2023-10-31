@@ -15,7 +15,7 @@ export const MapView: React.FC<MapViewProps> = ({
   markers,
 }) => {
   return (
-    <div className="h-full flex justify-center items-center m-4 rounded-md">
+    <div className="h-full flex justify-center items-center mx-4 mb-4 rounded-md">
       <Map
         mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_API_KEY}
         mapStyle={`mapbox://styles/noamie22/ck2zynqqn018x1cnohcw5cnna`}

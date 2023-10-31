@@ -18,7 +18,7 @@ const MapScreen: React.FC = () => {
   }>({ longitude: 4.9041, latitude: 52.3676 });
 
   useEffect(() => {
-    getNFTs(setAudioNFTs);
+    getNFTs(setAudioNFTs, 1);
   }, []);
 
   useEffect(() => {
@@ -41,9 +41,9 @@ const MapScreen: React.FC = () => {
             .filter(
               (audioNFT) => audioNFT.attributes.Long && audioNFT.attributes.Lat
             )
-            .map((audioNFT) => (
+            .map((audioNFT, index) => (
               <Marker
-                key={audioNFT.id}
+                key={index}
                 longitude={Number(audioNFT.attributes.Long)}
                 latitude={Number(audioNFT.attributes.Lat)}
                 color="red"
@@ -66,6 +66,7 @@ const MapScreen: React.FC = () => {
       showTitle="Explore"
     >
       <div className="h-5/6">
+        <h2 className="text-center text-sm"> To listen, click on the ears</h2>
         {audioNFT && (
           <NFTModal
             showModal={showModal}
