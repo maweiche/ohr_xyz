@@ -10,7 +10,7 @@ export const Twitter = () => {
       className="flex align-center items-center place-self-center"
     >
       {" "}
-      <Image src="/x-icon.png" alt="Twitter" width={22} height={22} />{" "}
+      <Image src="/x-icon.png" alt="Twitter" width={30} height={22} />{" "}
     </a>
   );
 };
