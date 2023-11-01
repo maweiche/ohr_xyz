@@ -22,7 +22,7 @@ export const MapView: React.FC<MapViewProps> = ({
         initialViewState={{
           longitude: longitude ?? 10.4515,
           latitude: latitude ?? 51.1657,
-          zoom: 3,
+          zoom: 10,
         }}
       >
         {!markers && longitude && latitude ? (

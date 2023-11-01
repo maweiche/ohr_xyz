@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { LayoutComponent } from "@components/layout/LayoutComponent";
 import { MapView } from "@components/map/MapView";
-import { getNFTs } from "utils/nftUtils";
+import { getNFTdetails, getNFTs } from "utils/nftUtils";
 import NFTModal, { AudioNFT } from "@components/map/NFTModal";
 import { Marker } from "react-map-gl";
 import Image from "next/image";
@@ -19,7 +19,15 @@ const MapScreen: React.FC = () => {
 
   useEffect(() => {
     getNFTs(setAudioNFTs, 1);
+    console.log(audioNFTs);
   }, []);
+
+  useEffect(() => {
+    audioNFTs &&
+      audioNFTs.forEach((audioNFT) => {
+        let ownerAddress = getNFTdetails(audioNFT.id);
+      });
+  }, [audioNFTs]);
 
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -66,7 +74,7 @@ const MapScreen: React.FC = () => {
       showTitle="Explore"
     >
       <div className="h-5/6">
-        <h2 className="text-center text-sm"> To listen, click on the ears</h2>
+        <h2 className="text-center text-sm"> to listen, click on the ears</h2>
         {audioNFT && (
           <NFTModal
             showModal={showModal}

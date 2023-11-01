@@ -97,32 +97,6 @@ export const createNFT = (
   });
 };
 
-// export const getNFTs = (
-//   setAudioNFTs: React.Dispatch<React.SetStateAction<AudioNFT[] | undefined>>,
-//   pageNumber: number
-// ) => {
-//   const options = {
-//     method: "GET",
-//     headers: {
-//       accept: "application/json",
-//       authorization: `Bearer ${process.env.NEXT_PUBLIC_UNDERDOG_API_KEY}`,
-//     },
-//   };
-
-//   fetch(
-//     `https://mainnet.underdogprotocol.com/v2/projects/1/nfts?page=${pageNumber}&limit=100`,
-//     options
-//   )
-//     .then((response) => response.json())
-//     .then((response) => {
-//       if (response.results.length >= 99) {
-//         getNFTs(setAudioNFTs, pageNumber + 1);
-//       }
-//       setAudioNFTs(response.results);
-//     })
-//     .catch((err) => console.error(err));
-// };
-
 export const getNFTs = async (
   setAudioNFTs: React.Dispatch<React.SetStateAction<AudioNFT[] | undefined>>,
   initialPageNumber: number
@@ -131,13 +105,16 @@ export const getNFTs = async (
   const limit = 100;
   const apiUrl = `https://mainnet.underdogprotocol.com/v2/projects/1/nfts`;
 
-  const options = {
+  const options: RequestInit = {
     method: "GET",
     headers: {
       accept: "application/json",
       authorization: `Bearer ${process.env.NEXT_PUBLIC_UNDERDOG_API_KEY}`,
     },
   };
+
+  // Create a set to store existing IDs
+  const existingIds = new Set<number>();
 
   try {
     while (true) {
@@ -153,12 +130,23 @@ export const getNFTs = async (
       const data = await response.json();
 
       if (data.results.length > 0) {
-        // Append the new batch of NFTs to the existing array
-        setAudioNFTs((prevAudioNFTs) =>
-          prevAudioNFTs ? [...prevAudioNFTs, ...data.results] : data.results
+        // Filter out items with existing IDs before adding to the state
+        const filteredResults = data.results.filter(
+          (result: AudioNFT) => !existingIds.has(result.id)
         );
 
-        pageNumber++; // Increment the page number for the next fetch
+        setAudioNFTs((prevAudioNFTs: AudioNFT[] | undefined) =>
+          prevAudioNFTs
+            ? [...prevAudioNFTs, ...filteredResults]
+            : filteredResults
+        );
+
+        // Add the new IDs to the set
+        filteredResults.forEach((result: AudioNFT) =>
+          existingIds.add(result.id)
+        );
+
+        pageNumber++;
       } else {
         // No more data to fetch, exit the loop
         break;
@@ -167,6 +155,24 @@ export const getNFTs = async (
   } catch (error) {
     console.error(error);
   }
+};
+
+export const getNFTdetails = (nftID: number) => {
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      authorization: `Bearer ${process.env.NEXT_PUBLIC_UNDERDOG_API_KEY}`,
+    },
+  };
+
+  fetch(
+    `https://mainnet.underdogprotocol.com/v2/projects/1/nfts/${nftID}`,
+    options
+  )
+    .then((response) => response.json())
+    .then((response) => response.ownerAddress)
+    .catch((err) => console.error(err));
 };
 
 // API CALL FOR PROTECTED .ENV FILE

@@ -12,6 +12,7 @@ export interface AudioNFT {
   id: number;
   image: string;
   mintAddress: string;
+  ownerAddress?: string;
   name: string;
   projectId: number;
   status: string;
@@ -73,20 +74,20 @@ const NFTModal: React.FC<NFTModalProps> = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-2xl border text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-full max-w-xl bg-[#5a1a52] border-2 border-[#9D58B2] transform overflow-hidden rounded-2xl text-left align-middle shadow-xl transition-all">
                 <Dialog.Title
                   as="h3"
-                  className="py-2 px-6 font-black border-b flex justify-between text-[#64ed14]"
+                  className="py-2 px-6 font-black flex flex-col justify-center align-center items-center text-[#64ed14]"
                 >
-                  <p className="txt-secondary ">{audioNFT.name}</p>
-                  <p className="text-center text-2xl ">{`"${audioNFT.attributes.Vibe}"`}</p>
-                  <p className="mt-1"> {audioNFT.symbol}</p>
+                  <p className="text-center secondary-font text-4xl">{`"${audioNFT.attributes.Vibe}"`}</p>
+                  <p className="mt-1 text-white text-sm">
+                    {" "}
+                    {audioNFT.attributes.Date} - {audioNFT.symbol}
+                  </p>
                 </Dialog.Title>
 
                 <div className="mt-2 px-6">
-                  <p className="text-center text-md text-white">
-                    {audioNFT.attributes.Date}
-                  </p>
+                  <p className="text-center text-md "></p>
                 </div>
 
                 <div className="flex justify-center self-center mt-3">
@@ -102,6 +103,7 @@ const NFTModal: React.FC<NFTModalProps> = ({
                     alt="AudioNFT image"
                     width={250}
                     height={250}
+                    blurDataURL={"../../assets/ohr-bp.png"}
                     className="rounded-xl"
                   />
                 </div>
@@ -115,7 +117,7 @@ const NFTModal: React.FC<NFTModalProps> = ({
                     }}
                   >
                     <p className="text-sm text-white ">
-                      {isCopied ? "Copied" : "Copy"} mint address:
+                      {isCopied ? "Copied" : "Copy"} Owner Address:
                     </p>
                     <p className="text-sm ">
                       {getFormattedMintAddress(audioNFT.mintAddress)}
