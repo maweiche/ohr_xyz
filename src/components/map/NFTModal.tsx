@@ -12,7 +12,6 @@ export interface AudioNFT {
   id: number;
   image: string;
   mintAddress: string;
-  ownerAddress?: string;
   name: string;
   projectId: number;
   status: string;
@@ -117,7 +116,7 @@ const NFTModal: React.FC<NFTModalProps> = ({
                     }}
                   >
                     <p className="text-sm text-white ">
-                      {isCopied ? "Copied" : "Copy"} Owner Address:
+                      {isCopied ? "Copied" : "Copy"} Mint address:
                     </p>
                     <p className="text-sm ">
                       {getFormattedMintAddress(audioNFT.mintAddress)}

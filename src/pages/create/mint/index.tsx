@@ -31,6 +31,8 @@ const Minting = () => {
   const theVibe = url.searchParams.get("theVibe");
   const uploadID = url.searchParams.get("uploadID");
 
+  const [hasErrored, setHasErrored] = useState<boolean>(false);
+
   useEffect(() => {
     const longitude = url.searchParams.get("longitude");
     const latitude = url.searchParams.get("latitude");
@@ -44,6 +46,12 @@ const Minting = () => {
     }
   }, [url.searchParams]);
 
+  useEffect(() => {
+    if (!uploadID && isOnBreakpoint === undefined) {
+      setHasErrored(true);
+    }
+  }, [isOnBreakpoint, uploadID]);
+
   const handleSuccessfulMint = () => {
     if (long && lat) {
       router.push({
@@ -56,7 +64,7 @@ const Minting = () => {
     resetMetadata();
   };
 
-  const handleBack = () => {
+  const handleReroute = (location: string) => {
     if (long && lat) {
       const queryParams = {
         theVibe: theVibe,
@@ -67,7 +75,7 @@ const Minting = () => {
       };
 
       router.push({
-        pathname: "/",
+        pathname: location,
         query: queryParams,
       });
     } else {
@@ -78,7 +86,7 @@ const Minting = () => {
       };
 
       router.push({
-        pathname: "/",
+        pathname: location,
         query: queryParams,
       });
     }
@@ -105,10 +113,10 @@ const Minting = () => {
           !isMintSuccessful && (
             <ErrorMessage
               showModal={true}
-              handleContinue={handleSuccessfulMint}
+              handleContinue={() => handleReroute("/create/mint")}
               buttonText="Try again"
               secondaryButtonText="Back 2 start"
-              secondaryHandleClick={handleBack}
+              secondaryHandleClick={() => handleReroute("/")}
               description="Something went wrong."
               title="Oh no!"
               handleClose={handleSuccessfulMint}
@@ -116,18 +124,29 @@ const Minting = () => {
           )
         ))}
 
+      {hasErrored && (
+        <ErrorMessage
+          showModal={true}
+          handleContinue={() => handleReroute("/")}
+          buttonText="Back 2 start"
+          description="Something went wrong."
+          title="Oh no!"
+          handleClose={() => handleReroute("/")}
+        />
+      )}
+
       <div className="w-full h-full flex justify-center align-center items-center">
-        <div className="flex flex-col justify-center items-center w-84 p-3 rounded-xl">
-          <h2 className="text-2xl m-2 font-bold text-center">{theVibe}</h2>
-          <Image
-            src={isOnBreakpoint ? BREAKPOINT_NFT_IMG : GENERAL_NFT_IMG}
-            alt={isOnBreakpoint ? "Breakpoint NFT" : "øhr NFT"}
-            width={220}
-            height={220}
-            className="rounded-xl"
-          />
-          <h2 className="mt-2 text-xl">{timeStamp}</h2>
-          {uploadID && isOnBreakpoint != undefined && (
+        {uploadID && isOnBreakpoint != undefined && (
+          <div className="flex flex-col justify-center items-center w-84 p-3 rounded-xl">
+            <h2 className="text-2xl m-2 font-bold text-center">{theVibe}</h2>
+            <Image
+              src={isOnBreakpoint ? BREAKPOINT_NFT_IMG : GENERAL_NFT_IMG}
+              alt={isOnBreakpoint ? "Breakpoint NFT" : "øhr NFT"}
+              width={220}
+              height={220}
+              className="rounded-xl"
+            />
+            <h2 className="mt-2 text-xl">{timeStamp}</h2>
             <MintNFT
               timeStamp={timeStamp ?? getCurrentDateFormatted()}
               theVibe={theVibe ?? "Bullish"}
@@ -140,8 +159,8 @@ const Minting = () => {
               setIsMintSuccessful={setIsMintSuccessful}
               setHasError={setHasError}
             />
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </LayoutComponent>
   );
