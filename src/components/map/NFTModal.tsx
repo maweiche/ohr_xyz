@@ -102,7 +102,7 @@ const NFTModal: React.FC<NFTModalProps> = ({
                     alt="AudioNFT image"
                     width={250}
                     height={250}
-                    blurDataURL={"../../assets/ohr-bp.png"}
+                    blurDataURL={"../../assets/ohr-general.png"}
                     className="rounded-xl"
                   />
                 </div>

@@ -19,7 +19,6 @@ export const getRecordingUrl = async (uploadId: string) => {
 };
 
 const setTheAttributes = (
-  isOnBreakpoint: boolean,
   timeStamp: string,
   theVibe: string,
   longitude?: number,
@@ -28,25 +27,13 @@ const setTheAttributes = (
   let attributes;
 
   if (latitude && longitude) {
-    if (isOnBreakpoint) {
-      attributes = {
-        Event: "Solana Breakpoint",
-        Location: "Amsterdam",
-        Date: timeStamp,
-        Motivation: "LFG",
-        Vibe: theVibe,
-        Long: longitude,
-        Lat: latitude,
-      };
-    } else {
-      attributes = {
-        Date: timeStamp,
-        Motivation: "LFG",
-        Vibe: theVibe,
-        Long: longitude,
-        Lat: latitude,
-      };
-    }
+    attributes = {
+      Date: timeStamp,
+      Motivation: "LFG",
+      Vibe: theVibe,
+      Long: longitude,
+      Lat: latitude,
+    };
   } else {
     attributes = {
       Date: timeStamp,
@@ -54,7 +41,6 @@ const setTheAttributes = (
       Vibe: theVibe,
     };
   }
-  console.log("attributes: ", attributes);
   return attributes;
 };
 
@@ -66,7 +52,6 @@ interface MintNFTProps {
   isMinting: boolean;
   setIsMinting: Dispatch<SetStateAction<boolean>>;
   uploadID: string;
-  isOnBreakpoint: boolean;
   setIsMintSuccessful: Dispatch<SetStateAction<boolean>>;
   setHasError: Dispatch<SetStateAction<string | undefined>>;
 }
@@ -84,7 +69,6 @@ export const MintNFT: React.FC<MintNFTProps> = ({
   isMinting,
   setIsMinting,
   uploadID,
-  isOnBreakpoint,
   setIsMintSuccessful,
   setHasError,
 }) => {
@@ -104,7 +88,6 @@ export const MintNFT: React.FC<MintNFTProps> = ({
     if (receiverAddress) {
       const recordingUrl = await getRecordingUrl(uploadID);
       const attributes = setTheAttributes(
-        isOnBreakpoint,
         timeStamp,
         theVibe,
         longitude,
@@ -114,8 +97,7 @@ export const MintNFT: React.FC<MintNFTProps> = ({
       const success = await createNFT(
         receiverAddress,
         attributes,
-        recordingUrl,
-        isOnBreakpoint
+        recordingUrl
       );
 
       let queryParams;

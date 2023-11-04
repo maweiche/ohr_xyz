@@ -61,8 +61,7 @@ export const createNFT = (
     Long?: number;
     Lat?: number;
   },
-  recordingUrl: string,
-  isOnBreakpoint: boolean
+  recordingUrl: string
 ): Promise<boolean> => {
   return new Promise((resolve) => {
     const options = {
@@ -76,8 +75,8 @@ export const createNFT = (
         attributes: attributes,
         name: "øhr",
         symbol: "ØHR",
-        description: isOnBreakpoint ? BREAKPOINT_DESCR : GENERAL_DESCR,
-        image: isOnBreakpoint ? BREAKPOINT_NFT_IMG : GENERAL_NFT_IMG,
+        description: GENERAL_DESCR,
+        image: GENERAL_NFT_IMG,
         animationUrl: recordingUrl,
         externalUrl: "https://ohr-community.xyz",
         receiverAddress: receiverAddress,

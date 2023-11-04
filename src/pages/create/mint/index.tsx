@@ -8,8 +8,7 @@ import {
 } from "utils/formatUtils";
 import useMetadataStore from "utils/useMetadataStore";
 import Image from "next/image";
-import { isUserOnBreakpoint } from "utils/nftUtils";
-import { BREAKPOINT_NFT_IMG, GENERAL_NFT_IMG } from "utils/constants";
+import { GENERAL_NFT_IMG } from "utils/constants";
 import PopupMessage from "@components/PopupMessage";
 import ErrorMessage from "@components/ErrorMessage";
 
@@ -19,9 +18,6 @@ const Minting = () => {
   const [hasError, setHasError] = useState<string | undefined>(undefined);
   const [isMinting, setIsMinting] = useState<boolean>(false);
   const { metadata, resetMetadata } = useMetadataStore();
-  const [isOnBreakpoint, setIsOnBreakpoint] = useState<boolean | undefined>(
-    undefined
-  );
   const [isMintSuccessful, setIsMintSuccessful] = useState<boolean>(false);
   const [long, setLong] = useState<number | undefined>(undefined);
   const [lat, setLat] = useState<number | undefined>(undefined);
@@ -40,17 +36,14 @@ const Minting = () => {
     if (latitude && longitude) {
       setLong(Number(longitude));
       setLat(Number(latitude));
-      setIsOnBreakpoint(
-        isUserOnBreakpoint(Number(longitude), Number(latitude))
-      );
     }
   }, [url.searchParams]);
 
-  useEffect(() => {
-    if (!uploadID && isOnBreakpoint === undefined) {
-      setHasErrored(true);
-    }
-  }, [isOnBreakpoint, uploadID]);
+  // useEffect(() => {
+  //   if (!uploadID) {
+  //     setHasErrored(true);
+  //   }
+  // }, [uploadID]);
 
   const handleSuccessfulMint = () => {
     if (long && lat) {
@@ -136,12 +129,12 @@ const Minting = () => {
       )}
 
       <div className="w-full h-full flex justify-center align-center items-center">
-        {uploadID && isOnBreakpoint != undefined && (
+        {uploadID && (
           <div className="flex flex-col justify-center items-center w-84 p-3 rounded-xl">
             <h2 className="text-2xl m-2 font-bold text-center">{theVibe}</h2>
             <Image
-              src={isOnBreakpoint ? BREAKPOINT_NFT_IMG : GENERAL_NFT_IMG}
-              alt={isOnBreakpoint ? "Breakpoint NFT" : "øhr NFT"}
+              src={GENERAL_NFT_IMG}
+              alt={"øhr NFT"}
               width={220}
               height={220}
               className="rounded-xl"
@@ -155,7 +148,6 @@ const Minting = () => {
               uploadID={uploadID}
               setIsMinting={setIsMinting}
               isMinting={isMinting}
-              isOnBreakpoint={isOnBreakpoint}
               setIsMintSuccessful={setIsMintSuccessful}
               setHasError={setHasError}
             />
