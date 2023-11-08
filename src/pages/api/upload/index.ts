@@ -15,6 +15,7 @@ export default async function handler(
         const upload = await Video.Uploads.create({
           new_asset_settings: {
             playback_policy: "public",
+            normalize_audio: true,
             // master_access: "temporary",
             mp4_support: "standard",
           },
