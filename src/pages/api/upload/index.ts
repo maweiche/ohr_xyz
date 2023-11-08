@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import Mux from "@mux/mux-node";
-const { json, send } = require("micro");
 
 export default async function handler(
   req: NextApiRequest,

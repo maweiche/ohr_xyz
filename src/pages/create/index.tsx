@@ -80,11 +80,13 @@ const RecordingPage = () => {
     recorder.start();
   };
 
-  const handleContinue = async (): Promise<void> => {
-    router.push({
-      pathname: "/create/listen",
-    });
-  };
+  useEffect(() => {
+    if (isRecordingCompleted && !isLoading) {
+      router.push({
+        pathname: "/create/listen",
+      });
+    }
+  }, [isRecordingCompleted, isLoading, router]);
 
   const showTimer = (isRecording || isRecordingCompleted) && !isLoading;
   const showHelpText = !isRecordingCompleted && !isRecording;
@@ -123,13 +125,9 @@ const RecordingPage = () => {
             isRecordingCompleted={isRecordingCompleted}
           />
         )}
-        {showHelpText ? (
+        {showHelpText && (
           <p className={styles["help-text"]}>click the ear to record</p>
-        ) : showContinueButton ? (
-          <button className="primary-btn text-md" onClick={handleContinue}>
-            continue
-          </button>
-        ) : null}
+        )}
       </div>
     </>
   );
