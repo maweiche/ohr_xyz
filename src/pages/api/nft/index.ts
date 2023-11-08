@@ -31,11 +31,15 @@ export default async function handler(
             delegated: false,
           }),
         };
+        // const response = await fetch(
+        //   "https://mainnet.underdogprotocol.com/v2/projects/1/nfts",
+        //   options
+        // );
         const response = await fetch(
-          "https://mainnet.underdogprotocol.com/v2/projects/1/nfts",
+          "https://devnet.underdogprotocol.com/v2/projects/6/nfts",
           options
         );
-        if (response.ok) {
+        https: if (response.ok) {
           const data = await response.json();
           res.status(200).json(data);
         } else {

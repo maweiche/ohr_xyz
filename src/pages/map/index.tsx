@@ -42,6 +42,7 @@ const MapScreen: React.FC = () => {
     }
   }, []);
 
+  console.log(audioNFTs);
   const markers: JSX.Element[] = useMemo(
     () =>
       audioNFTs
