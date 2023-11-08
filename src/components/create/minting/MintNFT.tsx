@@ -114,7 +114,8 @@ export const MintNFT: React.FC<MintNFTProps> = ({
       });
 
       if (success) {
-        setIsMintSuccessful(true);
+        // setIsMintSuccessful(true);
+        router.push({ pathname: "/map", query: { longitude, latitude } });
       } else {
         setHasError("Something didn't work out with the mint. ");
       }

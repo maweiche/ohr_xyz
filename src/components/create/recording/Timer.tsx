@@ -5,7 +5,7 @@ interface TimerProps {
   isRecording: boolean;
   discardRecording: boolean;
   setDiscardRecording: Dispatch<SetStateAction<boolean>>;
-  setIsRecordingTooShort: Dispatch<SetStateAction<boolean>>;
+  setIsRecordingTooShort: Dispatch<SetStateAction<boolean | undefined>>;
 }
 
 const Timer: React.FC<TimerProps> = ({
@@ -26,6 +26,8 @@ const Timer: React.FC<TimerProps> = ({
     } else {
       if (passedTime < 1) {
         setIsRecordingTooShort(true);
+      } else {
+        setIsRecordingTooShort(false);
       }
     }
 

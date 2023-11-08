@@ -4,13 +4,9 @@ import EarBtn from "@components/create/recording/EarBtn";
 import Timer from "@components/create/recording/Timer";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import {
-  getCurrentDateFormatted,
-  getFirstArrayElementOrValue,
-} from "utils/formatUtils";
+import { getCurrentDateFormatted } from "utils/formatUtils";
 import useMetadataStore from "utils/useMetadataStore";
 import ErrorMessage from "@components/ErrorMessage";
-import { getRecordingUrl } from "@components/create/minting/MintNFT";
 
 const RecordingPage = () => {
   const router = useRouter();
@@ -26,8 +22,9 @@ const RecordingPage = () => {
   );
   const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isRecordingTooShort, setIsRecordingTooShort] =
-    useState<boolean>(false);
+  const [isRecordingTooShort, setIsRecordingTooShort] = useState<
+    boolean | undefined
+  >(undefined);
 
   const resetRecording = () => {
     setDiscardRecording(true);
@@ -35,7 +32,7 @@ const RecordingPage = () => {
     setIsRecordingCompleted(false);
     setMediaRecorder(undefined);
     setIsLoading(false);
-    setIsRecordingTooShort(false);
+    setIsRecordingTooShort(undefined);
   };
 
   const toggleRecording = async (): Promise<void> => {
@@ -81,16 +78,15 @@ const RecordingPage = () => {
   };
 
   useEffect(() => {
-    if (isRecordingCompleted && !isLoading) {
+    if (isRecordingCompleted && !isRecordingTooShort) {
       router.push({
         pathname: "/create/listen",
       });
     }
-  }, [isRecordingCompleted, isLoading, router]);
+  }, [isRecordingTooShort]);
 
   const showTimer = (isRecording || isRecordingCompleted) && !isLoading;
   const showHelpText = !isRecordingCompleted && !isRecording;
-  const showContinueButton = isRecordingCompleted && !isLoading;
 
   return (
     <>
