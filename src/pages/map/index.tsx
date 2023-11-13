@@ -20,14 +20,14 @@ const MapScreen: React.FC = () => {
   useEffect(() => {
     getNFTs(setAudioNFTs, 1);
     console.log(audioNFTs);
-  }, []);
-
-  useEffect(() => {
-    audioNFTs &&
-      audioNFTs.forEach((audioNFT) => {
-        let ownerAddress = getNFTdetails(audioNFT.id);
-      });
   }, [audioNFTs]);
+
+  // useEffect(() => {
+  //   audioNFTs &&
+  //     audioNFTs.forEach((audioNFT) => {
+  //       let ownerAddress = getNFTdetails(audioNFT.id);
+  //     });
+  // }, [audioNFTs]);
 
   useEffect(() => {
     const url = new URL(window.location.href);
