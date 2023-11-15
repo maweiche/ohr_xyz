@@ -45,8 +45,8 @@ const Locate: React.FC = () => {
   };
 
   const handleCurrentPosition = (position: GeolocationPosition) => {
-    showPosition(position);
-    setModalType(ModalType.Success);
+    setPosition(position);
+    handleChangeRoute("/create/mint");
     setErrorMessage(undefined); // Reset error message
   };
 
@@ -54,7 +54,7 @@ const Locate: React.FC = () => {
     setModalType(ModalType.SkipLocation);
   };
 
-  const showPosition = (position: GeolocationPosition) => {
+  const setPosition = (position: GeolocationPosition) => {
     const coords = {
       longitude: position.coords.longitude,
       latitude: position.coords.latitude,
@@ -88,6 +88,7 @@ const Locate: React.FC = () => {
 
   const handleChangeRoute = (location: string) => {
     if (longitude && latitude) {
+      console.log(longitude, latitude);
       const queryParams = {
         theVibe: theVibe,
         uploadID: uploadID,
@@ -121,20 +122,6 @@ const Locate: React.FC = () => {
       showTitle="Locate"
     >
       <p className="text-2xl text-center">Add your location?</p>
-      {modalType === ModalType.Success && (
-        <PopupMessage
-          showModal={true}
-          handleContinue={() => handleChangeRoute("/create/mint")}
-          buttonText="Continue"
-          description="Your location was successfully added"
-          title="Success"
-          handleClose={() => {
-            setModalType(ModalType.None);
-            handleChangeRoute("/create/mint");
-          }}
-        />
-      )}
-
       {modalType === ModalType.SkipLocation && (
         <PopupMessage
           showModal={true}

@@ -22,13 +22,6 @@ const MapScreen: React.FC = () => {
     console.log(audioNFTs);
   }, [audioNFTs]);
 
-  // useEffect(() => {
-  //   audioNFTs &&
-  //     audioNFTs.forEach((audioNFT) => {
-  //       let ownerAddress = getNFTdetails(audioNFT.id);
-  //     });
-  // }, [audioNFTs]);
-
   useEffect(() => {
     const url = new URL(window.location.href);
     const longitude = url.searchParams.get("longitude");
