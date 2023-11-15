@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { LayoutComponent } from "@components/layout/LayoutComponent";
 import { MapView } from "@components/map/MapView";
-import { getNFTdetails, getNFTs } from "utils/nftUtils";
+import { getNFTs } from "utils/nftUtils";
 import NFTModal, { AudioNFT } from "@components/map/NFTModal";
 import { Marker } from "react-map-gl";
 import Image from "next/image";
@@ -15,12 +15,12 @@ const MapScreen: React.FC = () => {
   const [position, setPosition] = useState<{
     longitude: number;
     latitude: number;
-  }>({ longitude: 4.9041, latitude: 52.3676 });
+  }>({ longitude: 13.35037231777517, latitude: 52.52709769976026 });
 
   useEffect(() => {
     getNFTs(setAudioNFTs, 1);
     console.log(audioNFTs);
-  }, [audioNFTs]);
+  }, []);
 
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -28,6 +28,7 @@ const MapScreen: React.FC = () => {
     const latitude = url.searchParams.get("latitude");
 
     if (latitude && longitude) {
+      console.log("Should have long and lat");
       setPosition({
         longitude: Number(longitude),
         latitude: Number(latitude),
@@ -35,7 +36,6 @@ const MapScreen: React.FC = () => {
     }
   }, []);
 
-  console.log(audioNFTs);
   const markers: JSX.Element[] = useMemo(
     () =>
       audioNFTs

@@ -20,8 +20,8 @@ export const MapView: React.FC<MapViewProps> = ({
         mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_API_KEY}
         mapStyle={`mapbox://styles/noamie22/ck2zynqqn018x1cnohcw5cnna`}
         initialViewState={{
-          longitude: longitude ?? 10.4515,
-          latitude: latitude ?? 51.1657,
+          longitude: longitude ?? 13.35037231777517,
+          latitude: latitude ?? 52.52709769976026,
           zoom: 10,
         }}
       >
