@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { getCurrentDateFormatted } from "utils/formatUtils";
 import useMetadataStore from "utils/useMetadataStore";
 import ErrorMessage from "@components/ErrorMessage";
+import useDialogStore from "utils/useDialogStore";
 
 const RecordingPage = () => {
   const router = useRouter();
@@ -25,6 +26,8 @@ const RecordingPage = () => {
   const [isRecordingTooShort, setIsRecordingTooShort] = useState<
     boolean | undefined
   >(undefined);
+
+  const { setIsAboutBtnDisabled } = useDialogStore();
 
   const resetRecording = () => {
     setDiscardRecording(true);
@@ -53,6 +56,7 @@ const RecordingPage = () => {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
     // start recording
+    setIsAboutBtnDisabled(true);
     setIsRecording(true);
     setDiscardRecording(false);
     setTimeStamp(getCurrentDateFormatted());
@@ -72,6 +76,7 @@ const RecordingPage = () => {
       setIsRecording(false);
       setIsRecordingCompleted(true);
       setAudioBlob(audioBlob);
+      setIsAboutBtnDisabled(false);
     };
 
     recorder.start();
