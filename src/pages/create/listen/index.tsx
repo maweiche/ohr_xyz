@@ -1,3 +1,4 @@
+import ErrorMessage from "@components/ErrorMessage";
 import { LoadingComponent } from "@components/LoadingComponent";
 import { getRecordingUrl } from "@components/create/minting/MintNFT";
 import { LayoutComponent } from "@components/layout/LayoutComponent";
@@ -21,6 +22,7 @@ const Listen = () => {
   const [recordingUrl, setRecordingUrl] = useState<string | undefined>(
     undefined
   );
+  const [hasErrored, setHasErrored] = useState<boolean | undefined>(undefined);
 
   const { uploadID } = router.query;
   const parsedUploadID = getFirstArrayElementOrValue(uploadID);
@@ -50,12 +52,22 @@ const Listen = () => {
     setIsLoading(true);
 
     if (metadata.audioBlob) {
-      setUploadID(await createMuxUpload(metadata.audioBlob));
+      createMuxUpload(metadata.audioBlob)
+        .then((uploadID) => {
+          setUploadID(uploadID);
+          router.push({
+            pathname: "/create/describe",
+          });
+        })
+        .catch((err) => {
+          // - Show error component saying that something went wrong
+          // - Retry a couple times first?
+          // - Reset the process for the user?
+          /// set analytics!!!
+          setHasErrored(true);
+          console.log(err);
+        });
     }
-
-    router.push({
-      pathname: "/create/describe",
-    });
   };
 
   const handleBack = () => {
@@ -68,6 +80,21 @@ const Listen = () => {
 
   return (
     <LayoutComponent showWallet="header" showTitle="Listen">
+      {hasErrored && (
+        <ErrorMessage
+          showModal={true}
+          handleContinue={() => router.push("/create/listen")}
+          buttonText="Try again"
+          secondaryButtonText="Report a bug"
+          secondaryHandleClick={() => {
+            console.log("report to mux");
+            // TODO: send them to telegram
+          }}
+          description="Your recording couldn't be uploaded."
+          title="Something went wrong"
+          handleClose={() => setHasErrored(false)}
+        />
+      )}
       <motion.div
         className="flex flex-col items-center justify-center h-full"
         initial="initial"

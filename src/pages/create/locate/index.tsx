@@ -28,7 +28,7 @@ const Locate: React.FC = () => {
   const addLocation = () => {
     setModalType(ModalType.None);
     if ("geolocation" in navigator) {
-      setErrorMessage("in first if");
+      setErrorMessage("in first if"); //
       navigator.geolocation.getCurrentPosition(
         handleCurrentPosition,
         showError,
