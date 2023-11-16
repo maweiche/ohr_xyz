@@ -17,27 +17,15 @@ const Minting = () => {
 
   const [hasError, setHasError] = useState<string | undefined>(undefined);
   const [isMinting, setIsMinting] = useState<boolean>(false);
-  const { metadata, resetMetadata } = useMetadataStore();
+  const {
+    metadata: { longitude, latitude, timeStamp, theVibe, uploadID },
+    resetMetadata,
+  } = useMetadataStore();
   const [isMintSuccessful, setIsMintSuccessful] = useState<boolean>(false);
-  const [long, setLong] = useState<number | undefined>(undefined);
-  const [lat, setLat] = useState<number | undefined>(undefined);
-
-  const url = new URL(window.location.href);
-  const timeStamp = url.searchParams.get("timeStamp");
-  const theVibe = url.searchParams.get("theVibe");
-  const uploadID = url.searchParams.get("uploadID");
 
   const [hasErrored, setHasErrored] = useState<boolean>(false);
 
-  useEffect(() => {
-    const longitude = url.searchParams.get("longitude");
-    const latitude = url.searchParams.get("latitude");
-
-    if (latitude && longitude) {
-      setLong(Number(longitude));
-      setLat(Number(latitude));
-    }
-  }, [url.searchParams]);
+  useEffect(() => {}, [longitude, latitude]);
 
   // useEffect(() => {
   //   if (!uploadID) {
@@ -46,10 +34,10 @@ const Minting = () => {
   // }, [uploadID]);
 
   const handleSuccessfulMint = () => {
-    if (long && lat) {
+    if (longitude && latitude) {
       router.push({
         pathname: "/map",
-        query: { long, lat },
+        query: { longitude, latitude },
       });
     } else {
       router.push("/map");
@@ -57,18 +45,18 @@ const Minting = () => {
     resetMetadata();
   };
 
-  const handleReroute = (location: string) => {
-    if (long && lat) {
+  const handleReroute = (route: string) => {
+    if (longitude && latitude) {
       const queryParams = {
         theVibe: theVibe,
         uploadID: uploadID,
-        longitude: long.toString(),
-        latitude: lat.toString(),
+        longitude: longitude.toString(),
+        latitude: latitude.toString(),
         timeStamp: timeStamp,
       };
 
       router.push({
-        pathname: location,
+        pathname: route,
         query: queryParams,
       });
     } else {
@@ -79,13 +67,12 @@ const Minting = () => {
       };
 
       router.push({
-        pathname: location,
+        pathname: route,
         query: queryParams,
       });
     }
   };
 
-  console.log("metadata: ", metadata);
   return (
     <LayoutComponent
       showWallet="header"
@@ -143,8 +130,8 @@ const Minting = () => {
             <MintNFT
               timeStamp={timeStamp ?? getCurrentDateFormatted()}
               theVibe={theVibe ?? "Bullish"}
-              longitude={long}
-              latitude={lat}
+              longitude={longitude}
+              latitude={latitude}
               uploadID={uploadID}
               setIsMinting={setIsMinting}
               isMinting={isMinting}

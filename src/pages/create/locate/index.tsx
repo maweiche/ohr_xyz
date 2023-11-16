@@ -86,7 +86,7 @@ const Locate: React.FC = () => {
     setModalType(ModalType.Error);
   };
 
-  const handleChangeRoute = (location: string) => {
+  const handleChangeRoute = (route: string) => {
     if (longitude && latitude) {
       console.log(longitude, latitude);
       const queryParams = {
@@ -98,7 +98,7 @@ const Locate: React.FC = () => {
       };
 
       router.push({
-        pathname: location,
+        pathname: route,
         query: queryParams,
       });
     } else {
@@ -109,7 +109,7 @@ const Locate: React.FC = () => {
       };
 
       router.push({
-        pathname: location,
+        pathname: route,
         query: queryParams,
       });
     }

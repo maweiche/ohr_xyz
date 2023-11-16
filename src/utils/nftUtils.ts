@@ -88,6 +88,7 @@ export const createNFT = (
     fetch("https://devnet.underdogprotocol.com/v2/projects/6/nfts", options)
       .then((response) => response.json())
       .then((response) => {
+        console.log(response);
         resolve(true);
       })
       .catch((err) => {

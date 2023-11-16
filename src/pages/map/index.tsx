@@ -7,6 +7,7 @@ import { Marker } from "react-map-gl";
 import Image from "next/image";
 import marker from "../../assets/ear_small.png";
 import { LoadingComponent } from "@components/LoadingComponent";
+import { waitFor } from "utils/mux";
 
 const MapScreen: React.FC = () => {
   const [audioNFTs, setAudioNFTs] = useState<AudioNFT[] | undefined>(undefined);
@@ -18,9 +19,14 @@ const MapScreen: React.FC = () => {
   }>({ longitude: 13.35037231777517, latitude: 52.52709769976026 });
 
   useEffect(() => {
-    getNFTs(setAudioNFTs, 1);
-    console.log(audioNFTs);
-  }, []);
+    const fetchNFTs = async () => {
+      await getNFTs(setAudioNFTs, 1);
+    };
+
+    const intervalId = setInterval(fetchNFTs, 2000);
+
+    return () => clearInterval(intervalId);
+  }, [audioNFTs]);
 
   useEffect(() => {
     const url = new URL(window.location.href);
