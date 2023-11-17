@@ -63,7 +63,7 @@ const Listen = () => {
           // - Show error component saying that something went wrong
           // - Retry a couple times first?
           // - Reset the process for the user?
-          /// set analytics!!!
+          // - Set analytics!!!
           setHasErrored(true);
           console.log(err);
         });

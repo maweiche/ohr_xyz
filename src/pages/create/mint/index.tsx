@@ -17,21 +17,33 @@ const Minting = () => {
 
   const [hasError, setHasError] = useState<string | undefined>(undefined);
   const [isMinting, setIsMinting] = useState<boolean>(false);
-  const {
-    metadata: { longitude, latitude, timeStamp, theVibe, uploadID },
-    resetMetadata,
-  } = useMetadataStore();
+  const { metadata, resetMetadata } = useMetadataStore();
   const [isMintSuccessful, setIsMintSuccessful] = useState<boolean>(false);
+  const [long, setLong] = useState<number | undefined>(undefined);
+  const [lat, setLat] = useState<number | undefined>(undefined);
+
+  const url = new URL(window.location.href);
+  const timeStamp = url.searchParams.get("timeStamp");
+  const theVibe = url.searchParams.get("theVibe");
+  const uploadID = url.searchParams.get("uploadID");
 
   const [hasErrored, setHasErrored] = useState<boolean>(false);
 
-  // useEffect(() => {}, [longitude, latitude]);
+  useEffect(() => {
+    const longitude = url.searchParams.get("longitude");
+    const latitude = url.searchParams.get("latitude");
+
+    if (latitude && longitude) {
+      setLong(Number(longitude));
+      setLat(Number(latitude));
+    }
+  }, [url.searchParams]);
 
   const handleSuccessfulMint = () => {
-    if (longitude && latitude) {
+    if (long && lat) {
       router.push({
         pathname: "/map",
-        query: { longitude, latitude },
+        query: { long, lat },
       });
     } else {
       router.push("/map");
@@ -39,18 +51,18 @@ const Minting = () => {
     resetMetadata();
   };
 
-  const handleReroute = (route: string) => {
-    if (longitude && latitude) {
+  const handleReroute = (location: string) => {
+    if (long && lat) {
       const queryParams = {
         theVibe: theVibe,
         uploadID: uploadID,
-        longitude: longitude.toString(),
-        latitude: latitude.toString(),
+        longitude: long.toString(),
+        latitude: lat.toString(),
         timeStamp: timeStamp,
       };
 
       router.push({
-        pathname: route,
+        pathname: location,
         query: queryParams,
       });
     } else {
@@ -61,23 +73,19 @@ const Minting = () => {
       };
 
       router.push({
-        pathname: route,
+        pathname: location,
         query: queryParams,
       });
     }
   };
 
+  console.log("metadata: ", metadata);
   return (
     <LayoutComponent
       showWallet="header"
       justifyStyling="center"
       showTitle="Mint"
     >
-      <h1>{timeStamp}</h1>
-      <h1>{theVibe}</h1>
-      <h1>{uploadID}</h1>
-      <h1>{latitude}</h1>
-      <h1>{longitude}</h1>
       {isMintSuccessful &&
         (isMintSuccessful ? (
           <PopupMessage
@@ -115,29 +123,39 @@ const Minting = () => {
       )}
 
       <div className="w-full h-full flex justify-center align-center items-center">
-        {hasErrored && <h1>error</h1>}
-        <div className="flex flex-col justify-center items-center w-84 p-3 rounded-xl">
-          <h2 className="text-2xl m-2 font-bold text-center">{theVibe}</h2>
-          <Image
-            src={GENERAL_NFT_IMG}
-            alt={"øhr NFT"}
-            width={220}
-            height={220}
-            className="rounded-xl"
+        {uploadID ? (
+          <div className="flex flex-col justify-center items-center w-84 p-3 rounded-xl">
+            <h2 className="text-2xl m-2 font-bold text-center">{theVibe}</h2>
+            <Image
+              src={GENERAL_NFT_IMG}
+              alt={"øhr NFT"}
+              width={220}
+              height={220}
+              className="rounded-xl"
+            />
+            <h2 className="mt-2 text-xl">{timeStamp}</h2>
+            <MintNFT
+              timeStamp={timeStamp ?? getCurrentDateFormatted()}
+              theVibe={theVibe ?? "Bullish"}
+              longitude={long}
+              latitude={lat}
+              uploadID={uploadID}
+              setIsMinting={setIsMinting}
+              isMinting={isMinting}
+              setIsMintSuccessful={setIsMintSuccessful}
+              setHasError={setHasError}
+            />
+          </div>
+        ) : (
+          <ErrorMessage
+            showModal={true}
+            handleContinue={() => handleReroute("/")}
+            buttonText="Back 2 start"
+            description="Something went wrong."
+            title="Oh no!"
+            handleClose={() => handleReroute("/")}
           />
-          <h2 className="mt-2 text-xl">{timeStamp}</h2>
-          <MintNFT
-            timeStamp={timeStamp ?? getCurrentDateFormatted()}
-            theVibe={theVibe ?? "Bullish"}
-            longitude={longitude}
-            latitude={latitude}
-            uploadID={uploadID}
-            setIsMinting={setIsMinting}
-            isMinting={isMinting}
-            setIsMintSuccessful={setIsMintSuccessful}
-            setHasError={setHasError}
-          />
-        </div>
+        )}
       </div>
     </LayoutComponent>
   );
