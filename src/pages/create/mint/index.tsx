@@ -25,7 +25,7 @@ const Minting = () => {
 
   const [hasErrored, setHasErrored] = useState<boolean>(false);
 
-  useEffect(() => {}, [longitude, latitude]);
+  // useEffect(() => {}, [longitude, latitude]);
 
   const handleSuccessfulMint = () => {
     if (longitude && latitude) {
@@ -73,6 +73,11 @@ const Minting = () => {
       justifyStyling="center"
       showTitle="Mint"
     >
+      <h1>{timeStamp}</h1>
+      <h1>{theVibe}</h1>
+      <h1>{uploadID}</h1>
+      <h1>{latitude}</h1>
+      <h1>{longitude}</h1>
       {isMintSuccessful &&
         (isMintSuccessful ? (
           <PopupMessage
@@ -110,6 +115,7 @@ const Minting = () => {
       )}
 
       <div className="w-full h-full flex justify-center align-center items-center">
+        {hasErrored && <h1>error</h1>}
         <div className="flex flex-col justify-center items-center w-84 p-3 rounded-xl">
           <h2 className="text-2xl m-2 font-bold text-center">{theVibe}</h2>
           <Image
