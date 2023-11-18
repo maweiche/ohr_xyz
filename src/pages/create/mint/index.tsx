@@ -19,6 +19,8 @@ const Minting = () => {
   const [isMinting, setIsMinting] = useState<boolean>(false);
   const { metadata, resetMetadata } = useMetadataStore();
   const [isMintSuccessful, setIsMintSuccessful] = useState<boolean>(false);
+  const [disableMintBtn, setDisableMintBtn] = useState<boolean>(true);
+
   const [long, setLong] = useState<number | undefined>(undefined);
   const [lat, setLat] = useState<number | undefined>(undefined);
 
@@ -37,6 +39,7 @@ const Minting = () => {
       setLong(Number(longitude));
       setLat(Number(latitude));
     }
+    setDisableMintBtn(false);
   }, [url.searchParams]);
 
   const handleSuccessfulMint = () => {
@@ -144,6 +147,7 @@ const Minting = () => {
               isMinting={isMinting}
               setIsMintSuccessful={setIsMintSuccessful}
               setHasError={setHasError}
+              disabled={disableMintBtn}
             />
           </div>
         ) : (

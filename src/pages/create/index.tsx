@@ -9,10 +9,14 @@ import useMetadataStore from "utils/useMetadataStore";
 import ErrorMessage from "@components/ErrorMessage";
 import useDialogStore from "utils/useDialogStore";
 
+const getUserMedia = async () => {
+  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  return stream;
+};
+
 const RecordingPage = () => {
   const router = useRouter();
-  const { setTimeStamp, setAudioBlob, metadata } = useMetadataStore();
-
+  const { setTimeStamp, setAudioBlob } = useMetadataStore();
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [isRecordingCompleted, setIsRecordingCompleted] =
     useState<boolean>(false);
@@ -26,6 +30,7 @@ const RecordingPage = () => {
   const [isRecordingTooShort, setIsRecordingTooShort] = useState<
     boolean | undefined
   >(undefined);
+  const [hasErrored, setHasErrored] = useState<boolean | undefined>(undefined);
 
   const { setIsAboutBtnDisabled } = useDialogStore();
 
@@ -36,26 +41,22 @@ const RecordingPage = () => {
     setMediaRecorder(undefined);
     setIsLoading(false);
     setIsRecordingTooShort(undefined);
+    setHasErrored(undefined);
   };
 
-  const toggleRecording = async (): Promise<void> => {
-    if (isRecording && mediaRecorder) {
+  const stopRecording = () => {
+    if (mediaRecorder) {
       mediaRecorder.stop();
-
-      // stop mic
-      if (mediaStream) {
-        mediaStream.getTracks().forEach((track) => {
-          track.stop();
-        });
-      }
-
-      return;
     }
 
-    // user is being asked for mic allowance
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    if (mediaStream) {
+      mediaStream.getTracks().forEach((track) => {
+        track.stop();
+      });
+    }
+  };
 
-    // start recording
+  const startRecording = (stream: MediaStream) => {
     setIsAboutBtnDisabled(true);
     setIsRecording(true);
     setDiscardRecording(false);
@@ -82,6 +83,21 @@ const RecordingPage = () => {
     recorder.start();
   };
 
+  const toggleRecording = async (): Promise<void> => {
+    if (isRecording && mediaRecorder) {
+      stopRecording();
+      return;
+    }
+
+    try {
+      const stream = await getUserMedia();
+      startRecording(stream);
+    } catch (error) {
+      setHasErrored(true);
+      console.error("Error while starting recording:", error);
+    }
+  };
+
   useEffect(() => {
     if (isRecordingCompleted && !isRecordingTooShort) {
       router.push({
@@ -96,16 +112,20 @@ const RecordingPage = () => {
   return (
     <>
       <div className="flex flex-col items-center align-center">
-        {isRecordingTooShort && (
+        {(isRecordingTooShort || hasErrored) && (
           <ErrorMessage
-            showModal={isRecordingTooShort}
+            showModal={true}
             handleContinue={() => {
               router.push("/");
               resetRecording();
             }}
             buttonText={"Okay"}
             description={"Try again"}
-            title={"Your recording was too short"}
+            title={
+              isRecordingTooShort
+                ? "Your recording was too short"
+                : "Something went wrong"
+            }
             handleClose={() => resetRecording()}
           />
         )}

@@ -7,7 +7,6 @@ import { motion } from "framer-motion";
 import useMetadataStore from "utils/useMetadataStore";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import PopupMessage from "@components/PopupMessage";
 
 export const getRecordingUrl = async (uploadId: string) => {
   try {
@@ -54,6 +53,7 @@ interface MintNFTProps {
   uploadID: string;
   setIsMintSuccessful: Dispatch<SetStateAction<boolean>>;
   setHasError: Dispatch<SetStateAction<string | undefined>>;
+  disabled: boolean;
 }
 
 const mintButtonAnimation = {
@@ -71,6 +71,7 @@ export const MintNFT: React.FC<MintNFTProps> = ({
   uploadID,
   setIsMintSuccessful,
   setHasError,
+  disabled,
 }) => {
   const { publicKey, connected } = useWallet();
   const { metadata, resetMetadata } = useMetadataStore();
@@ -114,7 +115,6 @@ export const MintNFT: React.FC<MintNFTProps> = ({
       });
 
       if (success) {
-        // setIsMintSuccessful(true);
         router.push({ pathname: "/map", query: { longitude, latitude } });
       } else {
         setHasError("Something didn't work out with the mint. ");
@@ -139,6 +139,7 @@ export const MintNFT: React.FC<MintNFTProps> = ({
                 transition={{
                   duration: 1,
                 }}
+                disabled={disabled}
               >
                 {isMinting ? <i>mint</i> : "mint"}
               </motion.button>

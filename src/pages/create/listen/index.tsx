@@ -60,10 +60,7 @@ const Listen = () => {
           });
         })
         .catch((err) => {
-          // - Show error component saying that something went wrong
-          // - Retry a couple times first?
-          // - Reset the process for the user?
-          // - Set analytics!!!
+          // Set analytics!!!
           setHasErrored(true);
           console.log(err);
         });
@@ -88,6 +85,7 @@ const Listen = () => {
           secondaryButtonText="Report a bug"
           secondaryHandleClick={() => {
             console.log("report to mux");
+            router.push("/");
             // TODO: send them to telegram
           }}
           description="Your recording couldn't be uploaded."
