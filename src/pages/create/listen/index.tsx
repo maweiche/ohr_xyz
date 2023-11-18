@@ -1,13 +1,13 @@
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import ErrorMessage from "@components/ErrorMessage";
 import { LoadingComponent } from "@components/LoadingComponent";
 import { getRecordingUrl } from "@components/create/minting/MintNFT";
 import { LayoutComponent } from "@components/layout/LayoutComponent";
 import { motion } from "framer-motion";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { getFirstArrayElementOrValue } from "utils/formatUtils";
 import { createMuxUpload } from "utils/mux";
 import useMetadataStore from "utils/useMetadataStore";
+import { getFirstArrayElementOrValue } from "utils/formatUtils";
 
 const containerAnimation = {
   initial: { opacity: 0 },
@@ -16,16 +16,18 @@ const containerAnimation = {
 
 const Listen = () => {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { setUploadID, setAudioBlob, metadata } = useMetadataStore();
+
+  // in case user got redirected back to the listen page because of an error
+  const { uploadID } = router.query;
+  const parsedUploadID = getFirstArrayElementOrValue(uploadID);
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isRecordingFound, setIsRecordingFound] = useState<boolean>(false);
   const [recordingUrl, setRecordingUrl] = useState<string | undefined>(
     undefined
   );
-  const [hasErrored, setHasErrored] = useState<boolean | undefined>(undefined);
-
-  const { uploadID } = router.query;
-  const parsedUploadID = getFirstArrayElementOrValue(uploadID);
+  const [hasErrored, setHasErrored] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,6 +37,7 @@ const Listen = () => {
           const recUrl = await getRecordingUrl(parsedUploadID);
           setRecordingUrl(recUrl);
         } catch (error) {
+          setHasErrored("There was a problem getting your recording");
           console.error("Error fetching recording URL:", error);
         }
       }
@@ -43,10 +46,9 @@ const Listen = () => {
     fetchData();
   }, [parsedUploadID]);
 
-  let audioBlobUrl;
-  if (metadata.audioBlob) {
-    audioBlobUrl = URL.createObjectURL(metadata.audioBlob);
-  }
+  const audioBlobUrl = metadata.audioBlob
+    ? URL.createObjectURL(metadata.audioBlob)
+    : undefined;
 
   const handleContinue = async () => {
     setIsLoading(true);
@@ -61,7 +63,7 @@ const Listen = () => {
         })
         .catch((err) => {
           // Set analytics!!!
-          setHasErrored(true);
+          setHasErrored("Your recording couldn't be uploaded");
           console.log(err);
         });
     }
@@ -79,7 +81,7 @@ const Listen = () => {
     <LayoutComponent showWallet="header" showTitle="Listen">
       {hasErrored && (
         <ErrorMessage
-          showModal={true}
+          showModal={Boolean(hasErrored)}
           handleContinue={() => router.push("/create/listen")}
           buttonText="Try again"
           secondaryButtonText="Report a bug"
@@ -88,9 +90,9 @@ const Listen = () => {
             router.push("/");
             // TODO: send them to telegram
           }}
-          description="Your recording couldn't be uploaded."
+          description={hasErrored}
           title="Something went wrong"
-          handleClose={() => setHasErrored(false)}
+          handleClose={() => setHasErrored(undefined)}
         />
       )}
       <motion.div
@@ -98,7 +100,7 @@ const Listen = () => {
         initial="initial"
         animate="animate"
         variants={containerAnimation}
-        transition={{ duration: 2.5 }}
+        transition={{ duration: 1 }}
       >
         {isLoading ? (
           <LoadingComponent />

@@ -1,13 +1,13 @@
-import styles from "@styles/Home.module.css";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import ErrorMessage from "@components/ErrorMessage";
+import { getCurrentDateFormatted } from "utils/formatUtils";
+import useMetadataStore from "utils/useMetadataStore";
+import useDialogStore from "utils/useDialogStore";
 import { LoadingComponent } from "@components/LoadingComponent";
 import EarBtn from "@components/create/recording/EarBtn";
 import Timer from "@components/create/recording/Timer";
-import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
-import { getCurrentDateFormatted } from "utils/formatUtils";
-import useMetadataStore from "utils/useMetadataStore";
-import ErrorMessage from "@components/ErrorMessage";
-import useDialogStore from "utils/useDialogStore";
+import styles from "@styles/Home.module.css";
 
 const getUserMedia = async () => {
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
