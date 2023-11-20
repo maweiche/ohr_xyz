@@ -30,11 +30,12 @@ const Locate: React.FC = () => {
 
     try {
       const position = await getCurrentPosition();
-      await setPosition(position);
-      handleChangeRoute("/create/mint");
+      setPosition(position);
     } catch (error) {
       handleError(error as GeolocationPositionError);
     }
+
+    handleChangeRoute("/create/mint");
   };
 
   const getCurrentPosition = (): Promise<GeolocationPosition> => {
