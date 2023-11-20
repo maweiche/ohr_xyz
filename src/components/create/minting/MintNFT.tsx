@@ -52,7 +52,7 @@ interface MintNFTProps {
   setIsMinting: Dispatch<SetStateAction<boolean>>;
   uploadID: string;
   setIsMintSuccessful: Dispatch<SetStateAction<boolean>>;
-  setHasError: Dispatch<SetStateAction<string | undefined>>;
+  setHasErrored: Dispatch<SetStateAction<string | undefined>>;
   disabled: boolean;
 }
 
@@ -70,7 +70,7 @@ export const MintNFT: React.FC<MintNFTProps> = ({
   setIsMinting,
   uploadID,
   setIsMintSuccessful,
-  setHasError,
+  setHasErrored,
   disabled,
 }) => {
   const { publicKey, connected } = useWallet();
@@ -81,7 +81,7 @@ export const MintNFT: React.FC<MintNFTProps> = ({
     setIsMinting(true);
 
     if (!metadata.uploadID) {
-      setHasError("Your recording is missing.");
+      setHasErrored("Your recording is missing.");
     }
 
     const receiverAddress = publicKey?.toBase58();
@@ -117,10 +117,10 @@ export const MintNFT: React.FC<MintNFTProps> = ({
       if (success) {
         router.push({ pathname: "/map", query: { longitude, latitude } });
       } else {
-        setHasError("Something didn't work out with the mint. ");
+        setHasErrored("Something didn't work out with the mint. ");
       }
     } else {
-      setHasError("Your wallet was not connected.");
+      setHasErrored("Your wallet was not connected.");
     }
   };
 

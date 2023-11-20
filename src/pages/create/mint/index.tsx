@@ -15,7 +15,6 @@ import ErrorMessage from "@components/ErrorMessage";
 const Minting = () => {
   const router = useRouter();
 
-  const [hasError, setHasError] = useState<string | undefined>(undefined);
   const [isMinting, setIsMinting] = useState<boolean>(false);
   const { metadata, resetMetadata } = useMetadataStore();
   const [isMintSuccessful, setIsMintSuccessful] = useState<boolean>(false);
@@ -28,19 +27,24 @@ const Minting = () => {
   const timeStamp = url.searchParams.get("timeStamp");
   const theVibe = url.searchParams.get("theVibe");
   const uploadID = url.searchParams.get("uploadID");
+  const longitude = url.searchParams.get("longitude");
+  const latitude = url.searchParams.get("latitude");
+  console.log("LONG: ", longitude);
+  console.log("LAT: ", latitude);
 
-  const [hasErrored, setHasErrored] = useState<boolean>(false);
+  const [hasErrored, setHasErrored] = useState<string | undefined>(undefined);
 
   useEffect(() => {
-    const longitude = url.searchParams.get("longitude");
-    const latitude = url.searchParams.get("latitude");
+    // longitude = url.searchParams.get("longitude");
+    // latitude = url.searchParams.get("latitude");
 
     if (latitude && longitude) {
       setLong(Number(longitude));
       setLat(Number(latitude));
     }
     setDisableMintBtn(false);
-  }, [url.searchParams]);
+    console.log("IN USE EFFECT FOR LONG AND LAT");
+  }, [url.searchParams, longitude, latitude]);
 
   const handleSuccessfulMint = () => {
     if (long && lat) {
@@ -53,33 +57,28 @@ const Minting = () => {
     }
     resetMetadata();
   };
-
   const handleReroute = (location: string) => {
+    const queryParams: {
+      theVibe: string | null;
+      uploadID: string | null;
+      timeStamp: string | null;
+      longitude?: string | null;
+      latitude?: string | null;
+    } = {
+      theVibe: theVibe,
+      uploadID: uploadID,
+      timeStamp: timeStamp,
+    };
+
     if (long && lat) {
-      const queryParams = {
-        theVibe: theVibe,
-        uploadID: uploadID,
-        longitude: long.toString(),
-        latitude: lat.toString(),
-        timeStamp: timeStamp,
-      };
-
-      router.push({
-        pathname: location,
-        query: queryParams,
-      });
-    } else {
-      const queryParams = {
-        theVibe: theVibe,
-        uploadID: uploadID,
-        timeStamp: timeStamp,
-      };
-
-      router.push({
-        pathname: location,
-        query: queryParams,
-      });
+      queryParams.longitude = long.toString();
+      queryParams.latitude = lat.toString();
     }
+
+    router.push({
+      pathname: location,
+      query: queryParams,
+    });
   };
 
   console.log("metadata: ", metadata);
@@ -146,7 +145,7 @@ const Minting = () => {
               setIsMinting={setIsMinting}
               isMinting={isMinting}
               setIsMintSuccessful={setIsMintSuccessful}
-              setHasError={setHasError}
+              setHasErrored={setHasErrored}
               disabled={disableMintBtn}
             />
           </div>
