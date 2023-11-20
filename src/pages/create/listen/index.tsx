@@ -62,7 +62,7 @@ const Listen = () => {
           });
         })
         .catch((err) => {
-          // Set analytics!!!
+          // TODO: Set analytics
           setHasErrored("Your recording couldn't be uploaded");
           console.log(err);
         });

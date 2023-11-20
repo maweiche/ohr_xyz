@@ -14,40 +14,41 @@ enum ModalType {
 
 const Locate: React.FC = () => {
   const router = useRouter();
-
-  const [modalType, setModalType] = useState<ModalType>(ModalType.None);
-  const [errorMessage, setErrorMessage] = useState<string | undefined>(
-    undefined
-  );
   const {
     setLongitude,
     setLatitude,
     metadata: { latitude, longitude, theVibe, timeStamp, uploadID },
   } = useMetadataStore((state) => state);
 
-  const addLocation = () => {
+  const [modalType, setModalType] = useState<ModalType>(ModalType.None);
+  const [errorMessage, setErrorMessage] = useState<string | undefined>(
+    undefined
+  );
+
+  const addLocation = async () => {
     setModalType(ModalType.None);
-    if ("geolocation" in navigator) {
-      setErrorMessage("in first if"); //
-      navigator.geolocation.getCurrentPosition(
-        handleCurrentPosition,
-        showError,
-        {
-          enableHighAccuracy: true,
-          timeout: 5000,
-          maximumAge: 0,
-        }
-      );
-    } else {
-      setErrorMessage("Geolocation is not supported by this browser.");
-      setModalType(ModalType.Error);
+
+    try {
+      const position = await getCurrentPosition();
+      setPosition(position);
+      handleChangeRoute("/create/mint");
+    } catch (error) {
+      handleError(error as GeolocationPositionError);
     }
   };
 
-  const handleCurrentPosition = (position: GeolocationPosition) => {
-    setPosition(position);
-    handleChangeRoute("/create/mint");
-    setErrorMessage(undefined); // Reset error message
+  const getCurrentPosition = (): Promise<GeolocationPosition> => {
+    return new Promise((resolve, reject) => {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0,
+        });
+      } else {
+        reject("Geolocation is not supported by this browser.");
+      }
+    });
   };
 
   const skipAddLocation = () => {
@@ -63,21 +64,20 @@ const Locate: React.FC = () => {
     setLongitude(coords.longitude);
   };
 
-  const showError = (error: GeolocationPositionError) => {
-    setErrorMessage("someerror");
+  const handleError = (error: GeolocationPositionError) => {
     switch (error.code) {
       case error.PERMISSION_DENIED:
         setErrorMessage(
-          "Looks like the request for location was denied. Change your location permissions, browser or continue without adding a location."
+          "Looks like the request for location was denied. Change your location permissions, browser, or continue without adding a location."
         );
         break;
       case error.POSITION_UNAVAILABLE:
         setErrorMessage(
-          "The location information is unavailable. Change your location permissions or browser, or continue without adding a location. "
+          "The location information is unavailable. Change your location permissions or browser, or continue without adding a location."
         );
         break;
       case error.TIMEOUT:
-        setErrorMessage("It took you too long so the request got timed out!");
+        setErrorMessage("It took too long, so the request timed out!");
         break;
       default:
         setErrorMessage("An unknown error occurred.");
@@ -87,32 +87,19 @@ const Locate: React.FC = () => {
   };
 
   const handleChangeRoute = (route: string) => {
-    if (longitude && latitude) {
-      console.log(longitude, latitude);
-      const queryParams = {
-        theVibe: theVibe,
-        uploadID: uploadID,
-        longitude: longitude.toString(),
-        latitude: latitude.toString(),
-        timeStamp: timeStamp,
-      };
+    const queryParams = {
+      theVibe: theVibe,
+      uploadID: uploadID,
+      timeStamp: timeStamp,
+      ...(longitude && latitude
+        ? { longitude: longitude.toString(), latitude: latitude.toString() }
+        : {}),
+    };
 
-      router.push({
-        pathname: route,
-        query: queryParams,
-      });
-    } else {
-      const queryParams = {
-        theVibe: theVibe,
-        uploadID: uploadID,
-        timeStamp: timeStamp,
-      };
-
-      router.push({
-        pathname: route,
-        query: queryParams,
-      });
-    }
+    router.push({
+      pathname: route,
+      query: queryParams,
+    });
   };
 
   return (
@@ -142,7 +129,7 @@ const Locate: React.FC = () => {
           showModal={true}
           handleContinue={() => setModalType(ModalType.None)}
           buttonText="Try again"
-          secondaryButtonText="Back 2 start"
+          secondaryButtonText="Back to start"
           secondaryHandleClick={() => handleChangeRoute("/create/listen")}
           description={errorMessage}
           title="Something went wrong"
@@ -152,10 +139,10 @@ const Locate: React.FC = () => {
       <div className="flex flex-col text-center mt-8">
         <div className="flex justify-center gap-8 ">
           <button className="secondary-btn text-xl" onClick={skipAddLocation}>
-            skip
+            Skip
           </button>
           <button className="primary-btn text-xl" onClick={addLocation}>
-            add
+            Add
           </button>
         </div>
       </div>
