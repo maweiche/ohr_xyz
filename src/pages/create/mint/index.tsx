@@ -125,7 +125,7 @@ const Minting = () => {
       )}
 
       <div className="w-full h-full flex justify-center align-center items-center">
-        {uploadID ? (
+        {uploadID && (
           <div className="flex flex-col justify-center items-center w-84 p-3 rounded-xl">
             <h2 className="text-2xl m-2 font-bold text-center">{theVibe}</h2>
             <Image
@@ -149,15 +149,6 @@ const Minting = () => {
               disabled={disableMintBtn}
             />
           </div>
-        ) : (
-          <ErrorMessage
-            showModal={true}
-            handleContinue={() => handleReroute("/")}
-            buttonText="Back 2 start"
-            description="Something went wrong."
-            title="Oh no!"
-            handleClose={() => handleReroute("/")}
-          />
         )}
       </div>
     </LayoutComponent>

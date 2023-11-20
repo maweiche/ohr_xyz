@@ -30,7 +30,7 @@ const Locate: React.FC = () => {
 
     try {
       const position = await getCurrentPosition();
-      setPosition(position);
+      await setPosition(position);
       handleChangeRoute("/create/mint");
     } catch (error) {
       handleError(error as GeolocationPositionError);
