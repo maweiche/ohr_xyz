@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LayoutComponent } from "@components/layout/LayoutComponent";
 import { useRouter } from "next/router";
 import useMetadataStore from "utils/useMetadataStore";
@@ -25,17 +25,23 @@ const Locate: React.FC = () => {
     undefined
   );
 
+  useEffect(() => {
+    if (latitude && longitude) {
+      handleChangeRoute("/create/mint");
+    }
+  }, [latitude, longitude]);
+
   const addLocation = async () => {
     setModalType(ModalType.None);
 
     try {
-      const position = await getCurrentPosition();
-      setPosition(position);
+      const position: GeolocationPosition = await getCurrentPosition();
+      console.log("position:", position);
+      setLatitude(position.coords.latitude);
+      setLongitude(position.coords.longitude);
     } catch (error) {
       handleError(error as GeolocationPositionError);
     }
-
-    handleChangeRoute("/create/mint");
   };
 
   const getCurrentPosition = (): Promise<GeolocationPosition> => {
@@ -52,17 +58,35 @@ const Locate: React.FC = () => {
     });
   };
 
+  // const addLocation = () => {
+  //   setModalType(ModalType.None);
+  //   if ("geolocation" in navigator) {
+  //     setErrorMessage("in first if");
+  //     navigator.geolocation.getCurrentPosition(
+  //       handleCurrentPosition,
+  //       handleError,
+  //       {
+  //         enableHighAccuracy: true,
+  //         timeout: 5000,
+  //         maximumAge: 0,
+  //       }
+  //     );
+  //   } else {
+  //     setErrorMessage("Geolocation is not supported by this browser.");
+  //     setModalType(ModalType.Error);
+  //   }
+  // };
+
+  // const handleCurrentPosition = (position: GeolocationPosition) => {
+  //   // showPosition(position);
+  //   setLatitude(position.coords.latitude);
+  //   setLongitude(position.coords.longitude);
+  //   setModalType(ModalType.Success);
+  //   setErrorMessage(undefined); // Reset error message
+  // };
+
   const skipAddLocation = () => {
     setModalType(ModalType.SkipLocation);
-  };
-
-  const setPosition = (position: GeolocationPosition) => {
-    const coords = {
-      longitude: position.coords.longitude,
-      latitude: position.coords.latitude,
-    };
-    setLatitude(coords.latitude);
-    setLongitude(coords.longitude);
   };
 
   const handleError = (error: GeolocationPositionError) => {
