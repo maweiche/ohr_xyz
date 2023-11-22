@@ -80,10 +80,6 @@ export const MintNFT: React.FC<MintNFTProps> = ({
   const handleMintNFT = async () => {
     setIsMinting(true);
 
-    if (!metadata.uploadID) {
-      setHasErrored("Your recording is missing.");
-    }
-
     const receiverAddress = publicKey?.toBase58();
 
     if (receiverAddress) {
@@ -116,6 +112,7 @@ export const MintNFT: React.FC<MintNFTProps> = ({
 
       if (success) {
         router.push({ pathname: "/map", query: { longitude, latitude } });
+        setIsMintSuccessful(true);
       } else {
         setHasErrored("Something didn't work out with the mint. ");
       }

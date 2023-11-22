@@ -58,33 +58,6 @@ const Locate: React.FC = () => {
     });
   };
 
-  // const addLocation = () => {
-  //   setModalType(ModalType.None);
-  //   if ("geolocation" in navigator) {
-  //     setErrorMessage("in first if");
-  //     navigator.geolocation.getCurrentPosition(
-  //       handleCurrentPosition,
-  //       handleError,
-  //       {
-  //         enableHighAccuracy: true,
-  //         timeout: 5000,
-  //         maximumAge: 0,
-  //       }
-  //     );
-  //   } else {
-  //     setErrorMessage("Geolocation is not supported by this browser.");
-  //     setModalType(ModalType.Error);
-  //   }
-  // };
-
-  // const handleCurrentPosition = (position: GeolocationPosition) => {
-  //   // showPosition(position);
-  //   setLatitude(position.coords.latitude);
-  //   setLongitude(position.coords.longitude);
-  //   setModalType(ModalType.Success);
-  //   setErrorMessage(undefined); // Reset error message
-  // };
-
   const skipAddLocation = () => {
     setModalType(ModalType.SkipLocation);
   };

@@ -29,21 +29,15 @@ const Minting = () => {
   const uploadID = url.searchParams.get("uploadID");
   const longitude = url.searchParams.get("longitude");
   const latitude = url.searchParams.get("latitude");
-  console.log("LONG: ", longitude);
-  console.log("LAT: ", latitude);
 
   const [hasErrored, setHasErrored] = useState<string | undefined>(undefined);
 
   useEffect(() => {
-    // longitude = url.searchParams.get("longitude");
-    // latitude = url.searchParams.get("latitude");
-
     if (latitude && longitude) {
       setLong(Number(longitude));
       setLat(Number(latitude));
     }
     setDisableMintBtn(false);
-    console.log("IN USE EFFECT FOR LONG AND LAT");
   }, [url.searchParams, longitude, latitude]);
 
   const handleSuccessfulMint = () => {
@@ -88,37 +82,25 @@ const Minting = () => {
       justifyStyling="center"
       showTitle="Mint"
     >
-      {isMintSuccessful &&
-        (isMintSuccessful ? (
-          <PopupMessage
-            showModal={true}
-            handleContinue={handleSuccessfulMint}
-            buttonText="LFG"
-            description="Congrats you minted your👂 øhr. Check out your wallet or map to listen to it."
-            title="Yayy!"
-            handleClose={handleSuccessfulMint}
-          />
-        ) : (
-          !isMintSuccessful && (
-            <ErrorMessage
-              showModal={true}
-              handleContinue={() => handleReroute("/create/mint")}
-              buttonText="Try again"
-              secondaryButtonText="Back 2 start"
-              secondaryHandleClick={() => handleReroute("/")}
-              description="Something went wrong."
-              title="Oh no!"
-              handleClose={handleSuccessfulMint}
-            />
-          )
-        ))}
+      {isMintSuccessful === false && (
+        <ErrorMessage
+          showModal={true}
+          handleContinue={() => handleReroute("/create/mint")}
+          buttonText="Try again"
+          secondaryButtonText="Back 2 start"
+          secondaryHandleClick={() => handleReroute("/")}
+          description="Something went wrong."
+          title="Oh no!"
+          handleClose={handleSuccessfulMint}
+        />
+      )}
 
       {hasErrored && (
         <ErrorMessage
           showModal={true}
           handleContinue={() => handleReroute("/")}
           buttonText="Back 2 start"
-          description="Something went wrong."
+          description={hasErrored}
           title="Oh no!"
           handleClose={() => handleReroute("/")}
         />
