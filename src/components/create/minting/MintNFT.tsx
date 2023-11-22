@@ -51,7 +51,6 @@ interface MintNFTProps {
   isMinting: boolean;
   setIsMinting: Dispatch<SetStateAction<boolean>>;
   uploadID: string;
-  setIsMintSuccessful: Dispatch<SetStateAction<boolean>>;
   setHasErrored: Dispatch<SetStateAction<string | undefined>>;
   disabled: boolean;
 }
@@ -69,7 +68,6 @@ export const MintNFT: React.FC<MintNFTProps> = ({
   isMinting,
   setIsMinting,
   uploadID,
-  setIsMintSuccessful,
   setHasErrored,
   disabled,
 }) => {
@@ -112,7 +110,6 @@ export const MintNFT: React.FC<MintNFTProps> = ({
 
       if (success) {
         router.push({ pathname: "/map", query: { longitude, latitude } });
-        setIsMintSuccessful(true);
       } else {
         setHasErrored("Something didn't work out with the mint. ");
       }

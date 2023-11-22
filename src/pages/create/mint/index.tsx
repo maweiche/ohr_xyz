@@ -17,7 +17,9 @@ const Minting = () => {
 
   const [isMinting, setIsMinting] = useState<boolean>(false);
   const { metadata, resetMetadata } = useMetadataStore();
-  const [isMintSuccessful, setIsMintSuccessful] = useState<boolean>(false);
+  const [isMintSuccessful, setIsMintSuccessful] = useState<boolean | undefined>(
+    undefined
+  );
   const [disableMintBtn, setDisableMintBtn] = useState<boolean>(true);
 
   const [long, setLong] = useState<number | undefined>(undefined);
@@ -82,19 +84,6 @@ const Minting = () => {
       justifyStyling="center"
       showTitle="Mint"
     >
-      {isMintSuccessful === false && (
-        <ErrorMessage
-          showModal={true}
-          handleContinue={() => handleReroute("/create/mint")}
-          buttonText="Try again"
-          secondaryButtonText="Back 2 start"
-          secondaryHandleClick={() => handleReroute("/")}
-          description="Something went wrong."
-          title="Oh no!"
-          handleClose={handleSuccessfulMint}
-        />
-      )}
-
       {hasErrored && (
         <ErrorMessage
           showModal={true}
@@ -126,7 +115,6 @@ const Minting = () => {
               uploadID={uploadID}
               setIsMinting={setIsMinting}
               isMinting={isMinting}
-              setIsMintSuccessful={setIsMintSuccessful}
               setHasErrored={setHasErrored}
               disabled={disableMintBtn}
             />
