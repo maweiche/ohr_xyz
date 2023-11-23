@@ -83,6 +83,7 @@ const Minting = () => {
       showWallet="header"
       justifyStyling="center"
       showTitle="Mint"
+      showFooter={true}
     >
       {hasErrored && (
         <ErrorMessage

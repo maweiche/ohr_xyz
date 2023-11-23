@@ -72,6 +72,7 @@ const MapScreen: React.FC = () => {
       showWallet="none"
       justifyStyling="center"
       showTitle="Explore"
+      showFooter={true}
     >
       <div className="h-5/6">
         <h2 className="text-center text-sm"> to listen, click on the ears</h2>

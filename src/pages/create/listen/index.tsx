@@ -78,7 +78,7 @@ const Listen = () => {
   };
 
   return (
-    <LayoutComponent showWallet="header" showTitle="Listen">
+    <LayoutComponent showWallet="header" showTitle="Listen" showFooter={true}>
       {hasErrored && (
         <ErrorMessage
           showModal={Boolean(hasErrored)}
