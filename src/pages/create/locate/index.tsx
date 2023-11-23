@@ -105,7 +105,7 @@ const Locate: React.FC = () => {
       showWallet="none"
       justifyStyling="center"
       showTitle="Locate"
-      showFooter={true}
+      showFooter={false}
     >
       <p className="text-2xl text-center">Add your location?</p>
       {modalType === ModalType.SkipLocation && (

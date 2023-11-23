@@ -3,10 +3,11 @@ import { LayoutComponent } from "@components/layout/LayoutComponent";
 import Toaster from "@components/Toaster";
 import RecordingPage from "./create";
 import Script from "next/script";
+import useDialogStore from "utils/useDialogStore";
 
 export default function Home() {
   const IS_APP_ACTIVE = true;
-
+  const { isAboutBtnDisabled } = useDialogStore();
   return (
     <>
       <Script src="https://www.googletagmanager.com/gtag/js?id=G-1RPC444F7W" />
@@ -29,7 +30,7 @@ export default function Home() {
         showWallet={IS_APP_ACTIVE && "none"}
         showLogo={IS_APP_ACTIVE && true}
         showTitle="Record"
-        showFooter={true}
+        showFooter={!isAboutBtnDisabled ? true : false}
       >
         <Toaster />
         <RecordingPage />

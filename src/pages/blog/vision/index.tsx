@@ -3,7 +3,7 @@ import { LayoutComponent } from "@components/layout/LayoutComponent";
 import Link from "next/link";
 import React from "react";
 
-const BlogScreen = () => {
+const Vision = () => {
   return (
     <LayoutComponent
       showWallet="none"
@@ -43,21 +43,6 @@ const BlogScreen = () => {
           potential of sound. As a call to activate our imaginations, increase
           our attention spans, reduce the sensory overload and feel deeply.
         </p>{" "}
-        <p>
-          {" "}
-          By using sound as its primary medium and blockchain as its underlying
-          technology, we are building øhr: a social mobile dApp where audio
-          memories can be saved, shared, valued and traded. Using øhr, users can
-          catch moments by recording soundscapes and minting them into audio
-          NFTs, together with a timestamp, location, description and audio
-          visual.{" "}
-        </p>{" "}
-        <p>
-          {" "}
-          With this innovative platform we do not only redefine how we engage
-          with our memories but also foster a vibrant community centered around
-          the power of sound.
-        </p>
         <div className="text-sm breadcrumbs overflow-x-visible">
           <ul>
             <li>
@@ -72,4 +57,4 @@ const BlogScreen = () => {
   );
 };
 
-export default BlogScreen;
+export default Vision;
