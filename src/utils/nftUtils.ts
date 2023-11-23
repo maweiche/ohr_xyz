@@ -84,8 +84,8 @@ export const createNFT = (
       }),
     };
 
-    fetch("https://mainnet.underdogprotocol.com/v2/projects/1/nfts", options)
-      // fetch("https://devnet.underdogprotocol.com/v2/projects/6/nfts", options)
+    // fetch("https://mainnet.underdogprotocol.com/v2/projects/1/nfts", options)
+    fetch("https://devnet.underdogprotocol.com/v2/projects/6/nfts", options)
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
@@ -104,8 +104,8 @@ export const getNFTs = async (
 ) => {
   let pageNumber = initialPageNumber;
   const limit = 100;
-  const apiUrl = `https://mainnet.underdogprotocol.com/v2/projects/1/nfts`;
-  // const apiUrl = `https://devnet.underdogprotocol.com/v2/projects/6/nfts`;
+  // const apiUrl = `https://mainnet.underdogprotocol.com/v2/projects/1/nfts`;
+  const apiUrl = `https://devnet.underdogprotocol.com/v2/projects/6/nfts`;
 
   const options: RequestInit = {
     method: "GET",
@@ -168,14 +168,14 @@ export const getNFTdetails = (nftID: number) => {
     },
   };
 
-  // fetch(
-  //   `https://devnet.underdogprotocol.com/v2/projects/6/nfts/${nftID}`,
-  //   options
-  // )
   fetch(
-    `https://mainnet.underdogprotocol.com/v2/projects/1/nfts/${nftID}`,
+    `https://devnet.underdogprotocol.com/v2/projects/6/nfts/${nftID}`,
     options
   )
+    // fetch(
+    //   `https://mainnet.underdogprotocol.com/v2/projects/1/nfts/${nftID}`,
+    //   options
+    // )
     .then((response) => response.json())
     .then((response) => response.ownerAddress)
     .catch((err) => console.error(err));

@@ -29,6 +29,7 @@ export default function Home() {
         showWallet={IS_APP_ACTIVE && "none"}
         showLogo={IS_APP_ACTIVE && true}
         showTitle="Record"
+        showFooter={true}
       >
         <Toaster />
         <RecordingPage />

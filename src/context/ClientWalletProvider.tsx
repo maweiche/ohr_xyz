@@ -18,8 +18,8 @@ import("@solana/wallet-adapter-react-ui/styles.css" as any);
 const ClientWalletProvider = (
   props: Omit<WalletProviderProps, "wallets">
 ): JSX.Element => {
-  const network = WalletAdapterNetwork.Mainnet;
-  // const network = WalletAdapterNetwork.Devnet;
+  // const network = WalletAdapterNetwork.Mainnet;
+  const network = WalletAdapterNetwork.Devnet;
   const wallets = useMemo(
     () => [
       new PhantomWalletAdapter(),

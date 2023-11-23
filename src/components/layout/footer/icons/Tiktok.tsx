@@ -10,7 +10,7 @@ export const Tiktok = () => {
       className="flex align-center items-center place-self-center ml-1"
     >
       {" "}
-      <Image src="/tt-icon.png" alt="Tiktok" width={28} height={26} />{" "}
+      <Image src="/tt-icon.png" alt="Tiktok" width={40} height={40} />{" "}
     </a>
   );
 };

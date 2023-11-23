@@ -1,16 +1,16 @@
 import React from "react";
 import Image from "next/image";
 
-export const Instagram = () => {
+export const Twitter = () => {
   return (
     <a
-      href="https://www.instagram.com/ohr_xyz"
+      href="https://twitter.com/ohr_xyz"
       target="_blank"
       rel="noopener noreferrer"
       className="flex align-center items-center place-self-center"
     >
       {" "}
-      <Image src="/ig-icon.png" alt="Instagram" width={26} height={24} />{" "}
+      <Image src="/x-icon.png" alt="Twitter" width={48} height={36} />{" "}
     </a>
   );
 };

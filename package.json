@@ -45,6 +45,7 @@
     "@types/three": "^0.155.0",
     "@typescript-eslint/eslint-plugin": "^6.5.0",
     "@typescript-eslint/parser": "^6.5.0",
+    "@underdog-protocol/passport": "^4.0.0",
     "arweave": "^1.13.7",
     "bs58": "^5.0.0",
     "dotenv": "^16.3.1",

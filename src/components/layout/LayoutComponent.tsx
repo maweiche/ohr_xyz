@@ -9,6 +9,7 @@ interface LayoutProps {
   justifyStyling?: string;
   showLogo?: boolean;
   showTitle?: string;
+  showFooter: boolean;
 }
 
 export const LayoutComponent: React.FC<LayoutProps> = ({
@@ -17,6 +18,7 @@ export const LayoutComponent: React.FC<LayoutProps> = ({
   justifyStyling,
   showLogo,
   showTitle,
+  showFooter,
 }) => {
   const [showAboutDialog, setShowAboutDialog] = useState<boolean>(false);
 
@@ -38,7 +40,7 @@ export const LayoutComponent: React.FC<LayoutProps> = ({
         {children}
       </main>
 
-      <Footer showWallet={showWallet} />
+      {showFooter && <Footer showWallet={showWallet} />}
     </div>
   );
 };

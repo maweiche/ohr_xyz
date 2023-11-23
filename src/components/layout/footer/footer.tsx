@@ -1,5 +1,5 @@
 import React from "react";
-import { Twitter } from "./components/twitter";
+import { Twitter } from "./icons/twitter";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import styles from "./footer.module.css";
 import { NavBar } from "../NavBar";
