@@ -27,8 +27,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <LayoutComponent
-        showWallet={IS_APP_ACTIVE && "none"}
-        showLogo={IS_APP_ACTIVE && true}
+        showNavBar={true}
         showTitle="Record"
         showFooter={!isAboutBtnDisabled ? true : false}
       >

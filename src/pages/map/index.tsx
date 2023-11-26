@@ -69,7 +69,6 @@ const MapScreen: React.FC = () => {
 
   return (
     <LayoutComponent
-      showWallet="none"
       justifyStyling="center"
       showTitle="Explore"
       showFooter={true}

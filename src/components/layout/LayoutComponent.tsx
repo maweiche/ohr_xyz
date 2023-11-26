@@ -4,19 +4,17 @@ import { Footer } from "./footer/footer";
 import AboutDialog from "@components/landing/AboutDialog";
 
 interface LayoutProps {
-  showWallet: "footer" | "header" | "none";
   children: ReactNode;
   justifyStyling?: string;
-  showLogo?: boolean;
+  showNavBar?: boolean;
   showTitle?: string;
   showFooter: boolean;
 }
 
 export const LayoutComponent: React.FC<LayoutProps> = ({
   children,
-  showWallet,
   justifyStyling,
-  showLogo,
+  showNavBar,
   showTitle,
   showFooter,
 }) => {
@@ -40,7 +38,7 @@ export const LayoutComponent: React.FC<LayoutProps> = ({
         {children}
       </main>
 
-      {showFooter && <Footer showWallet={showWallet} />}
+      {showFooter && <Footer showNavBar={showNavBar} />}
     </div>
   );
 };

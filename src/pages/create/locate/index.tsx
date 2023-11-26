@@ -102,7 +102,6 @@ const Locate: React.FC = () => {
 
   return (
     <LayoutComponent
-      showWallet="none"
       justifyStyling="center"
       showTitle="Locate"
       showFooter={false}

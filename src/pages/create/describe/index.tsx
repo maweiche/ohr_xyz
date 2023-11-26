@@ -31,11 +31,7 @@ const Describe = () => {
   };
 
   return (
-    <LayoutComponent
-      showWallet="header"
-      showTitle="Describe"
-      showFooter={false}
-    >
+    <LayoutComponent showTitle="Describe" showFooter={false}>
       <motion.div
         className="flex flex-col items-center justify-center h-full"
         initial="initial"

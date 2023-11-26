@@ -5,7 +5,6 @@ import React from "react";
 const AboutScreen = () => {
   return (
     <LayoutComponent
-      showWallet="none"
       justifyStyling="center"
       showTitle="About"
       showFooter={false}

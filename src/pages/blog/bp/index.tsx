@@ -6,7 +6,6 @@ import React from "react";
 const Breakpoint = () => {
   return (
     <LayoutComponent
-      showWallet="none"
       justifyStyling="center"
       showTitle="Blog"
       showFooter={false}

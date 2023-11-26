@@ -6,7 +6,6 @@ import React from "react";
 const Vision = () => {
   return (
     <LayoutComponent
-      showWallet="none"
       justifyStyling="center"
       showTitle="Blog"
       showFooter={false}

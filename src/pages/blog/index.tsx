@@ -5,12 +5,7 @@ import React from "react";
 
 const BlogScreen = () => {
   return (
-    <LayoutComponent
-      showWallet="none"
-      justifyStyling="start"
-      showTitle="Blog"
-      showFooter={false}
-    >
+    <LayoutComponent justifyStyling="start" showTitle="Blog" showFooter={false}>
       <div className="flex m-6 justify-center overflow-scroll">
         <ul className="flex flex-col gap-4">
           <Link href="/blog/vision">

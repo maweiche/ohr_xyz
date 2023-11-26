@@ -4,7 +4,7 @@ import React from "react";
 import nftMap from "../../assets/NFT_icon-01.png";
 import Image from "next/image";
 
-export const NavBar = () => {
+export const NavBarBottom = () => {
   const router = useRouter();
 
   return (

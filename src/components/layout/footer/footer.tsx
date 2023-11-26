@@ -1,23 +1,30 @@
 import React from "react";
-import { Twitter } from "./icons/twitter";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import styles from "./footer.module.css";
-import { NavBar } from "../NavBar";
+import { NavBarBottom } from "../NavBarBottom";
+import { Instagram } from "./icons/Instagram";
+import { OhrLogo } from "./icons/OhrLogo";
+import { Tiktok } from "./icons/Tiktok";
+import { Twitter } from "./icons/twitter";
 
 interface FooterProps {
-  showWallet: "footer" | "header" | "none";
-  showLogo?: boolean;
+  showNavBar?: boolean;
 }
-export const Footer: React.FC<FooterProps> = ({ showWallet, showLogo }) => {
+export const Footer: React.FC<FooterProps> = ({ showNavBar }) => {
   return (
-    <footer className="flex justify-center mt-4 items-end md:justify-end self-center h-10">
-      {showWallet === "footer" && (
-        <WalletMultiButton className={styles["connect-btn"]} />
+    <footer className="flex justify-center m-4 items-end md:justify-end self-center h-10">
+      {!showNavBar ? (
+        <div className="flex flex-col items-center justify-center w-full">
+          <div className="flex justify-center mt-3 gap-4">
+            <Twitter />
+            <Instagram />
+            <Tiktok />
+          </div>
+          <OhrLogo />
+        </div>
+      ) : (
+        <NavBarBottom />
       )}
-      {showLogo && (
-        <p className={`${styles["ohr-logo-title"]} text-3xl`}>øhr</p>
-      )}
-      <NavBar />
     </footer>
   );
 };

@@ -6,7 +6,6 @@ import React from "react";
 const FlowSpace = () => {
   return (
     <LayoutComponent
-      showWallet="none"
       justifyStyling="center"
       showTitle="Blog"
       showFooter={false}
