@@ -38,6 +38,8 @@ const AboutScreen = () => {
             height={300}
           />
         </div>
+        <h1 className="text-lg">Grants</h1>
+        <p>Superteam Instagrant</p>
       </div>
     </LayoutComponent>
   );

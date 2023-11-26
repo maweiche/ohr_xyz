@@ -32,7 +32,7 @@ export const Header: React.FC<HeaderProps> = ({
           //   <p className="text-3xl fixed top-5 left-5">❓</p>
           // </button>
         )}
-      <div className="fixed top-10 left-1/2">
+      <div className="fixed top-7 left-1/2">
         {showTitle && <h3 className="small-title">{showTitle}</h3>}
       </div>
     </header>

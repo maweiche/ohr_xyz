@@ -24,7 +24,7 @@ export const NavBarTop = () => {
           </label>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-xl border-purple border-2 rounded-box w-46"
+            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-xl rounded-box bg-[#620080]"
           >
             <li>
               <Link href="/">Home</Link>
