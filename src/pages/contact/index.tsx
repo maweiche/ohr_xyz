@@ -25,28 +25,12 @@ const ContactScreen = () => {
         {showGDPR ? (
           <GDPR handleOnClose={() => setShowGDPR(false)} />
         ) : (
-          <div className="w-full max-w-md ">
-            <div className="flex flex-col justify-center w-full">
-              <h2 className="text-3xl text-center">Want to stay in touch?</h2>
-              <p className="text-md my-2 text-center self-center">
-                Follow along or join our closed community
-              </p>
-            </div>
-            <ContactForm
-              setShowGDPR={setShowGDPR}
-              isSent={isSent}
-              setIsSent={setIsSent}
-            />
-          </div>
+          <ContactForm
+            setShowGDPR={setShowGDPR}
+            isSent={isSent}
+            setIsSent={setIsSent}
+          />
         )}
-        {/* <div className="flex flex-col items-center justify-center w-full">
-          <div className="flex justify-center mt-3 gap-4">
-            <Twitter />
-            <Instagram />
-            <Tiktok />
-          </div>
-        </div>
-        <OhrLogo /> */}
       </div>
     </LayoutComponent>
   );

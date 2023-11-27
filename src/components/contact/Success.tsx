@@ -10,10 +10,7 @@ export const Success = () => {
         transition={{ duration: 4 }}
       >
         <div className="text-center">
-          <p className="text-2xl text-purple-100">Almost there</p>
-          <p className="text-xs text-purple-100 mt-1">
-            Check your email for more info
-          </p>
+          <p className="text-3xl text-purple-100">Check your email 👂</p>
         </div>
       </motion.div>
     </div>

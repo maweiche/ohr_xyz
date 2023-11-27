@@ -109,12 +109,20 @@ export const ContactForm: React.FC<ContactFormProps> = ({
   return isSent ? (
     <Success />
   ) : (
-    <Form
-      handleSubmit={handleSubmit}
-      isLoading={isLoading}
-      setIsChecked={setIsChecked}
-      isChecked={isChecked}
-      setShowGDPR={setShowGDPR}
-    />
+    <div className="w-full max-w-md ">
+      <div className="flex flex-col justify-center w-full">
+        <h2 className="text-3xl text-center">Want to stay in touch?</h2>
+        <p className="text-md my-2 text-center self-center">
+          Follow along or join our closed community
+        </p>
+      </div>
+      <Form
+        handleSubmit={handleSubmit}
+        isLoading={isLoading}
+        setIsChecked={setIsChecked}
+        isChecked={isChecked}
+        setShowGDPR={setShowGDPR}
+      />
+    </div>
   );
 };
