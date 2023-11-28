@@ -3,14 +3,12 @@
 import emailjs from "@emailjs/browser";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import { motion } from "framer-motion";
 import { Success } from "./Success";
 import { Form } from "./Form";
 
 const SERVICE_ID = "default_service";
 const TEMPLATE_ID_USER = "template_zqmimuf";
 const TEMPLATE_ID_US = "template_tbqod6s";
-const PUBLIC_KEY = "zZsMWS0Va0v_Vq4D3";
 
 const ALPHA_NUM_REGEX = /[A-Za-z0-9]/g;
 const EMAIL_REGEX = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
@@ -68,7 +66,12 @@ export const ContactForm: React.FC<ContactFormProps> = ({
           playSendingSound();
           // send confirmation email to interested user
           emailjs
-            .send(SERVICE_ID, TEMPLATE_ID_USER, { name, email }, PUBLIC_KEY)
+            .send(
+              SERVICE_ID,
+              TEMPLATE_ID_USER,
+              { name, email },
+              process.env.NEXT_PUBLIC_EMAILJS_KEY
+            )
             .then(
               (result) => {
                 form.reset();
@@ -86,7 +89,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
               SERVICE_ID,
               TEMPLATE_ID_US,
               { name, email, telegram },
-              PUBLIC_KEY
+              process.env.NEXT_PUBLIC_EMAILJS_KEY
             )
             .then(
               (result) => {

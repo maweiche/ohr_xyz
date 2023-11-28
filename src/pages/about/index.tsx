@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
 import { LayoutComponent } from "@components/layout/LayoutComponent";
 import React from "react";
@@ -17,9 +18,9 @@ const AboutScreen = () => {
         </p>
         <p>
           {" "}
-          By using sound as its primary medium and blockchain as its underlying
-          technology, we are building a social mobile dApp where audio memories
-          can be saved, shared, valued and traded.
+          We are convinced that this amazing medium holds an untapped potential
+          and that's why we're building a social mobile dApp where audio
+          memories can be saved, shared, valued and traded.
         </p>{" "}
         <p>
           {" "}

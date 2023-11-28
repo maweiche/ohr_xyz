@@ -24,18 +24,18 @@ export const NavBarTop = () => {
           </label>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-xl rounded-box bg-[#620080]"
+            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-xl rounded-box bg-[#620080] "
           >
-            <li>
+            <li className="p-2">
               <Link href="/">Home</Link>
             </li>
-            <li>
+            <li className="p-2">
               <Link href="/about">About</Link>
             </li>
-            <li>
+            <li className="p-2">
               <Link href="/blog">Blog</Link>
             </li>
-            <li>
+            <li className="p-2">
               <Link href="/contact">Contact</Link>
             </li>
           </ul>

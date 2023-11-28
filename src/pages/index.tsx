@@ -6,7 +6,6 @@ import Script from "next/script";
 import useDialogStore from "utils/useDialogStore";
 
 export default function Home() {
-  const IS_APP_ACTIVE = true;
   const { isAboutBtnDisabled } = useDialogStore();
   return (
     <>

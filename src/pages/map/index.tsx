@@ -7,7 +7,6 @@ import { Marker } from "react-map-gl";
 import Image from "next/image";
 import marker from "../../assets/ear_small.png";
 import { LoadingComponent } from "@components/LoadingComponent";
-import { waitFor } from "utils/mux";
 
 const MapScreen: React.FC = () => {
   const [audioNFTs, setAudioNFTs] = useState<AudioNFT[] | undefined>(undefined);
@@ -21,10 +20,10 @@ const MapScreen: React.FC = () => {
   useEffect(() => {
     const fetchNFTs = async () => {
       await getNFTs(setAudioNFTs, 1);
+      checkIfAudioNFTisShared();
     };
 
     const intervalId = setInterval(fetchNFTs, 2000);
-
     return () => clearInterval(intervalId);
   }, [audioNFTs]);
 
@@ -34,13 +33,26 @@ const MapScreen: React.FC = () => {
     const latitude = url.searchParams.get("latitude");
 
     if (latitude && longitude) {
-      console.log("Should have long and lat");
       setPosition({
         longitude: Number(longitude),
         latitude: Number(latitude),
       });
     }
   }, []);
+
+  const checkIfAudioNFTisShared = () => {
+    const url = new URL(window.location.href);
+    const audioNFTid = url.searchParams.get("id");
+    console.log("audioNFTid: ", audioNFTid);
+    if (audioNFTid) {
+      const sharedAudioNFT = audioNFTs?.find(
+        (audioNFT) => audioNFT.id == Number(audioNFTid)
+      );
+      console.log("SharedAudioNFT: ", sharedAudioNFT);
+      setAudioNFT(sharedAudioNFT);
+      setShowModal(true);
+    }
+  };
 
   const markers: JSX.Element[] = useMemo(
     () =>
@@ -72,6 +84,7 @@ const MapScreen: React.FC = () => {
       justifyStyling="center"
       showTitle="Explore"
       showFooter={true}
+      showNavBar={true}
     >
       <div className="h-5/6">
         <h2 className="text-center text-sm"> to listen, click on the ears</h2>
