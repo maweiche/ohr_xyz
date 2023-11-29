@@ -22,6 +22,7 @@ interface NFTModalProps {
   showModal: boolean;
   setShowModal: Dispatch<SetStateAction<boolean>>;
   audioNFT: AudioNFT;
+  setSharedNFTisShown: Dispatch<SetStateAction<boolean>>;
 }
 
 const getFormattedMintAddress = (mintAddress: string) => {
@@ -38,6 +39,7 @@ const NFTModal: React.FC<NFTModalProps> = ({
   showModal,
   setShowModal,
   audioNFT,
+  setSharedNFTisShown,
 }) => {
   const [state, copyToClipboard] = useCopyToClipboard();
   const [isCopied, setIsCopied] = useState(false);
@@ -48,7 +50,10 @@ const NFTModal: React.FC<NFTModalProps> = ({
       <Dialog
         as="div"
         className="relative z-50"
-        onClose={() => setShowModal(false)}
+        onClose={() => {
+          setShowModal(false);
+          setSharedNFTisShown(true);
+        }}
       >
         <Transition.Child
           as={Fragment}

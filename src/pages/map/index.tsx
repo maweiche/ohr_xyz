@@ -1,17 +1,18 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { LayoutComponent } from "@components/layout/LayoutComponent";
 import { MapView } from "@components/map/MapView";
-import { getNFTs } from "utils/nftUtils";
 import NFTModal, { AudioNFT } from "@components/map/NFTModal";
 import { Marker } from "react-map-gl";
 import Image from "next/image";
 import marker from "../../assets/ear_small.png";
 import { LoadingComponent } from "@components/LoadingComponent";
+import { error } from "console";
 
 const MapScreen: React.FC = () => {
   const [audioNFTs, setAudioNFTs] = useState<AudioNFT[] | undefined>(undefined);
   const [showModal, setShowModal] = useState<boolean>(true);
   const [audioNFT, setAudioNFT] = useState<AudioNFT | undefined>(undefined);
+  const [sharedNFTisShown, setSharedNFTisShown] = useState<boolean>(false);
   const [position, setPosition] = useState<{
     longitude: number;
     latitude: number;
@@ -19,10 +20,18 @@ const MapScreen: React.FC = () => {
 
   useEffect(() => {
     const fetchNFTs = async () => {
-      await getNFTs(setAudioNFTs, 1);
-      checkIfAudioNFTisShared();
+      await fetch("/api/nfts?initialPageNumber=1")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Request failed with status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((data) => setAudioNFTs(data))
+        .catch((error) => console.log(error));
     };
 
+    checkIfAudioNFTisShared();
     const intervalId = setInterval(fetchNFTs, 2000);
     return () => clearInterval(intervalId);
   }, [audioNFTs]);
@@ -43,12 +52,11 @@ const MapScreen: React.FC = () => {
   const checkIfAudioNFTisShared = () => {
     const url = new URL(window.location.href);
     const audioNFTid = url.searchParams.get("id");
-    console.log("audioNFTid: ", audioNFTid);
-    if (audioNFTid) {
+
+    if (audioNFTid && !sharedNFTisShown) {
       const sharedAudioNFT = audioNFTs?.find(
         (audioNFT) => audioNFT.id == Number(audioNFTid)
       );
-      console.log("SharedAudioNFT: ", sharedAudioNFT);
       setAudioNFT(sharedAudioNFT);
       setShowModal(true);
     }
@@ -93,6 +101,7 @@ const MapScreen: React.FC = () => {
             showModal={showModal}
             setShowModal={setShowModal}
             audioNFT={audioNFT}
+            setSharedNFTisShown={setSharedNFTisShown}
           />
         )}
         {audioNFTs ? (

@@ -1,6 +1,5 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { getMuxAssetId, getPlaybackId as getAudioUrl } from "utils/mux";
-import { createNFT } from "../../../utils/nftUtils";
 import { useRouter } from "next/router";
 import { LoadingComponent } from "../../LoadingComponent";
 import { motion } from "framer-motion";

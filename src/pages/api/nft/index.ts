@@ -8,14 +8,10 @@ export default async function handler(
     try {
       const { receiverAddress, attributes, recordingUrl } = req.body;
       const underdogApiKey = process.env.NEXT_PUBLIC_UNDERDOG_API_KEY;
+      console.log("underdogApiKey2: ", underdogApiKey);
 
       // don't know why but it's not catching this one :(
       // const underdogApiKey = process.env.UNDERDOG_API_KEY;
-
-      console.log("underdog Api Key: ", underdogApiKey);
-      console.log("receiverAddress", receiverAddress);
-      console.log("attributes: ", attributes);
-      console.log("recordingUrl: ", recordingUrl);
 
       const options = {
         method: "POST",
