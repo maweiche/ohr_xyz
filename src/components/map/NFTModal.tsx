@@ -25,16 +25,6 @@ interface NFTModalProps {
   setSharedNFTisShown: Dispatch<SetStateAction<boolean>>;
 }
 
-const getFormattedMintAddress = (mintAddress: string) => {
-  const mintAddressLength = mintAddress.length;
-  const startMintAddress = mintAddress.substring(0, 4);
-  const endMintAddress = mintAddress.substring(
-    mintAddressLength - 4,
-    mintAddressLength
-  );
-  return startMintAddress + "..." + endMintAddress;
-};
-
 const NFTModal: React.FC<NFTModalProps> = ({
   showModal,
   setShowModal,
@@ -116,15 +106,14 @@ const NFTModal: React.FC<NFTModalProps> = ({
                   <button
                     className="gap-2 border-2 m-3 p-2 px-4 flex justify-center rounded-xl"
                     onClick={() => {
-                      copyToClipboard(audioNFT.mintAddress);
+                      copyToClipboard(
+                        `https://www.ohr-app.xyz/map?id=${audioNFT.id}`
+                      );
                       setIsCopied(true);
                     }}
                   >
-                    <p className="text-sm text-white ">
-                      {isCopied ? "Copied" : "Copy"} Mint address:
-                    </p>
-                    <p className="text-sm ">
-                      {getFormattedMintAddress(audioNFT.mintAddress)}
+                    <p className="text-md text-white ">
+                      {isCopied ? "Copied" : "Share this øhr"}
                     </p>
                   </button>
                 </div>
