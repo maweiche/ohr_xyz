@@ -13,7 +13,7 @@ const BlogScreen = () => {
               <h1 className="text-md"> Our Vision </h1>
             </li>
           </Link>
-          <Link href="/blog/flowspace">
+          {/* <Link href="/blog/flowspace">
             <li>
               <h1 className="text-md">Flowspace</h1>
               <p className="text-sm">
@@ -21,7 +21,7 @@ const BlogScreen = () => {
                 sound
               </p>
             </li>
-          </Link>
+          </Link> */}
           <Link href="/blog/bp">
             <li>
               <h1 className="text-md">Breakpoint Talk (video)</h1>

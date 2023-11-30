@@ -24,8 +24,9 @@ export default async function handler(
       },
     };
 
-    // Create a set to store existing IDs
+    // create a set to store existing IDs
     const existingIds = new Set<number>();
+    const results: AudioNFT[] = [];
 
     try {
       while (true) {
@@ -41,23 +42,26 @@ export default async function handler(
         const data = await response.json();
 
         if (data.results.length > 0) {
-          // Filter out items with existing IDs before adding to the state
+          // filter out items with existing IDs before adding to the state
           const filteredResults = data.results.filter(
             (result: AudioNFT) => !existingIds.has(result.id)
           );
 
-          // Add the new IDs to the set
+          // add the new IDs to the set
           filteredResults.forEach((result: AudioNFT) =>
             existingIds.add(result.id)
           );
 
+          results.push(...filteredResults);
+
           pageNumber++;
         } else {
-          // No more data to fetch, exit the loop
+          // if no more data to fetch, exit the loop
           break;
         }
-        res.status(200).json(data.results);
       }
+
+      res.status(200).json(results);
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Internal Server Error" });

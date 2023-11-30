@@ -50,7 +50,7 @@ const Vision = () => {
             <li>Our vision</li>
           </ul>
         </div>
-        <p>.</p>
+        <p></p>
       </div>
     </LayoutComponent>
   );

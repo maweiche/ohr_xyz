@@ -15,12 +15,11 @@ export const Footer: React.FC<FooterProps> = ({ showNavBar }) => {
     <footer className="flex justify-center align-center items-end md:justify-end self-center h-10">
       {!showNavBar ? (
         <div className="flex flex-col items-center justify-center w-full">
-          <div className="flex justify-center mt-3 gap-4">
+          <div className="flex justify-center m-3 gap-4 ">
             <Twitter />
             <Instagram />
             <Tiktok />
           </div>
-          <OhrLogo />
         </div>
       ) : (
         <NavBarBottom />

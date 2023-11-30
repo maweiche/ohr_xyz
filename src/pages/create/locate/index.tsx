@@ -137,10 +137,10 @@ const Locate: React.FC = () => {
       <div className="flex flex-col text-center mt-8">
         <div className="flex justify-center gap-8 ">
           <button className="secondary-btn text-xl" onClick={skipAddLocation}>
-            Skip
+            skip
           </button>
           <button className="primary-btn text-xl" onClick={addLocation}>
-            Add
+            add
           </button>
         </div>
       </div>

@@ -31,10 +31,23 @@ const MapScreen: React.FC = () => {
         .catch((error) => console.log(error));
     };
 
+    const checkIfAudioNFTisShared = () => {
+      const url = new URL(window.location.href);
+      const audioNFTid = url.searchParams.get("id");
+
+      if (audioNFTid && !sharedNFTisShown) {
+        const sharedAudioNFT = audioNFTs?.find(
+          (audioNFT) => audioNFT.id == Number(audioNFTid)
+        );
+        setAudioNFT(sharedAudioNFT);
+        setShowModal(true);
+      }
+    };
+
     checkIfAudioNFTisShared();
     const intervalId = setInterval(fetchNFTs, 2000);
     return () => clearInterval(intervalId);
-  }, [audioNFTs]);
+  }, [audioNFTs, sharedNFTisShown]);
 
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -48,19 +61,6 @@ const MapScreen: React.FC = () => {
       });
     }
   }, []);
-
-  const checkIfAudioNFTisShared = () => {
-    const url = new URL(window.location.href);
-    const audioNFTid = url.searchParams.get("id");
-
-    if (audioNFTid && !sharedNFTisShown) {
-      const sharedAudioNFT = audioNFTs?.find(
-        (audioNFT) => audioNFT.id == Number(audioNFTid)
-      );
-      setAudioNFT(sharedAudioNFT);
-      setShowModal(true);
-    }
-  };
 
   const markers: JSX.Element[] = useMemo(
     () =>
