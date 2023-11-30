@@ -8,7 +8,8 @@ const AboutScreen = () => {
     <LayoutComponent
       justifyStyling="center"
       showTitle="About"
-      showFooter={false}
+      showWallet="none"
+      // showFooter={false}
     >
       <div className="flex flex-col justify-start mx-6 gap-5 overflow-scroll h-screen">
         <div className="flex flex-col justify-center h-screen items-center align-center text-center my-20 gap-4">
