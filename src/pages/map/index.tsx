@@ -89,7 +89,7 @@ const MapScreen: React.FC = () => {
 
   return (
     <LayoutComponent
-      justifyStyling="center"
+      justifyStyling="start"
       showTitle="Explore"
       showFooter={true}
       showNavBar={true}
