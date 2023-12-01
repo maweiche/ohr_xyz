@@ -19,6 +19,17 @@ const MapScreen: React.FC = () => {
   }>({ longitude: 13.35037231777517, latitude: 52.52709769976026 });
 
   useEffect(() => {
+    const url = new URL(window.location.href);
+    const longitude = url.searchParams.get("longitude");
+    const latitude = url.searchParams.get("latitude");
+
+    if (latitude && longitude) {
+      setPosition({
+        longitude: Number(longitude),
+        latitude: Number(latitude),
+      });
+    }
+
     const fetchNFTs = async () => {
       await fetch("/api/nfts?initialPageNumber=1")
         .then((response) => {
@@ -32,7 +43,6 @@ const MapScreen: React.FC = () => {
     };
 
     const checkIfAudioNFTisShared = () => {
-      const url = new URL(window.location.href);
       const audioNFTid = url.searchParams.get("id");
 
       if (audioNFTid && !sharedNFTisShown) {
@@ -48,19 +58,6 @@ const MapScreen: React.FC = () => {
     const intervalId = setInterval(fetchNFTs, 2000);
     return () => clearInterval(intervalId);
   }, [audioNFTs, sharedNFTisShown]);
-
-  useEffect(() => {
-    const url = new URL(window.location.href);
-    const longitude = url.searchParams.get("longitude");
-    const latitude = url.searchParams.get("latitude");
-
-    if (latitude && longitude) {
-      setPosition({
-        longitude: Number(longitude),
-        latitude: Number(latitude),
-      });
-    }
-  }, []);
 
   const markers: JSX.Element[] = useMemo(
     () =>

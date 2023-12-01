@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Map, { Marker } from "react-map-gl";
 import Image from "next/image";
 import marker from "../../assets/ear_small.png";
+import { useRouter } from "next/router";
 
 interface MapViewProps {
   latitude?: number;
@@ -20,8 +21,8 @@ export const MapView: React.FC<MapViewProps> = ({
         mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_API_KEY}
         mapStyle={`mapbox://styles/noamie22/ck2zynqqn018x1cnohcw5cnna`}
         initialViewState={{
-          longitude: longitude ?? 13.35037231777517,
-          latitude: latitude ?? 52.52709769976026,
+          longitude: Number(longitude),
+          latitude: Number(latitude),
           zoom: 10,
         }}
       >

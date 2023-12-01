@@ -107,7 +107,7 @@ const NFTModal: React.FC<NFTModalProps> = ({
                     className="gap-2 border-2 m-3 p-2 px-4 flex justify-center rounded-xl"
                     onClick={() => {
                       copyToClipboard(
-                        `https://ohr-xyz-git-development-noamru22.vercel.app/map?id=${audioNFT.id}`
+                        `https://ohr-xyz-git-development-noamru22.vercel.app/map?id=${audioNFT.id}&latitude=${audioNFT.attributes.Lat}&longitude=${audioNFT.attributes.Long}`
                       );
                       setIsCopied(true);
                     }}
