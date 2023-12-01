@@ -143,8 +143,34 @@ export const MintNFT: React.FC<MintNFTProps> = ({
               </motion.button>
             </>
           ) : (
-            <div className="m-6">
-              <WalletMultiButton />
+            <div className="flex flex-col justify-center text-center">
+              <div className="m-6">
+                <WalletMultiButton />
+              </div>
+              <p>or</p>
+              <div className="m-6">
+                <p>connect with email</p>
+                <label className="flex flex-col text-left">
+                  <p className="text-purple-200 text-sm">
+                    Email
+                    <span className="text-bigbang">*</span>
+                  </p>
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    // onInvalid={handleInvalidEmail}
+                    className="input rounded-md w-full bg-purple-300/30 border-purple-300"
+                  />
+                </label>
+                <button
+                  type="submit"
+                  // disabled={isLoading}
+                  className="px-10 mt-4 text-lg w-full h-10 text-purple-100 btn primary-btn hover:bg-black/70 rounded-md "
+                >
+                  Send
+                </button>
+              </div>
             </div>
           )}
         </div>
