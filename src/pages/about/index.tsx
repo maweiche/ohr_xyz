@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
 import { LayoutComponent } from "@components/layout/LayoutComponent";
+import Image from "next/image";
 import React from "react";
 
 const AboutScreen = () => {
@@ -45,10 +46,24 @@ const AboutScreen = () => {
           <div>
             <h2 className="p-0 m-0">Nusha / Noam Rubin - Founder </h2>
             <p className="text-sm">Technology</p>
+            <div className="flex h-7 justify-center mt-2 gap-4 ">
+              <a href="https://twitter.com/nusha22_" target="_blank">
+                <img src="x-icon.png" alt="X" />
+              </a>
+              <a href="https:/instagram.com/nusha.dev" target="_blank">
+                <img src="ig-icon.png" alt="Instagram" />
+              </a>
+              <a href="https://linkedin.com/nusha22_" target="_blank">
+                <img src="li-icon.png" alt="LinkedIn" />
+              </a>
+              <a href="https://twitter.com/nusha22_" target="_blank">
+                <img src="gh-icon.png" alt="GitHub" />
+              </a>
+            </div>
           </div>
           <div className="rounded-lg flex justify-center">
             <img
-              src="/mm2.jpg"
+              src="/mm.jpg"
               alt="Mimi Mimita"
               className=""
               width={200}
@@ -58,6 +73,12 @@ const AboutScreen = () => {
           <div>
             <h2 className="p-0 m-0">Mimi Mimita - Co-Founder </h2>
             <p className="text-sm">Marketing & Community</p>
+            <div className="flex h-7 justify-center mt-2 gap-4 ">
+              <img src="x-icon.png" alt="X" />
+              <img src="ig-icon.png" alt="Instagram" />
+              <img src="li-icon.png" alt="LinkedIn" />
+              <img src="tt-icon.png" alt="Tiktok" />
+            </div>
           </div>
         </div>
         <p></p>

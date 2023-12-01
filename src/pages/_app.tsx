@@ -15,8 +15,8 @@ const ClientWalletProvider = dynamic(
 
 export default function App({ Component, pageProps }: AppProps) {
   // The network can be set to 'devnet', 'testnet', or 'mainnet-beta', if changing -> also chnge it in ClientWalletProvider
-  // const network = WalletAdapterNetwork.Mainnet;
-  const network = WalletAdapterNetwork.Devnet;
+  const network = WalletAdapterNetwork.Mainnet;
+  // const network = WalletAdapterNetwork.Devnet;
   const endpoint = useMemo(() => clusterApiUrl(network), [network]);
   const [audioBlob, setAudioBlob] = useState<Blob | undefined>(undefined);
   const [uploadId, setUploadId] = useState<string | undefined>(undefined);
