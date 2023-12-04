@@ -102,7 +102,7 @@ const Locate: React.FC = () => {
   return (
     <LayoutComponent showTitle="Locate" showFooter={false}>
       <div className="flex flex-col justify-center align-center items-center h-full">
-        <p className="text-2xl text-center">Add location?</p>
+        <p className="text-2xl text-center">Add your location?</p>
         {modalType === ModalType.SkipLocation && (
           <PopupMessage
             showModal={true}
