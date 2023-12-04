@@ -20,7 +20,7 @@ const ContactScreen = () => {
       showTitle="Contact"
       showFooter={true}
     >
-      <div className="flex flex-col m-5 items-center align-center justify-center h-full overflow-scroll">
+      <div className="flex flex-col mx-5 items-center align-center justify-center h-full overflow-scroll">
         <Toaster />
         {showGDPR ? (
           <GDPR handleOnClose={() => setShowGDPR(false)} />

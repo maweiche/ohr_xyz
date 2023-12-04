@@ -1,9 +1,14 @@
 import Link from "next/link";
 import React from "react";
 
-export const NavBarTop = () => {
+interface NavBarTopProps {
+  shouldBeSticky?: boolean;
+}
+
+export const NavBarTop: React.FC<NavBarTopProps> = ({ shouldBeSticky }) => {
+  console.log(shouldBeSticky);
   return (
-    <div className="navbar">
+    <div className={`navbar ${shouldBeSticky && "sticky top-0"}`}>
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost btn-circle">
@@ -24,7 +29,7 @@ export const NavBarTop = () => {
           </label>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-xl rounded-box bg-[#620080] "
+            className="menu menu-sm dropdown-content mt-3 p-2 z-[1] shadow-xl rounded-box bg-[#620080] "
           >
             <li className="p-2">
               <Link href="/">Home</Link>

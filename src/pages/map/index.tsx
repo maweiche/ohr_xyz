@@ -64,7 +64,10 @@ const MapScreen: React.FC = () => {
       audioNFTs
         ? audioNFTs
             .filter(
-              (audioNFT) => audioNFT.attributes.Long && audioNFT.attributes.Lat
+              (audioNFT) =>
+                audioNFT.attributes &&
+                audioNFT.attributes.Long !== undefined &&
+                audioNFT.attributes.Lat !== undefined
             )
             .map((audioNFT, index) => (
               <Marker
@@ -85,13 +88,8 @@ const MapScreen: React.FC = () => {
   );
 
   return (
-    <LayoutComponent
-      justifyStyling="start"
-      showTitle="Explore"
-      showFooter={true}
-      showNavBar={true}
-    >
-      <div className="h-5/6">
+    <LayoutComponent showTitle="Explore" showFooter={true} showNavBar={true}>
+      <div className="h-full flex flex-col justify-center">
         <h2 className="text-center text-sm"> to listen, click on the ears</h2>
         {audioNFT && (
           <NFTModal

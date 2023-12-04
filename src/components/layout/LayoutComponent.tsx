@@ -22,23 +22,23 @@ export const LayoutComponent: React.FC<LayoutProps> = ({
 
   return (
     <div
-      className={`flex justify-between w-full h-full flex-col mobile-frame`}
-      style={{ height: "100svh" }}
+      className={`w-full mobile-frame overflow-auto`}
+      style={{ height: "100dvh" }}
     >
       <AboutDialog
         setShowAboutDialog={setShowAboutDialog}
         showAboutDialog={showAboutDialog}
       />
       <Header showTitle={showTitle} setShowAboutDialog={setShowAboutDialog} />
-      <main
-        className={`overflow-none h-full flex flex-col justify-${
-          justifyStyling ? justifyStyling : "center"
-        } md:mt-0 md:flex-grow md:flex md:justify-center md:items-center`}
-      >
+      <main className="overflow-none" style={{ height: "85dvh" }}>
         {children}
       </main>
 
-      {showFooter && <Footer showNavBar={showNavBar} />}
+      {showFooter && (
+        <div style={{ height: "10dvh" }}>
+          <Footer showNavBar={showNavBar} />
+        </div>
+      )}
     </div>
   );
 };

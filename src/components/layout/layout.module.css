@@ -23,21 +23,21 @@
     padding-left: 1.1%;
   }
 
-  .mobile-frame {
+  /* .mobile-frame {
     background-image: url("/phone-frame.png");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     background-color: green;
-  }
+  } */
 }
 
 .navbar {
   border-radius: 1rem;
   /* background: #a60989; */
   width: 90vw;
-  margin: 1rem;
   /* padding: 0.8rem; */
+  margin: 0.4rem;
   display: flex;
   align-items: center;
 }
