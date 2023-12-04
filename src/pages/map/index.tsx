@@ -64,7 +64,10 @@ const MapScreen: React.FC = () => {
       audioNFTs
         ? audioNFTs
             .filter(
-              (audioNFT) => audioNFT.attributes.Long && audioNFT.attributes.Lat
+              (audioNFT) =>
+                audioNFT.attributes &&
+                audioNFT.attributes.Long !== undefined &&
+                audioNFT.attributes.Lat !== undefined
             )
             .map((audioNFT, index) => (
               <Marker
