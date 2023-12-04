@@ -3,10 +3,10 @@ import { LayoutComponent } from "@components/layout/LayoutComponent";
 import Toaster from "@components/Toaster";
 import RecordingPage from "./create";
 import Script from "next/script";
+import useMenuStore from "utils/useMenuStore";
 
 export default function Home() {
-  const IS_APP_ACTIVE = true;
-
+  const { isMenuDisabled } = useMenuStore();
   return (
     <>
       <Script src="https://www.googletagmanager.com/gtag/js?id=G-1RPC444F7W" />
@@ -26,9 +26,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <LayoutComponent
-        showWallet={IS_APP_ACTIVE && "none"}
-        showLogo={IS_APP_ACTIVE && true}
+        showNavBar={true}
         showTitle="Record"
+        showFooter={!isMenuDisabled ? true : false}
       >
         <Toaster />
         <RecordingPage />

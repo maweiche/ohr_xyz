@@ -1,6 +1,5 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { getMuxAssetId, getPlaybackId as getAudioUrl } from "utils/mux";
-import { createNFT } from "../../../utils/nftUtils";
 import { useRouter } from "next/router";
 import { LoadingComponent } from "../../LoadingComponent";
 import { motion } from "framer-motion";
@@ -72,7 +71,6 @@ export const MintNFT: React.FC<MintNFTProps> = ({
   disabled,
 }) => {
   const { publicKey, connected } = useWallet();
-  const { metadata, resetMetadata } = useMetadataStore();
   const router = useRouter();
 
   const handleMintNFT = async () => {
@@ -89,28 +87,34 @@ export const MintNFT: React.FC<MintNFTProps> = ({
         latitude
       );
 
-      const success = await createNFT(
-        receiverAddress,
-        attributes,
-        recordingUrl
-      );
+      try {
+        const response = await fetch("/api/nft", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ receiverAddress, attributes, recordingUrl }),
+        });
 
-      let queryParams;
-      if (longitude && latitude) {
-        queryParams = {
-          longitude: longitude.toString(),
-          latitude: latitude.toString(),
-        };
-      }
+        let queryParams;
+        if (longitude && latitude) {
+          queryParams = {
+            longitude: longitude.toString(),
+            latitude: latitude.toString(),
+          };
+        }
+        // NO IDEA WHY THIS IS HERE?
+        router.push({
+          pathname: `/create/mint`,
+          query: queryParams,
+        });
 
-      router.push({
-        pathname: `/create/mint`,
-        query: queryParams,
-      });
-
-      if (success) {
-        router.push({ pathname: "/map", query: { longitude, latitude } });
-      } else {
+        if (response.ok) {
+          console.log("response", response);
+          router.push({ pathname: "/map", query: { longitude, latitude } });
+        }
+      } catch (error) {
+        console.error("Error: ", error);
         setHasErrored("Something didn't work out with the mint. ");
       }
     } else {

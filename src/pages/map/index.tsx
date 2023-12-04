@@ -1,32 +1,22 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { LayoutComponent } from "@components/layout/LayoutComponent";
 import { MapView } from "@components/map/MapView";
-import { getNFTs } from "utils/nftUtils";
 import NFTModal, { AudioNFT } from "@components/map/NFTModal";
 import { Marker } from "react-map-gl";
 import Image from "next/image";
 import marker from "../../assets/ear_small.png";
 import { LoadingComponent } from "@components/LoadingComponent";
-import { waitFor } from "utils/mux";
+import { error } from "console";
 
 const MapScreen: React.FC = () => {
   const [audioNFTs, setAudioNFTs] = useState<AudioNFT[] | undefined>(undefined);
   const [showModal, setShowModal] = useState<boolean>(true);
   const [audioNFT, setAudioNFT] = useState<AudioNFT | undefined>(undefined);
+  const [sharedNFTisShown, setSharedNFTisShown] = useState<boolean>(false);
   const [position, setPosition] = useState<{
     longitude: number;
     latitude: number;
   }>({ longitude: 13.35037231777517, latitude: 52.52709769976026 });
-
-  useEffect(() => {
-    const fetchNFTs = async () => {
-      await getNFTs(setAudioNFTs, 1);
-    };
-
-    const intervalId = setInterval(fetchNFTs, 2000);
-
-    return () => clearInterval(intervalId);
-  }, [audioNFTs]);
 
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -34,13 +24,40 @@ const MapScreen: React.FC = () => {
     const latitude = url.searchParams.get("latitude");
 
     if (latitude && longitude) {
-      console.log("Should have long and lat");
       setPosition({
         longitude: Number(longitude),
         latitude: Number(latitude),
       });
     }
-  }, []);
+
+    const fetchNFTs = async () => {
+      await fetch("/api/nfts?initialPageNumber=1")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Request failed with status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((data) => setAudioNFTs(data))
+        .catch((error) => console.log(error));
+    };
+
+    const checkIfAudioNFTisShared = () => {
+      const audioNFTid = url.searchParams.get("id");
+
+      if (audioNFTid && !sharedNFTisShown) {
+        const sharedAudioNFT = audioNFTs?.find(
+          (audioNFT) => audioNFT.id == Number(audioNFTid)
+        );
+        setAudioNFT(sharedAudioNFT);
+        setShowModal(true);
+      }
+    };
+
+    checkIfAudioNFTisShared();
+    const intervalId = setInterval(fetchNFTs, 2000);
+    return () => clearInterval(intervalId);
+  }, [audioNFTs, sharedNFTisShown]);
 
   const markers: JSX.Element[] = useMemo(
     () =>
@@ -48,9 +65,9 @@ const MapScreen: React.FC = () => {
         ? audioNFTs
             .filter(
               (audioNFT) =>
-                audioNFT.attributes && // Check if 'attributes' exists
-                audioNFT.attributes.Long !== undefined && // Check if 'Long' exists
-                audioNFT.attributes.Lat !== undefined // Check if 'Lat' exists
+                audioNFT.attributes &&
+                audioNFT.attributes.Long !== undefined &&
+                audioNFT.attributes.Lat !== undefined
             )
             .map((audioNFT, index) => (
               <Marker
@@ -71,18 +88,15 @@ const MapScreen: React.FC = () => {
   );
 
   return (
-    <LayoutComponent
-      showWallet="none"
-      justifyStyling="center"
-      showTitle="Explore"
-    >
-      <div className="h-5/6">
+    <LayoutComponent showTitle="Explore" showFooter={true} showNavBar={true}>
+      <div className="h-full">
         <h2 className="text-center text-sm"> to listen, click on the ears</h2>
         {audioNFT && (
           <NFTModal
             showModal={showModal}
             setShowModal={setShowModal}
             audioNFT={audioNFT}
+            setSharedNFTisShown={setSharedNFTisShown}
           />
         )}
         {audioNFTs ? (

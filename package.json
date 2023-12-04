@@ -25,6 +25,7 @@
     ]
   },
   "dependencies": {
+    "@emailjs/browser": "^3.11.0",
     "@ffmpeg/ffmpeg": "^0.12.6",
     "@ffmpeg/util": "^0.12.1",
     "@headlessui/react": "^1.7.17",
@@ -45,6 +46,8 @@
     "@types/three": "^0.155.0",
     "@typescript-eslint/eslint-plugin": "^6.5.0",
     "@typescript-eslint/parser": "^6.5.0",
+    "@underdog-protocol/passport": "^4.0.0",
+    "@vercel/kv": "^1.0.0",
     "arweave": "^1.13.7",
     "bs58": "^5.0.0",
     "dotenv": "^16.3.1",
@@ -67,7 +70,7 @@
     "react-use": "^17.4.0",
     "rimraf": "^5.0.1",
     "sass": "^1.65.1",
-    "sonner": "^1.0.3",
+    "sonner": "^1.2.3",
     "three": "^0.151.3",
     "wavesurfer.js": "^7.4.2",
     "zustand": "^4.4.4"

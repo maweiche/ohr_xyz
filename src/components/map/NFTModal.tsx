@@ -22,22 +22,14 @@ interface NFTModalProps {
   showModal: boolean;
   setShowModal: Dispatch<SetStateAction<boolean>>;
   audioNFT: AudioNFT;
+  setSharedNFTisShown: Dispatch<SetStateAction<boolean>>;
 }
-
-const getFormattedMintAddress = (mintAddress: string) => {
-  const mintAddressLength = mintAddress.length;
-  const startMintAddress = mintAddress.substring(0, 4);
-  const endMintAddress = mintAddress.substring(
-    mintAddressLength - 4,
-    mintAddressLength
-  );
-  return startMintAddress + "..." + endMintAddress;
-};
 
 const NFTModal: React.FC<NFTModalProps> = ({
   showModal,
   setShowModal,
   audioNFT,
+  setSharedNFTisShown,
 }) => {
   const [state, copyToClipboard] = useCopyToClipboard();
   const [isCopied, setIsCopied] = useState(false);
@@ -48,7 +40,10 @@ const NFTModal: React.FC<NFTModalProps> = ({
       <Dialog
         as="div"
         className="relative z-50"
-        onClose={() => setShowModal(false)}
+        onClose={() => {
+          setShowModal(false);
+          setSharedNFTisShown(true);
+        }}
       >
         <Transition.Child
           as={Fragment}
@@ -111,15 +106,14 @@ const NFTModal: React.FC<NFTModalProps> = ({
                   <button
                     className="gap-2 border-2 m-3 p-2 px-4 flex justify-center rounded-xl"
                     onClick={() => {
-                      copyToClipboard(audioNFT.mintAddress);
+                      copyToClipboard(
+                        `https://ohr-app.xyz/map?id=${audioNFT.id}&latitude=${audioNFT.attributes.Lat}&longitude=${audioNFT.attributes.Long}`
+                      );
                       setIsCopied(true);
                     }}
                   >
-                    <p className="text-sm text-white ">
-                      {isCopied ? "Copied" : "Copy"} Mint address:
-                    </p>
-                    <p className="text-sm ">
-                      {getFormattedMintAddress(audioNFT.mintAddress)}
+                    <p className="text-md text-white ">
+                      {isCopied ? "Copied" : "Share this øhr"}
                     </p>
                   </button>
                 </div>

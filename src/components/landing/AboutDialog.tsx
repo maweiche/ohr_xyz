@@ -1,5 +1,7 @@
-import { OhrLogo } from "@components/layout/footer/components/ohr-logo";
-import { Twitter } from "@components/layout/footer/components/twitter";
+import { Instagram } from "@components/layout/footer/icons/Instagram";
+import { OhrLogo } from "@components/layout/footer/icons/OhrLogo";
+import { Tiktok } from "@components/layout/footer/icons/Tiktok";
+import { Twitter } from "@components/layout/footer/icons/twitter";
 import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment, useState } from "react";
 
@@ -76,9 +78,13 @@ const AboutDialog: React.FC<PopupMessageProps> = ({
                   {" "}
                   Mint your own audio memory and share it on the map 🗺️
                 </Dialog.Description>
-                <div className="flex  justify-between">
+                <div className="flex flex-col justify-center ">
+                  <div className="flex justify-center mt-3 gap-4">
+                    <Twitter />
+                    <Instagram />
+                    <Tiktok />
+                  </div>
                   <OhrLogo />
-                  <Twitter />
                 </div>
               </Dialog.Panel>
             </div>

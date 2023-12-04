@@ -80,9 +80,9 @@ const Minting = () => {
   console.log("metadata: ", metadata);
   return (
     <LayoutComponent
-      showWallet="header"
       justifyStyling="center"
       showTitle="Mint"
+      showFooter={false}
     >
       {hasErrored && (
         <ErrorMessage

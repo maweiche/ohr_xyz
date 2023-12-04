@@ -3,11 +3,11 @@ import { useRouter } from "next/router";
 import ErrorMessage from "@components/ErrorMessage";
 import { getCurrentDateFormatted } from "utils/formatUtils";
 import useMetadataStore from "utils/useMetadataStore";
-import useDialogStore from "utils/useDialogStore";
 import { LoadingComponent } from "@components/LoadingComponent";
 import EarBtn from "@components/create/recording/EarBtn";
 import Timer from "@components/create/recording/Timer";
 import styles from "@styles/Home.module.css";
+import useMenuStore from "utils/useMenuStore";
 
 const getUserMedia = async () => {
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -32,7 +32,7 @@ const RecordingPage = () => {
   >(undefined);
   const [hasErrored, setHasErrored] = useState<boolean | undefined>(undefined);
 
-  const { setIsAboutBtnDisabled } = useDialogStore();
+  const { setIsMenuDisabled } = useMenuStore();
 
   const resetRecording = () => {
     setDiscardRecording(true);
@@ -57,7 +57,7 @@ const RecordingPage = () => {
   };
 
   const startRecording = (stream: MediaStream) => {
-    setIsAboutBtnDisabled(true);
+    setIsMenuDisabled(true);
     setIsRecording(true);
     setDiscardRecording(false);
     setTimeStamp(getCurrentDateFormatted());
@@ -77,7 +77,7 @@ const RecordingPage = () => {
       setIsRecording(false);
       setIsRecordingCompleted(true);
       setAudioBlob(audioBlob);
-      setIsAboutBtnDisabled(false);
+      setIsMenuDisabled(false);
     };
 
     recorder.start();
@@ -110,47 +110,45 @@ const RecordingPage = () => {
   const showHelpText = !isRecordingCompleted && !isRecording;
 
   return (
-    <>
-      <div className="flex flex-col items-center align-center">
-        {(isRecordingTooShort || hasErrored) && (
-          <ErrorMessage
-            showModal={true}
-            handleContinue={() => {
-              router.push("/");
-              resetRecording();
-            }}
-            buttonText={"Okay"}
-            description={"Try again"}
-            title={
-              isRecordingTooShort
-                ? "Your recording was too short"
-                : "Something went wrong"
-            }
-            handleClose={() => resetRecording()}
-          />
-        )}
-        {showTimer && (
-          <Timer
-            isRecording={isRecording}
-            discardRecording={discardRecording}
-            setDiscardRecording={setDiscardRecording}
-            setIsRecordingTooShort={setIsRecordingTooShort}
-          />
-        )}
-        {isLoading ? (
-          <LoadingComponent />
-        ) : (
-          <EarBtn
-            isRecording={isRecording}
-            onClick={toggleRecording}
-            isRecordingCompleted={isRecordingCompleted}
-          />
-        )}
-        {showHelpText && (
-          <p className={styles["help-text"]}>click the ear to record</p>
-        )}
-      </div>
-    </>
+    <div className="flex flex-col justify-center align-center items-center h-full overflow-none">
+      {(isRecordingTooShort || hasErrored) && (
+        <ErrorMessage
+          showModal={true}
+          handleContinue={() => {
+            router.push("/");
+            resetRecording();
+          }}
+          buttonText={"Okay"}
+          description={"Try again"}
+          title={
+            isRecordingTooShort
+              ? "Your recording was too short"
+              : "Something went wrong"
+          }
+          handleClose={() => resetRecording()}
+        />
+      )}
+      {showTimer && (
+        <Timer
+          isRecording={isRecording}
+          discardRecording={discardRecording}
+          setDiscardRecording={setDiscardRecording}
+          setIsRecordingTooShort={setIsRecordingTooShort}
+        />
+      )}
+      {isLoading ? (
+        <LoadingComponent />
+      ) : (
+        <EarBtn
+          isRecording={isRecording}
+          onClick={toggleRecording}
+          isRecordingCompleted={isRecordingCompleted}
+        />
+      )}
+      {showHelpText && (
+        <p className={styles["help-text"]}>click the ear to record</p>
+      )}
+    </div>
   );
 };
 

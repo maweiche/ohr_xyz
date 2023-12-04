@@ -4,41 +4,36 @@ import { Footer } from "./footer/footer";
 import AboutDialog from "@components/landing/AboutDialog";
 
 interface LayoutProps {
-  showWallet: "footer" | "header" | "none";
   children: ReactNode;
   justifyStyling?: string;
-  showLogo?: boolean;
+  showNavBar?: boolean;
   showTitle?: string;
+  showFooter: boolean;
 }
 
 export const LayoutComponent: React.FC<LayoutProps> = ({
   children,
-  showWallet,
   justifyStyling,
-  showLogo,
+  showNavBar,
   showTitle,
+  showFooter,
 }) => {
   const [showAboutDialog, setShowAboutDialog] = useState<boolean>(false);
 
   return (
     <div
-      className={`flex justify-between w-full h-full flex-col mobile-frame`}
-      style={{ height: "100svh" }}
+      className="w-full mobile-frame overflow-auto grid grid-rows-10 grid-cols-1 gap-16"
+      style={{ height: "100dvh" }}
     >
-      <AboutDialog
-        setShowAboutDialog={setShowAboutDialog}
-        showAboutDialog={showAboutDialog}
-      />
-      <Header showTitle={showTitle} setShowAboutDialog={setShowAboutDialog} />
-      <main
-        className={`overflow-none h-full flex flex-col justify-${
-          justifyStyling ? justifyStyling : "center"
-        } md:mt-0 md:flex-grow md:flex md:justify-center md:items-center`}
-      >
-        {children}
-      </main>
-
-      <Footer showWallet={showWallet} />
+      <div className="col-span-1 row-span-1">
+        <Header showTitle={showTitle} setShowAboutDialog={setShowAboutDialog} />
+      </div>
+      <div className="col-span-1 row-start-2 row-span-6">
+        <main className="overflow-none h-full">{children}</main>
+      </div>
+      <div className="col-span-1 row-start-8 row-span-1">
+        {showFooter && <Footer showNavBar={showNavBar} />}
+      </div>
     </div>
   );
 };

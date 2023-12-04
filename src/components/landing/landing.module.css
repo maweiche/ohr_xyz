@@ -2,9 +2,9 @@
   animation: ear-animation 1.5s ease-in-out infinite alternate;
 }
 
-.ear-img {
+/* .ear-img {
   z-index: 1;
-}
+} */
 
 .ear-img-active-slow {
   animation: ear-animation 2s ease-in-out infinite alternate;
