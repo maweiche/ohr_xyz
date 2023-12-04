@@ -10,7 +10,7 @@ const AboutScreen = () => {
       showTitle="About"
       showFooter={false}
     >
-      <div className="flex flex-col justify-start overflow-scroll scroll-smooth">
+      <div className="flex flex-col justify-start overflow-scroll">
         <div
           className="flex flex-col justify-around items-center"
           style={{ height: "100dvh" }}
@@ -35,20 +35,10 @@ const AboutScreen = () => {
               community centered around the power of sound.
             </p>
           </div>
-          <a href="#team-section">
-            <img
-              src="arrow-down.png"
-              alt="Arrow down"
-              width={50}
-              className="p-2 m-4"
-              style={{ cursor: "pointer" }}
-            />
-          </a>
         </div>
         <div
-          className="flex flex-col h-screen justify-center align-center items-center gap-4 text-center scroll-smooth"
+          className="flex flex-col h-screen justify-center align-center items-center gap-2 text-center"
           style={{ height: "100dvh" }}
-          id="team-section"
         >
           <h1 className="text-xl">Team</h1>
           <div className="rounded-lg flex justify-center">
@@ -56,8 +46,8 @@ const AboutScreen = () => {
               src="/nusha.jpeg"
               alt="Nusha"
               className=""
-              width={200}
-              height={200}
+              width={150}
+              height={150}
             />
           </div>
           <div>
@@ -68,28 +58,28 @@ const AboutScreen = () => {
                 <img
                   src="x-icon.png"
                   alt="X"
-                  className="w-8 h-8 object-cover"
+                  className="w-6 h-6 object-cover"
                 />
               </a>
               <a href="https:/instagram.com/nusha.dev" target="_blank">
                 <img
                   src="ig-icon.png"
                   alt="Instagram"
-                  className="w-9 h-9 object-cover"
+                  className="w-7 h-7 object-cover"
                 />
               </a>
               <a href="https://linkedin.com/nusha22_" target="_blank">
                 <img
                   src="li-icon.png"
                   alt="LinkedIn"
-                  className="w-8 h-8 object-cover"
+                  className="w-6 h-6 object-cover"
                 />
               </a>
               <a href="https://twitter.com/nusha22_" target="_blank">
                 <img
                   src="gh-icon.png"
                   alt="GitHub"
-                  className="w-7 h-7 object-cover"
+                  className="w-5 h-5 object-cover"
                 />
               </a>
             </div>
@@ -99,8 +89,8 @@ const AboutScreen = () => {
               src="/mm.jpg"
               alt="Mimi Mimita"
               className=""
-              width={200}
-              height={200}
+              width={150}
+              height={150}
             />
           </div>
           <div>
@@ -111,28 +101,28 @@ const AboutScreen = () => {
                 <img
                   src="x-icon.png"
                   alt="X"
-                  className="w-8 h-8 object-cover"
+                  className="w-6 h-6 object-cover"
                 />
               </a>
               <a href="https:/instagram.com/mimimusics" target="_blank">
                 <img
                   src="ig-icon.png"
                   alt="Instagram"
-                  className="w-9 h-9 object-cover"
+                  className="w-7 h-7 object-cover"
                 />
               </a>
               <a href="https://www.linkedin.com/in/mimimitina/" target="_blank">
                 <img
                   src="li-icon.png"
                   alt="LinkedIn"
-                  className="w-8 h-8 object-cover"
+                  className="w-6 h-6 object-cover"
                 />
               </a>
               <a href="https://www.tiktok.com/@mimimusics" target="_blank">
                 <img
                   src="tt-icon.png"
                   alt="Tiktok"
-                  className="w-8 h-8 object-cover"
+                  className="w-6 h-6 object-cover"
                 />
               </a>
             </div>

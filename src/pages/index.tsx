@@ -3,10 +3,10 @@ import { LayoutComponent } from "@components/layout/LayoutComponent";
 import Toaster from "@components/Toaster";
 import RecordingPage from "./create";
 import Script from "next/script";
-import useDialogStore from "utils/useDialogStore";
+import useMenuStore from "utils/useMenuStore";
 
 export default function Home() {
-  const { isAboutBtnDisabled } = useDialogStore();
+  const { isMenuDisabled } = useMenuStore();
   return (
     <>
       <Script src="https://www.googletagmanager.com/gtag/js?id=G-1RPC444F7W" />
@@ -28,7 +28,7 @@ export default function Home() {
       <LayoutComponent
         showNavBar={true}
         showTitle="Record"
-        showFooter={!isAboutBtnDisabled ? true : false}
+        showFooter={!isMenuDisabled ? true : false}
       >
         <Toaster />
         <RecordingPage />

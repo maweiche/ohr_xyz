@@ -1,8 +1,7 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import styles from "./header.module.css";
-import AboutDialog from "@components/landing/AboutDialog";
-import useDialogStore from "utils/useDialogStore";
 import { NavBarTop } from "./NavBarTop";
+import useMenuStore from "utils/useMenuStore";
 
 interface HeaderProps {
   showTitle?: string;
@@ -16,9 +15,7 @@ export const Header: React.FC<HeaderProps> = ({
   const handleClick = () => {
     setShowAboutDialog(true);
   };
-
-  const { isAboutBtnDisabled } = useDialogStore();
-
+  const { isMenuDisabled } = useMenuStore();
   return (
     <header
       className={`w-full ${showTitle === "About" && "sticky top-0"}`}
@@ -29,7 +26,7 @@ export const Header: React.FC<HeaderProps> = ({
         showTitle === "About" ||
         showTitle === "Blog" ||
         showTitle === "Contact") &&
-        !isAboutBtnDisabled && (
+        !isMenuDisabled && (
           <NavBarTop />
           // <button onClick={handleClick} disabled={isAboutBtnDisabled}>
           //   <p className="text-3xl fixed top-5 left-5">❓</p>

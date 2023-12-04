@@ -1,7 +1,7 @@
 import styles from "../../landing/landing.module.css";
 import Image from "next/image";
 import ohr from "../../../assets/ear_big.png";
-import useDialogStore from "utils/useDialogStore";
+import useMenuStore from "utils/useMenuStore";
 
 interface EarProps {
   onClick: () => void;
@@ -14,12 +14,11 @@ const EarBtn: React.FC<EarProps> = ({
   isRecording,
   isRecordingCompleted,
 }) => {
-  const { isAboutDialogShown } = useDialogStore();
-
+  const { isMenuShown } = useMenuStore();
   return (
     <button
       onClick={onClick}
-      disabled={isRecordingCompleted || isAboutDialogShown}
+      disabled={isRecordingCompleted || isMenuShown}
       className="mt-4"
     >
       <Image
