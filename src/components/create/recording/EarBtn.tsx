@@ -14,13 +14,8 @@ const EarBtn: React.FC<EarProps> = ({
   isRecording,
   isRecordingCompleted,
 }) => {
-  const { isMenuShown } = useMenuStore();
   return (
-    <button
-      onClick={onClick}
-      disabled={isRecordingCompleted || isMenuShown}
-      className="mt-4"
-    >
+    <button onClick={onClick} disabled={isRecordingCompleted} className="mt-4">
       <Image
         className={isRecording ? styles["ear-img-active"] : styles["ear-img"]}
         src={ohr}

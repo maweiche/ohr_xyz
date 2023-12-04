@@ -96,7 +96,7 @@ const Listen = () => {
         />
       )}
       <motion.div
-        className="flex flex-col items-center justify-center h-full"
+        className="flex flex-col justify-center items-center h-full"
         initial="initial"
         animate="animate"
         variants={containerAnimation}
@@ -105,7 +105,7 @@ const Listen = () => {
         {isLoading ? (
           <LoadingComponent />
         ) : (
-          <div className=" flex flex-col justify-center h-full items-center">
+          <div className="flex flex-col justify-start h-full">
             <h1 className="text-2xl text-center mx-10">
               Do you want to keep this recording?
             </h1>

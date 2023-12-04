@@ -1,28 +1,16 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 
 interface NavBarTopProps {
   shouldBeSticky?: boolean;
 }
 
 export const NavBarTop: React.FC<NavBarTopProps> = ({ shouldBeSticky }) => {
-  const [isMenuShown, setIsMenuShown] = useState(false);
-
-  // Function to toggle the menu
-  const toggleMenu = () => {
-    setIsMenuShown(!isMenuShown);
-    console.log(isMenuShown);
-  };
-
   return (
-    <div className={`navbar ${shouldBeSticky && "sticky top-0"}`}>
+    <div className={`navbar ${shouldBeSticky && "sticky top-0"} z-5`}>
       <div className="navbar-start">
         <div className="dropdown">
-          <label
-            tabIndex={0}
-            className="btn btn-ghost btn-circle"
-            onClick={toggleMenu}
-          >
+          <label tabIndex={0} className="btn btn-ghost btn-circle">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -40,20 +28,18 @@ export const NavBarTop: React.FC<NavBarTopProps> = ({ shouldBeSticky }) => {
           </label>
           <ul
             tabIndex={0}
-            className={`menu menu-sm dropdown-content mt-3 p-2 z-[1] shadow-xl rounded-box bg-[#620080] ${
-              isMenuShown ? "block" : "hidden"
-            }`}
+            className="menu menu-sm dropdown-content mt-3 p-2 z-[1] shadow-xl rounded-box bg-[#620080] "
           >
-            <li className="p-2">
+            <li className="p-3">
               <Link href="/">Home</Link>
             </li>
-            <li className="p-2">
+            <li className="p-3">
               <Link href="/about">About</Link>
             </li>
-            <li className="p-2">
+            <li className="p-3">
               <Link href="/blog">Blog</Link>
             </li>
-            <li className="p-2">
+            <li className="p-3">
               <Link href="/contact">Contact</Link>
             </li>
           </ul>

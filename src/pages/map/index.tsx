@@ -89,7 +89,7 @@ const MapScreen: React.FC = () => {
 
   return (
     <LayoutComponent showTitle="Explore" showFooter={true} showNavBar={true}>
-      <div className="h-full flex flex-col justify-center">
+      <div className="h-full">
         <h2 className="text-center text-sm"> to listen, click on the ears</h2>
         {audioNFT && (
           <NFTModal

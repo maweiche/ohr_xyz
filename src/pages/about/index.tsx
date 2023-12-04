@@ -11,10 +11,7 @@ const AboutScreen = () => {
       showFooter={false}
     >
       <div className="flex flex-col justify-start overflow-scroll">
-        <div
-          className="flex flex-col justify-around items-center"
-          style={{ height: "100dvh" }}
-        >
+        <div style={{ height: "100dvh" }}>
           <div className="flex flex-col justify-center items-center align-center text-center gap-4 mx-4">
             <h1>We believe in the power of sound! </h1>
             <p>
