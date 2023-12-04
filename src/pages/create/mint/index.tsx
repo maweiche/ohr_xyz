@@ -77,7 +77,6 @@ const Minting = () => {
     });
   };
 
-  console.log("metadata: ", metadata);
   return (
     <LayoutComponent
       justifyStyling="center"
