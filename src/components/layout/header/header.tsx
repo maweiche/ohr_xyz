@@ -20,7 +20,10 @@ export const Header: React.FC<HeaderProps> = ({
   const { isAboutBtnDisabled } = useDialogStore();
 
   return (
-    <header className="w-full sticky top-0 z-80" style={{ height: "10dvh" }}>
+    <header
+      className={`w-full ${showTitle === "About" && "sticky top-0"}`}
+      style={{ height: "5dvh" }}
+    >
       {(showTitle === "Record" ||
         showTitle === "Explore" ||
         showTitle === "About" ||

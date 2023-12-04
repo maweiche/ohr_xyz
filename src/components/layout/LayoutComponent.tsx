@@ -29,15 +29,13 @@ export const LayoutComponent: React.FC<LayoutProps> = ({
         setShowAboutDialog={setShowAboutDialog}
         showAboutDialog={showAboutDialog}
       />
-      <div className="z-100">
-        <Header showTitle={showTitle} setShowAboutDialog={setShowAboutDialog} />
-      </div>
+      <Header showTitle={showTitle} setShowAboutDialog={setShowAboutDialog} />
       <main className="overflow-none" style={{ height: "85dvh" }}>
         {children}
       </main>
 
       {showFooter && (
-        <div style={{ height: "5dvh" }}>
+        <div style={{ height: "10dvh" }}>
           <Footer showNavBar={showNavBar} />
         </div>
       )}

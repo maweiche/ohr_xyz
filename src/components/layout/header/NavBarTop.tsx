@@ -1,11 +1,16 @@
 import Link from "next/link";
 import React from "react";
 
-export const NavBarTop = () => {
+interface NavBarTopProps {
+  shouldBeSticky?: boolean;
+}
+
+export const NavBarTop: React.FC<NavBarTopProps> = ({ shouldBeSticky }) => {
+  console.log(shouldBeSticky);
   return (
-    <div className="navbar z-70">
-      <div className="navbar-start z-70">
-        <div className="dropdown z-70">
+    <div className={`navbar ${shouldBeSticky && "sticky top-0"}`}>
+      <div className="navbar-start">
+        <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost btn-circle">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -24,18 +29,18 @@ export const NavBarTop = () => {
           </label>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-70 p-2 shadow-xl rounded-box bg-[#620080] "
+            className="menu menu-sm dropdown-content mt-3 p-2 z-[1] shadow-xl rounded-box bg-[#620080] "
           >
-            <li className="p-2 z-70">
+            <li className="p-2">
               <Link href="/">Home</Link>
             </li>
-            <li className="p-2 z-70">
+            <li className="p-2">
               <Link href="/about">About</Link>
             </li>
-            <li className="p-2 z-70">
+            <li className="p-2">
               <Link href="/blog">Blog</Link>
             </li>
-            <li className="p-2 z-70">
+            <li className="p-2">
               <Link href="/contact">Contact</Link>
             </li>
           </ul>
