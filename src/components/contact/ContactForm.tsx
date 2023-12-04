@@ -112,13 +112,11 @@ export const ContactForm: React.FC<ContactFormProps> = ({
   return isSent ? (
     <Success />
   ) : (
-    <div className="w-full max-w-md ">
-      <div className="flex flex-col justify-center w-full">
-        <h2 className="text-xl text-center">Want to stay in touch?</h2>
-        <p className="text-md m-2 text-center self-center">
-          Follow along or join our closed community
-        </p>
-      </div>
+    <div className="w-full max-w-md h-full overflow-none flex flex-col justify-center">
+      <h2 className="text-xl text-center font-bold">Want to stay in touch?</h2>
+      <p className="text-md mx-20 my-2 text-center self-center">
+        Follow along or join our closed community
+      </p>
       <Form
         handleSubmit={handleSubmit}
         isLoading={isLoading}

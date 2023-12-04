@@ -3,9 +3,9 @@ import React from "react";
 
 export const NavBarTop = () => {
   return (
-    <div className="navbar">
-      <div className="navbar-start">
-        <div className="dropdown">
+    <div className="navbar z-70">
+      <div className="navbar-start z-70">
+        <div className="dropdown z-70">
           <label tabIndex={0} className="btn btn-ghost btn-circle">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -24,18 +24,18 @@ export const NavBarTop = () => {
           </label>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-xl rounded-box bg-[#620080] "
+            className="menu menu-sm dropdown-content mt-3 z-70 p-2 shadow-xl rounded-box bg-[#620080] "
           >
-            <li className="p-2">
+            <li className="p-2 z-70">
               <Link href="/">Home</Link>
             </li>
-            <li className="p-2">
+            <li className="p-2 z-70">
               <Link href="/about">About</Link>
             </li>
-            <li className="p-2">
+            <li className="p-2 z-70">
               <Link href="/blog">Blog</Link>
             </li>
-            <li className="p-2">
+            <li className="p-2 z-70">
               <Link href="/contact">Contact</Link>
             </li>
           </ul>

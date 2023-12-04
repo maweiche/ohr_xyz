@@ -102,7 +102,7 @@ export const Form: React.FC<FormProps> = ({
         <button
           type="submit"
           disabled={isLoading}
-          className="px-10 mt-4 text-lg w-full h-10 text-purple-100 btn bg-black hover:bg-black/70 rounded-md "
+          className="px-10 mt-4 text-lg w-full h-10 text-purple-100 btn primary-btn  rounded-md "
         >
           {isLoading ? <i>{"Sending"}</i> : "Send"}
         </button>

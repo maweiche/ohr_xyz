@@ -110,47 +110,45 @@ const RecordingPage = () => {
   const showHelpText = !isRecordingCompleted && !isRecording;
 
   return (
-    <>
-      <div className="flex flex-col items-center align-center">
-        {(isRecordingTooShort || hasErrored) && (
-          <ErrorMessage
-            showModal={true}
-            handleContinue={() => {
-              router.push("/");
-              resetRecording();
-            }}
-            buttonText={"Okay"}
-            description={"Try again"}
-            title={
-              isRecordingTooShort
-                ? "Your recording was too short"
-                : "Something went wrong"
-            }
-            handleClose={() => resetRecording()}
-          />
-        )}
-        {showTimer && (
-          <Timer
-            isRecording={isRecording}
-            discardRecording={discardRecording}
-            setDiscardRecording={setDiscardRecording}
-            setIsRecordingTooShort={setIsRecordingTooShort}
-          />
-        )}
-        {isLoading ? (
-          <LoadingComponent />
-        ) : (
-          <EarBtn
-            isRecording={isRecording}
-            onClick={toggleRecording}
-            isRecordingCompleted={isRecordingCompleted}
-          />
-        )}
-        {showHelpText && (
-          <p className={styles["help-text"]}>click the ear to record</p>
-        )}
-      </div>
-    </>
+    <div className="flex flex-col items-center justify-center h-full overflow-none">
+      {(isRecordingTooShort || hasErrored) && (
+        <ErrorMessage
+          showModal={true}
+          handleContinue={() => {
+            router.push("/");
+            resetRecording();
+          }}
+          buttonText={"Okay"}
+          description={"Try again"}
+          title={
+            isRecordingTooShort
+              ? "Your recording was too short"
+              : "Something went wrong"
+          }
+          handleClose={() => resetRecording()}
+        />
+      )}
+      {showTimer && (
+        <Timer
+          isRecording={isRecording}
+          discardRecording={discardRecording}
+          setDiscardRecording={setDiscardRecording}
+          setIsRecordingTooShort={setIsRecordingTooShort}
+        />
+      )}
+      {isLoading ? (
+        <LoadingComponent />
+      ) : (
+        <EarBtn
+          isRecording={isRecording}
+          onClick={toggleRecording}
+          isRecordingCompleted={isRecordingCompleted}
+        />
+      )}
+      {showHelpText && (
+        <p className={styles["help-text"]}>click the ear to record</p>
+      )}
+    </div>
   );
 };
 

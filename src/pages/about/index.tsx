@@ -1,8 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
 import { LayoutComponent } from "@components/layout/LayoutComponent";
-import Image from "next/image";
-import React from "react";
+import React, { useRef } from "react";
 
 const AboutScreen = () => {
   return (
@@ -11,28 +10,46 @@ const AboutScreen = () => {
       showTitle="About"
       showFooter={false}
     >
-      <div className="flex flex-col justify-start mx-6 gap-5 overflow-scroll">
-        <div className="flex flex-col justify-center h-screen items-center align-center text-center my-20 gap-4">
-          <h1>We believe in the power of sound! </h1>
-          <p>
-            Sound grabs our attention instantly, makes us feel deeply, activates
-            our imagination, and triggers memories in a profound way.{" "}
-          </p>
-          <p>
-            {" "}
-            We are convinced that this amazing medium holds an untapped
-            potential and that's why we're building a social mobile dApp where
-            audio memories can be saved, shared, valued and traded.
-          </p>{" "}
-          <p>
-            {" "}
-            Through our unique platform, we're not just changing how we interact
-            with our memories; we're also creating a vibrant community centered
-            around the power of sound.
-          </p>
+      <div className="flex flex-col justify-start overflow-scroll scroll-smooth">
+        <div
+          className="flex flex-col justify-around items-center"
+          style={{ height: "100dvh" }}
+        >
+          <div className="flex flex-col justify-center items-center align-center text-center gap-4 mx-4">
+            <h1>We believe in the power of sound! </h1>
+            <p>
+              Sound grabs our attention instantly, makes us feel deeply,
+              activates our imagination, and triggers memories in a profound
+              way.{" "}
+            </p>
+            <p>
+              {" "}
+              We are convinced that this amazing medium holds an untapped
+              potential and that's why we're building a social mobile dApp where
+              audio memories can be saved, shared, valued and traded.
+            </p>{" "}
+            <p>
+              {" "}
+              Through our unique platform, we're not just changing how we
+              interact with our memories; we're also creating a vibrant
+              community centered around the power of sound.
+            </p>
+          </div>
+          <a href="#team-section">
+            <img
+              src="arrow-down.png"
+              alt="Arrow down"
+              width={50}
+              className="p-2 m-4"
+              style={{ cursor: "pointer" }}
+            />
+          </a>
         </div>
-        <hr className="my-6" />
-        <div className="flex flex-col h-screen justify-center align-center items-center gap-4 text-center">
+        <div
+          className="flex flex-col h-screen justify-center align-center items-center gap-4 text-center scroll-smooth"
+          style={{ height: "100dvh" }}
+          id="team-section"
+        >
           <h1 className="text-xl">Team</h1>
           <div className="rounded-lg flex justify-center">
             <img
@@ -46,18 +63,34 @@ const AboutScreen = () => {
           <div>
             <h2 className="p-0 m-0">Nusha / Noam Rubin - Founder </h2>
             <p className="text-sm">Technology</p>
-            <div className="flex h-7 justify-center mt-2 gap-4 ">
+            <div className="flex justify-center items-center align-center gap-4 m-2">
               <a href="https://twitter.com/nusha22_" target="_blank">
-                <img src="x-icon.png" alt="X" />
+                <img
+                  src="x-icon.png"
+                  alt="X"
+                  className="w-8 h-8 object-cover"
+                />
               </a>
               <a href="https:/instagram.com/nusha.dev" target="_blank">
-                <img src="ig-icon.png" alt="Instagram" />
+                <img
+                  src="ig-icon.png"
+                  alt="Instagram"
+                  className="w-9 h-9 object-cover"
+                />
               </a>
               <a href="https://linkedin.com/nusha22_" target="_blank">
-                <img src="li-icon.png" alt="LinkedIn" />
+                <img
+                  src="li-icon.png"
+                  alt="LinkedIn"
+                  className="w-8 h-8 object-cover"
+                />
               </a>
               <a href="https://twitter.com/nusha22_" target="_blank">
-                <img src="gh-icon.png" alt="GitHub" />
+                <img
+                  src="gh-icon.png"
+                  alt="GitHub"
+                  className="w-7 h-7 object-cover"
+                />
               </a>
             </div>
           </div>
@@ -73,11 +106,35 @@ const AboutScreen = () => {
           <div>
             <h2 className="p-0 m-0">Mimi Mimita - Co-Founder </h2>
             <p className="text-sm">Marketing & Community</p>
-            <div className="flex h-7 justify-center mt-2 gap-4 ">
-              <img src="x-icon.png" alt="X" />
-              <img src="ig-icon.png" alt="Instagram" />
-              <img src="li-icon.png" alt="LinkedIn" />
-              <img src="tt-icon.png" alt="Tiktok" />
+            <div className="flex justify-center items-center align-center gap-4 m-4">
+              <a href="https://twitter.com/mimimusics" target="_blank">
+                <img
+                  src="x-icon.png"
+                  alt="X"
+                  className="w-8 h-8 object-cover"
+                />
+              </a>
+              <a href="https:/instagram.com/mimimusics" target="_blank">
+                <img
+                  src="ig-icon.png"
+                  alt="Instagram"
+                  className="w-9 h-9 object-cover"
+                />
+              </a>
+              <a href="https://www.linkedin.com/in/mimimitina/" target="_blank">
+                <img
+                  src="li-icon.png"
+                  alt="LinkedIn"
+                  className="w-8 h-8 object-cover"
+                />
+              </a>
+              <a href="https://www.tiktok.com/@mimimusics" target="_blank">
+                <img
+                  src="tt-icon.png"
+                  alt="Tiktok"
+                  className="w-8 h-8 object-cover"
+                />
+              </a>
             </div>
           </div>
         </div>
