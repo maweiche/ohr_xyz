@@ -31,7 +31,7 @@ export default function Home() {
         />
         <meta
           name="twitter:image"
-          content="https://example.com/images/cool-page.jpg"
+          content="https://github.com/noamrubin22/ohr_xyz/blob/c18749ccbf9e402ddca826919b9fe322199bbf96/src/assets/link-preview-img.png"
         />
 
         <meta property="og:title" content="øhr: memories empowered by sound" />
@@ -41,7 +41,7 @@ export default function Home() {
         />
         <meta
           property="og:image"
-          content="https://example.com/images/cool-page.jpg"
+          content="https://github.com/noamrubin22/ohr_xyz/blob/c18749ccbf9e402ddca826919b9fe322199bbf96/src/assets/link-preview-img.png"
         />
       </Head>
       <LayoutComponent
