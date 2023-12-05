@@ -106,15 +106,16 @@ const MapScreen: React.FC = () => {
   return (
     <>
       <Head>
-        <title>øhr: moments empowered by sound</title>
+        <title>øhr</title>
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="øhr: moments empowered by sound" />
+        <meta property="og:url" content="" />
         <meta
-          name="twitter:description"
+          property="og:description"
           content="a social dApp created to empower"
         />
         <meta
-          name="twitter:image"
+          property="og:image"
           content="https://github.com/noamrubin22/ohr_xyz/blob/d2e77d623a0723cf7809ef2fa3e20a9ec6d8f11b/src/assets/link-preview-img.png"
         />
       </Head>
