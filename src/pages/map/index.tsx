@@ -106,7 +106,7 @@ const MapScreen: React.FC = () => {
   return (
     <>
       <Head>
-        <title>øhr: map</title>
+        <title>øhr: moments empowered by sound</title>
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="øhr: memories empowered by sound" />
         <meta
