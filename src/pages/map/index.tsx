@@ -116,7 +116,7 @@ const MapScreen: React.FC = () => {
         />
         <meta
           property="og:image"
-          content="https://github.com/noamrubin22/ohr_xyz/blob/d2e77d623a0723cf7809ef2fa3e20a9ec6d8f11b/src/assets/link-preview-img.png"
+          content="https://raw.githubusercontent.com/noamrubin22/ohr_xyz/main/src/assets/link-preview-img.png"
         />
       </Head>
       <LayoutComponent showTitle="Explore" showFooter={true} showNavBar={true}>
