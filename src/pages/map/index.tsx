@@ -6,7 +6,6 @@ import { Marker } from "react-map-gl";
 import Image from "next/image";
 import marker from "../../assets/ear_small.png";
 import { LoadingComponent } from "@components/LoadingComponent";
-import { error } from "console";
 
 const MapScreen: React.FC = () => {
   const [audioNFTs, setAudioNFTs] = useState<AudioNFT[] | undefined>(undefined);
@@ -19,6 +18,30 @@ const MapScreen: React.FC = () => {
   }>({ longitude: 13.35037231777517, latitude: 52.52709769976026 });
 
   useEffect(() => {
+    const fetchNFTs = async () => {
+      // check if cachedData is available in local storage
+      const cachedData = localStorage.getItem("audioNFTs");
+
+      if (cachedData) {
+        setAudioNFTs(JSON.parse(cachedData));
+      }
+
+      await fetch("/api/nfts?initialPageNumber=1")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Request failed with status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setAudioNFTs(data);
+
+          localStorage.setItem("audioNFTs", JSON.stringify(data));
+        })
+        .catch((error) => console.log(error));
+    };
+
+    //  if position is in url, move the map accordingly
     const url = new URL(window.location.href);
     const longitude = url.searchParams.get("longitude");
     const latitude = url.searchParams.get("latitude");
@@ -29,18 +52,6 @@ const MapScreen: React.FC = () => {
         latitude: Number(latitude),
       });
     }
-
-    const fetchNFTs = async () => {
-      await fetch("/api/nfts?initialPageNumber=1")
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(`Request failed with status: ${response.status}`);
-          }
-          return response.json();
-        })
-        .then((data) => setAudioNFTs(data))
-        .catch((error) => console.log(error));
-    };
 
     const checkIfAudioNFTisShared = () => {
       const audioNFTid = url.searchParams.get("id");
@@ -56,7 +67,11 @@ const MapScreen: React.FC = () => {
 
     checkIfAudioNFTisShared();
     const intervalId = setInterval(fetchNFTs, 2000);
-    return () => clearInterval(intervalId);
+
+    return () => {
+      localStorage.removeItem("audioNFTs");
+      clearInterval(intervalId);
+    };
   }, [audioNFTs, sharedNFTisShown]);
 
   const markers: JSX.Element[] = useMemo(
