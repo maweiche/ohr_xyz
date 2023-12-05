@@ -6,6 +6,7 @@ import { Marker } from "react-map-gl";
 import Image from "next/image";
 import marker from "../../assets/ear_small.png";
 import { LoadingComponent } from "@components/LoadingComponent";
+import Head from "next/head";
 
 const MapScreen: React.FC = () => {
   const [audioNFTs, setAudioNFTs] = useState<AudioNFT[] | undefined>(undefined);
@@ -103,26 +104,41 @@ const MapScreen: React.FC = () => {
   );
 
   return (
-    <LayoutComponent showTitle="Explore" showFooter={true} showNavBar={true}>
-      <div className="h-full">
-        <h2 className="text-center text-sm"> to listen, click on the ears</h2>
-        {audioNFT && (
-          <NFTModal
-            showModal={showModal}
-            setShowModal={setShowModal}
-            audioNFT={audioNFT}
-            setSharedNFTisShown={setSharedNFTisShown}
-          />
-        )}
-        {audioNFTs ? (
-          <MapView {...position} markers={markers} />
-        ) : (
-          <div className="flex h-full justify-center align-center">
-            <LoadingComponent />
-          </div>
-        )}
-      </div>
-    </LayoutComponent>
+    <>
+      <Head>
+        <title>øhr: map</title>
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="øhr: memories empowered by sound" />
+        <meta
+          name="twitter:description"
+          content="a social dApp using sound that is empowering its users"
+        />
+        <meta
+          name="twitter:image"
+          content="https://github.com/noamrubin22/ohr_xyz/blob/c18749ccbf9e402ddca826919b9fe322199bbf96/src/assets/link-preview-img.png"
+        />
+      </Head>
+      <LayoutComponent showTitle="Explore" showFooter={true} showNavBar={true}>
+        <div className="h-full">
+          <h2 className="text-center text-sm"> to listen, click on the ears</h2>
+          {audioNFT && (
+            <NFTModal
+              showModal={showModal}
+              setShowModal={setShowModal}
+              audioNFT={audioNFT}
+              setSharedNFTisShown={setSharedNFTisShown}
+            />
+          )}
+          {audioNFTs ? (
+            <MapView {...position} markers={markers} />
+          ) : (
+            <div className="flex h-full justify-center align-center">
+              <LoadingComponent />
+            </div>
+          )}
+        </div>
+      </LayoutComponent>
+    </>
   );
 };
 
