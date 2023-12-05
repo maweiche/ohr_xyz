@@ -3,6 +3,7 @@ import React, { Dispatch, Fragment, SetStateAction, useState } from "react";
 import { NFTattributes } from "utils/nftUtils";
 import { useCopyToClipboard } from "react-use";
 import Image from "next/image";
+import ShareTweetBtn from "./ShareTweetBtn";
 
 export interface AudioNFT {
   animationUrl: string;
@@ -113,9 +114,13 @@ const NFTModal: React.FC<NFTModalProps> = ({
                     }}
                   >
                     <p className="text-md text-white ">
-                      {isCopied ? "Copied" : "Share this øhr"}
+                      {isCopied ? "Copied" : "Copy link"}
                     </p>
                   </button>
+
+                  <ShareTweetBtn
+                    link={`https://ohr-app.xyz/map?id=${audioNFT.id}&latitude=${audioNFT.attributes.Lat}&longitude=${audioNFT.attributes.Long}`}
+                  />
                 </div>
               </Dialog.Panel>
             </Transition.Child>{" "}
