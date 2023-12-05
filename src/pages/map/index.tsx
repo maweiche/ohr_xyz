@@ -109,14 +109,23 @@ const MapScreen: React.FC = () => {
         <title>øhr</title>
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="øhr: moments empowered by sound" />
-        <meta property="og:url" content="" />
+        <meta name="twitter:creator" content="@ohr_xyz" />
+        <meta property="og:url" content="https://www.ohr-app.xyz/map" />
+        <meta
+          name="twitter:image"
+          content="https://raw.githubusercontent.com/noamrubin22/ohr_xyz/main/src/assets/link-preview-img.png"
+        />
         <meta
           property="og:description"
-          content="a social dApp created to empower"
+          content="a social dApp using the power of sound"
         />
         <meta
           property="og:image"
           content="https://raw.githubusercontent.com/noamrubin22/ohr_xyz/main/src/assets/link-preview-img.png"
+        />
+        <meta
+          property="twitter:description"
+          content="a social dApp using the power of sound"
         />
       </Head>
       <LayoutComponent showTitle="Explore" showFooter={true} showNavBar={true}>
