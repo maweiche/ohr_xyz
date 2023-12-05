@@ -23,13 +23,21 @@ export default function Home() {
         <title>øhr</title>
         <meta name="description" content="We believe in the power of sound!" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="twitter:card" content="summary" />
-        <meta name="twitter:site" content="@nytimesbits" />
-        <meta name="twitter:creator" content="@nickbilton" />
-        <meta property="og:title" content="Social Title for Cool Page" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="øhr: memories empowered by sound" />
+        <meta
+          name="twitter:description"
+          content="a social dApp using sound that is empowering its users"
+        />
+        <meta
+          name="twitter:image"
+          content="https://example.com/images/cool-page.jpg"
+        />
+
+        <meta property="og:title" content="øhr: memories empowered by sound" />
         <meta
           property="og:description"
-          content="And a social description for our cool page"
+          content="a social dApp using sound that is empowering its users"
         />
         <meta
           property="og:image"
