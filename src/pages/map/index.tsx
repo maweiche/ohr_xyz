@@ -113,24 +113,28 @@ const MapScreen: React.FC = () => {
       <Head>
         <title>øhr</title>
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="øhr: moments empowered by sound" />
-        <meta name="twitter:creator" content="@ohr_xyz" />
-        <meta property="og:url" content="https://www.ohr-app.xyz/map" />
+        <meta name="twitter:site" content="@ohr_xyz" />
+        <meta
+          name="twitter:title"
+          content={audioNFT ? audioNFT.attributes.Vibe : "øhr"}
+        />
+        <meta name="twitter:description" content="listen, mint, share" />
+        <meta
+          property="og:url"
+          content={
+            audioNFT
+              ? `https://ohr-app.xyz/map?id=${audioNFT.id}&latitude=${audioNFT.attributes.Lat}&longitude=${audioNFT.attributes.Long}`
+              : "https://ohr-app.xyz/"
+          }
+        />
         <meta
           name="twitter:image"
           content="https://raw.githubusercontent.com/noamrubin22/ohr_xyz/main/src/assets/link-preview-img.png"
         />
-        <meta
-          property="og:description"
-          content="a social dApp using the power of sound"
-        />
+        <meta property="og:description" content="listen, mint, share" />
         <meta
           property="og:image"
           content="https://raw.githubusercontent.com/noamrubin22/ohr_xyz/main/src/assets/link-preview-img.png"
-        />
-        <meta
-          property="twitter:description"
-          content="a social dApp using the power of sound"
         />
       </Head>
       <LayoutComponent showTitle="Explore" showFooter={true} showNavBar={true}>
