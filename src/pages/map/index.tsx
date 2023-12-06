@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { LayoutComponent } from "@components/layout/LayoutComponent";
 import { MapView } from "@components/map/MapView";
 import NFTModal, { AudioNFT } from "@components/map/NFTModal";
@@ -7,6 +7,7 @@ import Image from "next/image";
 import marker from "../../assets/ear_small.png";
 import { LoadingComponent } from "@components/LoadingComponent";
 import Head from "next/head";
+import { lstat } from "fs";
 
 const MapScreen: React.FC = () => {
   const [audioNFTs, setAudioNFTs] = useState<AudioNFT[] | undefined>(undefined);
@@ -18,16 +19,49 @@ const MapScreen: React.FC = () => {
     latitude: number;
   }>({ longitude: 13.35037231777517, latitude: 52.52709769976026 });
 
-  useEffect(() => {
-    const fetchNFTs = async () => {
-      // check if cachedData is available in local storage
-      const cachedData = localStorage.getItem("audioNFTs");
+  const getUrlData = (url: URL) => {
+    const longitude = url.searchParams.get("longitude");
+    const latitude = url.searchParams.get("latitude");
+    const audioNFTid = url.searchParams.get("id");
+    return { longitude, latitude, audioNFTid };
+  };
 
-      if (cachedData) {
-        setAudioNFTs(JSON.parse(cachedData));
+  const showSharedNFT = useCallback(
+    (audioNFTid: string) => {
+      if (audioNFTid && !sharedNFTisShown) {
+        const sharedAudioNFT = audioNFTs?.find(
+          (audioNFT) => audioNFT.id == Number(audioNFTid)
+        );
+        setAudioNFT(sharedAudioNFT);
+        setShowModal(true);
+      }
+    },
+    [sharedNFTisShown, audioNFTs]
+  );
+
+  const checkIfAudioNFTisShared = useCallback(
+    (audioNFTs: AudioNFT[]) => {
+      const { longitude, latitude, audioNFTid } = getUrlData(
+        new URL(window.location.href)
+      );
+
+      if (latitude && longitude) {
+        setPosition({
+          longitude: Number(longitude),
+          latitude: Number(latitude),
+        });
       }
 
-      await fetch("/api/nfts?initialPageNumber=1")
+      if (audioNFTid) {
+        showSharedNFT(audioNFTid);
+      }
+    },
+    [showSharedNFT]
+  );
+
+  useEffect(() => {
+    const fetchNFTs = async () => {
+      fetch("/api/nfts?initialPageNumber=1")
         .then((response) => {
           if (!response.ok) {
             throw new Error(`Request failed with status: ${response.status}`);
@@ -36,44 +70,15 @@ const MapScreen: React.FC = () => {
         })
         .then((data) => {
           setAudioNFTs(data);
-          localStorage.setItem("audioNFTs", JSON.stringify(data));
+          checkIfAudioNFTisShared(data);
         })
         .catch((error) => console.log(error));
     };
 
-    //  if position is in url, move the map accordingly
-    const url = new URL(window.location.href);
-    const longitude = url.searchParams.get("longitude");
-    const latitude = url.searchParams.get("latitude");
-
-    if (latitude && longitude) {
-      setPosition({
-        longitude: Number(longitude),
-        latitude: Number(latitude),
-      });
+    if (!audioNFTs) {
+      fetchNFTs();
     }
-
-    const checkIfAudioNFTisShared = () => {
-      const audioNFTid = url.searchParams.get("id");
-
-      if (audioNFTid && !sharedNFTisShown) {
-        const sharedAudioNFT = audioNFTs?.find(
-          (audioNFT) => audioNFT.id == Number(audioNFTid)
-        );
-        setAudioNFT(sharedAudioNFT);
-        setShowModal(true);
-      }
-    };
-
-    fetchNFTs();
-    checkIfAudioNFTisShared();
-    const intervalId = setInterval(fetchNFTs, 3000);
-
-    return () => {
-      localStorage.removeItem("audioNFTs");
-      clearInterval(intervalId);
-    };
-  }, [audioNFTs, sharedNFTisShown]);
+  }, [checkIfAudioNFTisShared, audioNFTs]);
 
   const markers: JSX.Element[] = useMemo(
     () =>
