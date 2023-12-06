@@ -11,7 +11,7 @@ const AboutScreen = () => {
       showFooter={false}
     >
       <div className="flex flex-col justify-start overflow-scroll">
-        <div style={{ height: "100dvh" }}>
+        <div>
           <div className="flex flex-col justify-center items-center align-center text-center gap-4 mx-4">
             <h1>We believe in the power of sound! </h1>
             <p>
@@ -33,10 +33,7 @@ const AboutScreen = () => {
             </p>
           </div>
         </div>
-        <div
-          className="flex flex-col h-screen justify-center align-center items-center gap-2 text-center"
-          style={{ height: "100dvh" }}
-        >
+        <div className="flex flex-col h-screen justify-center align-center items-center gap-2 text-center">
           <h1 className="text-xl">Team</h1>
           <div className="rounded-lg flex justify-center">
             <img
