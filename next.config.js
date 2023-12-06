@@ -5,7 +5,12 @@ require("dotenv").config();
 
 module.exports = {
   images: {
-    domains: ["updg8.com", "dev.updg8.com", "shdw-drive.genesysgo.net"],
+    domains: [
+      "updg8.com",
+      "dev.updg8.com",
+      "shdw-drive.genesysgo.net",
+      "storage.googleapis.com",
+    ],
   },
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     // Resolve fallbacks

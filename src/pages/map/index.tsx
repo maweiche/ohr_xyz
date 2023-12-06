@@ -36,7 +36,6 @@ const MapScreen: React.FC = () => {
         })
         .then((data) => {
           setAudioNFTs(data);
-
           localStorage.setItem("audioNFTs", JSON.stringify(data));
         })
         .catch((error) => console.log(error));
@@ -66,8 +65,9 @@ const MapScreen: React.FC = () => {
       }
     };
 
+    fetchNFTs();
     checkIfAudioNFTisShared();
-    const intervalId = setInterval(fetchNFTs, 2000);
+    const intervalId = setInterval(fetchNFTs, 3000);
 
     return () => {
       localStorage.removeItem("audioNFTs");
