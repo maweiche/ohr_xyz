@@ -7,7 +7,7 @@ import {
   getFirstArrayElementOrValue,
 } from "utils/formatUtils";
 import useMetadataStore from "utils/useMetadataStore";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { GENERAL_NFT_IMG } from "utils/constants";
 import PopupMessage from "@components/PopupMessage";
 import ErrorMessage from "@components/ErrorMessage";

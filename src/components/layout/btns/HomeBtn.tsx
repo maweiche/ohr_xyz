@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "../layout.module.css";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import OhrThreeDLogo from "../../../assets/three_d_logo.png";
 import { useRouter } from "next/router";
 

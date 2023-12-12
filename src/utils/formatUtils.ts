@@ -1,4 +1,4 @@
-import { StaticImageData } from "next/image";
+import { StaticImageData } from "next/legacy/image";
 
 export const getCurrentDateFormatted = (): string => {
   const now = new Date();

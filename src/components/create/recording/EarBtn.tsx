@@ -1,5 +1,5 @@
 import styles from "../../landing/landing.module.css";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import ohr from "../../../assets/ear_big.png";
 import useMenuStore from "utils/useMenuStore";
 

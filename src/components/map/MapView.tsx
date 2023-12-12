@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Map, { Marker } from "react-map-gl";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import marker from "../../assets/ear_small.png";
 import { useRouter } from "next/router";
 

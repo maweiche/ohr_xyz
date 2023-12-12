@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import styles from "./layout.module.css";
 import React from "react";
 import nftMap from "../../assets/NFT_icon-01.png";
-import Image from "next/image";
+import Image from "next/legacy/image";
 
 export const NavBarBottom = () => {
   const router = useRouter();

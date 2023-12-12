@@ -3,7 +3,7 @@ import { LayoutComponent } from "@components/layout/LayoutComponent";
 import { MapView } from "@components/map/MapView";
 import NFTModal, { AudioNFT } from "@components/map/NFTModal";
 import { Marker } from "react-map-gl";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import marker from "../../assets/ear_small.png";
 import { LoadingComponent } from "@components/LoadingComponent";
 import { error } from "console";
