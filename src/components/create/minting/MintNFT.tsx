@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { getMuxAssetId, getPlaybackId as getAudioUrl } from "utils/mux";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { LoadingComponent } from "../../LoadingComponent";
 import { motion } from "framer-motion";
 import useMetadataStore from "utils/useMetadataStore";

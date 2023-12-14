@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import styles from "./layout.module.css";
 import React from "react";
 import nftMap from "../../assets/NFT_icon-01.png";
