@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { AudioNFT } from "../../../components/map/NFTModal";
-import { NextApiRequest, NextApiResponse } from "next";
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
