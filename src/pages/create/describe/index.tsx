@@ -42,7 +42,7 @@ const Describe = () => {
         {isLoading ? (
           <LoadingComponent />
         ) : (
-          <div className="flex flex-col justify-evenly align-center w-full h-full mt-2 items-center">
+          <div className="flex flex-col justify-center align-center w-full h-full mt-2 items-center">
             <div className="flex flex-col  m-10 align-center justify-between items-center self-center">
               <div className="flex flex-col items-center">
                 <h2 className="mb-10 text-center text-2xl ">
