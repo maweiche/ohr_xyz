@@ -154,7 +154,7 @@ const MapScreen: React.FC = () => {
           <h2 className="text-center text-sm">
             {" "}
             {isLoading
-              ? "we are fetching your øhr!"
+              ? "one moment, we are fetching your øhr! "
               : "to listen, click on the ears"}{" "}
           </h2>
           {audioNFT && (
@@ -171,7 +171,7 @@ const MapScreen: React.FC = () => {
               <div className="flex justify-center">
                 <span className="loading loading-dots loading-md "></span>
               </div>
-              <MapView {...position} markers={markers} />
+              <MapView {...position} />
             </>
           ) : audioNFTs && !isLoading ? (
             <MapView {...position} markers={markers} />
