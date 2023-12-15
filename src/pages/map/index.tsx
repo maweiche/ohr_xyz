@@ -32,7 +32,6 @@ const MapScreen: React.FC = () => {
         const sharedAudioNFT = audioNFTs?.find(
           (audioNFT) => audioNFT.id == Number(audioNFTid)
         );
-
         setAudioNFT(sharedAudioNFT);
       }
     },
@@ -165,12 +164,11 @@ const MapScreen: React.FC = () => {
 
           {audioNFTs && !isLoading ? (
             <>
+              {isLoading && (
+                <span className="loading loading-dots loading-lg"></span>
+              )}
               <MapView {...position} markers={markers} />
             </>
-          ) : audioNFTs && isLoading ? (
-            <div className="flex h-full justify-center align-center ">
-              <span className="loading loading-dots loading-lg"></span>
-            </div>
           ) : (
             <div className="flex h-full justify-center align-center">
               <LoadingComponent />
