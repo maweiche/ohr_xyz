@@ -1,11 +1,7 @@
-import Toaster from "@components/Toaster";
-import { ContactForm } from "@components/contact/ContactForm";
-import { GDPR } from "@components/contact/GDPR";
-import { LayoutComponent } from "@components/layout/LayoutComponent";
-import { Instagram } from "@components/layout/footer/icons/Instagram";
-import { OhrLogo } from "@components/layout/footer/icons/OhrLogo";
-import { Tiktok } from "@components/layout/footer/icons/Tiktok";
-import { Twitter } from "@components/layout/footer/icons/twitter";
+import Toaster from "../../components/Toaster";
+import { ContactForm } from "../../components/contact/ContactForm";
+import { GDPR } from "../../components/contact/GDPR";
+import { LayoutComponent } from "../../components/layout/LayoutComponent";
 import React, { useState } from "react";
 
 const ContactScreen = () => {

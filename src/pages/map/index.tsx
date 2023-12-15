@@ -1,23 +1,23 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { LayoutComponent } from "@components/layout/LayoutComponent";
-import { MapView } from "@components/map/MapView";
-import NFTModal, { AudioNFT } from "@components/map/NFTModal";
 import { Marker } from "react-map-gl";
 import Image from "next/image";
-import marker from "../../assets/ear_small.png";
-import { LoadingComponent } from "@components/LoadingComponent";
 import Head from "next/head";
-import { lstat } from "fs";
+import { MapView } from "../../components/map/MapView";
+import NFTModal, { AudioNFT } from "../../components/map/NFTModal";
+import LoadingComponent from "../../components/LoadingComponent";
+import { LayoutComponent } from "../../components/layout/LayoutComponent";
+import { waitFor } from "../../utils/mux";
 
 const MapScreen: React.FC = () => {
   const [audioNFTs, setAudioNFTs] = useState<AudioNFT[] | undefined>(undefined);
-  const [showModal, setShowModal] = useState<boolean>(true);
+  const [showModal, setShowModal] = useState<boolean>(false);
   const [audioNFT, setAudioNFT] = useState<AudioNFT | undefined>(undefined);
   const [sharedNFTisShown, setSharedNFTisShown] = useState<boolean>(false);
   const [position, setPosition] = useState<{
     longitude: number;
     latitude: number;
   }>({ longitude: 13.35037231777517, latitude: 52.52709769976026 });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const getUrlData = (url: URL) => {
     const longitude = url.searchParams.get("longitude");
@@ -27,16 +27,16 @@ const MapScreen: React.FC = () => {
   };
 
   const showSharedNFT = useCallback(
-    (audioNFTid: string) => {
-      if (audioNFTid && !sharedNFTisShown) {
+    async (audioNFTid: string, audioNFTs: AudioNFT[]) => {
+      if (audioNFTid && audioNFTs) {
         const sharedAudioNFT = audioNFTs?.find(
           (audioNFT) => audioNFT.id == Number(audioNFTid)
         );
+
         setAudioNFT(sharedAudioNFT);
-        setShowModal(true);
       }
     },
-    [sharedNFTisShown, audioNFTs]
+    []
   );
 
   const checkIfAudioNFTisShared = useCallback(
@@ -51,13 +51,22 @@ const MapScreen: React.FC = () => {
           latitude: Number(latitude),
         });
       }
-
       if (audioNFTid) {
-        showSharedNFT(audioNFTid);
+        showSharedNFT(audioNFTid, audioNFTs);
       }
     },
     [showSharedNFT]
   );
+
+  useEffect(() => {
+    if (audioNFT?.status === "pending") {
+      setIsLoading(true);
+    }
+    if (audioNFT?.status === "confirmed") {
+      setIsLoading(false);
+      setShowModal(true);
+    }
+  }, [audioNFT?.status]);
 
   useEffect(() => {
     const fetchNFTs = async () => {
@@ -75,10 +84,10 @@ const MapScreen: React.FC = () => {
         .catch((error) => console.log(error));
     };
 
-    if (!audioNFTs) {
+    if (!audioNFTs || audioNFT?.status === "pending") {
       fetchNFTs();
     }
-  }, [checkIfAudioNFTisShared, audioNFTs]);
+  }, [checkIfAudioNFTisShared, audioNFTs, audioNFT?.status]);
 
   const markers: JSX.Element[] = useMemo(
     () =>
@@ -101,7 +110,12 @@ const MapScreen: React.FC = () => {
                   setShowModal(true);
                 }}
               >
-                <Image src={marker} alt="øhr logo" width={40} height={40} />
+                <Image
+                  src={"/ear_small.png"}
+                  alt="øhr logo"
+                  width={40}
+                  height={40}
+                />
               </Marker>
             ))
         : [],
@@ -148,8 +162,15 @@ const MapScreen: React.FC = () => {
               setSharedNFTisShown={setSharedNFTisShown}
             />
           )}
-          {audioNFTs ? (
-            <MapView {...position} markers={markers} />
+
+          {audioNFTs && !isLoading ? (
+            <>
+              <MapView {...position} markers={markers} />
+            </>
+          ) : audioNFTs && isLoading ? (
+            <div className="flex h-full justify-center align-center ">
+              <span className="loading loading-dots loading-lg"></span>
+            </div>
           ) : (
             <div className="flex h-full justify-center align-center">
               <LoadingComponent />

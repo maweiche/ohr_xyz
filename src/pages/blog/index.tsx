@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import { LayoutComponent } from "@components/layout/LayoutComponent";
+import { LayoutComponent } from "../../components/layout/LayoutComponent";
 import Link from "next/link";
 import React from "react";
 
@@ -13,15 +13,6 @@ const BlogScreen = () => {
               <h1 className="text-md"> Our Vision </h1>
             </li>
           </Link>
-          {/* <Link href="/blog/flowspace">
-            <li>
-              <h1 className="text-md">Flowspace</h1>
-              <p className="text-sm">
-                enhancing focus and productivity by harnessing the power of
-                sound
-              </p>
-            </li>
-          </Link> */}
           <Link href="/blog/bp">
             <li>
               <h1 className="text-md">Breakpoint Talk (video)</h1>

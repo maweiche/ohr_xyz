@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import styles from "./layout.module.css";
 import React from "react";
-import nftMap from "../../assets/NFT_icon-01.png";
 import Image from "next/image";
 
 export const NavBarBottom = () => {
@@ -34,7 +33,12 @@ export const NavBarBottom = () => {
         onClick={() => router.push("/map")}
       >
         <div className="m-2">
-          <Image src={nftMap} alt="NFT location" width={32} height={32} />
+          <Image
+            src={"/NFT_icon-01.png"}
+            alt="NFT location"
+            width={32}
+            height={32}
+          />
         </div>
       </button>
     </div>

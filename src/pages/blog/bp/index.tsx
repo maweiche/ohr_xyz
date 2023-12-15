@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import { LayoutComponent } from "@components/layout/LayoutComponent";
+import { LayoutComponent } from "../../../components/layout/LayoutComponent";
 import Link from "next/link";
 import React from "react";
 

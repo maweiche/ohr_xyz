@@ -1,8 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Map, { Marker } from "react-map-gl";
 import Image from "next/image";
-import marker from "../../assets/ear_small.png";
-import { useRouter } from "next/router";
 
 interface MapViewProps {
   latitude?: number;
@@ -28,7 +26,12 @@ export const MapView: React.FC<MapViewProps> = ({
       >
         {!markers && longitude && latitude ? (
           <Marker longitude={longitude} latitude={latitude} color="red">
-            <Image src={marker} alt="øhr logo" width={40} height={40} />
+            <Image
+              src={"/ear_small.png"}
+              alt="øhr logo"
+              width={40}
+              height={40}
+            />
           </Marker>
         ) : (
           markers

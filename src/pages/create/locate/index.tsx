@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { LayoutComponent } from "@components/layout/LayoutComponent";
+import { LayoutComponent } from "../../../components/layout/LayoutComponent";
 import { useRouter } from "next/router";
-import useMetadataStore from "utils/useMetadataStore";
-import PopupMessage from "@components/PopupMessage";
-import ErrorMessage from "@components/ErrorMessage";
+import useMetadataStore from "../../../utils/useMetadataStore";
+import PopupMessage from "../../../components/PopupMessage";
+import ErrorMessage from "../../../components/ErrorMessage";
 
 enum ModalType {
   None,

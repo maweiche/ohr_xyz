@@ -53,7 +53,8 @@
 .active {
   border-radius: 0.5rem;
   /* height: 3rem; */
-
+  display: flex;
+  justify-content: center;
   /* opacity: 0.4; */
   background: rgba(254, 174, 218, 0.4);
   width: 50%;

@@ -2,18 +2,15 @@ import type { WalletProviderProps } from "@solana/wallet-adapter-react";
 import { WalletProvider } from "@solana/wallet-adapter-react";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import {
-  GlowWalletAdapter,
   LedgerWalletAdapter,
   PhantomWalletAdapter,
-  SlopeWalletAdapter,
   SolflareWalletAdapter,
-  SolletExtensionWalletAdapter,
-  SolletWalletAdapter,
   TorusWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
 import { useMemo } from "react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import("@solana/wallet-adapter-react-ui/styles.css" as any);
+import React from "react";
 
 const ClientWalletProvider = (
   props: Omit<WalletProviderProps, "wallets">
@@ -23,13 +20,9 @@ const ClientWalletProvider = (
   const wallets = useMemo(
     () => [
       new PhantomWalletAdapter(),
-      new GlowWalletAdapter(),
-      new SlopeWalletAdapter(),
       new SolflareWalletAdapter({ network }),
       new TorusWalletAdapter(),
       new LedgerWalletAdapter(),
-      new SolletExtensionWalletAdapter(),
-      new SolletWalletAdapter(),
     ],
     [network]
   );

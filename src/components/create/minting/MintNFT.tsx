@@ -1,9 +1,12 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
-import { getMuxAssetId, getPlaybackId as getAudioUrl } from "utils/mux";
+import {
+  getMuxAssetId,
+  getPlaybackId as getAudioUrl,
+  waitFor,
+} from "../../../utils/mux";
 import { useRouter } from "next/router";
-import { LoadingComponent } from "../../LoadingComponent";
+import LoadingComponent from "../../LoadingComponent";
 import { motion } from "framer-motion";
-import useMetadataStore from "utils/useMetadataStore";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
@@ -72,6 +75,7 @@ export const MintNFT: React.FC<MintNFTProps> = ({
 }) => {
   const { publicKey, connected } = useWallet();
   const router = useRouter();
+  const [showLoadingMessage, setShowLoadingMessage] = useState<boolean>(false);
 
   const handleMintNFT = async () => {
     setIsMinting(true);
@@ -110,8 +114,14 @@ export const MintNFT: React.FC<MintNFTProps> = ({
         });
 
         if (response.ok) {
-          console.log("response", response);
-          router.push({ pathname: "/map", query: { longitude, latitude } });
+          const data = await response.json();
+          const id = data.nftId;
+          console.log("response", data);
+          const fresh = true;
+          router.push({
+            pathname: "/map",
+            query: { id, longitude, latitude, fresh },
+          });
         }
       } catch (error) {
         console.error("Error: ", error);

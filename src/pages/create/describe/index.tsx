@@ -1,9 +1,10 @@
-import { LoadingComponent } from "@components/LoadingComponent";
-import { LayoutComponent } from "@components/layout/LayoutComponent";
+import LoadingComponent from "../../../components/LoadingComponent";
+import { LayoutComponent } from "../../../components/layout/LayoutComponent";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import useMetadataStore from "utils/useMetadataStore";
+import useMetadataStore from "../../../utils/useMetadataStore";
+import React from "react";
 
 const containerAnimation = {
   initial: { opacity: 0 },

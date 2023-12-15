@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "../layout.module.css";
 import Image from "next/image";
-import OhrThreeDLogo from "../../../assets/three_d_logo.png";
 import { useRouter } from "next/router";
 
 interface HomeBtnProps {
@@ -25,7 +24,7 @@ export const HomeBtn: React.FC<HomeBtnProps> = ({ handleClick }) => {
           øhr
         </h1> */}
         <Image
-          src={OhrThreeDLogo}
+          src={"/three_d_logo.png"}
           alt="'øhr' written in 3D"
           width={64}
           height={48}

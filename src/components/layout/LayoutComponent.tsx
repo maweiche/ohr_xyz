@@ -1,7 +1,7 @@
 import { ReactNode, useState } from "react";
 import { Header } from "./header/header";
 import { Footer } from "./footer/footer";
-import AboutDialog from "@components/landing/AboutDialog";
+import React from "react";
 
 interface LayoutProps {
   children: ReactNode;

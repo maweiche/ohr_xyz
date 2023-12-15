@@ -1,9 +1,15 @@
 import { Dialog, Transition } from "@headlessui/react";
-import React, { Dispatch, Fragment, SetStateAction, useState } from "react";
-import { NFTattributes } from "utils/nftUtils";
+import React, {
+  Dispatch,
+  Fragment,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { useCopyToClipboard } from "react-use";
 import Image from "next/image";
 import ShareTweetBtn from "./ShareTweetBtn";
+import { NFTattributes } from "../../utils/nftUtils";
 
 export interface AudioNFT {
   animationUrl: string;
@@ -35,6 +41,10 @@ const NFTModal: React.FC<NFTModalProps> = ({
   const [state, copyToClipboard] = useCopyToClipboard();
   const [isCopied, setIsCopied] = useState(false);
   setTimeout(() => setIsCopied(false), 3000);
+
+  useEffect(() => {
+    console.log("AudioNFT: ", audioNFT);
+  });
 
   return (
     <Transition appear show={showModal} as={Fragment}>

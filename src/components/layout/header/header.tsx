@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import styles from "./header.module.css";
 import { NavBarTop } from "./NavBarTop";
-import useMenuStore from "utils/useMenuStore";
+import useMenuStore from "../../../utils/useMenuStore";
 
 interface HeaderProps {
   showTitle?: string;

@@ -3,6 +3,7 @@ import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { extend, Object3DNode, useFrame } from "@react-three/fiber";
 import Nabla from "../../../../assets/Nabla_Regular.json";
 import { useRef } from "react";
+import React from "react";
 
 // extending Three.js with custom geometry
 class CustomTextGeometry extends TextGeometry {}

@@ -1,5 +1,5 @@
-import { AudioNFT } from "@components/map/NFTModal";
 import { NextApiRequest, NextApiResponse } from "next";
+import { AudioNFT } from "../../../components/map/NFTModal";
 
 export default async function handler(
   req: NextApiRequest,
@@ -13,8 +13,8 @@ export default async function handler(
     let pageNumber: number = Number(req.query.initialPageNumber);
 
     const limit = 100;
-    const apiUrl = `https://mainnet.underdogprotocol.com/v2/projects/1/nfts`;
-    // const apiUrl = `https://devnet.underdogprotocol.com/v2/projects/6/nfts`;
+    // const apiUrl = `https://mainnet.underdogprotocol.com/v2/projects/1/nfts`;
+    const apiUrl = `https://devnet.underdogprotocol.com/v2/projects/6/nfts`;
 
     const options: RequestInit = {
       method: "GET",

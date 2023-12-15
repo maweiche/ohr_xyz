@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import ErrorMessage from "@components/ErrorMessage";
-import { LoadingComponent } from "@components/LoadingComponent";
-import { getRecordingUrl } from "@components/create/minting/MintNFT";
-import { LayoutComponent } from "@components/layout/LayoutComponent";
+import ErrorMessage from "../../../components/ErrorMessage";
+import LoadingComponent from "../../../components/LoadingComponent";
+import { getRecordingUrl } from "../../../components/create/minting/MintNFT";
+import { LayoutComponent } from "../../../components/layout/LayoutComponent";
 import { motion } from "framer-motion";
-import { createMuxUpload } from "utils/mux";
-import useMetadataStore from "utils/useMetadataStore";
-import { getFirstArrayElementOrValue } from "utils/formatUtils";
+import { createMuxUpload } from "../../../utils/mux";
+import useMetadataStore from "../../../utils/useMetadataStore";
+import { getFirstArrayElementOrValue } from "../../../utils/formatUtils";
 
 const containerAnimation = {
   initial: { opacity: 0 },

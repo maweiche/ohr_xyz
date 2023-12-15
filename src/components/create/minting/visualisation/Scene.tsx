@@ -1,5 +1,6 @@
 import { Stars, Center } from "@react-three/drei";
 import ThreeDLogo from "./ThreeDLogo";
+import React from "react";
 
 const Scene = () => {
   return (

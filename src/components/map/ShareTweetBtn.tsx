@@ -11,7 +11,9 @@ const ShareTweetBtn: React.FC<ShareTweetBtnProps> = ({ link }) => {
 
   return (
     <div className="gap-2 border-2 m-3 p-2 px-4 flex justify-center rounded-xl">
-      <a href={tweetButtonLink}>Share on X</a>
+      <a href={tweetButtonLink} target="_blank">
+        Share on X
+      </a>
     </div>
   );
 };
