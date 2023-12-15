@@ -6,7 +6,6 @@ import { MapView } from "../../components/map/MapView";
 import NFTModal, { AudioNFT } from "../../components/map/NFTModal";
 import LoadingComponent from "../../components/LoadingComponent";
 import { LayoutComponent } from "../../components/layout/LayoutComponent";
-import { waitFor } from "../../utils/mux";
 
 const MapScreen: React.FC = () => {
   const [audioNFTs, setAudioNFTs] = useState<AudioNFT[] | undefined>(undefined);
@@ -152,7 +151,12 @@ const MapScreen: React.FC = () => {
       </Head>
       <LayoutComponent showTitle="Explore" showFooter={true} showNavBar={true}>
         <div className="h-full">
-          <h2 className="text-center text-sm"> to listen, click on the ears</h2>
+          <h2 className="text-center text-sm">
+            {" "}
+            {isLoading
+              ? "we are fetching your øhr!"
+              : "to listen, click on the ears"}{" "}
+          </h2>
           {audioNFT && (
             <NFTModal
               showModal={showModal}
@@ -162,13 +166,15 @@ const MapScreen: React.FC = () => {
             />
           )}
 
-          {audioNFTs && !isLoading ? (
+          {audioNFTs && isLoading ? (
             <>
-              {isLoading && (
-                <span className="loading loading-dots loading-lg"></span>
-              )}
+              <div className="flex justify-center">
+                <span className="loading loading-dots loading-md "></span>
+              </div>
               <MapView {...position} markers={markers} />
             </>
+          ) : audioNFTs && !isLoading ? (
+            <MapView {...position} markers={markers} />
           ) : (
             <div className="flex h-full justify-center align-center">
               <LoadingComponent />

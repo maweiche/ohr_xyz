@@ -116,7 +116,6 @@ export const MintNFT: React.FC<MintNFTProps> = ({
         if (response.ok) {
           const data = await response.json();
           const id = data.nftId;
-          console.log("response", data);
           const fresh = true;
           router.push({
             pathname: "/map",

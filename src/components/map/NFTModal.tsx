@@ -42,10 +42,6 @@ const NFTModal: React.FC<NFTModalProps> = ({
   const [isCopied, setIsCopied] = useState(false);
   setTimeout(() => setIsCopied(false), 3000);
 
-  useEffect(() => {
-    console.log("AudioNFT: ", audioNFT);
-  });
-
   return (
     <Transition appear show={showModal} as={Fragment}>
       <Dialog
