@@ -17,12 +17,14 @@ const MapScreen: React.FC = () => {
     latitude: number;
   }>({ longitude: 13.35037231777517, latitude: 52.52709769976026 });
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [shouldZoom, setShouldZoom] = useState<boolean>(false);
 
   const getUrlData = (url: URL) => {
     const longitude = url.searchParams.get("longitude");
     const latitude = url.searchParams.get("latitude");
     const audioNFTid = url.searchParams.get("id");
-    return { longitude, latitude, audioNFTid };
+    const fresh = url.searchParams.get("fresh");
+    return { longitude, latitude, audioNFTid, fresh };
   };
 
   const showSharedNFT = useCallback(
@@ -39,10 +41,11 @@ const MapScreen: React.FC = () => {
 
   const checkIfAudioNFTisShared = useCallback(
     (audioNFTs: AudioNFT[]) => {
-      const { longitude, latitude, audioNFTid } = getUrlData(
+      const { longitude, latitude, audioNFTid, fresh } = getUrlData(
         new URL(window.location.href)
       );
 
+      setShouldZoom(Boolean(fresh));
       if (latitude && longitude) {
         setPosition({
           longitude: Number(longitude),
@@ -174,7 +177,7 @@ const MapScreen: React.FC = () => {
               <MapView {...position} />
             </>
           ) : audioNFTs && !isLoading ? (
-            <MapView {...position} markers={markers} />
+            <MapView {...position} markers={markers} shouldZoom={shouldZoom} />
           ) : (
             <div className="flex h-full justify-center align-center">
               <LoadingComponent />

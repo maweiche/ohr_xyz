@@ -119,7 +119,7 @@ export const MintNFT: React.FC<MintNFTProps> = ({
           const fresh = true;
           router.push({
             pathname: "/map",
-            query: { id, longitude, latitude, fresh },
+            query: { longitude, latitude, fresh },
           });
         }
       } catch (error) {
