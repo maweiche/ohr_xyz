@@ -1,4 +1,3 @@
-import { AudioNFT } from "@components/map/NFTModal";
 import {
   BREAKPOINT_COORDINATES,
   BREAKPOINT_DESCR,

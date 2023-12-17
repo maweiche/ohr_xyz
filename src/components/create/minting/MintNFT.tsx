@@ -1,9 +1,11 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
-import { getMuxAssetId, getPlaybackId as getAudioUrl } from "utils/mux";
-import { useRouter } from "next/navigation";
+import React, { Dispatch, SetStateAction, useCallback, useState } from "react";
+import {
+  getMuxAssetId,
+  getPlaybackId as getAudioUrl,
+} from "../../../utils/mux";
+import { useRouter, useSearchParams } from "next/navigation";
 import { LoadingComponent } from "../../LoadingComponent";
 import { motion } from "framer-motion";
-import useMetadataStore from "utils/useMetadataStore";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
@@ -23,7 +25,6 @@ const setTheAttributes = (
   latitude?: number
 ) => {
   let attributes;
-
   if (latitude && longitude) {
     attributes = {
       Date: timeStamp,
@@ -72,6 +73,20 @@ export const MintNFT: React.FC<MintNFTProps> = ({
 }) => {
   const { publicKey, connected } = useWallet();
   const router = useRouter();
+  const searchParams = useSearchParams()!;
+
+  const createQueryString = useCallback(
+    (queryParams: Record<string, string>) => {
+      const params = new URLSearchParams(searchParams);
+
+      for (const [name, value] of Object.entries(queryParams)) {
+        params.set(name, value);
+      }
+
+      return params.toString();
+    },
+    [searchParams]
+  );
 
   const handleMintNFT = async () => {
     setIsMinting(true);
@@ -103,15 +118,14 @@ export const MintNFT: React.FC<MintNFTProps> = ({
             latitude: latitude.toString(),
           };
         }
+        const queryString = createQueryString(queryParams);
+
         // NO IDEA WHY THIS IS HERE?
-        router.push({
-          pathname: `/create/mint`,
-          query: queryParams,
-        });
+        router.push(`/create/mint?` + queryString);
 
         if (response.ok) {
           console.log("response", response);
-          router.push({ pathname: "/map", query: { longitude, latitude } });
+          router.push("/map?" + queryString);
         }
       } catch (error) {
         console.error("Error: ", error);

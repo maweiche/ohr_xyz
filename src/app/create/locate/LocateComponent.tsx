@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
-import { LayoutComponent } from "@components/layout/LayoutComponent";
+import { LayoutComponent } from "../../../components/layout/LayoutComponent";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import useMetadataStore from "utils/useMetadataStore";
-import PopupMessage from "@components/PopupMessage";
-import ErrorMessage from "@components/ErrorMessage";
+import useMetadataStore from "../../../utils/useMetadataStore";
+import PopupMessage from "../../../components/PopupMessage";
+import ErrorMessage from "../../../components/ErrorMessage";
 
 enum ModalType {
   None,
@@ -16,7 +16,6 @@ enum ModalType {
 
 const LocateComponent: React.FC = () => {
   const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams()!;
 
   const {

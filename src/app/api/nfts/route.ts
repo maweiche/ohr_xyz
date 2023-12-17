@@ -1,4 +1,4 @@
-import { AudioNFT } from "@components/map/NFTModal";
+import { AudioNFT } from "../../../components/map/NFTModal";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(

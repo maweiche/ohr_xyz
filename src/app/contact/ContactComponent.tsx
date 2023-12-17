@@ -1,8 +1,8 @@
 "use client";
-import Toaster from "@components/Toaster";
-import { ContactForm } from "@components/contact/ContactForm";
-import { GDPR } from "@components/contact/GDPR";
-import { LayoutComponent } from "@components/layout/LayoutComponent";
+import Toaster from "../../components/Toaster";
+import { ContactForm } from "../../components/contact/ContactForm";
+import { GDPR } from "../../components/contact/GDPR";
+import { LayoutComponent } from "../../components/layout/LayoutComponent";
 import React, { useState } from "react";
 
 const ContactComponent = () => {

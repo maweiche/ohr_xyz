@@ -1,7 +1,7 @@
-import { Instagram } from "@components/layout/footer/icons/Instagram";
-import { OhrLogo } from "@components/layout/footer/icons/OhrLogo";
-import { Tiktok } from "@components/layout/footer/icons/Tiktok";
-import { Twitter } from "@components/layout/footer/icons/twitter";
+import { Instagram } from "../layout/footer/icons/Instagram";
+import { OhrLogo } from "../layout/footer/icons/OhrLogo";
+import { Tiktok } from "../layout/footer/icons/Tiktok";
+import { Twitter } from "../layout/footer/icons/twitter";
 import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment, useState } from "react";
 

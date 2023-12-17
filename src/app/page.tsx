@@ -1,10 +1,11 @@
 "use client";
 
-import { LayoutComponent } from "@components/layout/LayoutComponent";
-import Toaster from "@components/Toaster";
+import { LayoutComponent } from "../components/layout/LayoutComponent";
+import Toaster from "../components/Toaster";
 import RecordingPage from "./RecordingPage";
 import Script from "next/script";
-import useMenuStore from "utils/useMenuStore";
+import useMenuStore from "../utils/useMenuStore";
+import React from "react";
 
 export default function Home() {
   const { isMenuDisabled } = useMenuStore();

@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
-import { LayoutComponent } from "@components/layout/LayoutComponent";
+import { LayoutComponent } from "../../components/layout/LayoutComponent";
 import React, { useRef } from "react";
 
 const AboutComponent = () => {

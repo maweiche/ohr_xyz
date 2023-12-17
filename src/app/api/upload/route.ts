@@ -2,7 +2,6 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import fetch from "node-fetch";
-import Mux from "@mux/mux-node";
 
 export const dynamic = "force-dynamic";
 const MUX_API_BASE_URL = "https://api.mux.com/video/v1/uploads";

@@ -1,7 +1,6 @@
+import React from "react";
 import styles from "../../landing/landing.module.css";
 import Image from "next/legacy/image";
-import ohr from "../../../assets/ear_big.png";
-import useMenuStore from "utils/useMenuStore";
 
 interface EarProps {
   onClick: () => void;
@@ -18,7 +17,7 @@ const EarBtn: React.FC<EarProps> = ({
     <button onClick={onClick} disabled={isRecordingCompleted} className="mt-4">
       <Image
         className={isRecording ? styles["ear-img-active"] : styles["ear-img"]}
-        src={ohr}
+        src={"/ear_big.png"}
         alt="our logo - picture of the ear"
         height={320}
         width={320}

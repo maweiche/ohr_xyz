@@ -1,17 +1,17 @@
 "use client";
-import { MintNFT } from "@components/create/minting/MintNFT";
-import { LayoutComponent } from "@components/layout/LayoutComponent";
+import { MintNFT } from "../../../components/create/minting/MintNFT";
+import { LayoutComponent } from "../../../components/layout/LayoutComponent";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   getCurrentDateFormatted,
   getFirstArrayElementOrValue,
-} from "utils/formatUtils";
-import useMetadataStore from "utils/useMetadataStore";
+} from "../../../utils/formatUtils";
+import useMetadataStore from "../../../utils/useMetadataStore";
 import Image from "next/legacy/image";
-import { GENERAL_NFT_IMG } from "utils/constants";
-import PopupMessage from "@components/PopupMessage";
-import ErrorMessage from "@components/ErrorMessage";
+import { GENERAL_NFT_IMG } from "../../../utils/constants";
+import ErrorMessage from "../../../components/ErrorMessage";
+import React from "react";
 
 const Minting = () => {
   const router = useRouter();

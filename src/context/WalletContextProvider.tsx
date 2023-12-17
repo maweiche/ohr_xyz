@@ -12,6 +12,7 @@ import {
   SolflareWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
 import { FC, ReactNode, useCallback, useMemo } from "react";
+import React from "react";
 
 const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
   //   const network = WalletAdapterNetwork.Mainnet;

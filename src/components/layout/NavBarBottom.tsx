@@ -1,22 +1,22 @@
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import styles from "./layout.module.css";
 import React from "react";
-import nftMap from "../../assets/NFT_icon-01.png";
 import Image from "next/legacy/image";
 
 export const NavBarBottom = () => {
   const router = useRouter();
+  const pathname = usePathname();
 
   return (
     <div className={`${styles["navbar"]}`}>
       <button
         className={
-          router.pathname === "/" ||
-          router.pathname === "/create/locate" ||
-          router.pathname === "/create/listen" ||
-          router.pathname === "/create/describe" ||
-          router.pathname === "/create/mint" ||
-          router.pathname === "/create/success"
+          pathname === "/" ||
+          pathname === "/create/locate" ||
+          pathname === "/create/listen" ||
+          pathname === "/create/describe" ||
+          pathname === "/create/mint" ||
+          pathname === "/create/success"
             ? styles["active"]
             : styles["navbar-btn"]
         }
@@ -29,12 +29,17 @@ export const NavBarBottom = () => {
       </button>
       <button
         className={
-          router.pathname === "/map" ? styles["active"] : styles["navbar-btn"]
+          pathname === "/map" ? styles["active"] : styles["navbar-btn"]
         }
         onClick={() => router.push("/map")}
       >
         <div className="m-2">
-          <Image src={nftMap} alt="NFT location" width={32} height={32} />
+          <Image
+            src={"/NFT_icon-01.png"}
+            alt="NFT location"
+            width={32}
+            height={32}
+          />
         </div>
       </button>
     </div>

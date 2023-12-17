@@ -1,7 +1,8 @@
 // import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 
-import WalletContextProvider from "context/WalletContextProvider";
+import WalletContextProvider from "../context/WalletContextProvider";
+import React from "react";
 
 // const defaultUrl = process.env.VERCEL_URL
 //   ? `https://${process.env.VERCEL_URL}`

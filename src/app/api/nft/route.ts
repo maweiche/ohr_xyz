@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server";
-import { GENERAL_DESCR, GENERAL_NFT_IMG } from "utils/constants";
+import { GENERAL_DESCR, GENERAL_NFT_IMG } from "../../../utils/constants";
 
 export async function POST(request: NextRequest) {
   try {

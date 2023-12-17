@@ -1,13 +1,11 @@
 "use client";
 import React, { useEffect, useMemo, useState } from "react";
-import { LayoutComponent } from "@components/layout/LayoutComponent";
-import { MapView } from "@components/map/MapView";
-import NFTModal, { AudioNFT } from "@components/map/NFTModal";
+import { LayoutComponent } from "../../components/layout/LayoutComponent";
+import { MapView } from "../../components/map/MapView";
+import NFTModal, { AudioNFT } from "../../components/map/NFTModal";
 import { Marker } from "react-map-gl";
 import Image from "next/legacy/image";
-import marker from "../../assets/ear_small.png";
-import { LoadingComponent } from "@components/LoadingComponent";
-import { error } from "console";
+import { LoadingComponent } from "../../components/LoadingComponent";
 
 const MapScreen: React.FC = () => {
   const [audioNFTs, setAudioNFTs] = useState<AudioNFT[] | undefined>(undefined);
@@ -83,7 +81,12 @@ const MapScreen: React.FC = () => {
                   setShowModal(true);
                 }}
               >
-                <Image src={marker} alt="øhr logo" width={40} height={40} />
+                <Image
+                  src={"/ear_small.png"}
+                  alt="øhr logo"
+                  width={40}
+                  height={40}
+                />
               </Marker>
             ))
         : [],
