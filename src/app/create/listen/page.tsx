@@ -1,7 +1,11 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React from "react";
 =======
 >>>>>>> 8214d62 (mip: app dir migration)
+=======
+import React from "react";
+>>>>>>> 627affc (fix: fixed import errors)
 import ListenComponent from "./ListenComponent";
 
 export default function Page() {
