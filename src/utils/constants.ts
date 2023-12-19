@@ -20,3 +20,7 @@ export const GENERAL_NFT_IMG =
 export const BREAKPOINT_DESCR =
   "I minted this NFT at the Solana Breakpoint conference.";
 export const GENERAL_DESCR = "Listen to my øhr. ";
+
+export const XMAS_NFT_IMG =
+  "https://shdw-drive.genesysgo.net/Eoo9RNueGh6uaVYZWdmU1EBmWbPezB4JtiJZSBxSZ3CX/ohrxmas.jpg";
+export const XMAS_DESCR = "Merry xmas!";

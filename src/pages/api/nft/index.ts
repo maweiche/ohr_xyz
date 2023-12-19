@@ -1,5 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { GENERAL_DESCR, GENERAL_NFT_IMG } from "../../../utils/constants";
+import {
+  GENERAL_DESCR,
+  GENERAL_NFT_IMG,
+  XMAS_DESCR,
+  XMAS_NFT_IMG,
+} from "../../../utils/constants";
 
 const hasWalletOrPassport = (receiver?: string, receiverAddress?: string) => {
   if (receiver) {
@@ -33,8 +38,8 @@ export default async function handler(
             attributes,
             name: "øhr",
             symbol: "ØHR",
-            description: GENERAL_DESCR,
-            image: GENERAL_NFT_IMG,
+            description: XMAS_DESCR,
+            image: XMAS_NFT_IMG,
             animationUrl: recordingUrl,
             externalUrl: "https://ohr-app.xyz",
             receiver: receiver,
@@ -52,8 +57,8 @@ export default async function handler(
             attributes,
             name: "øhr",
             symbol: "ØHR",
-            description: GENERAL_DESCR,
-            image: GENERAL_NFT_IMG,
+            description: XMAS_DESCR,
+            image: XMAS_NFT_IMG,
             animationUrl: recordingUrl,
             externalUrl: "https://ohr-app.xyz",
             receiverAddress: receiverAddress,
