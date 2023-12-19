@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import {
   getMuxAssetId,
   getPlaybackId as getAudioUrl,
@@ -74,23 +74,62 @@ export const MintNFT: React.FC<MintNFTProps> = ({
   setHasErrored,
   disabled,
 }) => {
-  const { publicKey, connected } = useWallet();
+  const { publicKey, connected, disconnect } = useWallet();
   const router = useRouter();
   const [showLoadingMessage, setShowLoadingMessage] = useState<boolean>(false);
+  const { data, status } = useSession();
 
-  const handleMintNFT = async () => {
+  const handleMintNFT = async (mintType: "Passport" | "Wallet") => {
     setIsMinting(true);
 
-    const receiverAddress = publicKey?.toBase58();
+    const recordingUrl = await getRecordingUrl(uploadID);
+    const attributes = setTheAttributes(
+      timeStamp,
+      theVibe,
+      longitude,
+      latitude
+    );
 
-    if (receiverAddress) {
-      const recordingUrl = await getRecordingUrl(uploadID);
-      const attributes = setTheAttributes(
-        timeStamp,
-        theVibe,
-        longitude,
-        latitude
-      );
+    if (mintType === "Passport") {
+      const receiver = { namespace: "øhr", identifier: data?.user?.email };
+
+      try {
+        const response = await fetch("/api/nft", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ receiver, attributes, recordingUrl }),
+        });
+
+        let queryParams;
+        if (longitude && latitude) {
+          queryParams = {
+            longitude: longitude.toString(),
+            latitude: latitude.toString(),
+          };
+        }
+        // NO IDEA WHY THIS IS HERE?
+        router.push({
+          pathname: `/create/mint`,
+          query: queryParams,
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const id = data.nftId;
+          const fresh = true;
+          router.push({
+            pathname: "/map",
+            query: { longitude, latitude, fresh },
+          });
+        }
+      } catch (error) {
+        console.error("Error: ", error);
+        setHasErrored("Something didn't work out with the mint. ");
+      }
+    } else if (mintType === "Wallet") {
+      const receiverAddress = publicKey?.toBase58();
 
       try {
         const response = await fetch("/api/nft", {
@@ -127,8 +166,6 @@ export const MintNFT: React.FC<MintNFTProps> = ({
         console.error("Error: ", error);
         setHasErrored("Something didn't work out with the mint. ");
       }
-    } else {
-      setHasErrored("Your wallet was not connected.");
     }
   };
 
@@ -136,11 +173,11 @@ export const MintNFT: React.FC<MintNFTProps> = ({
     <div className="flex justify-center align-center items-center h-full">
       {!isMinting ? (
         <div className="flex flex-col align-center items-center h-full rounded-xl">
-          {connected ? (
+          {connected && publicKey?.toBase58() ? (
             <>
               <motion.button
                 className={"primary-btn text-3xl mt-5"}
-                onClick={handleMintNFT}
+                onClick={() => handleMintNFT("Wallet")}
                 variants={mintButtonAnimation}
                 initial="initial"
                 animate="animate"
@@ -149,8 +186,42 @@ export const MintNFT: React.FC<MintNFTProps> = ({
                 }}
                 disabled={disabled}
               >
-                {isMinting ? <i>mint</i> : "mint"}
+                {isMinting ? <i>MINT</i> : "MINT"}
               </motion.button>
+              <div className="m-10 flex flex-col justify-center align-center items-center">
+                <h1>Your wallet is connected</h1>
+                <button
+                  onClick={() => disconnect()}
+                  className="mt-4 border-2 p-2 rounded-lg w-1/2 border-purple-200 text-sm"
+                >
+                  Disconnect
+                </button>
+              </div>
+            </>
+          ) : data?.user?.email ? (
+            <>
+              <motion.button
+                className={"primary-btn text-3xl mt-5 w-100"}
+                onClick={() => handleMintNFT("Passport")}
+                variants={mintButtonAnimation}
+                initial="initial"
+                animate="animate"
+                transition={{
+                  duration: 1,
+                }}
+                disabled={disabled}
+              >
+                {isMinting ? <i>MINT</i> : "MINT"}
+              </motion.button>
+              <div className="m-10 flex flex-col justify-center align-center items-center">
+                <h1>Your email is connected</h1>
+                <button
+                  onClick={() => signOut()}
+                  className="mt-4 border-2 p-2 rounded-lg w-1/2 border-purple-200 text-sm"
+                >
+                  Sign out
+                </button>
+              </div>
             </>
           ) : (
             <div className="flex flex-col justify-center text-center">
@@ -159,28 +230,9 @@ export const MintNFT: React.FC<MintNFTProps> = ({
               </div>
               <p>or</p>
               <div className="m-6">
-                <p>connect with email</p>
-                <label className="flex flex-col text-left">
-                  <p className="text-purple-200 text-sm">
-                    Email
-                    <span className="text-bigbang">*</span>
-                  </p>
-                  <input
-                    type="email"
-                    name="email"
-                    required
-                    // onInvalid={handleInvalidEmail}
-                    className="input rounded-md w-full bg-purple-300/30 border-purple-300"
-                  />
-                </label>
-                <button
-                  type="submit"
-                  // disabled={isLoading}
-                  className="px-10 mt-4 text-lg w-full h-10 text-purple-100 btn primary-btn hover:bg-black/70 rounded-md "
-                >
-                  Send
+                <button onClick={() => signIn()} className="primary-btn">
+                  Connect with email
                 </button>
-                <button onClick={() => signIn()}>Sign in</button>
               </div>
             </div>
           )}

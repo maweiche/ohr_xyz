@@ -5,13 +5,18 @@ import { clusterApiUrl } from "@solana/web3.js";
 import { ConnectionProvider } from "@solana/wallet-adapter-react";
 import type { AppProps } from "next/app";
 import dynamic from "next/dynamic";
+import { SessionProvider } from "next-auth/react";
+import { Session } from "next-auth";
 
 const ClientWalletProvider = dynamic(
   () => import("../context/ClientWalletProvider"),
   { ssr: false }
 );
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({
+  Component,
+  pageProps,
+}: AppProps<{ session: Session }>) {
   // The network can be set to 'devnet', 'testnet', or 'mainnet-beta', if changing -> also chnge it in ClientWalletProvider
   // const network = WalletAdapterNetwork.Mainnet;
   const network = WalletAdapterNetwork.Devnet;
@@ -20,7 +25,9 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <ConnectionProvider endpoint={endpoint}>
       <ClientWalletProvider>
-        <Component {...pageProps} />
+        <SessionProvider session={pageProps.session}>
+          <Component {...pageProps} />
+        </SessionProvider>
       </ClientWalletProvider>
     </ConnectionProvider>
   );

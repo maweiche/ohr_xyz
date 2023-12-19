@@ -8,4 +8,7 @@ export default NextAuth({
       clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET ?? "",
     }),
   ],
+  session: {
+    strategy: "jwt",
+  },
 });
