@@ -62,14 +62,14 @@ export default async function handler(
         };
       }
 
-      // const response = await fetch(
-      //   "https://mainnet.underdogprotocol.com/v2/projects/1/nfts",
-      //   options
-      // );
       const response = await fetch(
-        "https://devnet.underdogprotocol.com/v2/projects/6/nfts",
+        "https://mainnet.underdogprotocol.com/v2/projects/1/nfts",
         options
       );
+      // const response = await fetch(
+      //   "https://devnet.underdogprotocol.com/v2/projects/6/nfts",
+      //   options
+      // );
 
       https: if (response.ok) {
         const data = await response.json();

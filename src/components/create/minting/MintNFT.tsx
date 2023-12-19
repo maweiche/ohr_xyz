@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import {
   getMuxAssetId,
   getPlaybackId as getAudioUrl,
@@ -76,8 +76,7 @@ export const MintNFT: React.FC<MintNFTProps> = ({
 }) => {
   const { publicKey, connected, disconnect } = useWallet();
   const router = useRouter();
-  const [showLoadingMessage, setShowLoadingMessage] = useState<boolean>(false);
-  const { data, status } = useSession();
+  const { data } = useSession();
 
   const handleMintNFT = async (mintType: "Passport" | "Wallet") => {
     setIsMinting(true);
@@ -91,7 +90,7 @@ export const MintNFT: React.FC<MintNFTProps> = ({
     );
 
     if (mintType === "Passport") {
-      const receiver = { namespace: "øhr", identifier: data?.user?.email };
+      const receiver = { namespace: "public", identifier: data?.user?.email };
 
       try {
         const response = await fetch("/api/nft", {

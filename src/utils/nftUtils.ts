@@ -58,14 +58,14 @@ export const getNFTdetails = (nftID: number) => {
     },
   };
 
+  // fetch(
+  //   `https://devnet.underdogprotocol.com/v2/projects/6/nfts/${nftID}`,
+  //   options
+  // )
   fetch(
-    `https://devnet.underdogprotocol.com/v2/projects/6/nfts/${nftID}`,
+    `https://mainnet.underdogprotocol.com/v2/projects/1/nfts/${nftID}`,
     options
   )
-    // fetch(
-    //   `https://mainnet.underdogprotocol.com/v2/projects/1/nfts/${nftID}`,
-    //   options
-    // )
     .then((response) => response.json())
     .then((response) => response.ownerAddress)
     .catch((err) => console.error(err));
