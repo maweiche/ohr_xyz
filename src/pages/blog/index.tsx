@@ -6,7 +6,7 @@ import React from "react";
 const BlogScreen = () => {
   return (
     <LayoutComponent justifyStyling="start" showTitle="Blog" showFooter={false}>
-      <div className="flex m-6 justify-center overflow-scroll">
+      <div className="flex m-6 justify-center overflow-scroll md:overflow-hidden">
         <ul className="flex flex-col gap-4">
           <Link href="/blog/vision">
             <li>

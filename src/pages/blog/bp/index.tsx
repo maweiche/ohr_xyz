@@ -10,7 +10,7 @@ const Breakpoint = () => {
       showTitle="Blog"
       showFooter={false}
     >
-      <div className="flex flex-col m-5 gap-5 overflow-scroll h-full">
+      <div className="flex flex-col m-5 gap-5 overflow-scroll h-full md:overflow-hidden">
         <div className="text-sm breadcrumbs overflow-x-visible">
           <ul>
             <li>
