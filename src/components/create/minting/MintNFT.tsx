@@ -188,7 +188,7 @@ export const MintNFT: React.FC<MintNFTProps> = ({
                 {isMinting ? <i>MINT</i> : "MINT"}
               </motion.button>
               <div className="m-10 flex flex-col justify-center align-center items-center">
-                <h1>Your wallet is connected</h1>
+                <h1>Your wallet is connected </h1>
                 <button
                   onClick={() => disconnect()}
                   className="mt-4 border-2 p-2 rounded-lg w-1/2 border-purple-200 text-sm"
@@ -213,7 +213,7 @@ export const MintNFT: React.FC<MintNFTProps> = ({
                 {isMinting ? <i>MINT</i> : "MINT"}
               </motion.button>
               <div className="m-10 flex flex-col justify-center align-center items-center">
-                <h1>Your email is connected</h1>
+                <h1> {data?.user?.name}, your email is connected!</h1>
                 <button
                   onClick={() => signOut()}
                   className="mt-4 border-2 p-2 rounded-lg w-1/2 border-purple-200 text-sm"
