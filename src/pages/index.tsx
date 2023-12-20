@@ -22,18 +22,8 @@ export default function Home() {
       </Script>
       <Head>
         <title>øhr</title>
-        <meta
-          name="twitter:image"
-          content="https://raw.githubusercontent.com/noamrubin22/ohr_xyz/main/src/assets/link-preview-img.png"
-        />
 
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="øhr: moments empowered by sound" />
-        <meta
-          name="twitter:description"
-          content="a social dApp created to empower"
-        />
       </Head>
       <LayoutComponent
         showNavBar={true}

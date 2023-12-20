@@ -29,6 +29,16 @@ export default function Document() {
           property="og:image"
           content="https://raw.githubusercontent.com/noamrubin22/ohr_xyz/main/src/assets/link-preview-img.png"
         />
+        <meta
+          name="twitter:image"
+          content="https://raw.githubusercontent.com/noamrubin22/ohr_xyz/main/src/assets/link-preview-img.png"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="øhr: moments empowered by sound" />
+        <meta
+          name="twitter:description"
+          content="a social sound dApp created to empower users"
+        />
       </Head>
       <body>
         <Main />
