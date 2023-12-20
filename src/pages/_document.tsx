@@ -14,6 +14,21 @@ export default function Document() {
           href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css"
           rel="stylesheet"
         />
+        <meta
+          name="title"
+          property="og:title"
+          content="øhr: moments empowered by sound"
+        />
+        <meta
+          name="description"
+          property="og:description"
+          content="a social sound dApp created to empower users"
+        />
+        <meta
+          name="image"
+          property="og:image"
+          content="https://raw.githubusercontent.com/noamrubin22/ohr_xyz/main/src/assets/link-preview-img.png"
+        />
       </Head>
       <body>
         <Main />
