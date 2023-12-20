@@ -35,12 +35,18 @@ export default function Home() {
           content="https://raw.githubusercontent.com/noamrubin22/ohr_xyz/main/src/assets/link-preview-img.png"
         />
 
-        <meta property="og:title" content="øhr: moments empowered by sound" />
         <meta
-          property="og:description"
-          content="a social dApp created to empower"
+          name="title"
+          property="og:title"
+          content="øhr: moments empowered by sound"
         />
         <meta
+          name="description"
+          property="og:description"
+          content="a social sound dApp created to empower users"
+        />
+        <meta
+          name="image"
           property="og:image"
           content="https://raw.githubusercontent.com/noamrubin22/ohr_xyz/main/src/assets/link-preview-img.png"
         />
