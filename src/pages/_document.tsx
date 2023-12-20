@@ -27,7 +27,7 @@ export default function Document() {
         <meta
           name="image"
           property="og:image"
-          content="https://raw.githubusercontent.com/noamrubin22/ohr_xyz/main/public/landing-screenshot.png"
+          content="https://raw.githubusercontent.com/noamrubin22/ohr_xyz/main/public/img-preview.png"
         />
         <meta
           name="twitter:image"
