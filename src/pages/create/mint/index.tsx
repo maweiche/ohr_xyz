@@ -8,7 +8,7 @@ import {
 } from "../../../utils/formatUtils";
 import useMetadataStore from "../../../utils/useMetadataStore";
 import Image from "next/image";
-import { GENERAL_NFT_IMG } from "../../../utils/constants";
+import { GENERAL_NFT_IMG, XMAS_NFT_IMG } from "../../../utils/constants";
 import PopupMessage from "../../../components/PopupMessage";
 import ErrorMessage from "../../../components/ErrorMessage";
 import React from "react";
@@ -100,7 +100,7 @@ const Minting = () => {
           <div className="flex flex-col justify-center items-center w-84 p-3 rounded-xl">
             <h2 className="text-2xl m-2 font-bold text-center">{theVibe}</h2>
             <Image
-              src={GENERAL_NFT_IMG}
+              src={"/ohrmas.PNG"}
               alt={"øhr NFT"}
               width={220}
               height={220}

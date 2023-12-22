@@ -22,5 +22,5 @@ export const BREAKPOINT_DESCR =
 export const GENERAL_DESCR = "Listen to my øhr. ";
 
 export const XMAS_NFT_IMG =
-  "https://shdw-drive.genesysgo.net/Eoo9RNueGh6uaVYZWdmU1EBmWbPezB4JtiJZSBxSZ3CX/ohrxmas.jpg";
+  "https://shdw-drive.genesysgo.net/Eoo9RNueGh6uaVYZWdmU1EBmWbPezB4JtiJZSBxSZ3CX/IMG_8744.PNG";
 export const XMAS_DESCR = "Merry xmas!";
