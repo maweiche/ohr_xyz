@@ -225,15 +225,15 @@ export const MintNFT: React.FC<MintNFTProps> = ({
           ) : (
             <div className="flex flex-col justify-center text-center">
               <div className="m-3 mt-6">
-                <h1>With wallet</h1>
+                <h1 className="m-1">With wallet</h1>
                 <WalletMultiButton />
               </div>
               <p>or</p>
               <div className="m-3">
-                <h1>With email</h1>
+                <h1 className="m-1">With email</h1>
                 <button
                   onClick={() => signIn()}
-                  className="font-black m-2 px-6 py-2 text-white rounded-lg bg-[#feaeda66] border-[#feaeda66] flex align-center items-center gap-2"
+                  className="font-black px-6 py-2 text-white rounded-lg bg-[#feaeda66] border-[#feaeda66] flex align-center items-center gap-2"
                   // className="wallet-adapter-button wallet-adapter-button-trigger "
                 >
                   <span className="text-2xl">💌</span>{" "}
