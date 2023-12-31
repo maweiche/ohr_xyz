@@ -5,6 +5,7 @@ import RecordingPage from "./create";
 import Script from "next/script";
 import useMenuStore from "../utils/useMenuStore";
 import React from "react";
+import MapScreen from "./map";
 
 export default function Home() {
   const { isMenuDisabled } = useMenuStore();
@@ -31,6 +32,7 @@ export default function Home() {
         showFooter={!isMenuDisabled ? true : false}
       >
         <Toaster />
+        {/* <MapScreen /> */}
         <RecordingPage />
       </LayoutComponent>
     </>

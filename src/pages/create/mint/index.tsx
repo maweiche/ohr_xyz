@@ -2,14 +2,9 @@ import { MintNFT } from "../../../components/create/minting/MintNFT";
 import { LayoutComponent } from "../../../components/layout/LayoutComponent";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import {
-  getCurrentDateFormatted,
-  getFirstArrayElementOrValue,
-} from "../../../utils/formatUtils";
+import { getCurrentDateFormatted } from "../../../utils/formatUtils";
 import useMetadataStore from "../../../utils/useMetadataStore";
 import Image from "next/image";
-import { GENERAL_NFT_IMG, XMAS_NFT_IMG } from "../../../utils/constants";
-import PopupMessage from "../../../components/PopupMessage";
 import ErrorMessage from "../../../components/ErrorMessage";
 import React from "react";
 
@@ -100,7 +95,7 @@ const Minting = () => {
           <div className="flex flex-col justify-center items-center w-84 p-3 rounded-xl">
             <h2 className="text-2xl m-2 font-bold text-center">{theVibe}</h2>
             <Image
-              src={"/ohrmas.PNG"}
+              src={"/øhr_general.png"}
               alt={"øhr NFT"}
               width={220}
               height={220}
