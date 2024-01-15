@@ -118,23 +118,16 @@ export const MintNFT: React.FC<MintNFTProps> = ({
             latitude: latitude.toString(),
           };
         }
-<<<<<<< HEAD
+
         let queryString;
         if (queryParams) {
           queryString = createQueryString(queryParams);
         }
-=======
-        const queryString = createQueryString(queryParams);
->>>>>>> 627affc (fix: fixed import errors)
 
         // NO IDEA WHY THIS IS HERE?
         router.push(`/create/mint?` + queryString);
 
         if (response.ok) {
-<<<<<<< HEAD
-=======
-          console.log("response", response);
->>>>>>> 627affc (fix: fixed import errors)
           router.push("/map?" + queryString);
         }
       } catch (error) {
