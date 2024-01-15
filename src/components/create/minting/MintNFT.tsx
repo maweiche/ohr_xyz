@@ -118,7 +118,6 @@ export const MintNFT: React.FC<MintNFTProps> = ({
             latitude: latitude.toString(),
           };
         }
-
         let queryString;
         if (queryParams) {
           queryString = createQueryString(queryParams);
