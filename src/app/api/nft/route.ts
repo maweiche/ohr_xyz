@@ -5,7 +5,8 @@ import { GENERAL_DESCR, GENERAL_NFT_IMG } from "../../../utils/constants";
 export async function POST(request: NextRequest) {
   try {
     const res = await request.json();
-    const { receiverAddress, attributes, recordingUrl } = res.body;
+    console.log(res);
+    const { receiverAddress, attributes, recordingUrl } = res;
     console.log(receiverAddress, attributes, recordingUrl);
     const underdogApiKey = process.env.NEXT_PUBLIC_UNDERDOG_API_KEY;
 
@@ -41,15 +42,15 @@ export async function POST(request: NextRequest) {
     https: if (response.ok) {
       const data = await response.json();
       // res.status(200).json(data);
-      NextResponse.json(data);
+      return NextResponse.json(data);
     } else {
       console.error("Failed to create NFT");
       // res.status(500).json({ error: "Failed to create NFT" });
-      NextResponse.json({ error: "Failed to create NFT" });
+      return NextResponse.json({ error: "Failed to create NFT" });
     }
   } catch (error) {
     console.error(error);
     // res.status(500).json({ error: "Internal server error" });
-    NextResponse.json({ error: "Internal server error" });
+    return NextResponse.json({ error: "Internal server error" });
   }
 }

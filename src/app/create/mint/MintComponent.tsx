@@ -13,7 +13,7 @@ import { GENERAL_NFT_IMG } from "../../../utils/constants";
 import ErrorMessage from "../../../components/ErrorMessage";
 import React from "react";
 
-const Minting = () => {
+const MintComponent = () => {
   const router = useRouter();
 
   const [isMinting, setIsMinting] = useState<boolean>(false);
@@ -124,4 +124,4 @@ const Minting = () => {
   );
 };
 
-export default Minting;
+export default MintComponent;

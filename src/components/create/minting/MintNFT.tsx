@@ -118,7 +118,10 @@ export const MintNFT: React.FC<MintNFTProps> = ({
             latitude: latitude.toString(),
           };
         }
-        const queryString = createQueryString(queryParams);
+        let queryString;
+        if (queryParams) {
+          queryString = createQueryString(queryParams);
+        }
 
         // NO IDEA WHY THIS IS HERE?
         router.push(`/create/mint?` + queryString);

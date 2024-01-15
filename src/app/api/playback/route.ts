@@ -1,11 +1,12 @@
 import Mux from "@mux/mux-node";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const { Video } = new Mux();
 
   const searchParams = request.nextUrl.searchParams;
   const assetId = searchParams.get("assetId");
+  console.log("Asset id: ", assetId);
 
   if (typeof assetId === "string") {
     try {
@@ -14,11 +15,11 @@ export async function GET(request: NextRequest) {
       });
       const audioUrl = `https://stream.mux.com/${data.id}/audio.m4a`;
 
-      Response.json(audioUrl);
+      return NextResponse.json(audioUrl);
     } catch (e) {
-      Response.json({ error: "Error creating upload", e });
+      return NextResponse.json({ error: "Error creating upload", e });
     }
   } else {
-    Response.json({ error: "Invalid uploadId" });
+    return NextResponse.json({ error: "Invalid uploadId" });
   }
 }
