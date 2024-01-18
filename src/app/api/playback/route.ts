@@ -27,9 +27,10 @@ export async function GET(request: NextRequest) {
       );
 
       const data = await response.json();
-      const audioUrl = `https://stream.mux.com/${data?.data.id}/audio.m4a`;
+      // const audioUrl = `https://stream.mux.com/${data?.data.id}/audio.m4a`;
 
-      return NextResponse.json(audioUrl);
+      // return NextResponse.json(audioUrl);
+      return NextResponse.json(data);
     } else {
       return NextResponse.json({ error: "Invalid uploadId" });
     }
@@ -37,3 +38,49 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Error Video Upload" });
   }
 }
+
+// /api/playback/route.ts
+
+// import { NextRequest, NextResponse } from "next/server";
+// import fetch from "node-fetch";
+
+// export async function GET(request: NextRequest) {
+//   console.log("IN THE ENDPOINT");
+//   try {
+//     const searchParams = request.nextUrl.searchParams;
+//     const assetId = searchParams.get("assetId");
+
+//     console.log("assetId", assetId);
+
+//     if (assetId) {
+//       const MUX_API_BASE_URL = `https://api.mux.com/video/v1/playback-ids/${assetId}`;
+
+//       const response = await fetch(MUX_API_BASE_URL, {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: `Basic ${Buffer.from(
+//             `${process.env.NEXT_PUBLIC_MUX_TOKEN_ID}:${process.env.NEXT_PUBLIC_MUX_TOKEN_SECRET}`
+//           ).toString("base64")}`,
+//         },
+//         body: JSON.stringify({
+//           policy: "public",
+//         }),
+//       });
+
+//       if (!response.ok) {
+//         throw new Error(`HTTP error! Status: ${response.status}`);
+//       }
+
+//       const data = await response.json();
+//       const audioUrl = `https://stream.mux.com/${data.data.id}/audio.m4a`;
+
+//       return NextResponse.json({ audioUrl });
+//     } else {
+//       return NextResponse.json({ error: "Invalid assetId" });
+//     }
+//   } catch (e) {
+//     console.error(e);
+//     return NextResponse.json({ error: "Error creating playback URL" });
+//   }
+// }
