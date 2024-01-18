@@ -36,6 +36,7 @@ export const getMuxAssetId = async (uploadId: string): Promise<string> => {
 
   if (data.status === "waiting") {
     await waitFor(1);
+    console.log("status is waiting");
     return getMuxAssetId(uploadId);
   }
 
@@ -53,7 +54,9 @@ export const getMuxAssetId = async (uploadId: string): Promise<string> => {
 };
 
 export const getPlaybackId = async (assetId: string) => {
+  console.log("trying to get playback ID!!!!!!!", assetId);
   const response = await fetch(`/api/playback?assetId=${assetId}`);
   const data = await response.json();
+  console.log("data getPlaybacKId: ", data);
   return data;
 };
