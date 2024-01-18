@@ -76,7 +76,7 @@ const MintComponent = () => {
     router.push(location + "?" + queryParams);
   };
 
-  console.log("metadata: ", metadata);
+  // console.log("metadata: ", metadata);
   return (
     <LayoutComponent
       justifyStyling="center"

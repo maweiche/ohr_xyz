@@ -107,7 +107,7 @@ const ListenComponent = () => {
         {isLoading ? (
           <LoadingComponent />
         ) : (
-          <div className="flex flex-col justify-center h-full">
+          <div className="flex flex-col justify-center items-center h-full">
             <h1 className="text-2xl text-center mx-10">
               Do you want to keep this recording?
             </h1>

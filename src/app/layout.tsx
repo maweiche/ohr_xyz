@@ -39,12 +39,7 @@ export default function RootLayout({
       </head>
       <body suppressHydrationWarning={true}>
         <main className="min-h-screen flex flex-col items-center">
-          {/* <ConnectionProvider endpoint={endpoint}> */}
-          {/* <ClientWalletProvider> */}
-          {/* <WalletRerouter /> */}
           <WalletContextProvider>{children}</WalletContextProvider>
-          {/* </ClientWalletProvider> */}
-          {/* </ConnectionProvider> */}
         </main>
       </body>
     </html>

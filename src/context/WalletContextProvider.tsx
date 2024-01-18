@@ -13,10 +13,13 @@ import {
 } from "@solana/wallet-adapter-wallets";
 import { FC, ReactNode, useCallback, useMemo } from "react";
 import React from "react";
+require("@solana/wallet-adapter-react-ui/styles.css");
 
 const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
   //   const network = WalletAdapterNetwork.Mainnet;
   const network = WalletAdapterNetwork.Devnet;
+
+  const endpoint = useMemo(() => clusterApiUrl(network), [network]);
 
   const wallets = useMemo(
     () => [new PhantomWalletAdapter(), new SolflareWalletAdapter()],
@@ -26,13 +29,10 @@ const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const onError = useCallback((error: WalletError) => {
     console.error(error);
   }, []);
-  const endpoint = useMemo(() => clusterApiUrl(network), [network]);
   return (
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} onError={onError} autoConnect={true}>
-        <WalletModalProvider>
-          <div>{children}</div>
-        </WalletModalProvider>
+        <WalletModalProvider>{children}</WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>
   );

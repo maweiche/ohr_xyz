@@ -12,6 +12,7 @@ import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 export const getRecordingUrl = async (uploadId: string) => {
   try {
     const assetId = await getMuxAssetId(uploadId);
+    console.log("assetID in getRecordingUrl: ", assetId);
     return await getAudioUrl(assetId);
   } catch (err) {
     console.error("Error in getRecording NFT: ", err);
@@ -94,6 +95,7 @@ export const MintNFT: React.FC<MintNFTProps> = ({
     const receiverAddress = publicKey?.toBase58();
 
     if (receiverAddress) {
+      console.log("uploadId in mintNFT:", uploadID);
       const recordingUrl = await getRecordingUrl(uploadID);
       const attributes = setTheAttributes(
         timeStamp,

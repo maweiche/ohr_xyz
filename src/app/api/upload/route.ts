@@ -1,10 +1,11 @@
 // /api/upload/route.ts
 
+import { Upload } from "@mux/mux-node/dist/video/domain";
 import { NextRequest, NextResponse } from "next/server";
 import fetch from "node-fetch";
 
 export const dynamic = "force-dynamic";
-const MUX_API_BASE_URL = "https://api.mux.com/video/v1/uploads";
+const MUX_API_BASE_URL = "https://api.mux.com/video/v1/uploads/";
 
 export async function POST(request: NextRequest) {
   try {
@@ -54,7 +55,7 @@ export async function GET(request: NextRequest) {
         },
       });
 
-      const data = response.json();
+      const data = await response.json();
 
       return NextResponse.json(data);
     } else {
