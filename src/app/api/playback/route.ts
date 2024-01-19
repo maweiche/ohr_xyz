@@ -1,4 +1,3 @@
-import Mux, { Upload } from "@mux/mux-node";
 import { NextRequest, NextResponse } from "next/server";
 import fetch from "node-fetch";
 

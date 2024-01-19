@@ -5,9 +5,7 @@ import { GENERAL_DESCR, GENERAL_NFT_IMG } from "../../../utils/constants";
 export async function POST(request: NextRequest) {
   try {
     const res = await request.json();
-    console.log(res);
     const { receiverAddress, attributes, recordingUrl } = res;
-    console.log(receiverAddress, attributes, recordingUrl);
     const underdogApiKey = process.env.NEXT_PUBLIC_UNDERDOG_API_KEY;
 
     // don't know why but it's not catching this one :(

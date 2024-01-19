@@ -40,7 +40,6 @@ const LocateComponent: React.FC = () => {
 
     try {
       const position: GeolocationPosition = await getCurrentPosition();
-      console.log("position:", position);
       setLatitude(position.coords.latitude);
       setLongitude(position.coords.longitude);
     } catch (error) {

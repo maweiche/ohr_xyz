@@ -32,12 +32,10 @@ export const getMuxAssetId = async (uploadId: string): Promise<string> => {
   const res = await fetch(`/api/upload/?uploadId=${uploadId}`, {
     method: "GET",
   });
-  console.log("RES", res);
   const { data } = await res.json(); // as Upload
 
   if (data.status === "waiting") {
     await waitFor(1);
-    console.log("status is waiting");
     return getMuxAssetId(uploadId);
   }
 
@@ -51,14 +49,11 @@ export const getMuxAssetId = async (uploadId: string): Promise<string> => {
     throw new Error("Upload does not contain asset id.");
   }
 
-  console.log("DATA GET ASSET ID", data);
   return data.asset_id;
 };
 
 export const getPlaybackId = async (assetId: string) => {
-  console.log("trying to get playback ID!!!!!!!", assetId);
   const response = await fetch(`/api/playback?assetId=${assetId}`);
   const data = await response.json();
-  console.log("data getPlaybacKId: ", data);
   return data;
 };
