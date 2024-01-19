@@ -1,6 +1,3 @@
-// /api/upload/route.ts
-
-import { Upload } from "@mux/mux-node/dist/video/domain";
 import { NextRequest, NextResponse } from "next/server";
 import fetch from "node-fetch";
 
