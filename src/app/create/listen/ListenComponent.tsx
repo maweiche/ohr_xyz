@@ -61,7 +61,6 @@ const ListenComponent = () => {
     if (metadata.audioBlob) {
       createMuxUpload(metadata.audioBlob)
         .then((uploadID) => {
-          console.log("Upload ID: ", uploadID);
           setUploadID(uploadID);
           router.push("/create/describe");
         })
