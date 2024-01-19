@@ -1,11 +1,10 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useCallback, useState } from "react";
 import {
   getMuxAssetId,
   getPlaybackId as getAudioUrl,
-  waitFor,
 } from "../../../utils/mux";
-import { useRouter } from "next/router";
-import LoadingComponent from "../../LoadingComponent";
+import { useRouter, useSearchParams } from "next/navigation";
+import { LoadingComponent } from "../../LoadingComponent";
 import { motion } from "framer-motion";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
@@ -27,7 +26,6 @@ const setTheAttributes = (
   latitude?: number
 ) => {
   let attributes;
-
   if (latitude && longitude) {
     attributes = {
       Date: timeStamp,
@@ -77,6 +75,20 @@ export const MintNFT: React.FC<MintNFTProps> = ({
   const { publicKey, connected, disconnect } = useWallet();
   const router = useRouter();
   const { data } = useSession();
+  const searchParams = useSearchParams()!;
+
+  const createQueryString = useCallback(
+    (queryParams: Record<string, string>) => {
+      const params = new URLSearchParams(searchParams);
+
+      for (const [name, value] of Object.entries(queryParams)) {
+        params.set(name, value);
+      }
+
+      return params.toString();
+    },
+    [searchParams]
+  );
 
   const handleMintNFT = async (mintType: "Passport" | "Wallet") => {
     setIsMinting(true);
@@ -146,20 +158,16 @@ export const MintNFT: React.FC<MintNFTProps> = ({
             latitude: latitude.toString(),
           };
         }
+        let queryString;
+        if (queryParams) {
+          queryString = createQueryString(queryParams);
+        }
+
         // NO IDEA WHY THIS IS HERE?
-        router.push({
-          pathname: `/create/mint`,
-          query: queryParams,
-        });
+        router.push(`/create/mint?` + queryString);
 
         if (response.ok) {
-          const data = await response.json();
-          const id = data.nftId;
-          const fresh = true;
-          router.push({
-            pathname: "/map",
-            query: { longitude, latitude, fresh },
-          });
+          router.push("/map?" + queryString);
         }
       } catch (error) {
         console.error("Error: ", error);

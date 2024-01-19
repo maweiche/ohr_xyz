@@ -1,0 +1,126 @@
+@import url("https://fonts.googleapis.com/css2?family=Gajraj+One&family=Rubik+Mono+One&family=Space+Grotesk:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Russo+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&family=Russo+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Dosis:wght@300&family=Roboto+Slab:wght@300&display=swap");
+/* import "@maptiler/sdk/dist/maptiler-sdk.css"; */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 98, 0, 128;
+  --background-end-rgb: 255, 20, 147;
+  --text-color: rgb(243, 219, 242);
+  --font-mono: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono",
+    "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
+    "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
+
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to right bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+.secondary-font {
+  font-family: "Rubik Mono One", sans-serif;
+  font-weight: bolder;
+  font-size: 1.2rem;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+
+  font-family: "Space Grotesk", sans-serif;
+}
+
+html,
+body {
+  max-height: 100vh;
+  max-width: 100vw;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  line-height: 1.5rem;
+}
+
+body {
+  background: var(--background-color);
+  color: var(--text-color);
+  font-family: "Space Grotesk", sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.wallet-adapter-button {
+  background-color: rgba(254, 174, 218, 0.4) !important;
+  padding: 0.4rem;
+  border-radius: 0.5rem !important;
+  font-family: "Space Grotesk", sans-serif !important;
+}
+
+.wallet-adapter-button:hover {
+  font-style: italic !important;
+}
+
+.small-title {
+  position: absolute;
+  left: 50%;
+  top: 2%;
+  transform: translate(-50%, -25%);
+}
+
+.btn-primary {
+  color: #64ed14 !important;
+  text-shadow: 2px 2px #210059 !important;
+  background: #7e2986 !important; /*#5d2462*/
+  border: 1px solid #a223ad !important;
+  font: 20px Gajraj One, cursive !important;
+  border-radius: 25mm !important;
+  text-transform: lowercase !important;
+  max-width: 50vw;
+  width: 100%;
+  animation: glow 3s ease-in-out infinite alternate;
+}
+
+.primary-btn {
+  background-color: rgba(232, 159, 195, 0.4);
+  border: 2px solid rgba(232, 219, 225, 0.4);
+  min-width: 5rem;
+  padding: 0.4rem;
+  border-radius: 0.5rem;
+}
+
+.secondary-btn {
+  background-color: rgba(232, 159, 195, 0.4);
+  border: 2px solid rgba(140, 88, 112, 0.4);
+  min-width: 5rem;
+  padding: 0.4rem;
+  border-radius: 0.5rem;
+}
+
+.txt-secondary {
+  font: 20px Gajraj One, cursive !important;
+}
+
+.color-secondary {
+  color: #64ed14;
+}
+
+.mapboxgl-ctrl {
+  visibility: hidden;
+}
+
+.mapboxgl-canvas {
+  border-radius: 2rem;
+  padding: 0.2rem;
+}

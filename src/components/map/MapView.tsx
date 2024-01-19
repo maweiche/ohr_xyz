@@ -1,6 +1,6 @@
 import React from "react";
 import Map, { Marker } from "react-map-gl";
-import Image from "next/image";
+import Image from "next/legacy/image";
 
 interface MapViewProps {
   latitude?: number;

@@ -1,15 +1,8 @@
 import { Dialog, Transition } from "@headlessui/react";
-import React, {
-  Dispatch,
-  Fragment,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
-import { useCopyToClipboard } from "react-use";
-import Image from "next/image";
-import ShareTweetBtn from "./ShareTweetBtn";
+import React, { Dispatch, Fragment, SetStateAction, useState } from "react";
 import { NFTattributes } from "../../utils/nftUtils";
+import { useCopyToClipboard } from "react-use";
+import Image from "next/legacy/image";
 
 export interface AudioNFT {
   animationUrl: string;

@@ -3,6 +3,7 @@ import { PassiveAppDescription } from "./PassiveAppDescription";
 import { useState } from "react";
 import { useWallet, WalletContextState } from "@solana/wallet-adapter-react";
 import { Visualisation } from "../../components/create/minting/visualisation/Visualisation";
+import React from "react";
 interface LandingPageProps {
   isAppActive: boolean;
 }
