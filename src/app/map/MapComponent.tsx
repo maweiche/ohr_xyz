@@ -5,7 +5,7 @@ import { MapView } from "../../components/map/MapView";
 import NFTModal, { AudioNFT } from "../../components/map/NFTModal";
 import { Marker } from "react-map-gl";
 import Image from "next/legacy/image";
-import { LoadingComponent } from "../../components/LoadingComponent";
+import { LoadingComponent } from "@components/LoadingComponent";
 
 const MapScreen: React.FC = () => {
   const [audioNFTs, setAudioNFTs] = useState<AudioNFT[] | undefined>(undefined);
