@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import ErrorMessage from "../components/ErrorMessage";
 import { getCurrentDateFormatted } from "../utils/formatUtils";
 import useMetadataStore from "../utils/useMetadataStore";
-import { LoadingComponent } from "../components/LoadingComponent";
+import LoadingComponent from "../components/LoadingComponent";
 import EarBtn from "../components/create/recording/EarBtn";
 import Timer from "../components/create/recording/Timer";
 import styles from "@styles/Home.module.css";

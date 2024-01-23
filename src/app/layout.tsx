@@ -3,6 +3,8 @@ import "./globals.css";
 
 import WalletContextProvider from "../context/WalletContextProvider";
 import React from "react";
+import { SessionProvider } from "next-auth/react";
+import NextAuthSessionProvider from "context/SessionProvider";
 
 // const defaultUrl = process.env.VERCEL_URL
 //   ? `https://${process.env.VERCEL_URL}`
@@ -39,7 +41,9 @@ export default function RootLayout({
       </head>
       <body suppressHydrationWarning={true}>
         <main className="min-h-screen flex flex-col items-center">
-          <WalletContextProvider>{children}</WalletContextProvider>
+          <NextAuthSessionProvider>
+            <WalletContextProvider>{children}</WalletContextProvider>
+          </NextAuthSessionProvider>
         </main>
       </body>
     </html>

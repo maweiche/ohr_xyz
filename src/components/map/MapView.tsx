@@ -6,12 +6,14 @@ interface MapViewProps {
   latitude?: number;
   longitude?: number;
   markers?: JSX.Element[];
+  shouldZoom?: boolean;
 }
 
 export const MapView: React.FC<MapViewProps> = ({
   longitude,
   latitude,
   markers,
+  shouldZoom,
 }) => {
   return (
     <div className="h-full flex justify-center items-center mx-4 mb-4 rounded-md ">

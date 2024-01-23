@@ -11,7 +11,7 @@ const VisionComponent = () => {
       showTitle="Blog"
       showFooter={false}
     >
-      <div className="flex flex-col m-5 gap-5 overflow-scroll h-full">
+      <div className="flex flex-col m-5 gap-5 overflow-scroll md:overflow-hidden h-full">
         <div className="text-sm breadcrumbs overflow-x-visible">
           <ul>
             <li>

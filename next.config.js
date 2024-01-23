@@ -10,6 +10,7 @@ module.exports = {
       "dev.updg8.com",
       "shdw-drive.genesysgo.net",
       "updg8.storage.googleapis.com",
+      "storage.googleapis.com",
     ],
   },
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {

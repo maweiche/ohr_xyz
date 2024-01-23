@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import ErrorMessage from "../../../components/ErrorMessage";
-import { LoadingComponent } from "../../../components/LoadingComponent";
+import LoadingComponent from "../../../components/LoadingComponent";
 import { getRecordingUrl } from "../../../components/create/minting/MintNFT";
 import { LayoutComponent } from "../../../components/layout/LayoutComponent";
 import { motion } from "framer-motion";

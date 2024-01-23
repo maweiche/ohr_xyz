@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "../../landing/landing.module.css";
-import Image from "next/legacy/image";
+import Image from "next/image";
 
 interface EarProps {
   onClick: () => void;

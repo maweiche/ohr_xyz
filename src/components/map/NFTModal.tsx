@@ -3,6 +3,7 @@ import React, { Dispatch, Fragment, SetStateAction, useState } from "react";
 import { NFTattributes } from "../../utils/nftUtils";
 import { useCopyToClipboard } from "react-use";
 import Image from "next/legacy/image";
+import ShareTweetBtn from "./ShareTweetBtn";
 
 export interface AudioNFT {
   animationUrl: string;
@@ -107,15 +108,19 @@ const NFTModal: React.FC<NFTModalProps> = ({
                     className="gap-2 border-2 m-3 p-2 px-4 flex justify-center rounded-xl"
                     onClick={() => {
                       copyToClipboard(
-                        `https://ohr-xyz-git-development-noamru22.vercel.app/map?id=${audioNFT.id}&latitude=${audioNFT.attributes.Lat}&longitude=${audioNFT.attributes.Long}`
+                        `https://ohr-app.xyz/map?id=${audioNFT.id}&latitude=${audioNFT.attributes.Lat}&longitude=${audioNFT.attributes.Long}`
                       );
                       setIsCopied(true);
                     }}
                   >
                     <p className="text-md text-white ">
-                      {isCopied ? "Copied" : "Share this øhr"}
+                      {isCopied ? "Copied" : "Copy link"}
                     </p>
                   </button>
+
+                  <ShareTweetBtn
+                    link={`https://ohr-app.xyz/map?id=${audioNFT.id}&latitude=${audioNFT.attributes.Lat}&longitude=${audioNFT.attributes.Long}`}
+                  />
                 </div>
               </Dialog.Panel>
             </Transition.Child>{" "}

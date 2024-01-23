@@ -1,13 +1,15 @@
-import React, { Dispatch, SetStateAction, useCallback, useState } from "react";
+import React, { Dispatch, SetStateAction, useCallback } from "react";
 import {
   getMuxAssetId,
   getPlaybackId as getAudioUrl,
+  waitFor,
 } from "../../../utils/mux";
 import { useRouter, useSearchParams } from "next/navigation";
-import { LoadingComponent } from "../../LoadingComponent";
+import LoadingComponent from "../../LoadingComponent";
 import { motion } from "framer-motion";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 export const getRecordingUrl = async (uploadId: string) => {
   try {
@@ -25,6 +27,7 @@ const setTheAttributes = (
   latitude?: number
 ) => {
   let attributes;
+
   if (latitude && longitude) {
     attributes = {
       Date: timeStamp,
@@ -71,9 +74,11 @@ export const MintNFT: React.FC<MintNFTProps> = ({
   setHasErrored,
   disabled,
 }) => {
-  const { publicKey, connected } = useWallet();
+  const { data } = useSession();
+  const { publicKey, connected, disconnect } = useWallet();
+
   const router = useRouter();
-  const searchParams = useSearchParams()!;
+  const searchParams = useSearchParams();
 
   const createQueryString = useCallback(
     (queryParams: Record<string, string>) => {
@@ -88,19 +93,19 @@ export const MintNFT: React.FC<MintNFTProps> = ({
     [searchParams]
   );
 
-  const handleMintNFT = async () => {
+  const handleMintNFT = async (mintType: "Passport" | "Wallet") => {
     setIsMinting(true);
 
-    const receiverAddress = publicKey?.toBase58();
+    const recordingUrl = await getRecordingUrl(uploadID);
+    const attributes = setTheAttributes(
+      timeStamp,
+      theVibe,
+      longitude,
+      latitude
+    );
 
-    if (receiverAddress) {
-      const recordingUrl = await getRecordingUrl(uploadID);
-      const attributes = setTheAttributes(
-        timeStamp,
-        theVibe,
-        longitude,
-        latitude
-      );
+    if (mintType === "Passport") {
+      const receiver = { namespace: "public", identifier: data?.user?.email };
 
       try {
         const response = await fetch("/api/nft", {
@@ -108,7 +113,7 @@ export const MintNFT: React.FC<MintNFTProps> = ({
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ receiverAddress, attributes, recordingUrl }),
+          body: JSON.stringify({ receiver, attributes, recordingUrl }),
         });
 
         let queryParams;
@@ -134,8 +139,39 @@ export const MintNFT: React.FC<MintNFTProps> = ({
         console.error("Error: ", error);
         setHasErrored("Something didn't work out with the mint. ");
       }
-    } else {
-      setHasErrored("Your wallet was not connected.");
+    } else if (mintType === "Wallet") {
+      const receiverAddress = publicKey?.toBase58();
+
+      try {
+        const response = await fetch("/api/nft", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ receiverAddress, attributes, recordingUrl }),
+        });
+
+        let queryParams;
+        if (longitude && latitude) {
+          queryParams = {
+            longitude: longitude.toString(),
+            latitude: latitude.toString(),
+          };
+        }
+        let queryString;
+        if (queryParams) {
+          queryString = createQueryString(queryParams);
+        }
+        // NO IDEA WHY THIS IS HERE?
+        router.push(`/create/mint?` + queryString);
+
+        if (response.ok) {
+          router.push("/map?" + queryString);
+        }
+      } catch (error) {
+        console.error("Error: ", error);
+        setHasErrored("Something didn't work out with the mint. ");
+      }
     }
   };
 
@@ -143,11 +179,11 @@ export const MintNFT: React.FC<MintNFTProps> = ({
     <div className="flex justify-center align-center items-center h-full">
       {!isMinting ? (
         <div className="flex flex-col align-center items-center h-full rounded-xl">
-          {connected ? (
+          {connected && publicKey?.toBase58() ? (
             <>
               <motion.button
                 className={"primary-btn text-3xl mt-5"}
-                onClick={handleMintNFT}
+                onClick={() => handleMintNFT("Wallet")}
                 variants={mintButtonAnimation}
                 initial="initial"
                 animate="animate"
@@ -156,12 +192,61 @@ export const MintNFT: React.FC<MintNFTProps> = ({
                 }}
                 disabled={disabled}
               >
-                {isMinting ? <i>mint</i> : "mint"}
+                {isMinting ? <i>MINT</i> : "MINT"}
               </motion.button>
+              <div className="m-10 flex flex-col justify-center align-center items-center">
+                <h1>Your wallet is connected </h1>
+                <button
+                  onClick={() => disconnect()}
+                  className="mt-4 border-2 p-2 rounded-lg w-1/2 border-purple-200 text-sm"
+                >
+                  Disconnect
+                </button>
+              </div>
+            </>
+          ) : data?.user?.email ? (
+            <>
+              <motion.button
+                className={"primary-btn text-3xl mt-5 w-100"}
+                onClick={() => handleMintNFT("Passport")}
+                variants={mintButtonAnimation}
+                initial="initial"
+                animate="animate"
+                transition={{
+                  duration: 1,
+                }}
+                disabled={disabled}
+              >
+                {isMinting ? <i>MINT</i> : "MINT"}
+              </motion.button>
+              <div className="m-10 flex flex-col justify-center align-center items-center">
+                <h1> {data?.user?.name}, your email is connected!</h1>
+                <button
+                  onClick={() => signOut()}
+                  className="mt-4 border-2 p-2 rounded-lg w-1/2 border-purple-200 text-sm"
+                >
+                  Sign out
+                </button>
+              </div>
             </>
           ) : (
-            <div className="m-6">
-              <WalletMultiButton />
+            <div className="flex flex-col justify-center text-center">
+              <div className="m-3 mt-6">
+                <h1 className="m-1">With wallet</h1>
+                <WalletMultiButton />
+              </div>
+              <p>or</p>
+              <div className="m-3">
+                <h1 className="m-1">With email</h1>
+                <button
+                  onClick={() => signIn()}
+                  className="font-black px-6 py-2 text-white rounded-lg bg-[#feaeda66] border-[#feaeda66] flex align-center items-center gap-2"
+                  // className="wallet-adapter-button wallet-adapter-button-trigger "
+                >
+                  <span className="text-2xl">💌</span>{" "}
+                  <span className="">Connect</span>
+                </button>
+              </div>
             </div>
           )}
         </div>

@@ -8,6 +8,8 @@ export async function POST(request: NextRequest) {
     const { receiverAddress, attributes, recordingUrl } = res;
     const underdogApiKey = process.env.NEXT_PUBLIC_UNDERDOG_API_KEY;
 
+    console.log(receiverAddress, attributes, recordingUrl);
+    const audioUrl = `https://stream.mux.com/${recordingUrl?.data.id}/audio.m4a`;
     // don't know why but it's not catching this one :(
     // const underdogApiKey = process.env.UNDERDOG_API_KEY;
 
@@ -23,7 +25,7 @@ export async function POST(request: NextRequest) {
         symbol: "ØHR",
         description: GENERAL_DESCR,
         image: GENERAL_NFT_IMG,
-        animationUrl: recordingUrl,
+        animationUrl: audioUrl,
         externalUrl: "https://ohr-app.xyz",
         receiverAddress,
         delegated: false,
