@@ -8,7 +8,6 @@ export async function POST(request: NextRequest) {
     const { receiverAddress, attributes, recordingUrl } = res;
     const underdogApiKey = process.env.NEXT_PUBLIC_UNDERDOG_API_KEY;
 
-    console.log(receiverAddress, attributes, recordingUrl);
     const audioUrl = `https://stream.mux.com/${recordingUrl?.data.id}/audio.m4a`;
     // don't know why but it's not catching this one :(
     // const underdogApiKey = process.env.UNDERDOG_API_KEY;
@@ -41,16 +40,13 @@ export async function POST(request: NextRequest) {
     );
     https: if (response.ok) {
       const data = await response.json();
-      // res.status(200).json(data);
       return NextResponse.json(data);
     } else {
       console.error("Failed to create NFT");
-      // res.status(500).json({ error: "Failed to create NFT" });
       return NextResponse.json({ error: "Failed to create NFT" });
     }
   } catch (error) {
     console.error(error);
-    // res.status(500).json({ error: "Internal server error" });
     return NextResponse.json({ error: "Internal server error" });
   }
 }

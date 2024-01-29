@@ -24,6 +24,9 @@
       "last 1 safari version"
     ]
   },
+  "overrides": {
+    "oidc-token-hash": "5.0.1"
+  },
   "dependencies": {
     "@emailjs/browser": "^3.11.0",
     "@ffmpeg/ffmpeg": "^0.12.6",
@@ -63,11 +66,11 @@
     "micro": "^10.0.1",
     "mongodb": "^5.3.0",
     "next": "^14.0.4",
-    "node-fetch": "^3.3.2",
-    "pino-pretty": "^10.2.3",
     "next-auth": "^4.24.5",
+    "node-fetch": "^3.3.2",
     "party-js": "^2.2.0",
     "passport-google-oidc": "^0.1.0",
+    "pino-pretty": "^10.2.3",
     "querystring": "^0.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

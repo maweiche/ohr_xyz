@@ -10,6 +10,12 @@ import EarBtn from "../components/create/recording/EarBtn";
 import Timer from "../components/create/recording/Timer";
 import styles from "@styles/Home.module.css";
 import useMenuStore from "../utils/useMenuStore";
+import {
+  LoginButton,
+  RegisterButton,
+  LogoutButton,
+  ProfileButton,
+} from "@components/Buttons";
 
 const getUserMedia = async () => {
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -110,6 +116,10 @@ const RecordingPage = () => {
 
   return (
     <div className="flex flex-col justify-center align-center items-center h-full overflow-none">
+      <LoginButton />
+      <RegisterButton />
+      <LogoutButton />
+      <ProfileButton />
       {(isRecordingTooShort || hasErrored) && (
         <ErrorMessage
           showModal={true}
@@ -152,3 +162,6 @@ const RecordingPage = () => {
 };
 
 export default RecordingPage;
+function getServerSession(authOptions: any) {
+  throw new Error("Function not implemented.");
+}

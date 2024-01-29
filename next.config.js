@@ -5,6 +5,12 @@ require("dotenv").config();
 
 module.exports = {
   images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "i.imgur.com",
+      },
+    ],
     domains: [
       "updg8.com",
       "dev.updg8.com",
@@ -12,6 +18,12 @@ module.exports = {
       "updg8.storage.googleapis.com",
       "storage.googleapis.com",
     ],
+  },
+  env: {
+    NEXT_PUBLIC_GOOGLE_CLIENT_ID:
+      "992645609151-sd92v7e9v9cqquteccth22legc8rq47a.apps.googleusercontent.com",
+    NEXT_PUBLIC_GOOGLE_CLIENT_SECRET: "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",
+    NEXTAUTH_SECRET: "mQ46qpFwfE1BHuqMC+qlm19qBAD9fVPgh28werwe3ASFlAfnKjM=",
   },
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     // Resolve fallbacks

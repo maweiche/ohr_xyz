@@ -41,9 +41,9 @@ export default function RootLayout({
       </head>
       <body suppressHydrationWarning={true}>
         <main className="min-h-screen flex flex-col items-center">
-          <NextAuthSessionProvider>
-            <WalletContextProvider>{children}</WalletContextProvider>
-          </NextAuthSessionProvider>
+          {/* <NextAuthSessionProvider> */}
+          <WalletContextProvider>{children}</WalletContextProvider>
+          {/* </NextAuthSessionProvider> */}
         </main>
       </body>
     </html>

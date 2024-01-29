@@ -15,10 +15,6 @@ const MintComponent = () => {
   const searchParams = useSearchParams();
 
   const [isMinting, setIsMinting] = useState<boolean>(false);
-  const { metadata, resetMetadata } = useMetadataStore();
-  const [isMintSuccessful, setIsMintSuccessful] = useState<boolean | undefined>(
-    undefined
-  );
   const [disableMintBtn, setDisableMintBtn] = useState<boolean>(true);
 
   const [long, setLong] = useState<number | undefined>(undefined);
