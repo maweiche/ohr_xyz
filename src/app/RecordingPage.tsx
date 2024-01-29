@@ -16,6 +16,7 @@ import {
   LogoutButton,
   ProfileButton,
 } from "@components/Buttons";
+import { Post } from "@components/feed/Post";
 
 const getUserMedia = async () => {
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -116,10 +117,7 @@ const RecordingPage = () => {
 
   return (
     <div className="flex flex-col justify-center align-center items-center h-full overflow-none">
-      <LoginButton />
-      <RegisterButton />
-      <LogoutButton />
-      <ProfileButton />
+      <Post />
       {(isRecordingTooShort || hasErrored) && (
         <ErrorMessage
           showModal={true}
