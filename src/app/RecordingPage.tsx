@@ -117,7 +117,6 @@ const RecordingPage = () => {
 
   return (
     <div className="flex flex-col justify-center align-center items-center h-full overflow-none">
-      <Post />
       {(isRecordingTooShort || hasErrored) && (
         <ErrorMessage
           showModal={true}

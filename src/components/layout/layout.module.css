@@ -22,44 +22,36 @@
   .app-title {
     padding-left: 1.1%;
   }
-
-  /* .mobile-frame {
-    background-image: url("/phone-frame.png");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-color: green;
-  } */
 }
 
 .navbar {
-  border-radius: 1rem;
-  /* background: #a60989; */
-  width: 90vw;
-  /* padding: 0.8rem; */
-  margin: 0.4rem;
+  /* border-radius: 1rem; */
+  background: #a60989;
+  width: 100vw;
+
   display: flex;
   align-items: center;
+
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 .navbar-btn {
-  width: 50%;
-  /* height: 2rem; */
+  width: 33%;
   margin: 0.4rem;
-  /* padding: 0.8rem; */
-  /* height: 5rem; */
   display: flex;
   justify-content: center;
 }
 
 .active {
   border-radius: 0.5rem;
-  /* height: 3rem; */
   display: flex;
   justify-content: center;
-  /* opacity: 0.4; */
   background: rgba(254, 174, 218, 0.4);
-  width: 50%;
+  width: 33%;
+  margin: 0.4rem;
 }
 
 .ear-icon {

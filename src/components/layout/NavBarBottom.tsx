@@ -8,7 +8,17 @@ export const NavBarBottom = () => {
   const pathname = usePathname();
 
   return (
-    <div className={`${styles["navbar"]}`}>
+    <div className={`${styles["navbar"]} sticky bottom-0`}>
+      <button
+        className={
+          pathname === "/feed" ? styles["active"] : styles["navbar-btn"]
+        }
+        onClick={() => router.push("/feed")}
+      >
+        <div className={styles["ear-icon"]}>
+          <p className="text-3xl m-2">👂</p>
+        </div>
+      </button>
       <button
         className={
           pathname === "/" ||
@@ -22,10 +32,9 @@ export const NavBarBottom = () => {
         }
         onClick={() => router.push("/")}
       >
-        <div className={styles["ear-icon"]}>
-          <p className="text-3xl m-2">👂</p>
+        <div className="m-2">
+          <Image src={"/create.png"} alt="Create" width={32} height={32} />
         </div>
-        {/* <Image src={earIcon} alt="Ear" width={20} height={28} /> */}
       </button>
       <button
         className={
@@ -34,12 +43,7 @@ export const NavBarBottom = () => {
         onClick={() => router.push("/map")}
       >
         <div className="m-2">
-          <Image
-            src={"/NFT_icon-01.png"}
-            alt="NFT location"
-            width={32}
-            height={32}
-          />
+          <Image src={"/profile.png"} alt="Profile" width={32} height={32} />
         </div>
       </button>
     </div>
