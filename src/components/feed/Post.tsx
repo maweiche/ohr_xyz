@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/legacy/image";
-import TipCreatorBtn from "./TipCreatorBtn"
+import TipCreatorBtn from "./TipCreatorBtn";
 
 interface PostProps {
   title: string;
@@ -34,12 +34,8 @@ export const Post: React.FC<PostProps> = ({ title, date, audioUrl, owner }) => {
         </div>
         <div className="flex justify-center self-center mt-3"></div>
         <div className="flex justify-start mx-2">
-          <button>
-            <Image src={"/tip.png"} alt="Tip" width={33} height={33} />
-            <TipCreatorBtn 
-              owner={owner}
-            />
-          </button>
+          <Image src={"/tip.png"} alt="Tip" width={33} height={33} />
+          <TipCreatorBtn owner={owner} />
         </div>
       </div>
     </div>

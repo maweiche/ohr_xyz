@@ -6,6 +6,7 @@ export async function POST(request: NextRequest) {
   try {
     const res = await request.json();
     const { receiverAddress, attributes, recordingUrl } = res;
+    console.log(receiverAddress, attributes, recordingUrl);
     const underdogApiKey = process.env.NEXT_PUBLIC_UNDERDOG_API_KEY;
 
     const audioUrl = `https://stream.mux.com/${recordingUrl?.data.id}/audio.m4a`;

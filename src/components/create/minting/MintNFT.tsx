@@ -142,9 +142,12 @@ export const MintNFT: React.FC<MintNFTProps> = ({
     //     setHasErrored("Something didn't work out with the mint. ");
     //   }
     // } else if (mintType === "Wallet") {
+    console.log("PUBLICKEY: ", publicKey);
     const receiverAddress = publicKey?.toBase58();
+    console.log("receiverAddress:", receiverAddress);
 
     try {
+      console.log(receiverAddress, attributes, recordingUrl);
       const response = await fetch("/api/nft", {
         method: "POST",
         headers: {
