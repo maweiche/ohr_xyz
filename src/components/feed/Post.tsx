@@ -1,12 +1,14 @@
 import React from "react";
+import Image from "next/legacy/image";
 
 interface PostProps {
   title: string;
   date: string;
   audioUrl: string;
+  owner: string;
 }
 
-export const Post: React.FC<PostProps> = ({ title, date, audioUrl }) => {
+export const Post: React.FC<PostProps> = ({ title, date, audioUrl, owner }) => {
   return (
     <div className="w-full my-2 px-5">
       <div className="border p-2 m-1 rounded">
@@ -25,9 +27,12 @@ export const Post: React.FC<PostProps> = ({ title, date, audioUrl }) => {
           </audio>
         </div>
         <div className="flex justify-center self-center mt-3"></div>
-        {/* audioNFT.attributes.animationUrl */}
-        <div className="flex justify-end">
-          <button className="border m-1 px-2 rounded">TIP</button>
+        <p className="text-xs">{owner}</p>
+        <div className="flex justify-end mx-2">
+          <button>
+            <Image src={"/tip.png"} alt="Tip" width={33} height={33} />
+            <p className="text-xs">Tip</p>
+          </button>
         </div>
       </div>
     </div>

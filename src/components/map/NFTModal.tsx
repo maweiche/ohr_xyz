@@ -17,6 +17,7 @@ export interface AudioNFT {
   projectId: number;
   status: string;
   symbol: string;
+  ownerAddress: string;
 }
 
 interface NFTModalProps {

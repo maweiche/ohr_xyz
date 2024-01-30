@@ -29,7 +29,7 @@ export const FeedComponent = () => {
     }
   }, [posts]);
 
-  //   console.log("POSTS", posts);
+  console.log("POSTS", posts);
   return (
     <LayoutComponent showTitle="Feed" showFooter={true} showNavBar={true}>
       {posts ? (
@@ -40,6 +40,7 @@ export const FeedComponent = () => {
               date={post.attributes?.Date}
               audioUrl={post.animationUrl}
               key={index}
+              owner={post.ownerAddress}
             />
           );
         })
