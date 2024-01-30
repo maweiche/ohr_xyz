@@ -40,7 +40,7 @@ export const NavBarBottom = () => {
         className={
           pathname === "/map" ? styles["active"] : styles["navbar-btn"]
         }
-        onClick={() => router.push("/map")}
+        onClick={() => router.push("/profile")}
       >
         <div className="m-2">
           <Image src={"/profile.png"} alt="Profile" width={32} height={32} />
