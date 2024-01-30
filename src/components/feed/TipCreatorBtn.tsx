@@ -13,9 +13,9 @@ export default function TipCreatorBtn({ owner }: TipCreatorBtnProps) {
   const { publicKey, sendTransaction } = useWallet();
   const [amount, setAmount] = useState(0);
 
-  const mainRpcEndpoint = `https://api.helius-rpc.com/?api-key=${process.env.NEXT_PUBLIC_HELIUS_RPC!}`;
-  const devnetRpcEndpoint = `https://devnet.helius-rpc.com/?api-key=${process.env.NEXT_PUBLIC_HELIUS_RPC!}`;
-  const connection = new Connection(devnetRpcEndpoint, "confirmed");
+  const mainRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_MAINNET;
+  const devnetRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_DEVNET;
+  const connection = new Connection(mainRpcEndpoint!, "confirmed");
 
   async function tipCreator() 
   {
