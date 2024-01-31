@@ -8,11 +8,13 @@ import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 interface TipCreatorModalProps {
   showModal: boolean;
   owner: string;
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
   showModal,
   owner,
+  setShowModal,
 }) => {
   const [isOpen, setIsOpen] = useState(showModal);
   const [amount, setAmount] = useState(0);
@@ -91,6 +93,7 @@ const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
         open={isOpen}
         onClose={() => {
           setIsOpen(false);
+          setShowModal(false);
         }}
         className="relative z-50"
       >

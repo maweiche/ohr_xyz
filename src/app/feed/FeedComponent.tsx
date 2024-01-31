@@ -28,19 +28,22 @@ export const FeedComponent = () => {
       fetchNFTs();
     }
   }, [posts]);
+
   return (
     <LayoutComponent showTitle="Feed" showFooter={true} showNavBar={true}>
       {posts ? (
         posts.map((post, index) => {
-          return (
-            <Post
-              title={post.attributes?.Vibe}
-              date={post.attributes?.Date}
-              audioUrl={post.animationUrl}
-              key={index}
-              owner={post.ownerAddress}
-            />
-          );
+          if (post.animationUrl && !post.animationUrl.includes("undefined")) {
+            return (
+              <Post
+                title={post.attributes?.Vibe}
+                date={post.attributes?.Date}
+                audioUrl={post.animationUrl}
+                key={index}
+                owner={post.ownerAddress}
+              />
+            );
+          }
         })
       ) : (
         <div className="flex h-full justify-center align-center">

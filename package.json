@@ -54,6 +54,7 @@
     "@typescript-eslint/parser": "^6.5.0",
     "@underdog-protocol/passport": "^4.0.0",
     "@vercel/kv": "^1.0.0",
+    "@wavesurfer/react": "^1.0.4",
     "arweave": "^1.13.7",
     "auth": "^0.0.9",
     "bs58": "^5.0.0",
@@ -81,7 +82,7 @@
     "sass": "^1.65.1",
     "sonner": "^1.2.3",
     "three": "^0.151.3",
-    "wavesurfer.js": "^7.4.2",
+    "wavesurfer.js": "^7.7.1",
     "zustand": "^4.4.4"
   },
   "devDependencies": {
