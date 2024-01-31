@@ -5,6 +5,7 @@ import { Post } from "@components/feed/Post";
 import { LayoutComponent } from "@components/layout/LayoutComponent";
 import { AudioNFT } from "@components/map/NFTModal";
 import React, { useEffect, useState } from "react";
+import TipboardDisplay from "@components/tipboard/components/tipboard";
 
 export const FeedComponent = () => {
   const [posts, setPosts] = useState<AudioNFT[] | undefined>(undefined);
@@ -31,6 +32,7 @@ export const FeedComponent = () => {
 
   return (
     <LayoutComponent showTitle="Feed" showFooter={true} showNavBar={true}>
+      <TipboardDisplay />
       {posts ? (
         posts.map((post, index) => {
           if (post.animationUrl && !post.animationUrl.includes("undefined")) {

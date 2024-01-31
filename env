@@ -1,0 +1,41 @@
+# mux
+MUX_TOKEN_SECRET=M8/ygmri2dBmm83S+8CdKykmFfAdED0MhOaBHLS52YGWG5W2bAC0SJPJn5NdT3DBVZ9puHau0Bb
+MUX_TOKEN_ID=40c6d26b-cba2-47ac-b460-35c5e4aefab3
+
+NEXT_PUBLIC_MUX_TOKEN_SECRET=M8/ygmri2dBmm83S+8CdKykmFfAdED0MhOaBHLS52YGWG5W2bAC0SJPJn5NdT3DBVZ9puHau0Bb
+NEXT_PUBLIC_MUX_TOKEN_ID=40c6d26b-cba2-47ac-b460-35c5e4aefab3
+
+# map
+NEXT_PUBLIC_MAPBOX_TOKEN=pk.eyJ1Ijoibm9hbWllMjIiLCJhIjoiY2xncDBkN2ZmMDExdDNmbXIydmIxdDRwaSJ9._n4FW8d0fFlLLeCqAchbuA
+NEXT_PUBLIC_MAPBOX_API_KEY=pk.eyJ1Ijoibm9hbWllMjIiLCJhIjoiY2syenk5YXdlMGs5YzNucDhmZmxuNHhleiJ9.jjF0Z8UQ1mjTe4iheSWFOA
+
+# underdog
+NEXT_PUBLIC_UNDERDOG_API_KEY=c38e7c339ea47b.a1edff23f322441d832d046787ff8a6f
+UNDERDOG_API_KEY=c38e7c339ea47b.a1edff23f322441d832d046787ff8a6f
+NEXT_PUBLIC_NAMESPACE=TEST
+NEXT_PUBLIC_UNDERDOG_API_URL_DEV=https://devnet.underdogprotocol.com/v2/projects/6/nfts
+NEXT_PUBLIC_UNDERDOG_API_URL_MAINNET=hhttps://mainnet.underdogprotocol.com/v2/projects/1/nfts
+
+#KV store
+KV_URL=redis://default:c8a9b2a5b87548c482f982ef9518c51e@amusing-javelin-41790.kv.vercel-storage.com:41790
+KV_REST_API_URL=https://amusing-javelin-41790.kv.vercel-storage.com
+KV_REST_API_TOKEN=AaM-ASQgODZjMDc1NDMtZjgxNS00YzRlLTk0MWMtNWZkNmE3OTViMjUwYzhhOWIyYTViODc1NDhjNDgyZjk4MmVmOTUxOGM1MWU=
+KV_REST_API_READ_ONLY_TOKEN=AqM-ASQgODZjMDc1NDMtZjgxNS00YzRlLTk0MWMtNWZkNmE3OTViMjUwjBU2a5ugwFhDARgDcfnCvjKgPMAl9vzCwpTeZ1BwH-g=
+
+#Email JS
+NEXT_PUBLIC_EMAILJS_KEY=zZsMWS0Va0v_Vq4D3
+NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_USER=template_zqmimuf
+NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_US=template_tbqod6s
+
+# Google
+NEXT_PUBLIC_GOOGLE_CLIENT_ID=992645609151-sd92v7e9v9cqquteccth22legc8rq47a.apps.googleusercontent.com
+NEXT_PUBLIC_GOOGLE_CLIENT_SECRET=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
+NEXT_PUBLIC_SECRET=anything
+
+#used to specify the url to the site
+NEXTAUTH_SECRET=your_super_secure_secret
+NEXTAUTH_URL=http://localhost:3000
+
+#Helius RPC Endpoints
+NEXT_PUBLIC_HELIUS_MAINNET = 'https://mainnet.helius-rpc.com/?api-key=bb0cb5ed-9c3e-421b-a379-2dc684ad0e9f'
+NEXT_PUBLIC_HELIUS_DEVNET = 'https://devnet.helius-rpc.com/?api-key=bb0cb5ed-9c3e-421b-a379-2dc684ad0e9f'
