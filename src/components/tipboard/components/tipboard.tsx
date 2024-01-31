@@ -102,8 +102,8 @@ export default function TipboardDisplay() {
 
     setLoading(false);
   }
-  // addScore
-  async function addScore() {
+  // addTip
+  async function addTip() {
     setLoading(true);
     const tipAmount = new BN(100);
     const timestamp = new BN(Date.now());

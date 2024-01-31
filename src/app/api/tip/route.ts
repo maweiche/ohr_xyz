@@ -6,6 +6,14 @@ import {
   SystemProgram,
   LAMPORTS_PER_SOL,
 } from "@solana/web3.js";
+import {
+  Program,
+  AnchorProvider,
+  Idl,
+  setProvider,
+} from "@project-serum/anchor";
+import { IDL, Tipboard } from "../../../components/tipboard/idl/tipboard";
+import BN from "bn.js";
 
 export async function POST(
   request: NextRequest,
@@ -14,12 +22,27 @@ export async function POST(
   console.log("incoming req", req);
   const mainRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_MAINNET;
   const devnetRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_DEVNET;
-  const connection = new Connection(mainRpcEndpoint!, "confirmed");
+  const connection = new Connection(devnetRpcEndpoint!, "confirmed");
 
   const { publicKey, amount, owner } = req;
   const tipperPubkey = new PublicKey(publicKey);
   const ownerPubkey = new PublicKey(owner);
   const amountLamports = amount * LAMPORTS_PER_SOL;
+
+  const programId = new PublicKey(
+    "9KsKHzYzjX5xnQ3FsbN8AmjBmmW2zHcTVvUW9zWqWDZG"
+  );
+  const program = new Program(
+    IDL as Idl,
+    programId
+  ) as unknown as Program<Tipboard>;
+
+  let data = PublicKey.findProgramAddressSync(
+    [Buffer.from("tipboard")],
+    program.programId
+  );
+  console.log("data", data);
+  const tipboardPda = (data[0]);
 
   try {
     const { blockhash } = await connection.getLatestBlockhash("finalized");
@@ -36,7 +59,17 @@ export async function POST(
       lamports: amountLamports,
     });
 
-    transaction.add(txInstruction);
+    const tipAmount = new BN(amountLamports);
+    const timestamp = new BN(Date.now());
+    const programTxInstructions = await program.methods
+      .addTip(tipAmount, timestamp, publicKey!.toString())
+      .accounts({
+        tipboard: tipboardPda!,
+      })
+      .transaction();
+
+
+    transaction.add(txInstruction, programTxInstructions);
 
     // Serialize the transaction and convert to base64 to return it
     const serializedTransaction = transaction.serialize({
