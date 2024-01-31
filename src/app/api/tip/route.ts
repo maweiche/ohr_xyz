@@ -4,19 +4,11 @@ import {
   Transaction,
   PublicKey,
   SystemProgram,
+  LAMPORTS_PER_SOL,
 } from "@solana/web3.js";
-
-type Data = {
-  transaction: string;
-};
-
-type Error = {
-  error: string;
-};
 
 export async function POST(
   request: NextRequest,
-  res: NextResponse<Data | Error>
 ) {
   const req = await request.json();
   console.log("incoming req", req);
@@ -27,7 +19,7 @@ export async function POST(
   const { publicKey, amount, owner } = req;
   const tipperPubkey = new PublicKey(publicKey);
   const ownerPubkey = new PublicKey(owner);
-  const amountLamports = amount * 1000000000;
+  const amountLamports = amount * LAMPORTS_PER_SOL;
 
   try {
     const { blockhash } = await connection.getLatestBlockhash("finalized");

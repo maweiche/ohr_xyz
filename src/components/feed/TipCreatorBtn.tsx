@@ -47,7 +47,10 @@ export default function TipCreatorBtn({ owner }: TipCreatorBtnProps) {
   }
 
   return (
-
+    <div
+      className="fixed inset-0 overflow-y-auto flex justify-center items-center"
+      style={{ zIndex: 100 }}
+    >
       <form
         onSubmit={(e) =>{
           if (amount > 0) {
@@ -56,19 +59,30 @@ export default function TipCreatorBtn({ owner }: TipCreatorBtnProps) {
           } else {
             alert("Please enter an amount");
           }
-        }
-        }
-        className="border m-1 px-2 rounded"
+        }}
+        className="border m-1 px-2 rounded z-10 bg-white flex flex-col w-80 justify-center items-center bg-purple-300 bg-opacity-100"
+        style={{ zIndex: 1000 }}
       >
+        <h1 className="text-xl m-1 mx-2">
+          Tip {" "}
+            <span className="text-purple-500">
+              {owner.substring(0, 3)}..{owner.substring(owner.length - 3)}
+            </span>
+          {" "} in SOL
+        </h1>
         <input 
           type="float"
           placeholder="Amount"
           onChange={(e) => setAmount(parseFloat(e.target.value))}
-          className="border-none bg-transparent w-20 focus:outline-none"
+          className="border-none bg-transparent w-20 focus:outline-none focus:ring-0 focus:border-transparent m-1 self-center"
         />
-        <button type="submit">
+        <button 
+          type="submit"
+          className="border m-1 px-2 rounded focus:outline-none focus:ring-0 focus:border-transparent self-center w-full bg-purple-500 hover:bg-purple-700 text-white"
+        >
           TIP
         </button>
       </form>
+    </div>
   );
 }
