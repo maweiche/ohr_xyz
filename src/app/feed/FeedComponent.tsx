@@ -28,8 +28,6 @@ export const FeedComponent = () => {
       fetchNFTs();
     }
   }, [posts]);
-
-  console.log("POSTS", posts);
   return (
     <LayoutComponent showTitle="Feed" showFooter={true} showNavBar={true}>
       {posts ? (

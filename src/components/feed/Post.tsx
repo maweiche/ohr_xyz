@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/legacy/image";
 import TipCreatorBtn from "./TipCreatorBtn";
+import TipCreatorModal from "./TipCreatorModal";
 
 interface PostProps {
   title: string;
@@ -52,7 +53,8 @@ export const Post: React.FC<PostProps> = ({ title, date, audioUrl, owner }) => {
             style={{ zIndex: 90 }}
             aria-hidden="true"
           ></div>
-          <TipCreatorBtn owner={owner} />
+          {/* <TipCreatorBtn owner={owner} /> */}
+          <TipCreatorModal showModal={true} owner={owner} />
         </div>
       )}
     </div>
