@@ -15,13 +15,12 @@ import {
 import { IDL, Tipboard } from "../../../components/tipboard/idl/tipboard";
 import BN from "bn.js";
 
-export async function POST(
-  request: NextRequest,
-) {
+export async function POST(request: NextRequest) {
   const req = await request.json();
   console.log("incoming req", req);
   const mainRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_MAINNET;
   const devnetRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_DEVNET;
+  console.log(devnetRpcEndpoint);
   const connection = new Connection(devnetRpcEndpoint!, "confirmed");
 
   const { publicKey, amount, owner } = req;
@@ -42,7 +41,7 @@ export async function POST(
     program.programId
   );
   console.log("data", data);
-  const tipboardPda = (data[0]);
+  const tipboardPda = data[0];
 
   try {
     const { blockhash } = await connection.getLatestBlockhash("finalized");
@@ -67,7 +66,6 @@ export async function POST(
         tipboard: tipboardPda!,
       })
       .transaction();
-
 
     transaction.add(txInstruction, programTxInstructions);
 

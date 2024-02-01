@@ -4,6 +4,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { Connection, Transaction } from "@solana/web3.js";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import { useRouter } from "next/navigation";
 
 interface TipCreatorModalProps {
   showModal: boolean;
@@ -19,13 +20,14 @@ const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
   const [isOpen, setIsOpen] = useState(showModal);
   const [amount, setAmount] = useState(0);
   const [isTxSuccessful, setIsTxSuccessful] = useState<boolean | undefined>(
-    undefined
+    true
   );
 
   const ownerShort =
     owner.substring(0, 3) + "..." + owner.substring(owner.length - 3);
 
   const { publicKey, sendTransaction } = useWallet();
+  const router = useRouter();
 
   const mainRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_MAINNET;
   const devnetRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_DEVNET;
@@ -40,8 +42,13 @@ const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
     }
   };
 
+  const handleClickTipBoard = () => {
+    router.push("/tipboard");
+  };
+
   const TipCreator = async () => {
     try {
+      console.log("before res");
       const res = await fetch("/api/tip", {
         method: "POST",
         body: JSON.stringify({
@@ -53,6 +60,8 @@ const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
           "Content-Type": "application/json",
         },
       });
+
+      console.log(res);
 
       const txData = await res.json();
       const tx = Transaction.from(Buffer.from(txData.transaction, "base64"));
@@ -171,9 +180,15 @@ const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
         <Dialog.Title className="text-xl font-bold text-center">
           👏
         </Dialog.Title>
-        <Dialog.Description className="mt-1 text-center">
+        <Dialog.Description className="mt-1 mx-4 text-center">
           You've successfully sent {amount} to {ownerShort}
         </Dialog.Description>
+        <button
+          onClick={handleClickTipBoard}
+          className="border-2 text-[#81be5d] border-[#6bb242] self-center mt-5 rounded-xl p-2"
+        >
+          CHECK THE TIPBOARD
+        </button>
       </Dialog.Panel>
     );
   }

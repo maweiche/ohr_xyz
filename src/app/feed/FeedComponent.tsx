@@ -32,7 +32,6 @@ export const FeedComponent = () => {
 
   return (
     <LayoutComponent showTitle="Feed" showFooter={true} showNavBar={true}>
-      <TipboardDisplay />
       {posts ? (
         posts.map((post, index) => {
           if (post.animationUrl && !post.animationUrl.includes("undefined")) {

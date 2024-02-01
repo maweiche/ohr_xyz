@@ -33,7 +33,7 @@ export const ProfileComponent = () => {
       }),
     });
     const { result } = await response.json();
-    console.log("øhr assets: ", result);
+    // console.log("øhr assets: ", result);
   };
   searchAssets();
 
