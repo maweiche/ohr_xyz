@@ -2,9 +2,13 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { Connection, Transaction } from "@solana/web3.js";
+import { Connection, Transaction, PublicKey } from "@solana/web3.js";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useRouter } from "next/navigation";
+import { Program, AnchorProvider, Idl, setProvider } from "@project-serum/anchor";
+import { IDL, Tipboard } from "../tipboard/idl/tipboard";
+import * as anchor from "@project-serum/anchor";
+import BN from "bn.js";
 
 interface TipCreatorModalProps {
   showModal: boolean;
@@ -33,10 +37,62 @@ const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
   const devnetRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_DEVNET;
   const connection = new Connection(mainRpcEndpoint!, "confirmed");
 
+  // TIP PROGRAM FUNCTIONS
+  // Create an Anchor provider
+  const provider = new AnchorProvider(connection, useWallet() as any, {});
+
+  // Set the provider as the default provider
+  setProvider(provider);
+
+  const programId = new PublicKey(
+    "7vZPMfghSw2rQWhvCs1XW6CDLunP36jB253bQVWWMUmu"
+  );
+  const program = new Program(
+    IDL as Idl,
+    programId
+  ) as unknown as Program<Tipboard>;
+
+  const [tipboardAccount] = anchor.web3.PublicKey.findProgramAddressSync(
+    [Buffer.from("tipboard")],
+    program.programId
+  );
+  console.log("tipboard account", tipboardAccount.toString());
+  const [tipboard] = anchor.web3.PublicKey.findProgramAddressSync(
+    [Buffer.from("tipboard"), new PublicKey(owner).toBuffer()],
+    program.programId
+  );
+  console.log("tipboard account", tipboard.toString());
+  // addTip
+  async function addTip() {
+    const tipAmount = new BN(amount);
+    const timestamp = new BN(Date.now());
+    const tx = await program.methods
+      .addTip(tipAmount, timestamp, publicKey!.toString())
+      .accounts({
+        tipboard: tipboard!,
+        systemProgram: anchor.web3.SystemProgram.programId,
+      })
+      .transaction();
+
+    const txHash = await sendTransaction(tx, connection);
+
+    const { blockhash, lastValidBlockHeight } =
+      await connection.getLatestBlockhash();
+
+    await connection.confirmTransaction({
+      blockhash,
+      lastValidBlockHeight,
+      signature: txHash,
+    });
+
+    console.log("tx", tx);
+
+  }
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (amount > 0) {
-      await TipCreator();
+      await addTip();
     } else {
       alert("Please enter an amount");
     }
@@ -44,38 +100,6 @@ const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
 
   const handleClickTipBoard = () => {
     router.push("/tipboard");
-  };
-
-  const TipCreator = async () => {
-    try {
-      console.log("before res");
-      const res = await fetch("/api/tip", {
-        method: "POST",
-        body: JSON.stringify({
-          publicKey: publicKey?.toBase58(),
-          amount: amount,
-          owner: owner,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      console.log(res);
-
-      const txData = await res.json();
-      const tx = Transaction.from(Buffer.from(txData.transaction, "base64"));
-      const txHash = await sendTransaction(tx, connection);
-
-      console.log(
-        "\nTip Sent:",
-        `https://explorer.solana.com/tx/${txHash}?cluster=devnet-solana`
-      );
-      setIsTxSuccessful(true);
-    } catch (err) {
-      console.error(err);
-      setIsTxSuccessful(false);
-    }
   };
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {

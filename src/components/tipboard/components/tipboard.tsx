@@ -9,7 +9,6 @@ import {
 } from "@project-serum/anchor";
 import { IDL, Tipboard } from "../idl/tipboard";
 import BN from "bn.js";
-import * as anchor from "@project-serum/anchor";
 
 type Tips = {
   tipper: PublicKey;
@@ -38,7 +37,7 @@ export default function TipboardDisplay() {
   setProvider(provider);
 
   const programId = new PublicKey(
-    "9KsKHzYzjX5xnQ3FsbN8AmjBmmW2zHcTVvUW9zWqWDZG"
+    "7vZPMfghSw2rQWhvCs1XW6CDLunP36jB253bQVWWMUmu"
   );
   const program = new Program(
     IDL as Idl,
@@ -73,93 +72,6 @@ export default function TipboardDisplay() {
 
     setLoading(false);
   }
-
-  // tipboard Functions
-  // initializetipboard
-  async function initializeTipboard() {
-    setLoading(true);
-
-    const tx = await program.methods
-      .initializeTipboard()
-      .accounts({
-        tipboard: tipboardPda!,
-        systemProgram: anchor.web3.SystemProgram.programId,
-      })
-      .transaction();
-
-    const txHash = await sendTransaction(tx, connection);
-
-    const { blockhash, lastValidBlockHeight } =
-      await connection.getLatestBlockhash();
-    console.log("blockhash", blockhash);
-    await connection.confirmTransaction({
-      blockhash,
-      lastValidBlockHeight,
-      signature: txHash,
-    });
-
-    console.log("tx", tx);
-
-    setLoading(false);
-  }
-  // addTip
-  async function addTip() {
-    setLoading(true);
-    const tipAmount = new BN(100);
-    const timestamp = new BN(Date.now());
-    const tx = await program.methods
-      .addTip(tipAmount, timestamp, publicKey!.toString())
-      .accounts({
-        tipboard: tipboardPda!,
-      })
-      .transaction();
-
-    const txHash = await sendTransaction(tx, connection);
-
-    const { blockhash, lastValidBlockHeight } =
-      await connection.getLatestBlockhash();
-
-    await connection.confirmTransaction({
-      blockhash,
-      lastValidBlockHeight,
-      signature: txHash,
-    });
-
-    console.log("tx", tx);
-
-    setLoading(false);
-  }
-
-  // resettipboard
-  async function resettipboard() {
-    setLoading(true);
-
-    const tx = await program.methods
-      .resetTipboard()
-      .accounts({
-        tipboard: tipboardPda!,
-      })
-      .transaction();
-
-    const txHash = await sendTransaction(tx, connection);
-
-    const { blockhash, lastValidBlockHeight } =
-      await connection.getLatestBlockhash();
-
-    await connection.confirmTransaction({
-      blockhash,
-      lastValidBlockHeight,
-      signature: txHash,
-    });
-
-    console.log("tx", tx);
-
-    setLoading(false);
-  }
-
-  useEffect(() => {
-    getTipboardData();
-  }, []);
 
   return (
     <div className="flex flex-col justify-center items-center border-2 border-gray-200 rounded-md p-4">
@@ -197,15 +109,6 @@ export default function TipboardDisplay() {
                     })}
                 </tbody>
             </table>
-            {authority?.toString() == publicKey?.toString() && (
-                <div
-                style={{ display: "flex", flexDirection: "row", marginTop: "1rem" }}
-                >
-                <button onClick={resettipboard} className="secondary-btn" disabled={authority?.toString() != publicKey?.toString() ? true : false}>
-                    Reset Tipboard
-                </button>
-                </div>
-            )}
         </div>
       )}
     </div>

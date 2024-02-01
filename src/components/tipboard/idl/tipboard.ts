@@ -6,6 +6,11 @@ export type Tipboard = {
       "name": "initializeTipboard",
       "accounts": [
         {
+          "name": "tipboardAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
           "name": "tipboard",
           "isMut": true,
           "isSigner": false
@@ -35,6 +40,11 @@ export type Tipboard = {
           "name": "signer",
           "isMut": false,
           "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
         }
       ],
       "args": [
@@ -51,6 +61,22 @@ export type Tipboard = {
           "type": "string"
         }
       ]
+    },
+    {
+      "name": "withdrawTips",
+      "accounts": [
+        {
+          "name": "tipboard",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
     },
     {
       "name": "resetTipboard",
@@ -70,6 +96,20 @@ export type Tipboard = {
     }
   ],
   "accounts": [
+    {
+      "name": "TipboardAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "tipboards",
+            "type": {
+              "vec": "publicKey"
+            }
+          }
+        ]
+      }
+    },
     {
       "name": "Tipboard",
       "type": {
@@ -133,10 +173,7 @@ export type Tipboard = {
       "name": "TipboardFull",
       "msg": "Tipboard is full."
     }
-  ],
-  "metadata": {
-    "address": "9KsKHzYzjX5xnQ3FsbN8AmjBmmW2zHcTVvUW9zWqWDZG"
-  }
+  ]
 }
   
   export const IDL: Tipboard = {
@@ -146,6 +183,11 @@ export type Tipboard = {
       {
         "name": "initializeTipboard",
         "accounts": [
+          {
+            "name": "tipboardAccount",
+            "isMut": true,
+            "isSigner": false
+          },
           {
             "name": "tipboard",
             "isMut": true,
@@ -176,6 +218,11 @@ export type Tipboard = {
             "name": "signer",
             "isMut": false,
             "isSigner": true
+          },
+          {
+            "name": "systemProgram",
+            "isMut": false,
+            "isSigner": false
           }
         ],
         "args": [
@@ -192,6 +239,22 @@ export type Tipboard = {
             "type": "string"
           }
         ]
+      },
+      {
+        "name": "withdrawTips",
+        "accounts": [
+          {
+            "name": "tipboard",
+            "isMut": true,
+            "isSigner": false
+          },
+          {
+            "name": "signer",
+            "isMut": false,
+            "isSigner": true
+          }
+        ],
+        "args": []
       },
       {
         "name": "resetTipboard",
@@ -211,6 +274,20 @@ export type Tipboard = {
       }
     ],
     "accounts": [
+      {
+        "name": "TipboardAccount",
+        "type": {
+          "kind": "struct",
+          "fields": [
+            {
+              "name": "tipboards",
+              "type": {
+                "vec": "publicKey"
+              }
+            }
+          ]
+        }
+      },
       {
         "name": "Tipboard",
         "type": {
@@ -274,9 +351,6 @@ export type Tipboard = {
         "name": "TipboardFull",
         "msg": "Tipboard is full."
       }
-    ],
-    "metadata": {
-      "address": "9KsKHzYzjX5xnQ3FsbN8AmjBmmW2zHcTVvUW9zWqWDZG"
-    }
+    ]
   }
   
