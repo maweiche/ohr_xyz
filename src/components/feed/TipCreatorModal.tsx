@@ -99,7 +99,7 @@ const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
   };
 
   const handleClickTipBoard = () => {
-    router.push("/tipboard");
+    router.push(`/tipboar?owner=${owner}`);
   };
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
