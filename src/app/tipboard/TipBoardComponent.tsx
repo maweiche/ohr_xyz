@@ -27,9 +27,14 @@ type Tips = {
 export default function TipboardDisplay() {
   const { publicKey, sendTransaction } = useWallet();
   const [loading, setLoading] = useState<boolean>(false);
-  const [authority, setAuthority] = useState<PublicKey | null>(null);
+  const [owner, setOwner] = useState<string | null>(null);
+
   // tipboard Info
   const [tipboardPda, settipboardPda] = useState<PublicKey | null>(null);
+  const [ownerTipboardPda, setOwnerTipboardPda] = useState<PublicKey | null>(
+    null
+  );
+  const [authority, setAuthority] = useState<PublicKey | null>(null);
   const [displayInit, setDisplayInit] = useState<boolean>(false);
   const [tipboardData, setTipboardData] = useState<Tips[] | null>(null);
 
@@ -44,7 +49,7 @@ export default function TipboardDisplay() {
   setProvider(provider);
 
   const programId = new PublicKey(
-    "9KsKHzYzjX5xnQ3FsbN8AmjBmmW2zHcTVvUW9zWqWDZG"
+    "7vZPMfghSw2rQWhvCs1XW6CDLunP36jB253bQVWWMUmu"
   );
   const program = new Program(
     IDL as Idl,
@@ -52,27 +57,35 @@ export default function TipboardDisplay() {
   ) as unknown as Program<Tipboard>;
 
   // Get the data from the program
-  async function getTipboardData() {
+  async function getTipboardData(owner: string) {
     setLoading(true);
-    let data = PublicKey.findProgramAddressSync(
+    let programData = PublicKey.findProgramAddressSync(
       [Buffer.from("tipboard")],
       program.programId
     );
-    console.log("data", data);
-    settipboardPda(data[0]);
+    settipboardPda(programData[0]);
 
-    const tipboard_account_info = await connection.getAccountInfo(data[0]);
+    let ownerTipboardData = PublicKey.findProgramAddressSync(
+      [Buffer.from("tipboard"), new PublicKey(owner).toBuffer()],
+      program.programId
+    );
+    setOwnerTipboardPda(ownerTipboardData[0]);
 
-    if (tipboard_account_info != null) {
-      const tip_data_decoded = program.coder.accounts.decode(
+    const tipboard_account_info = await connection.getAccountInfo(
+      programData[0]
+    );
+    const owner_tipboard_account_info = await connection.getAccountInfo(
+      ownerTipboardData[0]
+    );
+
+    if (owner_tipboard_account_info != null) {
+      const owner_tip_data_decoded = program.coder.accounts.decode(
         "Tipboard",
-        tipboard_account_info?.data
+        owner_tipboard_account_info?.data
       );
 
-      console.log("game_data_decoded", tip_data_decoded);
-
-      setTipboardData(tip_data_decoded.tips);
-      setAuthority(tip_data_decoded.authority);
+      setTipboardData(owner_tip_data_decoded.tips);
+      setAuthority(owner_tip_data_decoded.authority);
     } else {
       setDisplayInit(true);
     }
@@ -80,102 +93,55 @@ export default function TipboardDisplay() {
     setLoading(false);
   }
 
-  // tipboard Functions
-  // initializetipboard
+  // Initialize Tipboard
   async function initializeTipboard() {
     setLoading(true);
+    try {
+      const tx = await program.methods
+        .initializeTipboard()
+        .accounts({
+          tipboardAccount: tipboardPda!,
+          tipboard: ownerTipboardPda!,
+          systemProgram: anchor.web3.SystemProgram.programId,
+        })
+        .transaction();
 
-    const tx = await program.methods
-      .initializeTipboard()
-      .accounts({
-        tipboard: tipboardPda!,
-        systemProgram: anchor.web3.SystemProgram.programId,
-      })
-      .transaction();
+      const txHash = await sendTransaction(tx, connection);
 
-    const txHash = await sendTransaction(tx, connection);
+      const { blockhash, lastValidBlockHeight } =
+        await connection.getLatestBlockhash();
 
-    const { blockhash, lastValidBlockHeight } =
-      await connection.getLatestBlockhash();
-    console.log("blockhash", blockhash);
-    await connection.confirmTransaction({
-      blockhash,
-      lastValidBlockHeight,
-      signature: txHash,
-    });
+      await connection.confirmTransaction({
+        blockhash,
+        lastValidBlockHeight,
+        signature: txHash,
+      });
 
-    console.log("tx", tx);
+      console.log("tx", tx);
 
-    setLoading(false);
-  }
-  // addTip
-  async function addTip() {
-    setLoading(true);
-    const tipAmount = new BN(100);
-    const timestamp = new BN(Date.now());
-    const tx = await program.methods
-      .addTip(tipAmount, timestamp, publicKey!.toString())
-      .accounts({
-        tipboard: tipboardPda!,
-      })
-      .transaction();
-
-    const txHash = await sendTransaction(tx, connection);
-
-    const { blockhash, lastValidBlockHeight } =
-      await connection.getLatestBlockhash();
-
-    await connection.confirmTransaction({
-      blockhash,
-      lastValidBlockHeight,
-      signature: txHash,
-    });
-
-    console.log("tx", tx);
-
-    setLoading(false);
-  }
-
-  // resettipboard
-  async function resettipboard() {
-    setLoading(true);
-
-    const tx = await program.methods
-      .resetTipboard()
-      .accounts({
-        tipboard: tipboardPda!,
-      })
-      .transaction();
-
-    const txHash = await sendTransaction(tx, connection);
-
-    const { blockhash, lastValidBlockHeight } =
-      await connection.getLatestBlockhash();
-
-    await connection.confirmTransaction({
-      blockhash,
-      lastValidBlockHeight,
-      signature: txHash,
-    });
-
-    console.log("tx", tx);
-
-    setLoading(false);
+      getTipboardData(owner!);
+    } catch (error) {
+      console.log("error", error);
+    }
   }
 
   useEffect(() => {
-    getTipboardData();
+    // get the owner string from the url query, ex: /tipboard?owner=123
+    const urlParams = new URLSearchParams(window.location.search);
+    const owner = urlParams.get("owner");
+
+    if (owner) {
+      setOwner(owner);
+      getTipboardData(owner);
+    }
   }, []);
 
   return (
     <div className="flex flex-col justify-center items-center rounded-md p-4 w-full ">
       <h2 className="text-2xl">Tip Board</h2>
       {loading && <p>Loading...</p>}
-      {/* {displayInit && (
-        <button onClick={initializeTipboard}>Initialize Tipboard</button>
-      )} */}
-      {!loading && (
-        <div className=" rounded-md mt-10">
+      <div className=" rounded-md">
+        {!loading && !displayInit && (
           <table className="table-auto shadow-lg bg-white border-collapse">
             <thead>
               <tr>
@@ -227,15 +193,16 @@ export default function TipboardDisplay() {
                 })}
             </tbody>
           </table>
-          {authority?.toString() == publicKey?.toString() && (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                marginTop: "1rem",
-              }}
-            >
-              <button
+        )}
+        {authority?.toString() == publicKey?.toString() && (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              marginTop: "1rem",
+            }}
+          >
+            {/* <button
                 onClick={resettipboard}
                 className="secondary-btn"
                 disabled={
@@ -243,11 +210,23 @@ export default function TipboardDisplay() {
                 }
               >
                 Reset Tipboard
-              </button>
-            </div>
-          )}
-        </div>
-      )}
+              </button> */}
+          </div>
+        )}
+
+        {displayInit && publicKey?.toString() == owner && (
+          <div className="flex flex-col items-center">
+            <p>
+              Initialize your Tipboard and start receiving tips straight to your
+              wallet!
+            </p>
+
+            <button onClick={initializeTipboard} className="secondary-btn">
+              Initialize Tipboard
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

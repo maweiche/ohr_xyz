@@ -5,7 +5,12 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { Connection, Transaction, PublicKey } from "@solana/web3.js";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useRouter } from "next/navigation";
-import { Program, AnchorProvider, Idl, setProvider } from "@project-serum/anchor";
+import {
+  Program,
+  AnchorProvider,
+  Idl,
+  setProvider,
+} from "@project-serum/anchor";
 import { IDL, Tipboard } from "../tipboard/idl/tipboard";
 import * as anchor from "@project-serum/anchor";
 import BN from "bn.js";
@@ -24,7 +29,7 @@ const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
   const [isOpen, setIsOpen] = useState(showModal);
   const [amount, setAmount] = useState(0);
   const [isTxSuccessful, setIsTxSuccessful] = useState<boolean | undefined>(
-    true
+    undefined
   );
 
   const ownerShort =
@@ -86,7 +91,6 @@ const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
     });
 
     console.log("tx", tx);
-
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -99,7 +103,7 @@ const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
   };
 
   const handleClickTipBoard = () => {
-    router.push("/tipboard");
+    router.push(`/tipboar?owner=${owner}`);
   };
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
