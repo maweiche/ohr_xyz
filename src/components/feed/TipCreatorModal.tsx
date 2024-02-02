@@ -29,7 +29,7 @@ const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
   const [isOpen, setIsOpen] = useState(showModal);
   const [amount, setAmount] = useState(0);
   const [isTxSuccessful, setIsTxSuccessful] = useState<boolean | undefined>(
-    undefined
+    true
   );
 
   const ownerShort =
@@ -61,12 +61,12 @@ const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
     [Buffer.from("tipboard")],
     program.programId
   );
-  console.log("tipboard account", tipboardAccount.toString());
+  // console.log("tipboard account", tipboardAccount.toString());
   const [tipboard] = anchor.web3.PublicKey.findProgramAddressSync(
     [Buffer.from("tipboard"), new PublicKey(owner).toBuffer()],
     program.programId
   );
-  console.log("tipboard account", tipboard.toString());
+  // console.log("tipboard account", tipboard.toString());
   // addTip
   async function addTip() {
     const tipAmount = new BN(amount);
@@ -103,7 +103,7 @@ const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
   };
 
   const handleClickTipBoard = () => {
-    router.push(`/tipboar?owner=${owner}`);
+    router.push(`/tipboard?owner=${owner}`);
   };
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {

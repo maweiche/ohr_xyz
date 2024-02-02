@@ -16,6 +16,8 @@ import {
 import BN from "bn.js";
 import * as anchor from "@project-serum/anchor";
 import { IDL, Tipboard } from "@components/tipboard/idl/tipboard";
+import { LayoutComponent } from "@components/layout/LayoutComponent";
+import LoadingComponent from "@components/LoadingComponent";
 
 type Tips = {
   tipper: PublicKey;
@@ -38,6 +40,8 @@ export default function TipboardDisplay() {
   const [displayInit, setDisplayInit] = useState<boolean>(false);
   const [tipboardData, setTipboardData] = useState<Tips[] | null>(null);
 
+  const [isInitialized, setIsInitialized] = useState<boolean>(false);
+
   const connection = new Connection(clusterApiUrl("devnet"), {
     commitment: "confirmed",
   });
@@ -59,6 +63,7 @@ export default function TipboardDisplay() {
   // Get the data from the program
   async function getTipboardData(owner: string) {
     setLoading(true);
+    console.log("getting tipboard data");
     let programData = PublicKey.findProgramAddressSync(
       [Buffer.from("tipboard")],
       program.programId
@@ -71,21 +76,20 @@ export default function TipboardDisplay() {
     );
     setOwnerTipboardPda(ownerTipboardData[0]);
 
-    const tipboard_account_info = await connection.getAccountInfo(
-      programData[0]
-    );
-    const owner_tipboard_account_info = await connection.getAccountInfo(
+    const tipboardAccountInfo = await connection.getAccountInfo(programData[0]);
+    console.log("account info: ", tipboardAccountInfo);
+    const ownerTipboardAccountInfo = await connection.getAccountInfo(
       ownerTipboardData[0]
     );
-
-    if (owner_tipboard_account_info != null) {
-      const owner_tip_data_decoded = program.coder.accounts.decode(
+    console.log("owner account info: ", ownerTipboardAccountInfo);
+    if (ownerTipboardAccountInfo != null) {
+      const ownerTipDataDecoded = program.coder.accounts.decode(
         "Tipboard",
-        owner_tipboard_account_info?.data
+        ownerTipboardAccountInfo?.data
       );
 
-      setTipboardData(owner_tip_data_decoded.tips);
-      setAuthority(owner_tip_data_decoded.authority);
+      setTipboardData(ownerTipDataDecoded.tips);
+      setAuthority(ownerTipDataDecoded.authority);
     } else {
       setDisplayInit(true);
     }
@@ -119,6 +123,11 @@ export default function TipboardDisplay() {
 
       console.log("tx", tx);
 
+      // Not sure if this is the way to check if a tx was successful, but it should do it right?
+      if (tx.instructions) {
+        setIsInitialized(true);
+      }
+
       getTipboardData(owner!);
     } catch (error) {
       console.log("error", error);
@@ -137,72 +146,75 @@ export default function TipboardDisplay() {
   }, []);
 
   return (
-    <div className="flex flex-col justify-center items-center rounded-md p-4 w-full ">
-      <h2 className="text-2xl">Tip Board</h2>
-      {loading && <p>Loading...</p>}
-      <div className=" rounded-md">
-        {!loading && !displayInit && (
-          <table className="table-auto shadow-lg bg-white border-collapse">
-            <thead>
-              <tr>
-                <th className="text-purple-500 bg-blue-100 border text-center px-2 py-4">
-                  Tipper
-                </th>
-                <th className="text-purple-500 bg-blue-100 border text-center px-2 py-4">
-                  ☉
-                </th>
-                <th className="text-purple-500 bg-blue-100 border text-center px-2 py-4">
-                  Time
-                </th>
-                <th className="text-purple-500 bg-blue-100 border text-center px-2 py-4">
-                  øhr
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {tipboardData &&
-                tipboardData.map((tip, index) => {
-                  return (
-                    <tr
-                      className="hover:bg-gray-50 focus:bg-gray-300 active:bg-red-200"
-                      key={index}
-                    >
-                      <td className="text-purple-500 border px-2 py-4">
-                        {tip.tipper.toString().slice(0, 4)}...
-                        {tip.tipper.toString().slice(-4)}
-                      </td>
-                      <td className="text-purple-500 border px-2 py-4">
-                        {parseInt(tip.amount.toString()) / LAMPORTS_PER_SOL}
-                      </td>
-                      <td className="text-purple-500 border px-2 py-4">
-                        {new Date(
-                          parseInt(tip.timestamp.toString())
-                        ).toLocaleString()}
-                      </td>
-                      <td className="text-purple-500 border px-2 py-4">
-                        <a
-                          href={`https://xray.helius.xyz/token/${tip.nftMint}?network=mainnet`}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          {tip.nftMint.slice(0, 4)}...{tip.nftMint.slice(-4)}
-                        </a>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-        )}
-        {authority?.toString() == publicKey?.toString() && (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              marginTop: "1rem",
-            }}
-          >
-            {/* <button
+    <LayoutComponent showTitle="Tipboard" showFooter={true} showNavBar={true}>
+      {loading ? (
+        <div className="flex h-full justify-center align-center">
+          <LoadingComponent />
+        </div>
+      ) : (
+        <div className="flex h-full justify-center align-center rounded-xl ">
+          {!loading && !displayInit && (
+            <table className="table-auto shadow-lg bg-white rounded-md w-full m-4">
+              <thead>
+                <tr>
+                  <th className="text-purple-500 border  border-[#caacd4] text-center px-2 py-4">
+                    Tipper
+                  </th>
+                  <th className="text-purple-500 border border-[#caacd4] text-center px-2 py-4">
+                    ☉
+                  </th>
+                  <th className="text-purple-500 border border-[#caacd4] text-center px-2 py-4">
+                    Time
+                  </th>
+                  <th className="text-purple-500 border border-[#caacd4] text-center px-2 py-4">
+                    øhr
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {tipboardData &&
+                  tipboardData.map((tip, index) => {
+                    return (
+                      <tr
+                        className="hover:bg-gray-50 focus:bg-gray-300 active:bg-red-200"
+                        key={index}
+                      >
+                        <td className="text-purple-500 border px-2 py-4">
+                          {tip.tipper.toString().slice(0, 4)}...
+                          {tip.tipper.toString().slice(-4)}
+                        </td>
+                        <td className="text-purple-500 border px-2 py-4">
+                          {parseInt(tip.amount.toString()) / LAMPORTS_PER_SOL}
+                        </td>
+                        <td className="text-purple-500 border px-2 py-4">
+                          {new Date(
+                            parseInt(tip.timestamp.toString())
+                          ).toLocaleString()}
+                        </td>
+                        <td className="text-purple-500 border px-2 py-4">
+                          <a
+                            href={`https://xray.helius.xyz/token/${tip.nftMint}?network=mainnet`}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            {tip.nftMint.slice(0, 4)}...{tip.nftMint.slice(-4)}
+                          </a>
+                        </td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
+          )}
+          {authority?.toString() == publicKey?.toString() && (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                marginTop: "1rem",
+              }}
+            >
+              {/* <button
                 onClick={resettipboard}
                 className="secondary-btn"
                 disabled={
@@ -211,22 +223,26 @@ export default function TipboardDisplay() {
               >
                 Reset Tipboard
               </button> */}
-          </div>
-        )}
+            </div>
+          )}
 
-        {displayInit && publicKey?.toString() == owner && (
-          <div className="flex flex-col items-center">
-            <p>
-              Initialize your Tipboard and start receiving tips straight to your
-              wallet!
-            </p>
+          {!isInitialized && displayInit && publicKey?.toString() == owner && (
+            <div className="p-5 flex flex-col justify-center text-center ">
+              <p>
+                Initialize your Tipboard and start receiving tips straight to
+                your wallet!
+              </p>
 
-            <button onClick={initializeTipboard} className="secondary-btn">
-              Initialize Tipboard
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
+              <button
+                onClick={initializeTipboard}
+                className="secondary-btn m-10 mx-20"
+              >
+                Initialize Tipboard
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+    </LayoutComponent>
   );
 }
