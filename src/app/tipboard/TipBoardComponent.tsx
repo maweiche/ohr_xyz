@@ -168,14 +168,14 @@ export default function TipboardDisplay() {
   }, []);
 
   return (
-    <div className="flex flex-col justify-center items-center rounded-md p-4 w-full">
+    <div className="flex flex-col justify-center items-center rounded-md p-4 w-full ">
       <h2 className="text-2xl">Tip Board</h2>
       {loading && <p>Loading...</p>}
       {/* {displayInit && (
         <button onClick={initializeTipboard}>Initialize Tipboard</button>
       )} */}
       {!loading && (
-        <div className=" rounded-md">
+        <div className=" rounded-md mt-10">
           <table className="table-auto shadow-lg bg-white border-collapse">
             <thead>
               <tr>
@@ -189,7 +189,7 @@ export default function TipboardDisplay() {
                   Time
                 </th>
                 <th className="text-purple-500 bg-blue-100 border text-center px-2 py-4">
-                  NFT
+                  øhr
                 </th>
               </tr>
             </thead>

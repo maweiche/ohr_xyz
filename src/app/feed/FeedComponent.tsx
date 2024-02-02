@@ -42,6 +42,7 @@ export const FeedComponent = () => {
                 audioUrl={post.animationUrl}
                 key={index}
                 owner={post.ownerAddress}
+                post={post}
               />
             );
           }

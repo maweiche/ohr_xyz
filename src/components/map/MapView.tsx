@@ -16,18 +16,18 @@ export const MapView: React.FC<MapViewProps> = ({
   shouldZoom,
 }) => {
   return (
-    <div className="h-full flex justify-center items-center mx-4 mb-4 rounded-md ">
+    <div className="h-full flex justify-center items-center w-full mb-10 rounded-md ">
       <Map
         mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_API_KEY}
         mapStyle={`mapbox://styles/noamie22/ck2zynqqn018x1cnohcw5cnna`}
         initialViewState={{
           longitude: Number(longitude),
           latitude: Number(latitude),
-          zoom: 10,
+          zoom: shouldZoom ? 14 : 10,
         }}
       >
         {!markers && longitude && latitude ? (
-          <Marker longitude={longitude} latitude={latitude} color="red">
+          <Marker longitude={longitude} latitude={latitude}>
             <Image
               src={"/ear_small.png"}
               alt="øhr logo"

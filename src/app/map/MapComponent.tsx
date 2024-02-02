@@ -46,11 +46,13 @@ const MapScreen: React.FC = () => {
       );
 
       setShouldZoom(Boolean(fresh));
+
       if (latitude && longitude) {
         setPosition({
           longitude: Number(longitude),
           latitude: Number(latitude),
         });
+        setShouldZoom(true);
       }
       if (audioNFTid) {
         showSharedNFT(audioNFTid, audioNFTs);
@@ -80,6 +82,7 @@ const MapScreen: React.FC = () => {
         })
         .then((data) => {
           setAudioNFTs(data);
+          checkIfAudioNFTisShared(data);
         })
         .catch((error) => console.log(error));
     };
@@ -152,37 +155,35 @@ const MapScreen: React.FC = () => {
         />
       </Head>
       <LayoutComponent showTitle="Explore" showFooter={true} showNavBar={true}>
-        <div className="h-full">
-          <h2 className="text-center text-sm">
-            {" "}
-            {isLoading
-              ? "one moment, we are fetching your øhr! "
-              : "to listen, click on the ears"}{" "}
-          </h2>
-          {audioNFT && (
-            <NFTModal
-              showModal={showModal}
-              setShowModal={setShowModal}
-              audioNFT={audioNFT}
-              setSharedNFTisShown={setSharedNFTisShown}
-            />
-          )}
+        <h2 className="text-center text-sm">
+          {" "}
+          {isLoading
+            ? "one moment, we are fetching your øhr! "
+            : "to listen, click on the ears"}{" "}
+        </h2>
+        {audioNFT && (
+          <NFTModal
+            showModal={showModal}
+            setShowModal={setShowModal}
+            audioNFT={audioNFT}
+            setSharedNFTisShown={setSharedNFTisShown}
+          />
+        )}
 
-          {audioNFTs && isLoading ? (
-            <>
-              <div className="flex justify-center">
-                <span className="loading loading-dots loading-md "></span>
-              </div>
-              <MapView {...position} />
-            </>
-          ) : audioNFTs && !isLoading ? (
-            <MapView {...position} markers={markers} shouldZoom={shouldZoom} />
-          ) : (
-            <div className="flex h-full justify-center align-center">
-              <LoadingComponent />
+        {audioNFTs && isLoading ? (
+          <>
+            <div className="flex justify-center">
+              <span className="loading loading-dots loading-md "></span>
             </div>
-          )}
-        </div>
+            <MapView {...position} />
+          </>
+        ) : audioNFTs && !isLoading ? (
+          <MapView {...position} markers={markers} shouldZoom={shouldZoom} />
+        ) : (
+          <div className="flex h-full justify-center align-center">
+            <LoadingComponent />
+          </div>
+        )}
       </LayoutComponent>
     </>
   );
