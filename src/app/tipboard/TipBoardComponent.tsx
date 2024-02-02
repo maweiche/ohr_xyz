@@ -202,7 +202,7 @@ export default function TipboardDisplay() {
           </div>
         )}
 
-        {displayInit && (
+        {displayInit && publicKey?.toString() == owner && (
           <div className="flex flex-col items-center">
             <p>
               Initialize your Tipboard and start receiving tips straight to your
