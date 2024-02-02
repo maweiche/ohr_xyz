@@ -10,7 +10,7 @@ interface PostProps {
   date: string;
   audioUrl: string;
   owner: string;
-  post: AudioNFT;
+  post?: AudioNFT;
 }
 
 export const Post: React.FC<PostProps> = ({
@@ -25,9 +25,11 @@ export const Post: React.FC<PostProps> = ({
   const router = useRouter();
 
   const handleLocationClick = () => {
-    router.push(
-      `/map?&latitude=${post.attributes.Lat}&longitude=${post.attributes.Long}`
-    );
+    if (post) {
+      router.push(
+        `/map?&latitude=${post.attributes.Lat}&longitude=${post.attributes.Long}`
+      );
+    }
   };
 
   return (
