@@ -49,6 +49,10 @@ const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
   const devnetRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_DEVNET;
   const connection = new Connection(devnetRpcEndpoint!, "confirmed");
 
+  // Pyth Price Feeds
+  const solUsdPriceFeedDevnet = new PublicKey("J83w4HKfqxwcq3BEMMkPFSppX3gqekLyLJBexebFVkix");
+  const solUsdPriceFeedMainnet = new PublicKey("H6ARHf6YXhGYeQfUzQNGk6rDNnLBQKrenN712K4AQJEG")
+
   // TIP PROGRAM FUNCTIONS
   const provider = new AnchorProvider(connection, useWallet() as any, {});
   setProvider(provider);
@@ -73,7 +77,7 @@ const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
   // console.log("tipboard account", tipboard.toString());
   // addTip
   async function addTip() {
-    const tipAmount = new BN(amount * LAMPORTS_PER_SOL);
+    const tipAmount = new BN(amount);
     const timestamp = new BN(Date.now());
 
     const tx = await program.methods
@@ -81,6 +85,7 @@ const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
       .accounts({
         tipboard: tipboard!,
         to: new PublicKey(owner),
+        solUsdPriceAccount: solUsdPriceFeedDevnet,
         systemProgram: anchor.web3.SystemProgram.programId,
       })
       .transaction();

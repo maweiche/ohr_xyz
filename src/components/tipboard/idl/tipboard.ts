@@ -47,6 +47,14 @@ export type Tipboard = {
           "isSigner": true
         },
         {
+          "name": "solUsdPriceAccount",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK : We will manually check this against the Pubkey of the price feed"
+          ]
+        },
+        {
           "name": "systemProgram",
           "isMut": false,
           "isSigner": false
@@ -145,6 +153,11 @@ export type Tipboard = {
       "code": 6002,
       "name": "TipboardFull",
       "msg": "Tipboard is full."
+    },
+    {
+      "code": 6003,
+      "name": "WrongPriceFeedId",
+      "msg": "Price feed id is not correct."
     }
   ],
   "metadata": {
@@ -199,6 +212,14 @@ export type Tipboard = {
             "name": "signer",
             "isMut": false,
             "isSigner": true
+          },
+          {
+            "name": "solUsdPriceAccount",
+            "isMut": false,
+            "isSigner": false,
+            "docs": [
+              "CHECK : We will manually check this against the Pubkey of the price feed"
+            ]
           },
           {
             "name": "systemProgram",
@@ -299,6 +320,11 @@ export type Tipboard = {
         "code": 6002,
         "name": "TipboardFull",
         "msg": "Tipboard is full."
+      },
+      {
+        "code": 6003,
+        "name": "WrongPriceFeedId",
+        "msg": "Price feed id is not correct."
       }
     ],
     "metadata": {
