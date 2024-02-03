@@ -59,7 +59,7 @@ export const ProfileComponent = () => {
 
       if (response.ok) {
         const { result } = await response.json();
-
+        console.log("result: ", result);
         const postPromises: Promise<AudioNFT>[] = result.items.map(
           async (item: any) => {
             console.log("item: ", item);
@@ -68,8 +68,19 @@ export const ProfileComponent = () => {
             );
             const owner = item.ownership.owner;
             const metadata = item.content.metadata;
+            const assetId = item.compression.asset_hash;
+
+            // attributes = [{trait_type: 'Date', value: '03 Feb 2024 18:12'}]
+            // parse the attributes and store them in a more readable format, e.g. {Date: '03 Feb 2024 18:12'}'
+            const attributesObj = attributes.reduce(
+              (acc: any, attribute: any) => {
+                acc[attribute.trait_type] = attribute.value;
+                return acc;
+              },
+              {}
+            );
             if (animationUrl && attributes) {
-              return { animationUrl, attributes, metadata, owner };
+              return { animationUrl, attributesObj, metadata, owner, assetId };
             }
           }
         );
@@ -101,12 +112,13 @@ export const ProfileComponent = () => {
           console.log("post ", post);
           return (
             <Post
-              title={post.attributes.Vibe}
-              date={post.attributes.Date}
+              title={post.attributesObj.Vibe}
+              date={post.attributesObj.Date}
               audioUrl={post.animationUrl}
               owner={post.owner}
               key={index}
               post={post.metadata}
+              assetId={post.assetId}
             />
           );
         })
