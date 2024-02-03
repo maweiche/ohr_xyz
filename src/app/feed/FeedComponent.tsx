@@ -5,29 +5,84 @@ import { Post } from "@components/feed/Post";
 import { LayoutComponent } from "@components/layout/LayoutComponent";
 import { AudioNFT } from "@components/map/NFTModal";
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 export const FeedComponent = () => {
   const [posts, setPosts] = useState<AudioNFT[] | undefined>(undefined);
 
-  useEffect(() => {
-    const fetchNFTs = async () => {
-      fetch("/api/nfts?initialPageNumber=1")
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(`Request failed with status: ${response.status}`);
-          }
-          return response.json();
-        })
-        .then((data) => {
-          setPosts(data);
-        })
-        .catch((error) => console.log(error));
-    };
+  const fetchJsonData = async (jsonUri: string) => {
+    try {
+      const response = await axios.get(jsonUri);
+      if (response.status === 200) {
+        const data = response.data;
+        if (data.animationUrl === undefined) {
+          return {
+            animationUrl: undefined,
+            attributes: data.attributes,
+          };
+        } else {
+          return {
+            animationUrl: data.animationUrl,
+            attributes: data.attributes,
+          };
+        }
+      } else {
+        console.error("Failed to fetch data:", response.status);
+        throw new Error("Failed to fetch data");
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      throw error;
+    }
+  };
 
+  const fetchNFTs = async () => {
+    try {
+      const response = await fetch("/api/nfts?initialPageNumber=1");
+
+      console.log("response: ", response);
+      const result = await response.json();
+
+      if (response.ok) {
+        console.log("result***: ", result);
+        const postPromises: Promise<AudioNFT>[] = result.map(
+          async (item: any) => {
+            const { animationUrl, attributes } = await fetchJsonData(
+              item.content.json_uri
+            );
+            const owner = item.ownership.owner;
+            const metadata = item.content.metadata;
+            const assetId = item.id;
+            const burnt = item.burnt;
+ 
+            const attributesObj = attributes?.reduce(
+              (acc: any, attribute: any) => {
+                acc[attribute.trait_type] = attribute.value;
+                return acc;
+              },
+              {}
+            );
+            if (animationUrl && attributes && !burnt) {
+              return { animationUrl, attributesObj, metadata, owner, assetId };
+            }
+          }
+        );
+        const validPosts = (await Promise.all(postPromises)).filter(
+          (post) => post !== undefined
+        );
+        console.log("validPosts: ", validPosts);
+        setPosts(validPosts);
+      }
+    } catch (error) {
+      console.error("Error fetching assets:", error);
+    }
+  };
+
+  useEffect(() => {
     if (!posts) {
       fetchNFTs();
     }
-  }, [posts]);
+  }, []);
 
   return (
     <LayoutComponent showTitle="Feed" showFooter={true} showNavBar={true}>
@@ -36,11 +91,11 @@ export const FeedComponent = () => {
           if (post.animationUrl && !post.animationUrl.includes("undefined")) {
             return (
               <Post
-                title={post.attributes?.Vibe}
-                date={post.attributes?.Date}
+                title={post.attributesObj?.Vibe}
+                date={post.attributesObj?.Date}
                 audioUrl={post.animationUrl}
                 key={index}
-                owner={post.ownerAddress}
+                owner={post.owner}
                 post={post}
               />
             );
