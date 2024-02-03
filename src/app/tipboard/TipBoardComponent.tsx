@@ -63,7 +63,6 @@ export default function TipboardDisplay() {
   // Get the data from the program
   async function getTipboardData(owner: string) {
     setLoading(true);
-    console.log("getting tipboard data");
     let programData = PublicKey.findProgramAddressSync(
       [Buffer.from("tipboard")],
       program.programId
@@ -193,7 +192,7 @@ export default function TipboardDisplay() {
                         </td>
                         <td className="text-purple-500 border px-2 py-4">
                           <a
-                            href={`https://xray.helius.xyz/token/${tip.nftMint}?network=mainnet`}
+                            href={`https://xray.helius.xyz/token/${tip.nftMint}?network=devnet`}
                             target="_blank"
                             rel="noreferrer"
                           >

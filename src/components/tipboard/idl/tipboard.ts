@@ -37,6 +37,11 @@ export type Tipboard = {
           "isSigner": false
         },
         {
+          "name": "to",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
           "name": "signer",
           "isMut": false,
           "isSigner": true
@@ -61,38 +66,6 @@ export type Tipboard = {
           "type": "string"
         }
       ]
-    },
-    {
-      "name": "withdrawTips",
-      "accounts": [
-        {
-          "name": "tipboard",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "signer",
-          "isMut": false,
-          "isSigner": true
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "resetTipboard",
-      "accounts": [
-        {
-          "name": "tipboard",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "signer",
-          "isMut": false,
-          "isSigner": true
-        }
-      ],
-      "args": []
     }
   ],
   "accounts": [
@@ -173,7 +146,10 @@ export type Tipboard = {
       "name": "TipboardFull",
       "msg": "Tipboard is full."
     }
-  ]
+  ],
+  "metadata": {
+    "address": "7vZPMfghSw2rQWhvCs1XW6CDLunP36jB253bQVWWMUmu"
+  }
 }
   
   export const IDL: Tipboard = {
@@ -215,6 +191,11 @@ export type Tipboard = {
             "isSigner": false
           },
           {
+            "name": "to",
+            "isMut": true,
+            "isSigner": false
+          },
+          {
             "name": "signer",
             "isMut": false,
             "isSigner": true
@@ -239,38 +220,6 @@ export type Tipboard = {
             "type": "string"
           }
         ]
-      },
-      {
-        "name": "withdrawTips",
-        "accounts": [
-          {
-            "name": "tipboard",
-            "isMut": true,
-            "isSigner": false
-          },
-          {
-            "name": "signer",
-            "isMut": false,
-            "isSigner": true
-          }
-        ],
-        "args": []
-      },
-      {
-        "name": "resetTipboard",
-        "accounts": [
-          {
-            "name": "tipboard",
-            "isMut": true,
-            "isSigner": false
-          },
-          {
-            "name": "signer",
-            "isMut": false,
-            "isSigner": true
-          }
-        ],
-        "args": []
       }
     ],
     "accounts": [
@@ -351,6 +300,8 @@ export type Tipboard = {
         "name": "TipboardFull",
         "msg": "Tipboard is full."
       }
-    ]
+    ],
+    "metadata": {
+      "address": "7vZPMfghSw2rQWhvCs1XW6CDLunP36jB253bQVWWMUmu"
+    }
   }
-  

@@ -69,6 +69,7 @@ export const Post: React.FC<PostProps> = ({
           <TipCreatorModal
             showModal={showModal}
             owner={owner}
+            mintAddress={post!.mintAddress}
             setShowModal={setShowModal}
           />
         </div>

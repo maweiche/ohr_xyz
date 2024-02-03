@@ -2,7 +2,12 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { Connection, Transaction, PublicKey } from "@solana/web3.js";
+import {
+  Connection,
+  Transaction,
+  PublicKey,
+  LAMPORTS_PER_SOL,
+} from "@solana/web3.js";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useRouter } from "next/navigation";
 import {
@@ -18,18 +23,20 @@ import BN from "bn.js";
 interface TipCreatorModalProps {
   showModal: boolean;
   owner: string;
+  mintAddress: string;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
   showModal,
   owner,
+  mintAddress,
   setShowModal,
 }) => {
   const [isOpen, setIsOpen] = useState(showModal);
   const [amount, setAmount] = useState(0);
   const [isTxSuccessful, setIsTxSuccessful] = useState<boolean | undefined>(
-    true
+    undefined
   );
 
   const ownerShort =
@@ -40,13 +47,10 @@ const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
 
   const mainRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_MAINNET;
   const devnetRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_DEVNET;
-  const connection = new Connection(mainRpcEndpoint!, "confirmed");
+  const connection = new Connection(devnetRpcEndpoint!, "confirmed");
 
   // TIP PROGRAM FUNCTIONS
-  // Create an Anchor provider
   const provider = new AnchorProvider(connection, useWallet() as any, {});
-
-  // Set the provider as the default provider
   setProvider(provider);
 
   const programId = new PublicKey(
@@ -69,12 +73,14 @@ const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
   // console.log("tipboard account", tipboard.toString());
   // addTip
   async function addTip() {
-    const tipAmount = new BN(amount);
+    const tipAmount = new BN(amount * LAMPORTS_PER_SOL);
     const timestamp = new BN(Date.now());
+
     const tx = await program.methods
-      .addTip(tipAmount, timestamp, publicKey!.toString())
+      .addTip(tipAmount, timestamp, mintAddress!.toString())
       .accounts({
         tipboard: tipboard!,
+        to: new PublicKey(owner),
         systemProgram: anchor.web3.SystemProgram.programId,
       })
       .transaction();
@@ -90,7 +96,8 @@ const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
       signature: txHash,
     });
 
-    console.log("tx", tx);
+    console.log("txHash", txHash);
+    setIsTxSuccessful(true);
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
