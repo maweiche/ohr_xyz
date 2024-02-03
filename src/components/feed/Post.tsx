@@ -108,12 +108,18 @@ export const Post: React.FC<PostProps> = ({
           <div className="flex justify-center w-screen items-center mt-2">
             <SoundWave audioUrl={audioUrl} />
           </div>
-          <div className="flex justify-end mx-5 my-2 gap-5 items-center align-center">
-            <button onClick={() => setShowModal(true)}>
+          <div className="flex justify-end mx-5 my-2 gap-5 items-center align-center mt-2">
+            <button
+              onClick={() => setShowModal(true)}
+              className="m-0 p-0 flex justify-center align-center items-center"
+            >
               {" "}
-              <Image src={"/tip.png"} alt="Tip" width={22} height={20} />
+              <Image src={"/tip.png"} alt="Tip" width={20} height={18} />
             </button>
-            <button onClick={() => setShowModal(true)}>
+            <button
+              onClick={() => setShowModal(true)}
+              className="m-0 p-0 flex justify-center align-center items-center"
+            >
               {" "}
               <Image src={"/share.png"} alt="Share" width={20} height={20} />
             </button>

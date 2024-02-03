@@ -38,7 +38,7 @@ export const NavBarBottom = () => {
       </button>
       <button
         className={
-          pathname === "/map" ? styles["active"] : styles["navbar-btn"]
+          pathname === "/profile" ? styles["active"] : styles["navbar-btn"]
         }
         onClick={() => router.push("/profile")}
       >
