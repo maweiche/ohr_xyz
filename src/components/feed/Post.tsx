@@ -4,10 +4,14 @@ import TipCreatorModal from "./TipCreatorModal";
 import { SoundWave } from "./SoundWave";
 import { useRouter } from "next/navigation";
 import { AudioNFT } from "@components/map/NFTModal";
-import { Delete } from "./Delete";
 import { useWallet } from "@solana/wallet-adapter-react";
 import Link from "next/link";
 import SharePostModal from "./SharePostModal";
+import { walletAdapterIdentity } from "@metaplex-foundation/umi-signer-wallet-adapters";
+import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
+import { dasApi } from "@metaplex-foundation/digital-asset-standard-api";
+import { getAssetWithProof, burn } from "@metaplex-foundation/mpl-bubblegum";
+import { Connection, PublicKey, Transaction } from "@solana/web3.js";
 
 interface PostProps {
   title: string;
@@ -16,7 +20,9 @@ interface PostProps {
   owner: string;
   post?: AudioNFT;
   assetId?: string;
+  profile?: boolean;
 }
+
 function formatDateAgoOrShortDate(dateString: string): string {
   const currentDate: Date = new Date();
   const inputDate: Date = new Date(dateString);
@@ -50,22 +56,40 @@ export const Post: React.FC<PostProps> = ({
   owner,
   post,
   assetId,
+  profile,
 }) => {
   const [showTipModal, setShowTipModal] = useState<boolean>(false);
   const [showShareModal, setShowShareModal] = useState<boolean>(false);
 
   const router = useRouter();
   const { publicKey } = useWallet();
+  const wallet = useWallet();
+
+  const creator =
+    owner.substring(0, 3) + "..." + owner.substring(owner.length - 3);
 
   const handleLocationClick = () => {
     if (post) {
       router.push(
-        `/map?&latitude=${post.attributes.Lat}&longitude=${post.attributes.Long}`
+        `/map?&latitude=${post.attributesObj.Lat}&longitude=${post.attributesObj.Long}`
       );
     }
   };
-  const creator =
-    owner.substring(0, 3) + "..." + owner.substring(owner.length - 3);
+
+  async function burnPost() {
+    const mainRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_MAINNET;
+    const devnetRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_DEVNET;
+    const connection = new Connection(devnetRpcEndpoint!, "confirmed");
+    const umi = createUmi(new Connection(devnetRpcEndpoint!)).use(dasApi());
+    //   const umi = createUmi(devnetRpcEndpoint!).use(dasApi());
+    umi.use(walletAdapterIdentity(wallet));
+    // @ts-ignore
+    const assetWithProof = await getAssetWithProof(umi, assetId);
+    await burn(umi, {
+      ...assetWithProof,
+      leafOwner: assetWithProof.leafOwner,
+    }).sendAndConfirm(umi);
+  }
 
   return (
     <div className="w-full">
@@ -75,17 +99,17 @@ export const Post: React.FC<PostProps> = ({
             {post && (
               <Link
                 href={
-                  !!post?.attributes?.Long && !!post?.attributes?.Lat
+                  !!post?.attributesObj?.Long && !!post?.attributesObj?.Lat
                     ? `/tipboard?owner=${owner}&id=${post.id}&lat=${
-                        post.attributes.Lat
-                      }&long=${post.attributes.Long}${
-                        post.attributes?.Vibe
-                          ? `&vibe=${post.attributes.Vibe}`
+                        post.attributesObj.Lat
+                      }&long=${post.attributesObj.Long}${
+                        post.attributesObj?.Vibe
+                          ? `&vibe=${post.attributesObj.Vibe}`
                           : ""
                       }`
                     : `/tipboard?owner=${owner}&id=${post.id}${
-                        post.attributes?.Vibe
-                          ? `&vibe=${post.attributes.Vibe}`
+                        post.attributesObj?.Vibe
+                          ? `&vibe=${post.attributesObj.Vibe}`
                           : ""
                       }`
                 }
@@ -101,18 +125,19 @@ export const Post: React.FC<PostProps> = ({
             )}
             <p className="text-xs">● {formatDateAgoOrShortDate(date)}</p>
           </div>
-          <button onClick={handleLocationClick}>
-            <Image
-              src={"/location.png"}
-              alt="Location"
-              width={19}
-              height={25}
-            />
-          </button>
+          {post?.attributesObj?.Lat && post?.attributesObj?.Long && (
+            <button onClick={handleLocationClick}>
+              <Image
+                src={"/location.png"}
+                alt="Location"
+                width={19}
+                height={25}
+              />
+            </button>
+          )}
         </div>
         <div className="">
           <p className="text-md mx-5">{title}</p>
-          {/* <div className="flex gap-2 items-center justify-evenly"></div> */}
           <div className="flex justify-center w-screen items-center mt-2">
             <SoundWave audioUrl={audioUrl} />
           </div>
@@ -131,6 +156,31 @@ export const Post: React.FC<PostProps> = ({
               {" "}
               <Image src={"/share.png"} alt="Share" width={20} height={20} />
             </button>
+            {profile && (
+              <>
+                <button
+                  // onClick={() => editPost()}
+                  className="m-0 p-0 flex justify-center align-center items-center"
+                >
+                  {" "}
+                  <Image src={"/edit.png"} alt="Edit" width={16} height={17} />
+                </button>
+                {publicKey!.toString() === owner && (
+                  <button
+                    onClick={() => burnPost()}
+                    className="m-0 p-0 flex justify-center align-center items-center"
+                  >
+                    {" "}
+                    <Image
+                      src={"/delete.png"}
+                      alt="Delete"
+                      width={16}
+                      height={18}
+                    />
+                  </button>
+                )}
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -141,10 +191,10 @@ export const Post: React.FC<PostProps> = ({
             owner={owner}
             mintAddress={post!.mintAddress}
             setShowModal={setShowTipModal}
-            long={post?.attributes.Long}
-            lat={post?.attributes.Lat}
+            long={post?.attributesObj.Long}
+            lat={post?.attributesObj.Lat}
             id={post?.id}
-            vibe={post?.attributes.Vibe}
+            vibe={post?.attributesObj.Vibe}
           />
         </div>
       )}
@@ -154,16 +204,10 @@ export const Post: React.FC<PostProps> = ({
           <SharePostModal
             showModal={showShareModal}
             setShowModal={setShowShareModal}
-            longitude={post?.attributes.Long}
-            latitude={post?.attributes.Lat}
+            longitude={post?.attributesObj.Long}
+            latitude={post?.attributesObj.Lat}
             id={post?.id}
           />
-        </div>
-      )}
-
-      {publicKey!.toString() === owner && (
-        <div className="flex justify-end mx-5 my-2 gap-5 items-center align-center">
-          <Delete assetId={assetId!} currentLeafOwner={owner!} />
         </div>
       )}
     </div>

@@ -4,6 +4,8 @@ import { NFTattributes } from "../../utils/nftUtils";
 import { useCopyToClipboard } from "react-use";
 import Image from "next/legacy/image";
 import ShareTweetBtn from "./ShareTweetBtn";
+import SharePostModal from "@components/feed/SharePostModal";
+import { SoundWave } from "@components/feed/SoundWave";
 
 export interface AudioNFT {
   [x: string]: any;
@@ -39,6 +41,7 @@ const NFTModal: React.FC<NFTModalProps> = ({
 }) => {
   const [state, copyToClipboard] = useCopyToClipboard();
   const [isCopied, setIsCopied] = useState(false);
+  const [showShareModal, setShowShareModal] = useState<boolean>(false);
   setTimeout(() => setIsCopied(false), 3000);
 
   return (
@@ -79,10 +82,10 @@ const NFTModal: React.FC<NFTModalProps> = ({
                   as="h3"
                   className="py-2 px-6 font-black flex flex-col justify-center align-center items-center text-[#64ed14]"
                 >
-                  <p className="text-center secondary-font text-4xl">{`"${audioNFT.attributes.Vibe}"`}</p>
+                  <p className="text-center secondary-font text-4xl">{`"${audioNFT.attributesObj.Vibe}"`}</p>
                   <p className="mt-1 text-white text-sm">
                     {" "}
-                    {audioNFT.attributes.Date} - {audioNFT.symbol}
+                    {audioNFT.attributesObj.Date} - {audioNFT.symbol}
                   </p>
                 </Dialog.Title>
 
@@ -90,43 +93,21 @@ const NFTModal: React.FC<NFTModalProps> = ({
                   <p className="text-center text-md "></p>
                 </div>
 
-                <div className="flex justify-center self-center mt-3">
-                  <audio controls>
-                    <source src={audioNFT.animationUrl} type="audio/mp4" />
-                    Your browser does not support the audio element.
-                  </audio>
+                <div className="p-4 m-5">
+                  <SoundWave audioUrl={audioNFT.animationUrl} />
                 </div>
-
-                <div className="mt-2 w-full flex justify-center align-center items-center">
+                {/* <button
+                  onClick={() => setShowShareModal(true)}
+                  className="m-0 p-0 flex justify-center align-center items-center"
+                >
+                  {" "}
                   <Image
-                    src={audioNFT.image}
-                    alt="AudioNFT image"
-                    width={250}
-                    height={250}
-                    blurDataURL={"../../assets/ohr-general.png"}
-                    className="rounded-xl"
+                    src={"/share.png"}
+                    alt="Share"
+                    width={20}
+                    height={20}
                   />
-                </div>
-
-                <div className="flex justify-center w-full px-2">
-                  <button
-                    className="gap-2 border-2 m-3 p-2 px-4 flex justify-center rounded-xl"
-                    onClick={() => {
-                      copyToClipboard(
-                        `https://ohr-app.xyz/map?id=${audioNFT.id}&latitude=${audioNFT.attributes.Lat}&longitude=${audioNFT.attributes.Long}`
-                      );
-                      setIsCopied(true);
-                    }}
-                  >
-                    <p className="text-md text-white ">
-                      {isCopied ? "Copied" : "Copy link"}
-                    </p>
-                  </button>
-
-                  <ShareTweetBtn
-                    link={`https://ohr-app.xyz/map?id=${audioNFT.id}&latitude=${audioNFT.attributes.Lat}&longitude=${audioNFT.attributes.Long}`}
-                  />
-                </div>
+                </button> */}
               </Dialog.Panel>
             </Transition.Child>{" "}
           </div>

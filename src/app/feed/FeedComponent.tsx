@@ -39,12 +39,9 @@ export const FeedComponent = () => {
   const fetchNFTs = async () => {
     try {
       const response = await fetch("/api/nfts?initialPageNumber=1");
-
-      console.log("response: ", response);
       const result = await response.json();
 
       if (response.ok) {
-        console.log("result***: ", result);
         const postPromises: Promise<AudioNFT>[] = result.map(
           async (item: any) => {
             const { animationUrl, attributes } = await fetchJsonData(
@@ -54,7 +51,7 @@ export const FeedComponent = () => {
             const metadata = item.content.metadata;
             const assetId = item.id;
             const burnt = item.burnt;
- 
+
             const attributesObj = attributes?.reduce(
               (acc: any, attribute: any) => {
                 acc[attribute.trait_type] = attribute.value;
@@ -70,7 +67,6 @@ export const FeedComponent = () => {
         const validPosts = (await Promise.all(postPromises)).filter(
           (post) => post !== undefined
         );
-        console.log("validPosts: ", validPosts);
         setPosts(validPosts);
       }
     } catch (error) {

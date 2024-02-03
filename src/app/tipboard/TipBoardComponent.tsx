@@ -193,7 +193,7 @@ export default function TipboardComponent() {
           <LoadingComponent />
         </div>
       ) : (
-        <div className="flex h-full justify-center align-center rounded-xl ">
+        <div className="flex h-full rounded-xl ">
           {!loading && !displayInit && (
             <table className="table-auto shadow-lg bg-white rounded-md w-full m-4">
               <thead>

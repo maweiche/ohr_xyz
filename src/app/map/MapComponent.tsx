@@ -92,21 +92,22 @@ const MapScreen: React.FC = () => {
     }
   }, [checkIfAudioNFTisShared, audioNFTs, audioNFT?.status]);
 
+  console.log("AudioNFTs: ", audioNFTs);
   const markers: JSX.Element[] = useMemo(
     () =>
       audioNFTs
         ? audioNFTs
             .filter(
               (audioNFT) =>
-                audioNFT.attributes &&
-                audioNFT.attributes.Long !== undefined &&
-                audioNFT.attributes.Lat !== undefined
+                audioNFT.content.metadata.attributes &&
+                audioNFT.content.metadata.attributes.Long !== undefined &&
+                audioNFT.content.metadata.attributes.Lat !== undefined
             )
             .map((audioNFT, index) => (
               <Marker
                 key={index}
-                longitude={Number(audioNFT.attributes.Long)}
-                latitude={Number(audioNFT.attributes.Lat)}
+                longitude={Number(audioNFT.content.metadata.attributes.Long)}
+                latitude={Number(audioNFT.content.metadata.attributes.Lat)}
                 color="red"
                 onClick={() => {
                   setAudioNFT(audioNFT);
@@ -133,14 +134,14 @@ const MapScreen: React.FC = () => {
         <meta name="twitter:site" content="@ohr_xyz" />
         <meta
           name="twitter:title"
-          content={audioNFT ? audioNFT.attributes.Vibe : "øhr"}
+          content={audioNFT ? audioNFT.attributesObj.Vibe : "øhr"}
         />
         <meta name="twitter:description" content="listen, mint, share" />
         <meta
           property="og:url"
           content={
             audioNFT
-              ? `https://ohr-app.xyz/map?id=${audioNFT.id}&latitude=${audioNFT.attributes.Lat}&longitude=${audioNFT.attributes.Long}`
+              ? `https://ohr-app.xyz/map?id=${audioNFT.id}&latitude=${audioNFT.attributesObj.Lat}&longitude=${audioNFT.attributesObj.Long}`
               : "https://ohr-app.xyz/"
           }
         />

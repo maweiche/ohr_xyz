@@ -5,6 +5,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { AudioNFT } from "@components/map/NFTModal";
 import { Post } from "@components/feed/Post";
 import { LayoutComponent } from "@components/layout/LayoutComponent";
+import LoadingComponent from "@components/LoadingComponent";
 
 export const ProfileComponent = () => {
   const url = process.env.NEXT_PUBLIC_HELIUS_DEVNET || "";
@@ -109,23 +110,32 @@ export const ProfileComponent = () => {
     <LayoutComponent showTitle="Yøhrs" showFooter={true} showNavBar={true}>
       {posts && publicKey && !isLoading ? (
         posts.map((post, index) => {
-          console.log("post ", post);
-          return (
-            <Post
-              title={post.attributesObj.Vibe}
-              date={post.attributesObj.Date}
-              audioUrl={post.animationUrl}
-              owner={post.owner}
-              key={index}
-              post={post.metadata}
-              assetId={post.assetId}
-            />
-          );
+          console.log(post);
+          if (!post.animationUrl.includes("undefined")) {
+            return (
+              <Post
+                title={post.attributesObj.Vibe}
+                date={post.attributesObj.Date}
+                audioUrl={post.animationUrl}
+                owner={post.owner}
+                key={index}
+                post={post.metadata}
+                assetId={post.assetId}
+                profile={true}
+              />
+            );
+          }
         })
       ) : (
-        <p>Loading...</p>
+        <div className="flex h-full justify-center align-center">
+          <LoadingComponent />
+        </div>
       )}
-      {!isLoading && posts?.length == 0 && <div>No Audio NFTs created!</div>}
+      {!isLoading && posts?.length == 0 && (
+        <div className="flex h-full justify-center items-start align-center text-xl p-2 ">
+          Go mint yourself some øhrs!
+        </div>
+      )}
     </LayoutComponent>
   );
 };

@@ -19,6 +19,9 @@ import {
 import { IDL, Tipboard } from "../tipboard/idl/tipboard";
 import * as anchor from "@project-serum/anchor";
 import BN from "bn.js";
+import LoadingComponent from "@components/LoadingComponent";
+import HeartBeatAnimation from "./HeartBeatAnimation";
+import animationData from "../../assets/heartbeat-animation.json";
 
 interface TipCreatorModalProps {
   showModal: boolean;
@@ -46,6 +49,7 @@ const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
   const [isTxSuccessful, setIsTxSuccessful] = useState<boolean | undefined>(
     undefined
   );
+  const [loading, setLoading] = useState<boolean>(false);
 
   const ownerShort =
     owner.substring(0, 3) + "..." + owner.substring(owner.length - 3);
@@ -86,9 +90,9 @@ const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
     [Buffer.from("tipboard"), new PublicKey(owner).toBuffer()],
     program.programId
   );
-  // console.log("tipboard account", tipboard.toString());
-  // addTip
+
   async function addTip() {
+    setLoading(true);
     const tipAmount = new BN(amount);
     const timestamp = new BN(Date.now());
 
@@ -198,12 +202,16 @@ const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
         <Dialog.Title className="text-xl font-bold text-center">
           {type !== "error" ? "Tip your creator." : "Something went wrong :("}
         </Dialog.Title>
-        {publicKey ? (
+        {loading ? (
+          <div className="flex justify-center items-center align-center p-10">
+            <LoadingComponent />
+          </div>
+        ) : publicKey ? (
           <form onSubmit={handleSubmit} className="flex flex-col gap-2 ">
             <input
               type="number"
               step="any"
-              placeholder="Amount"
+              placeholder="Amount in $"
               onChange={handleAmountChange}
               className="border border-[#9D58B2] text-lg rounded-xl text-[#FFD1EA] text-center placeholder-[#d57ba8] bg-transparent  focus:outline-none focus:ring-0 focus:border-transparent m-1 p-1 self-center"
             />
@@ -230,7 +238,7 @@ const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
           👏
         </Dialog.Title>
         <Dialog.Description className="mt-1 mx-4 text-center">
-          You've successfully sent {amount} to {ownerShort}
+          You've successfully sent {amount}$ to {ownerShort}
         </Dialog.Description>
         <button
           onClick={handleClickTipBoard}

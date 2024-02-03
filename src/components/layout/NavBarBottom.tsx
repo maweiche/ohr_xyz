@@ -15,8 +15,8 @@ export const NavBarBottom = () => {
         }
         onClick={() => router.push("/feed")}
       >
-        <div className={styles["ear-icon"]}>
-          <p className="text-3xl m-2">👂</p>
+        <div>
+          <p className="text-2xl m-2">👂</p>
         </div>
       </button>
       <button
@@ -33,7 +33,7 @@ export const NavBarBottom = () => {
         onClick={() => router.push("/")}
       >
         <div className="m-2">
-          <Image src={"/create.png"} alt="Create" width={32} height={32} />
+          <Image src={"/create.png"} alt="Create" width={25} height={25} />
         </div>
       </button>
       <button
@@ -43,7 +43,7 @@ export const NavBarBottom = () => {
         onClick={() => router.push("/profile")}
       >
         <div className="m-2">
-          <Image src={"/profile.png"} alt="Profile" width={32} height={32} />
+          <Image src={"/profile.png"} alt="Profile" width={25} height={25} />
         </div>
       </button>
     </div>

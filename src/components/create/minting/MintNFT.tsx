@@ -169,7 +169,7 @@ export const MintNFT: React.FC<MintNFTProps> = ({
       router.push(`/create/mint?` + queryString);
 
       if (response.ok) {
-        router.push("/map?" + queryString);
+        router.push("/feed");
       }
     } catch (error) {
       console.error("Error: ", error);

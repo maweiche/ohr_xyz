@@ -68,11 +68,11 @@ export const ProfileComponent = () => {
 
       if (response.ok) {
         const { result } = await response.json();
-        console.log(result);
-
-        result.items.map((item: any) => {
-          console.log(item.content.json_uri);
-        });
+        // console.log(result);
+        //
+        // result.items.map((item: any) => {
+        //   console.log(item.content.json_uri);
+        // });
 
         // const postPromises: Promise<AudioNFT>[] = result.items.map(
         //   //   async (item: any) => {
