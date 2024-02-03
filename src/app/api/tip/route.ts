@@ -20,7 +20,6 @@ export async function POST(request: NextRequest) {
   console.log("incoming req", req);
   const mainRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_MAINNET;
   const devnetRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_DEVNET;
-  console.log(devnetRpcEndpoint);
   const connection = new Connection(devnetRpcEndpoint!, "confirmed");
 
   const { publicKey, amount, owner } = req;

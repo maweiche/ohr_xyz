@@ -6,6 +6,8 @@ import Image from "next/legacy/image";
 import ShareTweetBtn from "./ShareTweetBtn";
 
 export interface AudioNFT {
+  owner: string;
+  metadata: AudioNFT | undefined;
   animationUrl: string;
   attributes: NFTattributes;
   description: string;
