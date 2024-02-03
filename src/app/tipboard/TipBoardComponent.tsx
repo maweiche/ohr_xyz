@@ -26,6 +26,21 @@ type Tips = {
   nftMint: string;
 };
 
+const formatDate = (dateString: string) => {
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  };
+  const formattedDate = new Date(parseInt(dateString)).toLocaleString(
+    "eu",
+    options
+  );
+  return formattedDate;
+};
+
 export default function TipboardDisplay() {
   const { publicKey, sendTransaction } = useWallet();
   const [loading, setLoading] = useState<boolean>(false);
@@ -173,30 +188,38 @@ export default function TipboardDisplay() {
               <tbody>
                 {tipboardData &&
                   tipboardData.map((tip, index) => {
+                    const amount = (
+                      parseInt(tip.amount.toString()) / LAMPORTS_PER_SOL
+                    ).toFixed(2);
+                    const date = formatDate(tip.timestamp.toString());
+                    const tipper =
+                      tip.tipper.toString().slice(0, 3) +
+                      "..." +
+                      tip.tipper.toString().slice(-3);
+                    const øhr =
+                      tip.nftMint.slice(0, 3) + "..." + tip.nftMint.slice(-3);
+                    console.log(tip);
                     return (
                       <tr
                         className="hover:bg-gray-50 focus:bg-gray-300 active:bg-red-200"
                         key={index}
                       >
-                        <td className="text-purple-500 border px-2 py-4">
-                          {tip.tipper.toString().slice(0, 4)}...
-                          {tip.tipper.toString().slice(-4)}
+                        <td className="text-purple-500 border px-2 py-4 text-sm text-center">
+                          {tipper}
                         </td>
-                        <td className="text-purple-500 border px-2 py-4">
-                          {parseInt(tip.amount.toString()) / LAMPORTS_PER_SOL}
+                        <td className="text-purple-500 border px-2 py-4 text-sm text-center">
+                          {amount}
                         </td>
-                        <td className="text-purple-500 border px-2 py-4">
-                          {new Date(
-                            parseInt(tip.timestamp.toString())
-                          ).toLocaleString()}
+                        <td className="text-purple-500 border px-2 py-4 text-sm text-center">
+                          {date}
                         </td>
-                        <td className="text-purple-500 border px-2 py-4">
+                        <td className="text-purple-500 border px-2 py-4 text-sm text-center">
                           <a
                             href={`https://xray.helius.xyz/token/${tip.nftMint}?network=devnet`}
                             target="_blank"
                             rel="noreferrer"
                           >
-                            {tip.nftMint.slice(0, 4)}...{tip.nftMint.slice(-4)}
+                            {øhr}
                           </a>
                         </td>
                       </tr>
