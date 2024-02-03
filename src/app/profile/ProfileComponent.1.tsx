@@ -35,6 +35,7 @@ export const ProfileComponent = () => {
 
   const searchAssets = async () => {
     try {
+      console.log("publicKey", publicKey?.toString());
       const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -45,13 +46,13 @@ export const ProfileComponent = () => {
           id: "my-id",
           method: "searchAssets",
           params: {
-            ownerAddress: publicKey,
+            ownerAddress: publicKey?.toString(),
             grouping: [
               "collection",
               "7zLBMxtrJoKmBdCbn35J8YYjRcDQbAt3HprcBs6Poykv",
             ],
             page: 1, // Starts at 1
-            limit: 1000,
+            limit: 100,
           },
         }),
       });
@@ -61,18 +62,20 @@ export const ProfileComponent = () => {
 
         const postPromises: Promise<AudioNFT>[] = result.items.map(
           async (item: any) => {
+            console.log("item: ", item);
             const { animationUrl, attributes } = await fetchJsonData(
               item.content.json_uri
             );
+            const owner = item.ownership.owner;
+            const metadata = item.content.metadata;
             if (animationUrl && attributes) {
-              return { animationUrl, attributes };
+              return { animationUrl, attributes, metadata, owner };
             }
           }
         );
         const validPosts = (await Promise.all(postPromises)).filter(
           (post) => post !== undefined
         );
-
         setPosts(validPosts);
         setIsLoading(false);
       } else {
@@ -86,29 +89,31 @@ export const ProfileComponent = () => {
   };
 
   useEffect(() => {
-    searchAssets();
-  }, []);
+    if (publicKey) {
+      searchAssets();
+    }
+  }, [publicKey]);
 
   return (
     <LayoutComponent showTitle="Yøhrs" showFooter={true} showNavBar={true}>
-      {/* <div> */}
-      {posts ? (
+      {posts && publicKey && !isLoading ? (
         posts.map((post, index) => {
-          console.log(post.attributes);
+          console.log("post ", post);
           return (
             <Post
               title={post.attributes.Vibe}
               date={post.attributes.Date}
               audioUrl={post.animationUrl}
-              owner={"publicKey"}
+              owner={post.owner}
               key={index}
+              post={post.metadata}
             />
           );
         })
       ) : (
         <p>Loading...</p>
       )}
-      {/* </div> */}
+      {!isLoading && posts?.length == 0 && <div>No Audio NFTs created!</div>}
     </LayoutComponent>
   );
 };

@@ -22,7 +22,6 @@ export const Post: React.FC<PostProps> = ({
   post,
 }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
-
   const router = useRouter();
 
   const handleLocationClick = () => {
