@@ -1,8 +1,8 @@
+import { walletAdapterIdentity } from "@metaplex-foundation/umi-signer-wallet-adapters";
 import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
+import { dasApi } from "@metaplex-foundation/digital-asset-standard-api";
 import { getAssetWithProof, burn } from "@metaplex-foundation/mpl-bubblegum";
-import { mplToolbox } from "@metaplex-foundation/mpl-toolbox";
-import { Connection, PublicKey } from "@solana/web3.js";
-import { useEffect } from "react";
+import { Connection, PublicKey, Transaction } from "@solana/web3.js";
 import { useWallet } from "@solana/wallet-adapter-react";
 
 interface DeleteProps {
@@ -14,23 +14,31 @@ export const Delete: React.FC<DeleteProps> = ({
   assetId,
   currentLeafOwner,
 }) => {
-  const { publicKey } = useWallet();
+  const wallet = useWallet();
   const mainRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_MAINNET;
   const devnetRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_DEVNET;
   const connection = new Connection(devnetRpcEndpoint!, "confirmed");
+  const umi = createUmi(new Connection(devnetRpcEndpoint!)).use(dasApi());
+  //   const umi = createUmi(devnetRpcEndpoint!).use(dasApi());
+  umi.use(walletAdapterIdentity(wallet));
 
-  // console.log("incoming data : ", assetId, currentLeafOwner);
+
   async function burnPost() {
-    // Use the RPC endpoint of your choice.
-    const umi = createUmi("https://devnet.helius-rpc.com").use(mplToolbox());
     // @ts-ignore
-    const assetWithProof = await getAssetWithProof(umi, new PublicKey(assetId));
+    const assetWithProof = await getAssetWithProof(umi, assetId);
     await burn(umi, {
       ...assetWithProof,
-      // @ts-ignore
-      leafOwner: new PublicKey(currentLeafOwner),
+      leafOwner: assetWithProof.leafOwner,
     }).sendAndConfirm(umi);
   }
 
-  return <button>Delete</button>;
+  return (
+    <button
+      onClick={() => {
+        burnPost();
+      }}
+    >
+      Delete
+    </button>
+  );
 };

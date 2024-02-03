@@ -68,8 +68,8 @@ export const ProfileComponent = () => {
             );
             const owner = item.ownership.owner;
             const metadata = item.content.metadata;
-            const assetId = item.compression.asset_hash;
-
+            const assetId = item.id;
+            const burnt = item.burnt;
             // attributes = [{trait_type: 'Date', value: '03 Feb 2024 18:12'}]
             // parse the attributes and store them in a more readable format, e.g. {Date: '03 Feb 2024 18:12'}'
             const attributesObj = attributes.reduce(
@@ -79,7 +79,7 @@ export const ProfileComponent = () => {
               },
               {}
             );
-            if (animationUrl && attributes) {
+            if (animationUrl && attributes && !burnt) {
               return { animationUrl, attributesObj, metadata, owner, assetId };
             }
           }
