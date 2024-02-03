@@ -90,7 +90,7 @@ export const ProfileComponent = () => {
   }, []);
 
   return (
-    <LayoutComponent showTitle="yøhrs" showFooter={true} showNavBar={true}>
+    <LayoutComponent showTitle="Yøhrs" showFooter={true} showNavBar={true}>
       {/* <div> */}
       {posts ? (
         posts.map((post, index) => {

@@ -4,6 +4,7 @@ import TipCreatorModal from "./TipCreatorModal";
 import { SoundWave } from "./SoundWave";
 import { useRouter } from "next/navigation";
 import { AudioNFT } from "@components/map/NFTModal";
+import Link from "next/link";
 
 interface PostProps {
   title: string;
@@ -31,6 +32,8 @@ export const Post: React.FC<PostProps> = ({
       );
     }
   };
+  const creator =
+    owner.substring(0, 3) + "..." + owner.substring(owner.length - 3);
 
   return (
     <div className="w-full my-2 px-5 rounded">
@@ -39,9 +42,27 @@ export const Post: React.FC<PostProps> = ({
           <p className="text-xl m-1 mx-2">{title}</p>
         </div>
         <div className="flex gap-2 items-center justify-evenly">
-          <p className="text-xs m-1 mx-2">
-            {owner.substring(0, 3)}..{owner.substring(owner.length - 3)}
-          </p>
+          {post && (
+            <Link
+              href={
+                !!post?.attributes?.Long && !!post?.attributes?.Lat
+                  ? `/tipboard?owner=${owner}&id=${post.id}&lat=${
+                      post.attributes.Lat
+                    }&long=${post.attributes.Long}${
+                      post.attributes?.Vibe
+                        ? `&vibe=${post.attributes.Vibe}`
+                        : ""
+                    }`
+                  : `/tipboard?owner=${owner}&id=${post.id}${
+                      post.attributes?.Vibe
+                        ? `&vibe=${post.attributes.Vibe}`
+                        : ""
+                    }`
+              }
+            >
+              <p className="text-xs m-1 mx-2">{creator}</p>
+            </Link>
+          )}
           <p className="text-xs">{date}</p>
         </div>
         <div className="flex justify-between items-center mt-2">
@@ -71,6 +92,10 @@ export const Post: React.FC<PostProps> = ({
             owner={owner}
             mintAddress={post!.mintAddress}
             setShowModal={setShowModal}
+            long={post?.attributes.Long}
+            lat={post?.attributes.Lat}
+            id={post?.id}
+            vibe={post?.attributes.Vibe}
           />
         </div>
       )}

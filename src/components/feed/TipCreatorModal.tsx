@@ -25,12 +25,20 @@ interface TipCreatorModalProps {
   owner: string;
   mintAddress: string;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+  vibe?: string;
+  id?: number;
+  long?: string;
+  lat?: string;
 }
 
 const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
   showModal,
   owner,
   mintAddress,
+  vibe,
+  id,
+  long,
+  lat,
   setShowModal,
 }) => {
   const [isOpen, setIsOpen] = useState(showModal);
@@ -50,8 +58,12 @@ const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
   const connection = new Connection(devnetRpcEndpoint!, "confirmed");
 
   // Pyth Price Feeds
-  const solUsdPriceFeedDevnet = new PublicKey("J83w4HKfqxwcq3BEMMkPFSppX3gqekLyLJBexebFVkix");
-  const solUsdPriceFeedMainnet = new PublicKey("H6ARHf6YXhGYeQfUzQNGk6rDNnLBQKrenN712K4AQJEG")
+  const solUsdPriceFeedDevnet = new PublicKey(
+    "J83w4HKfqxwcq3BEMMkPFSppX3gqekLyLJBexebFVkix"
+  );
+  const solUsdPriceFeedMainnet = new PublicKey(
+    "H6ARHf6YXhGYeQfUzQNGk6rDNnLBQKrenN712K4AQJEG"
+  );
 
   // TIP PROGRAM FUNCTIONS
   const provider = new AnchorProvider(connection, useWallet() as any, {});
@@ -115,7 +127,9 @@ const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
   };
 
   const handleClickTipBoard = () => {
-    router.push(`/tipboard?owner=${owner}`);
+    router.push(
+      `/tipboard?owner=${owner}&id=${id}&vibe=${vibe}&long=${long}&lat=${lat}`
+    );
   };
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {

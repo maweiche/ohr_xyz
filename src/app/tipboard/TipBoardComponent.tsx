@@ -18,6 +18,7 @@ import * as anchor from "@project-serum/anchor";
 import { IDL, Tipboard } from "@components/tipboard/idl/tipboard";
 import { LayoutComponent } from "@components/layout/LayoutComponent";
 import LoadingComponent from "@components/LoadingComponent";
+import Link from "next/link";
 
 type Tips = {
   tipper: PublicKey;
@@ -41,21 +42,34 @@ const formatDate = (dateString: string) => {
   return formattedDate;
 };
 
-export default function TipboardDisplay() {
+const getUrlData = (url: URLSearchParams) => {
+  const owner = url.get("owner");
+  const id = url.get("id");
+  const vibe = url.get("vibe");
+  const longitude = url.get("long");
+  const latitude = url.get("lat");
+  return { owner, id, vibe, longitude, latitude };
+};
+
+export default function TipboardComponent() {
   const { publicKey, sendTransaction } = useWallet();
   const [loading, setLoading] = useState<boolean>(false);
   const [owner, setOwner] = useState<string | null>(null);
 
   // tipboard Info
-  const [tipboardPda, settipboardPda] = useState<PublicKey | null>(null);
+  const [tipboardPda, setTipboardPda] = useState<PublicKey | null>(null);
   const [ownerTipboardPda, setOwnerTipboardPda] = useState<PublicKey | null>(
     null
   );
   const [authority, setAuthority] = useState<PublicKey | null>(null);
   const [displayInit, setDisplayInit] = useState<boolean>(false);
   const [tipboardData, setTipboardData] = useState<Tips[] | null>(null);
-
   const [isInitialized, setIsInitialized] = useState<boolean>(false);
+
+  const [id, setID] = useState<string | undefined>(undefined);
+  const [vibe, setVibe] = useState<string | undefined>(undefined);
+  const [longitude, setLongitude] = useState<string | undefined>(undefined);
+  const [latitude, setLatitude] = useState<string | undefined>(undefined);
 
   const connection = new Connection(clusterApiUrl("devnet"), {
     commitment: "confirmed",
@@ -70,6 +84,7 @@ export default function TipboardDisplay() {
   const programId = new PublicKey(
     "7vZPMfghSw2rQWhvCs1XW6CDLunP36jB253bQVWWMUmu"
   );
+
   const program = new Program(
     IDL as Idl,
     programId
@@ -82,7 +97,7 @@ export default function TipboardDisplay() {
       [Buffer.from("tipboard")],
       program.programId
     );
-    settipboardPda(programData[0]);
+    setTipboardPda(programData[0]);
 
     let ownerTipboardData = PublicKey.findProgramAddressSync(
       [Buffer.from("tipboard"), new PublicKey(owner).toBuffer()],
@@ -141,7 +156,6 @@ export default function TipboardDisplay() {
       if (tx.instructions) {
         setIsInitialized(true);
       }
-
       getTipboardData(owner!);
     } catch (error) {
       console.log("error", error);
@@ -149,13 +163,26 @@ export default function TipboardDisplay() {
   }
 
   useEffect(() => {
-    // get the owner string from the url query, ex: /tipboard?owner=123
-    const urlParams = new URLSearchParams(window.location.search);
-    const owner = urlParams.get("owner");
+    const { owner, id, vibe, longitude, latitude } = getUrlData(
+      new URLSearchParams(window.location.search)
+    );
 
     if (owner) {
       setOwner(owner);
       getTipboardData(owner);
+    }
+
+    if (id) {
+      setID(id);
+    }
+
+    if (vibe) {
+      setVibe(vibe);
+    }
+
+    if (longitude && latitude) {
+      setLatitude(latitude);
+      setLongitude(longitude);
     }
   }, []);
 
@@ -187,6 +214,7 @@ export default function TipboardDisplay() {
               </thead>
               <tbody>
                 {tipboardData &&
+                  id &&
                   tipboardData.map((tip, index) => {
                     const amount = (
                       parseInt(tip.amount.toString()) / LAMPORTS_PER_SOL
@@ -198,7 +226,6 @@ export default function TipboardDisplay() {
                       tip.tipper.toString().slice(-3);
                     const øhr =
                       tip.nftMint.slice(0, 3) + "..." + tip.nftMint.slice(-3);
-                    console.log(tip);
                     return (
                       <tr
                         className="hover:bg-gray-50 focus:bg-gray-300 active:bg-red-200"
@@ -214,13 +241,17 @@ export default function TipboardDisplay() {
                           {date}
                         </td>
                         <td className="text-purple-500 border px-2 py-4 text-sm text-center">
-                          <a
-                            href={`https://xray.helius.xyz/token/${tip.nftMint}?network=devnet`}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            {øhr}
-                          </a>
+                          {vibe && (
+                            <Link
+                              href={
+                                longitude && latitude
+                                  ? `/map?id=${id}&longitude=${longitude}&latitude=${latitude}`
+                                  : `/map?id=${id}`
+                              }
+                            >
+                              {vibe}
+                            </Link>
+                          )}
                         </td>
                       </tr>
                     );
