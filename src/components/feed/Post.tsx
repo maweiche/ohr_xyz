@@ -7,6 +7,7 @@ import { AudioNFT } from "@components/map/NFTModal";
 import { Delete } from "./Delete";
 import { useWallet } from "@solana/wallet-adapter-react";
 import Link from "next/link";
+import SharePostModal from "./SharePostModal";
 
 interface PostProps {
   title: string;
@@ -50,10 +51,12 @@ export const Post: React.FC<PostProps> = ({
   post,
   assetId,
 }) => {
-  console.log("assetId: ", assetId);
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const [showTipModal, setShowTipModal] = useState<boolean>(false);
+  const [showShareModal, setShowShareModal] = useState<boolean>(false);
+
   const router = useRouter();
   const { publicKey } = useWallet();
+
   const handleLocationClick = () => {
     if (post) {
       router.push(
@@ -115,14 +118,14 @@ export const Post: React.FC<PostProps> = ({
           </div>
           <div className="flex justify-end mx-5 my-2 gap-5 items-center align-center mt-2">
             <button
-              onClick={() => setShowModal(true)}
+              onClick={() => setShowTipModal(true)}
               className="m-0 p-0 flex justify-center align-center items-center"
             >
               {" "}
               <Image src={"/tip.png"} alt="Tip" width={20} height={18} />
             </button>
             <button
-              onClick={() => setShowModal(true)}
+              onClick={() => setShowShareModal(true)}
               className="m-0 p-0 flex justify-center align-center items-center"
             >
               {" "}
@@ -131,17 +134,29 @@ export const Post: React.FC<PostProps> = ({
           </div>
         </div>
       </div>
-      {showModal && (
+      {showTipModal && (
         <div className="fixed inset-0 overflow-y-auto z-10 justify-center items-center">
           <TipCreatorModal
-            showModal={showModal}
+            showModal={showTipModal}
             owner={owner}
             mintAddress={post!.mintAddress}
-            setShowModal={setShowModal}
+            setShowModal={setShowTipModal}
             long={post?.attributes.Long}
             lat={post?.attributes.Lat}
             id={post?.id}
             vibe={post?.attributes.Vibe}
+          />
+        </div>
+      )}
+
+      {showShareModal && post?.id && (
+        <div className="fixed inset-0 overflow-y-auto z-10 justify-center items-center">
+          <SharePostModal
+            showModal={showShareModal}
+            setShowModal={setShowShareModal}
+            longitude={post?.attributes.Long}
+            latitude={post?.attributes.Lat}
+            id={post?.id}
           />
         </div>
       )}

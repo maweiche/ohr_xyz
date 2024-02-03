@@ -1,3 +1,5 @@
+import Image from "next/legacy/image";
+import Link from "next/link";
 import React from "react";
 
 interface ShareTweetBtnProps {
@@ -10,10 +12,15 @@ const ShareTweetBtn: React.FC<ShareTweetBtnProps> = ({ link }) => {
   )}`;
 
   return (
-    <div className="gap-2 border-2 m-3 p-2 px-4 flex justify-center rounded-xl">
-      <a href={tweetButtonLink} target="_blank">
-        Share on X
-      </a>
+    <div>
+      <Link
+        className="gap-2 border border-gray-300 p-5 flex justify-center rounded-full flex-col bg-black"
+        href={tweetButtonLink}
+      >
+        {" "}
+        <Image src={"/x-icon.png"} alt="X" width={22} height={22} />
+      </Link>
+      <p className="text-xs text-center text-white mt-2">X</p>
     </div>
   );
 };

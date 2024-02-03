@@ -195,22 +195,17 @@ const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
   function renderTipForm(type: "success" | "error") {
     return (
       <Dialog.Panel className="mx-auto max-w-sm rounded-2xl bg-[#5a1a52] text-[#FFD1EA] border-2 border-[#9D58B2] p-5 shadow-lg">
-        <Dialog.Title className="text-xl font-bold">
-          {type !== "error"
-            ? "Enjoying this sound?"
-            : "Something went wrong :("}
+        <Dialog.Title className="text-xl font-bold text-center">
+          {type !== "error" ? "Tip your creator." : "Something went wrong :("}
         </Dialog.Title>
-        <Dialog.Description className="mt-1 text-center">
-          {type !== "error" ? "Tip your creator." : "Give it another go"}
-        </Dialog.Description>
         {publicKey ? (
-          <form onSubmit={handleSubmit} className="flex flex-col gap-2 mt-4">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-2 ">
             <input
               type="number"
               step="any"
               placeholder="Amount"
               onChange={handleAmountChange}
-              className="border-none text-lg text-[#FFD1EA] text-center placeholder-[#d57ba8] bg-transparent w-20 focus:outline-none focus:ring-0 focus:border-transparent m-1 p-1 self-center"
+              className="border border-[#9D58B2] text-lg rounded-xl text-[#FFD1EA] text-center placeholder-[#d57ba8] bg-transparent  focus:outline-none focus:ring-0 focus:border-transparent m-1 p-1 self-center"
             />
             <button
               type="submit"
