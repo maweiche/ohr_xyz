@@ -4,6 +4,8 @@ import TipCreatorModal from "./TipCreatorModal";
 import { SoundWave } from "./SoundWave";
 import { useRouter } from "next/navigation";
 import { AudioNFT } from "@components/map/NFTModal";
+import { Delete } from "./Delete";
+import { useWallet } from "@solana/wallet-adapter-react";
 import Link from "next/link";
 
 interface PostProps {
@@ -12,6 +14,7 @@ interface PostProps {
   audioUrl: string;
   owner: string;
   post?: AudioNFT;
+  assetId?: string;
 }
 function formatDateAgoOrShortDate(dateString: string): string {
   const currentDate: Date = new Date();
@@ -45,10 +48,12 @@ export const Post: React.FC<PostProps> = ({
   audioUrl,
   owner,
   post,
+  assetId,
 }) => {
+  console.log("assetId: ", assetId);
   const [showModal, setShowModal] = useState<boolean>(false);
   const router = useRouter();
-
+  const { publicKey } = useWallet();
   const handleLocationClick = () => {
     if (post) {
       router.push(
@@ -132,6 +137,12 @@ export const Post: React.FC<PostProps> = ({
             id={post?.id}
             vibe={post?.attributes.Vibe}
           />
+        </div>
+      )}
+
+      {publicKey!.toString() === owner && (
+        <div className="flex justify-end mx-5 my-2 gap-5 items-center align-center">
+          <Delete assetId={assetId!} currentLeafOwner={owner!} />
         </div>
       )}
     </div>
