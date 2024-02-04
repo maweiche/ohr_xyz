@@ -85,14 +85,14 @@ const MapScreen: React.FC = () => {
         const validPosts = (await Promise.all(postPromises)).filter(
           (post) => post !== undefined
         );
-        console.log("validPosts", validPosts);
+        // console.log("validPosts", validPosts);
         setAudioNFTs(validPosts);
+        checkIfAudioNFTisShared(validPosts);
       }
     } catch (error) {
       console.error("Error fetching assets:", error);
     }
   };
-
 
   const showSharedNFT = useCallback(
     async (audioNFTid: string, audioNFTs: AudioNFT[]) => {
@@ -111,7 +111,7 @@ const MapScreen: React.FC = () => {
       const { longitude, latitude, audioNFTid, fresh } = getUrlData(
         new URL(window.location.href)
       );
-
+      console.log("should zoom", fresh);
       setShouldZoom(Boolean(fresh));
 
       if (latitude && longitude) {
@@ -144,7 +144,7 @@ const MapScreen: React.FC = () => {
     }
   }, [checkIfAudioNFTisShared, audioNFTs, audioNFT?.status]);
 
-  console.log("AudioNFTs: ", audioNFTs);
+  // console.log("AudioNFTs: ", audioNFTs);
   const markers: JSX.Element[] = useMemo(
     () =>
       audioNFTs
