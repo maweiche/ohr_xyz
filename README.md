@@ -7,27 +7,49 @@ ___
 
 [![Minting](https://img.shields.io/badge/-Audio_cNFT_Minting-000000?style=for-the-badge)](https://ohr-app.xyz/)
 
-<img src="https://github.com/noamrubin22/ohr_xyz/blob/29894cd9490fc933b6fe985e9a50cd199b68c2cb/public/landing-screenshot.png" alt="øhr mobile screenshot" height="500vh"/>
+<p align="center">
+    <img src="https://github.com/noamrubin22/ohr_xyz/blob/29894cd9490fc933b6fe985e9a50cd199b68c2cb/public/landing-screenshot.png" alt="øhr mobile screenshot" height="500vh"/>
+</p>
+
 ---
 [![Social Feed](https://img.shields.io/badge/-Social_Feed-000000?style=for-the-badge)](https://ohr-app.xyz/feed)
 
-<img src="/public/readme/socialFeed" height="500vh"/>
+<p align="center">
+    <img src="public/readme/socialFeed.png" alt="øhr mobile screenshot" height="500vh"
+    />
+</p>
+
 ---
 [![Map](https://img.shields.io/badge/-Map_View-000000?style=for-the-badge)](https://ohr-app.xyz/map)
 
-![Map](/public/readme/mapView.png)
+<p align="center">
+    <img src="public/readme/mapView.png" alt="øhr mobile screenshot" height="500vh"
+    />
+</p>
+
 ---
 [![Profile](https://img.shields.io/badge/-Profile_View-000000?style=for-the-badge)](https://ohr-app.xyz/profile)
 
-![Profile](/public/readme/profileView.png)
+<p align="center">
+    <img src="public/readme/profileView.png" alt="øhr mobile screenshot" height="500vh"
+    />
+</p>
+
 ---
 [![Creator Tips](https://img.shields.io/badge/-Creator_Tips-000000?style=for-the-badge)](https://ohr-app.xyz/)
 
-![Creator Tips](/public/readme/creatorTips.png)
+<p align="center">
+    <img src="public/readme/creatorTips.png" alt="øhr mobile screenshot" height="500vh"
+    />
+</p>
+
 ---
 [![Tip Leaderboard](https://img.shields.io/badge/-Tip_Leaderboard-000000?style=for-the-badge)](https://ohr-app.xyz/tipboard?owner=CHKutvbgGJeWqxbcmx5Mg7MJ6m9ykGjiyHKuYQbp2qMM)
 
-![Tip Leaderboard](/public/readme/tipBoard.png)
+<p align="center">
+    <img src="public/readme/tipBoard.png" alt="øhr mobile screenshot" height="500vh"
+    />
+</p>
 
 **Solana Program Address**: `7vZPMfghSw2rQWhvCs1XW6CDLunP36jB253bQVWWMUmu`
 
