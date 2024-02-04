@@ -26,7 +26,7 @@ export const MapView: React.FC<MapViewProps> = ({
           zoom: shouldZoom ? 20 : 10,
         }}
       >
-        {!markers && longitude && latitude ? (
+        {longitude && latitude ? (
           <Marker longitude={longitude} latitude={latitude}>
             <Image
               src={"/ear_small.png"}

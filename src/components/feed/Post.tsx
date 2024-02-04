@@ -10,7 +10,13 @@ import SharePostModal from "./SharePostModal";
 import { walletAdapterIdentity } from "@metaplex-foundation/umi-signer-wallet-adapters";
 import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
 import { dasApi } from "@metaplex-foundation/digital-asset-standard-api";
-import { getAssetWithProof, burn, updateMetadata, UpdateArgsArgs, getCurrentRoot } from "@metaplex-foundation/mpl-bubblegum";
+import {
+  getAssetWithProof,
+  burn,
+  updateMetadata,
+  UpdateArgsArgs,
+  getCurrentRoot,
+} from "@metaplex-foundation/mpl-bubblegum";
 import { Connection, PublicKey, Transaction } from "@solana/web3.js";
 
 interface PostProps {
@@ -62,6 +68,7 @@ export const Post: React.FC<PostProps> = ({
   lat,
   long,
 }) => {
+  console.log("post", post);
   const [showTipModal, setShowTipModal] = useState<boolean>(false);
   const [showShareModal, setShowShareModal] = useState<boolean>(false);
 
@@ -74,7 +81,11 @@ export const Post: React.FC<PostProps> = ({
 
   const handleLocationClick = () => {
     if (post) {
-      router.push(`/map?&latitude=${lat}&longitude=${long}`);
+      router.push(
+        `/map?id=${post!.assetId}&latitude=${
+          post!.attributesObj.Lat
+        }&longitude=${post!.attributesObj.Long}`
+      );
     }
   };
 
@@ -111,6 +122,8 @@ export const Post: React.FC<PostProps> = ({
       ...assetWithProof,
       leafOwner: assetWithProof.leafOwner,
     }).sendAndConfirm(umi);
+
+    window.location.reload();
   }
 
   return (
@@ -147,7 +160,7 @@ export const Post: React.FC<PostProps> = ({
             )}
             <p className="text-xs">● {formatDateAgoOrShortDate(date)}</p>
           </div>
-          {lat && long && (
+          {post!.attributesObj.Lat && post!.attributesObj.Long && (
             <button onClick={handleLocationClick}>
               <Image
                 src={"/location.png"}
@@ -165,7 +178,7 @@ export const Post: React.FC<PostProps> = ({
           </div>
           <div className="flex justify-end mx-5 my-2 gap-5 items-center align-center mt-2">
             <button
-              onClick={() => setShowTipModal(true) }
+              onClick={() => setShowTipModal(true)}
               className="m-0 p-0 flex justify-center align-center items-center"
             >
               <Image src={"/tip.png"} alt="Tip" width={20} height={18} />
@@ -212,7 +225,7 @@ export const Post: React.FC<PostProps> = ({
           <TipCreatorModal
             showModal={showTipModal}
             owner={owner}
-            mintAddress={assetId!}
+            mintAddress={post!.assetId!}
             setShowModal={setShowTipModal}
             long={long}
             lat={lat}
