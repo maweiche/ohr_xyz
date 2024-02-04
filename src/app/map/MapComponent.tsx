@@ -4,6 +4,7 @@ import { LayoutComponent } from "../../components/layout/LayoutComponent";
 import { MapView } from "../../components/map/MapView";
 import NFTModal, { AudioNFT } from "../../components/map/NFTModal";
 import { Marker } from "react-map-gl";
+import axios from "axios";
 import Image from "next/legacy/image";
 import LoadingComponent from "@components/LoadingComponent";
 import Head from "next/head";
@@ -26,6 +27,72 @@ const MapScreen: React.FC = () => {
     const fresh = url.searchParams.get("fresh");
     return { longitude, latitude, audioNFTid, fresh };
   };
+
+  const fetchJsonData = async (jsonUri: string) => {
+    try {
+      const response = await axios.get(jsonUri);
+      if (response.status === 200) {
+        const data = response.data;
+        if (data.animationUrl === undefined) {
+          return {
+            animationUrl: undefined,
+            attributes: data.attributes,
+          };
+        } else {
+          return {
+            animationUrl: data.animationUrl,
+            attributes: data.attributes,
+          };
+        }
+      } else {
+        console.error("Failed to fetch data:", response.status);
+        throw new Error("Failed to fetch data");
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      throw error;
+    }
+  };
+
+  const fetchNFTs = async () => {
+    try {
+      const response = await fetch("/api/nfts?initialPageNumber=1");
+      const result = await response.json();
+
+      if (response.ok) {
+        const postPromises: Promise<AudioNFT>[] = result.map(
+          async (item: any) => {
+            const { animationUrl, attributes } = await fetchJsonData(
+              item.content.json_uri
+            );
+            const owner = item.ownership.owner;
+            const metadata = item.content.metadata;
+            const assetId = item.id;
+            const burnt = item.burnt;
+
+            const attributesObj = attributes?.reduce(
+              (acc: any, attribute: any) => {
+                acc[attribute.trait_type] = attribute.value;
+                return acc;
+              },
+              {}
+            );
+            if (animationUrl && attributes && !burnt) {
+              return { animationUrl, attributesObj, metadata, owner, assetId };
+            }
+          }
+        );
+        const validPosts = (await Promise.all(postPromises)).filter(
+          (post) => post !== undefined
+        );
+        console.log("validPosts", validPosts);
+        setAudioNFTs(validPosts);
+      }
+    } catch (error) {
+      console.error("Error fetching assets:", error);
+    }
+  };
+
 
   const showSharedNFT = useCallback(
     async (audioNFTid: string, audioNFTs: AudioNFT[]) => {
@@ -72,21 +139,6 @@ const MapScreen: React.FC = () => {
   }, [audioNFT?.status]);
 
   useEffect(() => {
-    const fetchNFTs = async () => {
-      fetch("/api/nfts?initialPageNumber=1")
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(`Request failed with status: ${response.status}`);
-          }
-          return response.json();
-        })
-        .then((data) => {
-          setAudioNFTs(data);
-          checkIfAudioNFTisShared(data);
-        })
-        .catch((error) => console.log(error));
-    };
-
     if (!audioNFTs || audioNFT?.status === "pending") {
       fetchNFTs();
     }
@@ -99,15 +151,15 @@ const MapScreen: React.FC = () => {
         ? audioNFTs
             .filter(
               (audioNFT) =>
-                audioNFT.content.metadata.attributes &&
-                audioNFT.content.metadata.attributes.Long !== undefined &&
-                audioNFT.content.metadata.attributes.Lat !== undefined
+                audioNFT.attributesObj &&
+                audioNFT.attributesObj.Long !== undefined &&
+                audioNFT.attributesObj.Lat !== undefined
             )
             .map((audioNFT, index) => (
               <Marker
                 key={index}
-                longitude={Number(audioNFT.content.metadata.attributes.Long)}
-                latitude={Number(audioNFT.content.metadata.attributes.Lat)}
+                longitude={Number(audioNFT.attributesObj.Long)}
+                latitude={Number(audioNFT.attributesObj.Lat)}
                 color="red"
                 onClick={() => {
                   setAudioNFT(audioNFT);

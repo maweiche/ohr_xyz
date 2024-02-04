@@ -67,6 +67,7 @@ export const FeedComponent = () => {
         const validPosts = (await Promise.all(postPromises)).filter(
           (post) => post !== undefined
         );
+        console.log("validPosts", validPosts);
         setPosts(validPosts);
       }
     } catch (error) {
