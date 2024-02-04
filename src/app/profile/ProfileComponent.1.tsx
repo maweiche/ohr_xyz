@@ -85,6 +85,22 @@ export const ProfileComponent = () => {
         const validPosts = (await Promise.all(postPromises)).filter(
           (post) => post !== undefined
         );
+
+        validPosts.sort((a, b) => {
+          if (a.attributesObj?.Date && b.attributesObj?.Date) {
+            return (
+              new Date(b.attributesObj.Date).getTime() -
+              new Date(a.attributesObj.Date).getTime()
+            );
+          } else if (a.attributesObj?.Date) {
+            return -1;
+          } else if (b.attributesObj?.Date) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
+        // console.log("validPosts", validPosts);
         setPosts(validPosts);
         setIsLoading(false);
       } else {
@@ -117,7 +133,7 @@ export const ProfileComponent = () => {
                 audioUrl={post.animationUrl}
                 owner={post.owner}
                 key={index}
-                post={post.metadata}
+                post={post}
                 assetId={post.assetId}
                 profile={true}
               />

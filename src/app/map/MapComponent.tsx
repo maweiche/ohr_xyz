@@ -114,7 +114,6 @@ const MapScreen: React.FC = () => {
       const { longitude, latitude, audioNFTid, fresh } = getUrlData(
         new URL(window.location.href)
       );
-      console.log("should zoom", fresh);
       setShouldZoom(Boolean(fresh));
 
       if (latitude && longitude) {
