@@ -67,7 +67,19 @@ export const FeedComponent = () => {
         const validPosts = (await Promise.all(postPromises)).filter(
           (post) => post !== undefined
         );
-        console.log("validPosts", validPosts);
+
+        validPosts.sort((a, b) => {
+          if (a.attributesObj?.Date && b.attributesObj?.Date) {
+            return new Date(b.attributesObj.Date).getTime() - new Date(a.attributesObj.Date).getTime();
+          } else if (a.attributesObj?.Date) {
+            return -1;
+          } else if (b.attributesObj?.Date) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
+
         setPosts(validPosts);
       }
     } catch (error) {

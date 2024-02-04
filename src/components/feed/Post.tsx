@@ -10,7 +10,7 @@ import SharePostModal from "./SharePostModal";
 import { walletAdapterIdentity } from "@metaplex-foundation/umi-signer-wallet-adapters";
 import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
 import { dasApi } from "@metaplex-foundation/digital-asset-standard-api";
-import { getAssetWithProof, burn } from "@metaplex-foundation/mpl-bubblegum";
+import { getAssetWithProof, burn, updateMetadata, UpdateArgsArgs, getCurrentRoot } from "@metaplex-foundation/mpl-bubblegum";
 import { Connection, PublicKey, Transaction } from "@solana/web3.js";
 
 interface PostProps {
@@ -78,10 +78,30 @@ export const Post: React.FC<PostProps> = ({
     }
   };
 
+  // async function editPost() {
+  //   const mainRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_MAINNET;
+  //   const devnetRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_DEVNET;
+  //   const umi = createUmi(new Connection(devnetRpcEndpoint!)).use(dasApi());
+  //   //   const umi = createUmi(devnetRpcEndpoint!).use(dasApi());
+  //   umi.use(walletAdapterIdentity(wallet));
+  //   const updateArgs: UpdateArgsArgs = {
+  //     name: 'New name',
+  //     uri: 'https://updated-example.com/my-nft.json',
+  //   }
+  //   // @ts-ignore
+  //   const assetWithProof = await getAssetWithProof(umi, assetId);
+  //   console.log('assetWithProof', assetWithProof);
+  //   await updateMetadata(umi, {
+  //     ...assetWithProof,
+  //     leafOwner: assetWithProof.leafOwner,
+  //     currentMetadata: assetWithProof.metadata,
+  //     updateArgs,
+  //    }).sendAndConfirm(umi);
+  // }
+
   async function burnPost() {
     const mainRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_MAINNET;
     const devnetRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_DEVNET;
-    const connection = new Connection(devnetRpcEndpoint!, "confirmed");
     const umi = createUmi(new Connection(devnetRpcEndpoint!)).use(dasApi());
     //   const umi = createUmi(devnetRpcEndpoint!).use(dasApi());
     umi.use(walletAdapterIdentity(wallet));
@@ -145,9 +165,7 @@ export const Post: React.FC<PostProps> = ({
           </div>
           <div className="flex justify-end mx-5 my-2 gap-5 items-center align-center mt-2">
             <button
-              onClick={() => {
-                console.log("post", post), setShowTipModal(true);
-              }}
+              onClick={() => setShowTipModal(true) }
               className="m-0 p-0 flex justify-center align-center items-center"
             >
               <Image src={"/tip.png"} alt="Tip" width={20} height={18} />
@@ -163,13 +181,13 @@ export const Post: React.FC<PostProps> = ({
             </button>
             {profile && (
               <>
-                <button
-                  // onClick={() => editPost()}
+                {/* <button
+                  onClick={() => editPost()}
                   className="m-0 p-0 flex justify-center align-center items-center"
                 >
                   {" "}
                   <Image src={"/edit.png"} alt="Edit" width={16} height={17} />
-                </button>
+                </button> */}
                 {publicKey!.toString() === owner && (
                   <button
                     onClick={() => burnPost()}
