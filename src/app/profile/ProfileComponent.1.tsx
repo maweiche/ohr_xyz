@@ -116,6 +116,8 @@ export const ProfileComponent = () => {
               <Post
                 title={post.attributesObj.Vibe}
                 date={post.attributesObj.Date}
+                lat={post.attributesObj.Lat}
+                long={post.attributesObj.Long}
                 audioUrl={post.animationUrl}
                 owner={post.owner}
                 key={index}

@@ -21,6 +21,8 @@ interface PostProps {
   post?: AudioNFT;
   assetId?: string;
   profile?: boolean;
+  lat?: string;
+  long?: string;
 }
 
 function formatDateAgoOrShortDate(dateString: string): string {
@@ -57,6 +59,8 @@ export const Post: React.FC<PostProps> = ({
   post,
   assetId,
   profile,
+  lat,
+  long
 }) => {
   const [showTipModal, setShowTipModal] = useState<boolean>(false);
   const [showShareModal, setShowShareModal] = useState<boolean>(false);
@@ -71,7 +75,7 @@ export const Post: React.FC<PostProps> = ({
   const handleLocationClick = () => {
     if (post) {
       router.push(
-        `/map?&latitude=${post.attributesObj.Lat}&longitude=${post.attributesObj.Long}`
+        `/map?&latitude=${lat}&longitude=${long}`
       );
     }
   };
@@ -125,7 +129,7 @@ export const Post: React.FC<PostProps> = ({
             )}
             <p className="text-xs">● {formatDateAgoOrShortDate(date)}</p>
           </div>
-          {post?.attributesObj?.Lat && post?.attributesObj?.Long && (
+          {lat && long && (
             <button onClick={handleLocationClick}>
               <Image
                 src={"/location.png"}
