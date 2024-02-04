@@ -20,6 +20,9 @@ const SharePostModal: React.FC<SharePostModalProps> = ({
   latitude,
   longitude,
 }) => {
+  console.log("mintAddress", id);
+  console.log("latitude", latitude);
+  console.log("longitude", longitude);
   const [isOpen, setIsOpen] = useState(showModal);
   const [state, copyToClipboard] = useCopyToClipboard();
   const [isCopied, setIsCopied] = useState(false);

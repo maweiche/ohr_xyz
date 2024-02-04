@@ -154,7 +154,7 @@ export const Post: React.FC<PostProps> = ({
               <Image src={"/tip.png"} alt="Tip" width={20} height={18} />
             </button>
             <button
-              onClick={() => setShowShareModal(true)}
+              onClick={() =>{console.log("showTipModal", post), setShowShareModal(true)}}
               className="m-0 p-0 flex justify-center align-center items-center"
             >
               {" "}
@@ -203,14 +203,14 @@ export const Post: React.FC<PostProps> = ({
         </div>
       )}
 
-      {showShareModal && post?.id && (
+      {showShareModal && post?.assetId && (
         <div className="fixed inset-0 overflow-y-auto z-10 justify-center items-center">
           <SharePostModal
             showModal={showShareModal}
             setShowModal={setShowShareModal}
             longitude={post?.attributesObj.Long}
             latitude={post?.attributesObj.Lat}
-            id={post?.id}
+            id={post?.assetId}
           />
         </div>
       )}
