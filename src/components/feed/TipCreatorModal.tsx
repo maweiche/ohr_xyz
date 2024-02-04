@@ -44,6 +44,7 @@ const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
   lat,
   setShowModal,
 }) => {
+  console.log("mintAddress", mintAddress);
   const [isOpen, setIsOpen] = useState(showModal);
   const [amount, setAmount] = useState(0);
   const [isTxSuccessful, setIsTxSuccessful] = useState<boolean | undefined>(

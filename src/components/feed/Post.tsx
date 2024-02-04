@@ -60,7 +60,7 @@ export const Post: React.FC<PostProps> = ({
   assetId,
   profile,
   lat,
-  long
+  long,
 }) => {
   const [showTipModal, setShowTipModal] = useState<boolean>(false);
   const [showShareModal, setShowShareModal] = useState<boolean>(false);
@@ -74,9 +74,7 @@ export const Post: React.FC<PostProps> = ({
 
   const handleLocationClick = () => {
     if (post) {
-      router.push(
-        `/map?&latitude=${lat}&longitude=${long}`
-      );
+      router.push(`/map?&latitude=${lat}&longitude=${long}`);
     }
   };
 
@@ -147,10 +145,12 @@ export const Post: React.FC<PostProps> = ({
           </div>
           <div className="flex justify-end mx-5 my-2 gap-5 items-center align-center mt-2">
             <button
-              onClick={() => setShowTipModal(true)}
+              onClick={() => {
+                console.log("showTipModal", post), setShowTipModal(true);
+              }}
               className="m-0 p-0 flex justify-center align-center items-center"
             >
-              {" "}
+              TIP
               <Image src={"/tip.png"} alt="Tip" width={20} height={18} />
             </button>
             <button
@@ -193,7 +193,7 @@ export const Post: React.FC<PostProps> = ({
           <TipCreatorModal
             showModal={showTipModal}
             owner={owner}
-            mintAddress={post!.mintAddress}
+            mintAddress={post!.assetId}
             setShowModal={setShowTipModal}
             long={post?.attributesObj.Long}
             lat={post?.attributesObj.Lat}
