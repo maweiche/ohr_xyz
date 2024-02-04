@@ -74,7 +74,9 @@ export const Post: React.FC<PostProps> = ({
 
   const handleLocationClick = () => {
     if (post) {
-      router.push(`/map?&latitude=${lat}&longitude=${long}`);
+      router.push(
+        `/map?id=${post.assetId}&latitude=${post.attributesObj.Lat}&longitude=${post.attributesObj.Long}`
+      );
     }
   };
 
@@ -127,7 +129,7 @@ export const Post: React.FC<PostProps> = ({
             )}
             <p className="text-xs">● {formatDateAgoOrShortDate(date)}</p>
           </div>
-          {lat && long && (
+          {post?.attributesObj.Lat && post?.attributesObj.Long && (
             <button onClick={handleLocationClick}>
               <Image
                 src={"/location.png"}
@@ -154,7 +156,11 @@ export const Post: React.FC<PostProps> = ({
             </button>
             <button
               onClick={() => {
+<<<<<<< Updated upstream
                 setShowShareModal(true);
+=======
+                console.log("showTipModal", post), setShowShareModal(true);
+>>>>>>> Stashed changes
               }}
               className="m-0 p-0 flex justify-center align-center items-center"
             >

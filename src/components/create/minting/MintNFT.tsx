@@ -182,32 +182,36 @@ export const MintNFT: React.FC<MintNFTProps> = ({
     <div className="flex justify-center align-center items-center h-full">
       {!isMinting ? (
         <div className="flex flex-col align-center items-center h-full rounded-xl">
-          {/* {connected && publicKey?.toBase58() && ( */}
-          <>
-            <motion.button
-              className="primary-btn text-3xl mt-5"
-              onClick={() => handleMintNFT("Wallet")}
-              variants={mintButtonAnimation}
-              initial="initial"
-              animate="animate"
-              transition={{
-                duration: 1,
-              }}
-              disabled={disabled}
-            >
-              {isMinting ? <i>MINT</i> : "MINT"}
-            </motion.button>
-            <div className="m-10 flex flex-col justify-center align-center items-center">
-              <h1>Your wallet is connected </h1>
-              <button
-                onClick={() => disconnect()}
-                className="mt-4 border-2 p-2 rounded-lg w-1/2 border-purple-200 text-sm"
+          {connected && publicKey?.toBase58() ? (
+            <>
+              <motion.button
+                className="primary-btn text-3xl mt-5"
+                onClick={() => handleMintNFT("Wallet")}
+                variants={mintButtonAnimation}
+                initial="initial"
+                animate="animate"
+                transition={{
+                  duration: 1,
+                }}
+                disabled={disabled}
               >
-                Disconnect
-              </button>
+                {isMinting ? <i>MINT</i> : "MINT"}
+              </motion.button>
+              <div className="m-10 flex flex-col justify-center align-center items-center">
+                <h1>Your wallet is connected </h1>
+                <button
+                  onClick={() => disconnect()}
+                  className="mt-4 border-2 p-2 rounded-lg w-1/2 border-purple-200 text-sm"
+                >
+                  Disconnect
+                </button>
+              </div>
+            </>
+          ) : (
+            <div className="m-2">
+              <WalletMultiButton />
             </div>
-          </>
-          {/* )} */}
+          )}
         </div>
       ) : (
         <div className="m-6">

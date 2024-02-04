@@ -15,6 +15,7 @@ export const MapView: React.FC<MapViewProps> = ({
   markers,
   shouldZoom,
 }) => {
+  console.log(longitude);
   return (
     <div className="h-full flex justify-center items-center w-full mb-10 rounded-md ">
       <Map
@@ -23,7 +24,7 @@ export const MapView: React.FC<MapViewProps> = ({
         initialViewState={{
           longitude: Number(longitude),
           latitude: Number(latitude),
-          zoom: shouldZoom ? 20 : 10,
+          zoom: shouldZoom ? 20 : 15,
         }}
       >
         {!markers && longitude && latitude ? (

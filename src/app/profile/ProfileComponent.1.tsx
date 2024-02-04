@@ -107,7 +107,6 @@ export const ProfileComponent = () => {
     <LayoutComponent showTitle="Yøhrs" showFooter={true} showNavBar={true}>
       {posts && publicKey && !isLoading ? (
         posts.map((post, index) => {
-          console.log(post);
           if (!post.animationUrl.includes("undefined")) {
             return (
               <Post
