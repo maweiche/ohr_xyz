@@ -68,7 +68,6 @@ export const Post: React.FC<PostProps> = ({
   lat,
   long,
 }) => {
-  console.log("post", post);
   const [showTipModal, setShowTipModal] = useState<boolean>(false);
   const [showShareModal, setShowShareModal] = useState<boolean>(false);
 

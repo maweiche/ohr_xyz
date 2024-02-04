@@ -31,7 +31,6 @@ const MapScreen: React.FC = () => {
 
   const fetchJsonData = async (jsonUri: string) => {
     try {
-      console.log("test)");
       const response = await axios.get(jsonUri);
       if (response.status === 200) {
         const data = response.data;
