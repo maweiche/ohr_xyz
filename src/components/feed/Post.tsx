@@ -146,15 +146,16 @@ export const Post: React.FC<PostProps> = ({
           <div className="flex justify-end mx-5 my-2 gap-5 items-center align-center mt-2">
             <button
               onClick={() => {
-                console.log("showTipModal", post), setShowTipModal(true);
+                console.log("post", post), setShowTipModal(true);
               }}
               className="m-0 p-0 flex justify-center align-center items-center"
             >
-              TIP
               <Image src={"/tip.png"} alt="Tip" width={20} height={18} />
             </button>
             <button
-              onClick={() =>{console.log("showTipModal", post), setShowShareModal(true)}}
+              onClick={() => {
+                setShowShareModal(true);
+              }}
               className="m-0 p-0 flex justify-center align-center items-center"
             >
               {" "}
@@ -193,24 +194,24 @@ export const Post: React.FC<PostProps> = ({
           <TipCreatorModal
             showModal={showTipModal}
             owner={owner}
-            mintAddress={post!.assetId}
+            mintAddress={assetId!}
             setShowModal={setShowTipModal}
-            long={post?.attributesObj.Long}
-            lat={post?.attributesObj.Lat}
+            long={long}
+            lat={lat}
             id={post?.id}
-            vibe={post?.attributesObj.Vibe}
+            vibe={title}
           />
         </div>
       )}
 
-      {showShareModal && post?.assetId && (
+      {showShareModal && assetId && (
         <div className="fixed inset-0 overflow-y-auto z-10 justify-center items-center">
           <SharePostModal
             showModal={showShareModal}
             setShowModal={setShowShareModal}
-            longitude={post?.attributesObj.Long}
-            latitude={post?.attributesObj.Lat}
-            id={post?.assetId}
+            longitude={long}
+            latitude={lat}
+            id={assetId!}
           />
         </div>
       )}

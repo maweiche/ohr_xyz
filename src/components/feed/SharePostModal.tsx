@@ -10,7 +10,7 @@ interface SharePostModalProps {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   latitude?: string;
   longitude?: string;
-  id: number;
+  id: string;
 }
 
 const SharePostModal: React.FC<SharePostModalProps> = ({

@@ -36,7 +36,6 @@ export const ProfileComponent = () => {
 
   const searchAssets = async () => {
     try {
-      console.log("publicKey", publicKey?.toString());
       const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -60,10 +59,8 @@ export const ProfileComponent = () => {
 
       if (response.ok) {
         const { result } = await response.json();
-        console.log("result: ", result);
         const postPromises: Promise<AudioNFT>[] = result.items.map(
           async (item: any) => {
-            console.log("item: ", item);
             const { animationUrl, attributes } = await fetchJsonData(
               item.content.json_uri
             );
