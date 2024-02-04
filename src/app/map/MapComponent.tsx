@@ -85,10 +85,6 @@ const MapScreen: React.FC = () => {
         const validPosts = (await Promise.all(postPromises)).filter(
           (post) => post !== undefined
         );
-<<<<<<< Updated upstream
-        // console.log("validPosts", validPosts);
-=======
->>>>>>> Stashed changes
         setAudioNFTs(validPosts);
         checkIfAudioNFTisShared(validPosts);
       }
@@ -146,10 +142,6 @@ const MapScreen: React.FC = () => {
     }
   }, [checkIfAudioNFTisShared, audioNFTs, audioNFT?.status]);
 
-<<<<<<< Updated upstream
-  // console.log("AudioNFTs: ", audioNFTs);
-=======
->>>>>>> Stashed changes
   const markers: JSX.Element[] = useMemo(
     () =>
       audioNFTs
