@@ -1,7 +1,11 @@
 # øhr
 
 We envision to build a decentralised social media platform that is using sound as its primary medium.
-With this repo, you will be able to mint an audioNFT, share and listen to other audioNFTs through a map that is publicly available.
+With this repo, you will be able to mint a compressed audioNFT, share and listen to other audioNFTs. 
+
+The audioNFTs are displayed on a map that is publicly available as well as a social feed.
+
+Users also have the ability to tip creators in SOL and see the top tippers for each creator via our Tip Leaderboard.
 ___
 ### Features
 
