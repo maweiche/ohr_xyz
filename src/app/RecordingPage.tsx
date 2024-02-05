@@ -116,7 +116,10 @@ const RecordingPage = () => {
   const showHelpText = !isRecordingCompleted && !isRecording;
 
   return (
-    <div className="flex flex-col justify-center align-center items-center h-full overflow-none">
+    <div
+      className="flex flex-col justify-center align-center items-center overflow-none pb-16"
+      style={{ height: "100dvh" }}
+    >
       {(isRecordingTooShort || hasErrored) && (
         <ErrorMessage
           showModal={true}

@@ -141,7 +141,10 @@ export const ProfileComponent = () => {
           }
         })
       ) : (
-        <div className="flex h-full justify-center align-center">
+        <div
+          className="flex justify-center align-center absolute top-0 left-0 w-full"
+          style={{ height: "100dvh" }}
+        >
           <LoadingComponent />
         </div>
       )}

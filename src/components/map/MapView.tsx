@@ -17,7 +17,10 @@ export const MapView: React.FC<MapViewProps> = ({
 }) => {
   console.log(longitude);
   return (
-    <div className="h-full flex justify-center items-center w-full mb-10 rounded-md ">
+    <div
+      className="flex justify-center items-center w-full rounded-md"
+      style={{ height: "calc(100dvh - 8rem)" }}
+    >
       <Map
         mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_API_KEY}
         mapStyle={`mapbox://styles/noamie22/ck2zynqqn018x1cnohcw5cnna`}

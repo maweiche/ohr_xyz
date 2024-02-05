@@ -28,10 +28,12 @@ export const FeedComponent = () => {
         }
       } else {
         console.error("Failed to fetch data:", response.status);
+        // TODO: add Error message
         throw new Error("Failed to fetch data");
       }
     } catch (error) {
       console.error("Error fetching data:", error);
+      // TODO: add Error message
       throw error;
     }
   };
@@ -114,7 +116,10 @@ export const FeedComponent = () => {
           }
         })
       ) : (
-        <div className="flex h-full justify-center align-center">
+        <div
+          className="flex justify-center align-center absolute top-0 left-0 w-full"
+          style={{ height: "100dvh" }}
+        >
           <LoadingComponent />
         </div>
       )}

@@ -224,14 +224,17 @@ const MapScreen: React.FC = () => {
         {audioNFTs && isLoading ? (
           <>
             <div className="flex justify-center">
-              <span className="loading loading-dots loading-md "></span>
+              <span className="loading loading-dots loading-md"></span>
             </div>
             <MapView {...position} />
           </>
         ) : audioNFTs && !isLoading ? (
           <MapView {...position} markers={markers} shouldZoom={shouldZoom} />
         ) : (
-          <div className="flex h-full justify-center align-center">
+          <div
+            className="flex justify-center align-center absolute left-0 top-0 w-full "
+            style={{ height: "100dvh" }}
+          >
             <LoadingComponent />
           </div>
         )}

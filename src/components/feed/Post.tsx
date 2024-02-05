@@ -176,12 +176,14 @@ export const Post: React.FC<PostProps> = ({
             <SoundWave audioUrl={audioUrl} />
           </div>
           <div className="flex justify-end mx-5 my-2 gap-5 items-center align-center mt-2">
-            <button
-              onClick={() => setShowTipModal(true)}
-              className="m-0 p-0 flex justify-center align-center items-center"
-            >
-              <Image src={"/tip.png"} alt="Tip" width={20} height={18} />
-            </button>
+            {!profile && (
+              <button
+                onClick={() => setShowTipModal(true)}
+                className="m-0 p-0 flex justify-center align-center items-center"
+              >
+                <Image src={"/tip.png"} alt="Tip" width={20} height={18} />
+              </button>
+            )}
             <button
               onClick={() => {
                 console.log("showTipModal", post), setShowShareModal(true);
