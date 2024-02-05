@@ -1,5 +1,5 @@
 import React from "react";
-import { ProfileComponent } from "./ProfileComponent.1";
+import { ProfileComponent } from "./ProfileComponent";
 
 export default function Page() {
   return <ProfileComponent />;

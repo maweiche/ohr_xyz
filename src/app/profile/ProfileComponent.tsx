@@ -1,20 +1,12 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useWallet } from "@solana/wallet-adapter-react";
+import { AudioNFT } from "@components/map/NFTModal";
 import { Post } from "@components/feed/Post";
-
-interface NFTAttributes {
-  Date: string;
-  Motivation: string;
-  Vibe: string;
-}
-
-interface AudioNFT {
-  animationUrl: string;
-  attributes: NFTAttributes;
-}
+import { LayoutComponent } from "@components/layout/LayoutComponent";
+import LoadingComponent from "@components/LoadingComponent";
+import { fetchJsonData, sortPosts } from "app/feed/FeedComponent";
 
 export const ProfileComponent = () => {
   const url = process.env.NEXT_PUBLIC_HELIUS_DEVNET || "";
@@ -23,25 +15,25 @@ export const ProfileComponent = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [posts, setPosts] = useState<AudioNFT[] | undefined>(undefined);
 
-  const fetchJsonData = async (jsonUri: string) => {
-    try {
-      const response = await axios.get(jsonUri);
+  // const fetchJsonData = async (jsonUri: string) => {
+  //   try {
+  //     const response = await axios.get(jsonUri);
 
-      if (response.status === 200) {
-        const data = response.data;
-        return {
-          animationUrl: data.animationUrl,
-          attributes: data.attributes,
-        };
-      } else {
-        console.error("Failed to fetch data:", response.status);
-        throw new Error("Failed to fetch data");
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      throw error;
-    }
-  };
+  //     if (response.status === 200) {
+  //       const data = response.data;
+  //       return {
+  //         animationUrl: data.animationUrl,
+  //         attributes: data.attributes,
+  //       };
+  //     } else {
+  //       console.error("Failed to fetch data:", response.status);
+  //       throw new Error("Failed to fetch data");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //     throw error;
+  //   }
+  // };
 
   const searchAssets = async () => {
     try {
@@ -55,83 +47,101 @@ export const ProfileComponent = () => {
           id: "my-id",
           method: "searchAssets",
           params: {
-            ownerAddress: publicKey,
+            ownerAddress: publicKey?.toString(),
             grouping: [
               "collection",
               "7zLBMxtrJoKmBdCbn35J8YYjRcDQbAt3HprcBs6Poykv",
             ],
             page: 1, // Starts at 1
-            limit: 1000,
+            limit: 100,
           },
         }),
       });
 
       if (response.ok) {
         const { result } = await response.json();
-        // console.log(result);
-        //
-        // result.items.map((item: any) => {
-        //   console.log(item.content.json_uri);
-        // });
 
-        // const postPromises: Promise<AudioNFT>[] = result.items.map(
-        //   //   async (item: any) => {
-        //   //     console.log(item.content.json_uri);
-        //   //     // const { animationUrl, attributes } = await fetchJsonData(
-        //   //     //   item.content.json_uri
-        //   //     // );
-        //   //     // if (animationUrl === undefined) {
-        //   //     //   console.log(animationUrl);
-        //   //     // }
-        //   //   }
-        //   // );
-        //   async (item: any) => {
-        //     const data = (await fetchJsonData(
-        //       item.content.json_uri
-        //     )) as AudioNFT; // Type assertion
-        //     if (data.animationUrl === undefined) {
-        //       console.log(data.animationUrl);
-        //     }
-        //     // const { animationUrl, attributes } = data;
+        const postPromises: Promise<AudioNFT>[] = result.items.map(
+          async (item: any) => {
+            const { animationUrl, attributes } = await fetchJsonData(
+              item.content.json_uri
+            );
+            const owner = item.ownership.owner;
+            const metadata = item.content.metadata;
+            const assetId = item.id;
+            const burnt = item.burnt;
+            // attributes = [{trait_type: 'Date', value: '03 Feb 2024 18:12'}]
+            // parse the attributes and store them in a more readable format, e.g. {Date: '03 Feb 2024 18:12'}'
+            const attributesObj = attributes.reduce(
+              (acc: any, attribute: any) => {
+                acc[attribute.trait_type] = attribute.value;
+                return acc;
+              },
+              {}
+            );
+            if (animationUrl && attributes && !burnt) {
+              return { animationUrl, attributesObj, metadata, owner, assetId };
+            }
+          }
+        );
+        const validPosts = (await Promise.all(postPromises)).filter(
+          (post) => post !== undefined
+        );
 
-        //     // if (animationUrl) {
-        //     //   return {
-        //     //     animationUrl,
-        //     //     attributes,
-        //     //   };}
-        //   }
-        // );
-        // const validPosts = (await Promise.all(postPromises)).filter(
-        //   (post) => post !== undefined
-        // );
-
-        // setPosts(validPosts as AudioNFT[]);
-        // setIsLoading(false); // Set loading state to false
-
-        // console.log("Posts: ", validPosts);
+        const posts = sortPosts(validPosts);
+        // console.log("validPosts", validPosts);
+        setPosts(posts);
+        setIsLoading(false);
       } else {
         console.error("Failed to fetch assets:", response.status);
-        setIsLoading(false); // Set loading state to false on error
+        setIsLoading(false);
       }
     } catch (error) {
       console.error("Error fetching assets:", error);
-      setIsLoading(false); // Set loading state to false on error
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    searchAssets();
-  }, []); // Run the searchAssets function once, when the component mounts
+    if (publicKey) {
+      searchAssets();
+    }
+  }, [publicKey]);
 
   return (
-    <div>
-      {isLoading ? (
-        <p>Loading...</p>
+    <LayoutComponent showTitle="Yøhrs" showFooter={true} showNavBar={true}>
+      {posts && publicKey && !isLoading ? (
+        posts.map((post, index) => {
+          if (!post.animationUrl.includes("undefined")) {
+            return (
+              <Post
+                title={post.attributesObj.Vibe}
+                date={post.attributesObj.Date}
+                lat={post.attributesObj.Lat}
+                long={post.attributesObj.Long}
+                audioUrl={post.animationUrl}
+                owner={post.owner}
+                key={index}
+                post={post}
+                assetId={post.assetId}
+                profile={true}
+              />
+            );
+          }
+        })
       ) : (
-        <h1>data</h1>
-        // <Post title={""} date={""} audioUrl={""} owner={""} post={undefined} />
-        /* Render your posts here */
+        <div
+          className="flex justify-center align-center absolute top-0 left-0 w-full"
+          style={{ height: "100dvh" }}
+        >
+          <LoadingComponent />
+        </div>
       )}
-    </div>
+      {!isLoading && posts?.length == 0 && (
+        <div className="flex h-full justify-center items-start align-center text-xl p-2 ">
+          Go mint yourself some øhrs!
+        </div>
+      )}
+    </LayoutComponent>
   );
 };
