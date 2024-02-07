@@ -35,10 +35,12 @@ export const fetchJsonData = async (jsonUri: string) => {
   }
 };
 
-export const getValidPosts = async () => {
+export const getValidPosts = async (response: Response) => {
   try {
-    const response = await fetch("/api/nfts?initialPageNumber=1");
-    const result = await response.json();
+    let result = await response.json();
+    if (result.result) {
+      result = result.result.items;
+    }
 
     if (response.ok) {
       const postPromises: Promise<AudioNFT>[] = result.map(
@@ -48,7 +50,7 @@ export const getValidPosts = async () => {
           );
           const { owner } = item.ownership;
           const { metadata } = item.content;
-          const { assetId, burnt } = item.id;
+          const { id, burnt } = item;
 
           const attributesObj = attributes?.reduce(
             (acc: any, attribute: any) => {
@@ -64,7 +66,7 @@ export const getValidPosts = async () => {
               attributesObj,
               metadata,
               owner,
-              assetId,
+              id,
             };
           }
         }
@@ -102,8 +104,9 @@ export const sortPosts = (posts: AudioNFT[]) => {
 export const FeedComponent = () => {
   const [posts, setPosts] = useState<AudioNFT[] | undefined>(undefined);
   const fetchNFTs = async () => {
+    const response = await fetch("/api/nfts?initialPageNumber=1");
     try {
-      const validPosts = await getValidPosts();
+      const validPosts = await getValidPosts(response);
       if (validPosts) {
         const posts = sortPosts(validPosts);
         setPosts(posts);
@@ -132,6 +135,7 @@ export const FeedComponent = () => {
                 key={index}
                 owner={post.owner}
                 post={post}
+                assetId={post.id.toString()}
               />
             );
           }

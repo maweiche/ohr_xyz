@@ -10,13 +10,6 @@ import EarBtn from "../components/create/recording/EarBtn";
 import Timer from "../components/create/recording/Timer";
 import styles from "@styles/Home.module.css";
 import useMenuStore from "../utils/useMenuStore";
-import {
-  LoginButton,
-  RegisterButton,
-  LogoutButton,
-  ProfileButton,
-} from "@components/Buttons";
-import { Post } from "@components/feed/Post";
 
 const getUserMedia = async () => {
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -155,13 +148,10 @@ const RecordingPage = () => {
         />
       )}
       {showHelpText && (
-        <p className={styles["help-text"]}>click the ear to record</p>
+        <p className={styles["help-text"]}>tap the ear to record</p>
       )}
     </div>
   );
 };
 
 export default RecordingPage;
-function getServerSession(authOptions: any) {
-  throw new Error("Function not implemented.");
-}

@@ -6,7 +6,11 @@ import { AudioNFT } from "@components/map/NFTModal";
 import { Post } from "@components/feed/Post";
 import { LayoutComponent } from "@components/layout/LayoutComponent";
 import LoadingComponent from "@components/LoadingComponent";
-import { fetchJsonData, sortPosts } from "app/feed/FeedComponent";
+import {
+  fetchJsonData,
+  getValidPosts,
+  sortPosts,
+} from "app/feed/FeedComponent";
 
 export const ProfileComponent = () => {
   const url = process.env.NEXT_PUBLIC_HELIUS_DEVNET || "";
@@ -14,26 +18,6 @@ export const ProfileComponent = () => {
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [posts, setPosts] = useState<AudioNFT[] | undefined>(undefined);
-
-  // const fetchJsonData = async (jsonUri: string) => {
-  //   try {
-  //     const response = await axios.get(jsonUri);
-
-  //     if (response.status === 200) {
-  //       const data = response.data;
-  //       return {
-  //         animationUrl: data.animationUrl,
-  //         attributes: data.attributes,
-  //       };
-  //     } else {
-  //       console.error("Failed to fetch data:", response.status);
-  //       throw new Error("Failed to fetch data");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching data:", error);
-  //     throw error;
-  //   }
-  // };
 
   const searchAssets = async () => {
     try {
@@ -58,42 +42,11 @@ export const ProfileComponent = () => {
         }),
       });
 
-      if (response.ok) {
-        const { result } = await response.json();
+      const validPosts = await getValidPosts(response);
 
-        const postPromises: Promise<AudioNFT>[] = result.items.map(
-          async (item: any) => {
-            const { animationUrl, attributes } = await fetchJsonData(
-              item.content.json_uri
-            );
-            const owner = item.ownership.owner;
-            const metadata = item.content.metadata;
-            const assetId = item.id;
-            const burnt = item.burnt;
-            // attributes = [{trait_type: 'Date', value: '03 Feb 2024 18:12'}]
-            // parse the attributes and store them in a more readable format, e.g. {Date: '03 Feb 2024 18:12'}'
-            const attributesObj = attributes.reduce(
-              (acc: any, attribute: any) => {
-                acc[attribute.trait_type] = attribute.value;
-                return acc;
-              },
-              {}
-            );
-            if (animationUrl && attributes && !burnt) {
-              return { animationUrl, attributesObj, metadata, owner, assetId };
-            }
-          }
-        );
-        const validPosts = (await Promise.all(postPromises)).filter(
-          (post) => post !== undefined
-        );
-
+      if (validPosts) {
         const posts = sortPosts(validPosts);
-        // console.log("validPosts", validPosts);
         setPosts(posts);
-        setIsLoading(false);
-      } else {
-        console.error("Failed to fetch assets:", response.status);
         setIsLoading(false);
       }
     } catch (error) {
@@ -123,7 +76,7 @@ export const ProfileComponent = () => {
                 owner={post.owner}
                 key={index}
                 post={post}
-                assetId={post.assetId}
+                assetId={post.id.toString()}
                 profile={true}
               />
             );
