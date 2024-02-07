@@ -18,6 +18,7 @@ import {
   getCurrentRoot,
 } from "@metaplex-foundation/mpl-bubblegum";
 import { Connection, PublicKey, Transaction } from "@solana/web3.js";
+import { formatDateAgoOrShortDate } from "utils/formatUtils";
 
 interface PostProps {
   title: string;
@@ -29,32 +30,6 @@ interface PostProps {
   profile?: boolean;
   lat?: string;
   long?: string;
-}
-
-function formatDateAgoOrShortDate(dateString: string): string {
-  const currentDate: Date = new Date();
-  const inputDate: Date = new Date(dateString);
-  const timeDifferenceInMilliseconds: number =
-    currentDate.getTime() - inputDate.getTime();
-
-  const minutes: number = Math.floor(timeDifferenceInMilliseconds / 60000);
-  const hours: number = Math.floor(minutes / 60);
-
-  if (timeDifferenceInMilliseconds < 86400000) {
-    // Less than 24 hours
-    if (minutes < 60) {
-      return `${minutes}m`;
-    } else {
-      return `${hours}h`;
-    }
-  } else {
-    // 24 hours or more
-    const day: number = inputDate.getDate();
-    const month: number = inputDate.getMonth() + 1;
-    const year: number = inputDate.getFullYear();
-
-    return `${day}/${month}/${year < 10 ? "0" : ""}${year}`;
-  }
 }
 
 export const Post: React.FC<PostProps> = ({
@@ -75,45 +50,35 @@ export const Post: React.FC<PostProps> = ({
   const { publicKey } = useWallet();
   const wallet = useWallet();
 
+  const linkToTipboard =
+    post &&
+    (!!post?.attributesObj?.Long && !!post?.attributesObj?.Lat
+      ? `/tipboard?owner=${owner}&id=${post.id}&lat=${
+          post.attributesObj.Lat
+        }&long=${post.attributesObj.Long}${
+          post.attributesObj?.Vibe ? `&vibe=${post.attributesObj.Vibe}` : ""
+        }`
+      : `/tipboard?owner=${owner}&id=${post.id}${
+          post.attributesObj?.Vibe ? `&vibe=${post.attributesObj.Vibe}` : ""
+        }`);
+
   const creator =
     owner.substring(0, 3) + "..." + owner.substring(owner.length - 3);
 
   const handleLocationClick = () => {
     if (post) {
       router.push(
-        `/map?id=${post!.assetId}&latitude=${
-          post!.attributesObj.Lat
-        }&longitude=${post!.attributesObj.Long}`
+        `/map?id=${post!.id}&latitude=${post!.attributesObj.Lat}&longitude=${
+          post!.attributesObj.Long
+        }`
       );
     }
   };
-
-  // async function editPost() {
-  //   const mainRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_MAINNET;
-  //   const devnetRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_DEVNET;
-  //   const umi = createUmi(new Connection(devnetRpcEndpoint!)).use(dasApi());
-  //   //   const umi = createUmi(devnetRpcEndpoint!).use(dasApi());
-  //   umi.use(walletAdapterIdentity(wallet));
-  //   const updateArgs: UpdateArgsArgs = {
-  //     name: 'New name',
-  //     uri: 'https://updated-example.com/my-nft.json',
-  //   }
-  //   // @ts-ignore
-  //   const assetWithProof = await getAssetWithProof(umi, assetId);
-  //   console.log('assetWithProof', assetWithProof);
-  //   await updateMetadata(umi, {
-  //     ...assetWithProof,
-  //     leafOwner: assetWithProof.leafOwner,
-  //     currentMetadata: assetWithProof.metadata,
-  //     updateArgs,
-  //    }).sendAndConfirm(umi);
-  // }
 
   async function burnPost() {
     const mainRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_MAINNET;
     const devnetRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_DEVNET;
     const umi = createUmi(new Connection(devnetRpcEndpoint!)).use(dasApi());
-    //   const umi = createUmi(devnetRpcEndpoint!).use(dasApi());
     umi.use(walletAdapterIdentity(wallet));
     // @ts-ignore
     const assetWithProof = await getAssetWithProof(umi, assetId);
@@ -132,21 +97,7 @@ export const Post: React.FC<PostProps> = ({
           <div className="flex items-center align-center w-full">
             {post && (
               <Link
-                href={
-                  !!post?.attributesObj?.Long && !!post?.attributesObj?.Lat
-                    ? `/tipboard?owner=${owner}&id=${post.id}&lat=${
-                        post.attributesObj.Lat
-                      }&long=${post.attributesObj.Long}${
-                        post.attributesObj?.Vibe
-                          ? `&vibe=${post.attributesObj.Vibe}`
-                          : ""
-                      }`
-                    : `/tipboard?owner=${owner}&id=${post.id}${
-                        post.attributesObj?.Vibe
-                          ? `&vibe=${post.attributesObj.Vibe}`
-                          : ""
-                      }`
-                }
+                href={linkToTipboard ?? ""}
                 className="flex align-center items-center"
               >
                 <div className="avatar">
@@ -186,7 +137,7 @@ export const Post: React.FC<PostProps> = ({
             )}
             <button
               onClick={() => {
-                console.log("showTipModal", post), setShowShareModal(true);
+                setShowShareModal(true);
               }}
               className="m-0 p-0 flex justify-center align-center items-center"
             >
@@ -195,13 +146,6 @@ export const Post: React.FC<PostProps> = ({
             </button>
             {profile && (
               <>
-                {/* <button
-                  onClick={() => editPost()}
-                  className="m-0 p-0 flex justify-center align-center items-center"
-                >
-                  {" "}
-                  <Image src={"/edit.png"} alt="Edit" width={16} height={17} />
-                </button> */}
                 {publicKey!.toString() === owner && (
                   <button
                     onClick={() => burnPost()}
@@ -250,3 +194,24 @@ export const Post: React.FC<PostProps> = ({
     </div>
   );
 };
+
+// async function editPost() {
+//   const mainRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_MAINNET;
+//   const devnetRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_DEVNET;
+//   const umi = createUmi(new Connection(devnetRpcEndpoint!)).use(dasApi());
+//   //   const umi = createUmi(devnetRpcEndpoint!).use(dasApi());
+//   umi.use(walletAdapterIdentity(wallet));
+//   const updateArgs: UpdateArgsArgs = {
+//     name: 'New name',
+//     uri: 'https://updated-example.com/my-nft.json',
+//   }
+//   // @ts-ignore
+//   const assetWithProof = await getAssetWithProof(umi, assetId);
+//   console.log('assetWithProof', assetWithProof);
+//   await updateMetadata(umi, {
+//     ...assetWithProof,
+//     leafOwner: assetWithProof.leafOwner,
+//     currentMetadata: assetWithProof.metadata,
+//     updateArgs,
+//    }).sendAndConfirm(umi);
+// }

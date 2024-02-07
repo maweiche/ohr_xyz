@@ -15,7 +15,7 @@ export const MapView: React.FC<MapViewProps> = ({
   markers,
   shouldZoom,
 }) => {
-  console.log(longitude);
+  console.log("Markers:", markers);
   return (
     <div
       className="flex justify-center items-center w-full rounded-md"
@@ -30,7 +30,7 @@ export const MapView: React.FC<MapViewProps> = ({
           zoom: shouldZoom ? 20 : 15,
         }}
       >
-        {longitude && latitude ? (
+        {!markers && longitude && latitude ? (
           <Marker longitude={longitude} latitude={latitude}>
             <Image
               src={"/ear_small.png"}
