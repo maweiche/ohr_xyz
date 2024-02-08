@@ -8,7 +8,7 @@ import { Marker } from "react-map-gl";
 import axios from "axios";
 import Image from "next/legacy/image";
 import LoadingComponent from "@components/LoadingComponent";
-import { getValidPosts, sortPosts } from "app/feed/FeedComponent";
+import { getValidPosts, sortPosts } from "utils/postsUtils";
 
 const MapScreen: React.FC = () => {
   const [audioNFTs, setAudioNFTs] = useState<AudioNFT[] | undefined>(undefined);
@@ -57,17 +57,17 @@ const MapScreen: React.FC = () => {
   };
 
   const fetchNFTs = async () => {
-    const response = await fetch("/api/nfts?initialPageNumber=1");
-    try {
-      const validPosts = await getValidPosts(response);
-      if (validPosts) {
-        const posts = sortPosts(validPosts);
-        setAudioNFTs(posts);
-        checkIfAudioNFTisShared(validPosts);
-      }
-    } catch (error) {
-      console.error("Error fetching assets:", error);
-    }
+    // const response = await fetch("/api/nfts?initialPageNumber=1");
+    // try {
+    //   const validPosts = await getValidPosts(response);
+    //   if (validPosts) {
+    //     const posts = sortPosts(validPosts);
+    //     setAudioNFTs(posts);
+    //     checkIfAudioNFTisShared(validPosts);
+    //   }
+    // } catch (error) {
+    //   console.error("Error fetching assets:", error);
+    // }
   };
 
   // const fetchNFTs = async () => {

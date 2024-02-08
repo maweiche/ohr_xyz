@@ -6,11 +6,7 @@ import { AudioNFT } from "@components/map/NFTModal";
 import { Post } from "@components/feed/Post";
 import { LayoutComponent } from "@components/layout/LayoutComponent";
 import LoadingComponent from "@components/LoadingComponent";
-import {
-  fetchJsonData,
-  getValidPosts,
-  sortPosts,
-} from "app/feed/FeedComponent";
+import { fetchJsonData, getValidPosts, sortPosts } from "utils/postsUtils";
 
 export const ProfileComponent = () => {
   const url = process.env.NEXT_PUBLIC_HELIUS_DEVNET || "";

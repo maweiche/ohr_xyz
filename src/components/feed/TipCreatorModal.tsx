@@ -2,12 +2,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useWallet } from "@solana/wallet-adapter-react";
-import {
-  Connection,
-  Transaction,
-  PublicKey,
-  LAMPORTS_PER_SOL,
-} from "@solana/web3.js";
+import { Connection, PublicKey } from "@solana/web3.js";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useRouter } from "next/navigation";
 import {
@@ -19,9 +14,6 @@ import {
 import { IDL, Tipboard } from "../tipboard/idl/tipboard";
 import * as anchor from "@project-serum/anchor";
 import BN from "bn.js";
-import LoadingComponent from "@components/LoadingComponent";
-import HeartBeatAnimation from "./HeartBeatAnimation";
-import animationData from "../../assets/heartbeat-animation.json";
 
 interface TipCreatorModalProps {
   showModal: boolean;
@@ -203,11 +195,7 @@ const TipCreatorModal: React.FC<TipCreatorModalProps> = ({
         <Dialog.Title className="text-xl font-bold text-center">
           {type !== "error" ? "Tip your creator." : "Something went wrong :("}
         </Dialog.Title>
-        {loading ? (
-          <div className="flex justify-center items-center align-center p-10">
-            <LoadingComponent />
-          </div>
-        ) : publicKey ? (
+        {publicKey ? (
           <form onSubmit={handleSubmit} className="flex flex-col gap-2 ">
             <input
               type="number"

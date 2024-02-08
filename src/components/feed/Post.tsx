@@ -10,13 +10,7 @@ import SharePostModal from "./SharePostModal";
 import { walletAdapterIdentity } from "@metaplex-foundation/umi-signer-wallet-adapters";
 import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
 import { dasApi } from "@metaplex-foundation/digital-asset-standard-api";
-import {
-  getAssetWithProof,
-  burn,
-  updateMetadata,
-  UpdateArgsArgs,
-  getCurrentRoot,
-} from "@metaplex-foundation/mpl-bubblegum";
+import { getAssetWithProof, burn } from "@metaplex-foundation/mpl-bubblegum";
 import { Connection, PublicKey, Transaction } from "@solana/web3.js";
 import { formatDateAgoOrShortDate } from "utils/formatUtils";
 
@@ -170,7 +164,7 @@ export const Post: React.FC<PostProps> = ({
           <TipCreatorModal
             showModal={showTipModal}
             owner={owner}
-            mintAddress={post!.assetId!}
+            mintAddress={post?.id.toString() ?? ""}
             setShowModal={setShowTipModal}
             long={long}
             lat={lat}
