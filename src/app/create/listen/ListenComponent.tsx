@@ -80,28 +80,13 @@ const ListenComponent = () => {
 
   return (
     <LayoutComponent showTitle="Listen" showFooter={false}>
-      {hasErrored && (
-        <ErrorMessage
-          showModal={Boolean(hasErrored)}
-          handleContinue={() => router.push("/create/listen")}
-          buttonText="Try again"
-          secondaryButtonText="Report a bug"
-          secondaryHandleClick={() => {
-            console.log("report to mux");
-            router.push("/");
-            // TODO: send them to telegram
-          }}
-          description={hasErrored}
-          title="Something went wrong"
-          handleClose={() => setHasErrored(undefined)}
-        />
-      )}
       <motion.div
-        className="flex flex-col justify-center items-center h-full"
+        className="flex flex-col justify-center items-center h-full p-16"
         initial="initial"
         animate="animate"
         variants={containerAnimation}
         transition={{ duration: 1 }}
+        style={{ height: "100dvh" }}
       >
         {isLoading ? (
           <LoadingComponent />
@@ -130,6 +115,22 @@ const ListenComponent = () => {
           </div>
         )}
       </motion.div>
+      {hasErrored && (
+        <ErrorMessage
+          showModal={Boolean(hasErrored)}
+          handleContinue={() => router.push("/create/listen")}
+          buttonText="Try again"
+          secondaryButtonText="Report a bug"
+          secondaryHandleClick={() => {
+            console.log("report to mux");
+            router.push("/");
+            // TODO: send them to telegram
+          }}
+          description={hasErrored}
+          title="Something went wrong"
+          handleClose={() => setHasErrored(undefined)}
+        />
+      )}
     </LayoutComponent>
   );
 };

@@ -57,57 +57,18 @@ const MapScreen: React.FC = () => {
   };
 
   const fetchNFTs = async () => {
-    // const response = await fetch("/api/nfts?initialPageNumber=1");
-    // try {
-    //   const validPosts = await getValidPosts(response);
-    //   if (validPosts) {
-    //     const posts = sortPosts(validPosts);
-    //     setAudioNFTs(posts);
-    //     checkIfAudioNFTisShared(validPosts);
-    //   }
-    // } catch (error) {
-    //   console.error("Error fetching assets:", error);
-    // }
+    const response = await fetch("/api/nfts?initialPageNumber=1");
+    try {
+      const validPosts = await getValidPosts(response);
+      if (validPosts) {
+        const posts = sortPosts(validPosts);
+        setAudioNFTs(posts);
+        checkIfAudioNFTisShared(validPosts);
+      }
+    } catch (error) {
+      console.error("Error fetching assets:", error);
+    }
   };
-
-  // const fetchNFTs = async () => {
-  //   try {
-  //     const response = await fetch("/api/nfts?initialPageNumber=1");
-  //     const result = await response.json();
-
-  //     if (response.ok) {
-  //       const postPromises: Promise<AudioNFT>[] = result.map(
-  //         async (item: any) => {
-  //           const { animationUrl, attributes } = await fetchJsonData(
-  //             item.content.json_uri
-  //           );
-  //           const owner = item.ownership.owner;
-  //           const metadata = item.content.metadata;
-  //           const assetId = item.id;
-  //           const burnt = item.burnt;
-
-  //           const attributesObj = attributes?.reduce(
-  //             (acc: any, attribute: any) => {
-  //               acc[attribute.trait_type] = attribute.value;
-  //               return acc;
-  //             },
-  //             {}
-  //           );
-  //           if (animationUrl && attributes && !burnt) {
-  //             return { animationUrl, attributesObj, metadata, owner, assetId };
-  //           }
-  //         }
-  //       );
-  //       const validPosts = (await Promise.all(postPromises)).filter(
-  //         (post) => post !== undefined
-  //       );
-  //       setAudioNFTs(validPosts);
-  //       checkIfAudioNFTisShared(validPosts);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching assets:", error);
-  //   }
-  // };
 
   const showSharedNFT = useCallback(
     async (audioNFTid: string, audioNFTs: AudioNFT[]) => {
@@ -165,15 +126,15 @@ const MapScreen: React.FC = () => {
         ? audioNFTs
             .filter(
               (audioNFT) =>
-                audioNFT.props &&
-                audioNFT.props.latitude !== undefined &&
-                audioNFT.props.longitude !== undefined
+                audioNFT.attributesObj &&
+                audioNFT.attributesObj.Lat !== undefined &&
+                audioNFT.attributesObj.Long !== undefined
             )
             .map((audioNFT, index) => (
               <Marker
                 key={index}
-                longitude={Number(audioNFT.props.longitude)}
-                latitude={Number(audioNFT.pros.latitude)}
+                longitude={Number(audioNFT.attributesObj.Long)}
+                latitude={Number(audioNFT.attributesObj.Lat)}
                 color="red"
                 onClick={() => {
                   setAudioNFT(audioNFT);

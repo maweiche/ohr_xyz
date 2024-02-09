@@ -15,7 +15,6 @@ export const MapView: React.FC<MapViewProps> = ({
   markers,
   shouldZoom,
 }) => {
-  console.log("Markers:", markers);
   return (
     <div
       className="flex justify-center items-center w-full rounded-md"

@@ -7,13 +7,17 @@ import { Post } from "@components/feed/Post";
 import { LayoutComponent } from "@components/layout/LayoutComponent";
 import LoadingComponent from "@components/LoadingComponent";
 import { fetchJsonData, getValidPosts, sortPosts } from "utils/postsUtils";
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+
+const url = process.env.NEXT_PUBLIC_HELIUS_DEVNET || "";
 
 export const ProfileComponent = () => {
-  const url = process.env.NEXT_PUBLIC_HELIUS_DEVNET || "";
   const { publicKey } = useWallet();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [posts, setPosts] = useState<AudioNFT[] | undefined>(undefined);
+  const [shouldConnectWallet, setShouldConnectWallet] =
+    useState<boolean>(false);
 
   const searchAssets = async () => {
     try {
@@ -39,7 +43,7 @@ export const ProfileComponent = () => {
       });
 
       const validPosts = await getValidPosts(response);
-
+      console.log("VALID POSTS", validPosts);
       if (validPosts) {
         const posts = sortPosts(validPosts);
         setPosts(posts);
@@ -53,13 +57,26 @@ export const ProfileComponent = () => {
 
   useEffect(() => {
     if (publicKey) {
+      setShouldConnectWallet(false);
       searchAssets();
+    } else {
+      setShouldConnectWallet(true);
     }
   }, [publicKey]);
 
   return (
-    <LayoutComponent showTitle="Yøhrs" showFooter={true} showNavBar={true}>
-      {posts && publicKey && !isLoading ? (
+    <LayoutComponent showTitle="yøhrs" showFooter={true} showNavBar={true}>
+      {shouldConnectWallet ? (
+        <div
+          className="flex flex-col justify-center items-center align-center absolute top-0 left-0 w-full"
+          style={{ height: "100dvh" }}
+        >
+          <p className="w-1/2 text-center m-5">
+            Log in with your wallet to see your øhrs
+          </p>
+          <WalletMultiButton />
+        </div>
+      ) : posts && publicKey && !isLoading ? (
         posts.map((post, index) => {
           if (!post.animationUrl.includes("undefined")) {
             return (

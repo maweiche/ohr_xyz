@@ -63,18 +63,10 @@ const MintComponent = () => {
       showTitle="Mint"
       showFooter={false}
     >
-      {hasErrored && (
-        <ErrorMessage
-          showModal={true}
-          handleContinue={() => handleReroute("/")}
-          buttonText="Back 2 start"
-          description={hasErrored}
-          title="Oh no!"
-          handleClose={() => handleReroute("/")}
-        />
-      )}
-
-      <div className="w-full h-full flex justify-center align-center items-center">
+      <div
+        className="w-full h-full flex justify-center align-center items-center py-16"
+        style={{ height: "100dvh" }}
+      >
         {uploadID && (
           <div className="flex flex-col justify-center items-center w-84 p-3 rounded-xl">
             <h2 className="text-2xl m-2 font-bold text-center">{theVibe}</h2>
@@ -100,6 +92,16 @@ const MintComponent = () => {
           </div>
         )}
       </div>
+      {hasErrored && (
+        <ErrorMessage
+          showModal={true}
+          handleContinue={() => handleReroute("/")}
+          buttonText="Back 2 start"
+          description={hasErrored}
+          title="Oh no!"
+          handleClose={() => handleReroute("/")}
+        />
+      )}
     </LayoutComponent>
   );
 };

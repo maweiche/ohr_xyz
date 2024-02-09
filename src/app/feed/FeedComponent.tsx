@@ -7,13 +7,33 @@ import { AudioNFT } from "@components/map/NFTModal";
 import React, { useEffect, useState } from "react";
 import { getValidPosts, sortPosts } from "../../utils/postsUtils";
 
+const url = process.env.NEXT_PUBLIC_HELIUS_DEVNET || "";
+
 export const FeedComponent = () => {
   const [posts, setPosts] = useState<AudioNFT[] | undefined>(undefined);
   const fetchNFTs = async () => {
-    const response = await fetch("/api/nfts?initialPageNumber=1");
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        jsonrpc: "2.0",
+        id: "my-id",
+        method: "getAssetsByGroup",
+        params: {
+          groupKey: "collection",
+          groupValue: "7zLBMxtrJoKmBdCbn35J8YYjRcDQbAt3HprcBs6Poykv",
+          page: 1, // Starts at 1
+          limit: 1000,
+        },
+      }),
+    });
+
+    // const { result } = await response.json();
+    // console.log("Assets by Group: ", result.items);
     try {
       const validPosts = await getValidPosts(response);
-      console.log("validPosts: ", validPosts);
       if (validPosts) {
         const posts = sortPosts(validPosts);
         setPosts(posts);

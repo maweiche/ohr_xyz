@@ -86,12 +86,11 @@ const NFTModal: React.FC<NFTModalProps> = ({
                   <p className="text-center secondary-font text-4xl">{`"${audioNFT.attributesObj.Vibe}"`}</p>
                   <p className="mt-1 text-white text-sm">
                     {" "}
-                    {audioNFT.attributesObj.Date} - {audioNFT.symbol}
+                    {audioNFT.attributesObj.Date}
                   </p>
                 </Dialog.Title>
 
                 <div className="mt-2 px-6 justify-center flex flex-row gap-5">
-                  {/* <p className="text-center text-md "></p> */}
                   <button
                     onClick={() => setShowTipModal(true)}
                     className="m-0 p-0 flex justify-center align-center items-center"
@@ -113,10 +112,10 @@ const NFTModal: React.FC<NFTModalProps> = ({
                   </button>
                 </div>
 
-                <div className="p-4 m-5">
+                <div className="pr-10 m-5">
                   <SoundWave audioUrl={audioNFT.animationUrl} />
                 </div>
-                
+
                 {showTipModal && (
                   <div className="fixed inset-0 overflow-y-auto z-10 justify-center items-center">
                     <TipCreatorModal

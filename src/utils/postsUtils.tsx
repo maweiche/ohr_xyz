@@ -2,12 +2,13 @@
 import { AudioNFT } from "@components/map/NFTModal";
 import axios from "axios";
 
-
 export const fetchJsonData = async (jsonUri: string) => {
   try {
     const response = await axios.get(jsonUri);
+
     if (response.status === 200) {
       const data = response.data;
+
       if (data.animationUrl === undefined) {
         return {
           animationUrl: undefined,
@@ -34,7 +35,6 @@ export const fetchJsonData = async (jsonUri: string) => {
 export const getValidPosts = async (response: Response) => {
   try {
     let result = await response.json();
-
     // in case of the profile page
     if (result.result) {
       result = result.result.items;
@@ -69,10 +69,10 @@ export const getValidPosts = async (response: Response) => {
           }
         }
       );
-
       const validPosts = (await Promise.all(postPromises)).filter(
         (post) => post !== undefined
       );
+      console.log("Valid posts: ", validPosts);
       return validPosts;
     } else {
       console.error("Failed to fetch assets:", response.status);
