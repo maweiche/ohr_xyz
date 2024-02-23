@@ -72,15 +72,16 @@ export const Post: React.FC<PostProps> = ({
   async function burnPost() {
     const mainRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_MAINNET;
     const devnetRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_DEVNET;
-    const umi = createUmi(new Connection(devnetRpcEndpoint!)).use(dasApi());
+    const umi = createUmi(new Connection(mainRpcEndpoint!)).use(dasApi());
     umi.use(walletAdapterIdentity(wallet));
     // @ts-ignore
     const assetWithProof = await getAssetWithProof(umi, assetId);
-    await burn(umi, {
+    const tx = await burn(umi, {
       ...assetWithProof,
       leafOwner: assetWithProof.leafOwner,
     }).sendAndConfirm(umi);
 
+    console.log(tx);
     window.location.reload();
   }
 

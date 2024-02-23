@@ -7,7 +7,7 @@ import { AudioNFT } from "@components/map/NFTModal";
 import React, { useEffect, useState } from "react";
 import { getValidPosts, sortPosts } from "../../utils/postsUtils";
 
-const url = process.env.NEXT_PUBLIC_HELIUS_DEVNET || "";
+const url = process.env.NEXT_PUBLIC_HELIUS_MAINNET || "";
 
 export const FeedComponent = () => {
   const [posts, setPosts] = useState<AudioNFT[] | undefined>(undefined);

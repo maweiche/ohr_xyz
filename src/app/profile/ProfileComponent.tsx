@@ -9,7 +9,7 @@ import LoadingComponent from "@components/LoadingComponent";
 import { fetchJsonData, getValidPosts, sortPosts } from "utils/postsUtils";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
-const url = process.env.NEXT_PUBLIC_HELIUS_DEVNET || "";
+const url = process.env.NEXT_PUBLIC_HELIUS_MAINNET || "";
 
 export const ProfileComponent = () => {
   const { publicKey } = useWallet();
@@ -43,7 +43,7 @@ export const ProfileComponent = () => {
       });
 
       const validPosts = await getValidPosts(response);
-      console.log("VALID POSTS", validPosts);
+      // console.log("VALID POSTS", validPosts);
       if (validPosts) {
         const posts = sortPosts(validPosts);
         setPosts(posts);

@@ -72,7 +72,6 @@ export const getValidPosts = async (response: Response) => {
       const validPosts = (await Promise.all(postPromises)).filter(
         (post) => post !== undefined
       );
-      console.log("Valid posts: ", validPosts);
       return validPosts;
     } else {
       console.error("Failed to fetch assets:", response.status);

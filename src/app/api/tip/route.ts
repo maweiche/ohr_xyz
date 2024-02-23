@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
   console.log("incoming req", req);
   const mainRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_MAINNET;
   const devnetRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_DEVNET;
-  const connection = new Connection(devnetRpcEndpoint!, "confirmed");
+  const connection = new Connection(mainRpcEndpoint!, "confirmed");
 
   const { publicKey, amount, owner } = req;
   const tipperPubkey = new PublicKey(publicKey);
