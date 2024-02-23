@@ -23,7 +23,8 @@ export const FeedComponent = () => {
         method: "getAssetsByGroup",
         params: {
           groupKey: "collection",
-          groupValue: "7zLBMxtrJoKmBdCbn35J8YYjRcDQbAt3HprcBs6Poykv",
+          // groupValue: "7zLBMxtrJoKmBdCbn35J8YYjRcDQbAt3HprcBs6Poykv", //Devnet Group Value
+          groupValue: "9QSdt6TgXJfyqWMxfcZwk3acVSQTB3o3Fk9FHkzUgKk9", //Mainnet Group Value
           page: 1, // Starts at 1
           limit: 1000,
         },

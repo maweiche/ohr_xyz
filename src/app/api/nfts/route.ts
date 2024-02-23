@@ -16,6 +16,7 @@ export async function GET(request: NextRequest) {
   const results: AudioNFT[] = [];
 
   try {
+    console.log("fetching nfts from mainnet");
     const response = await fetch(mainnetRPC!, {
       method: "POST",
       headers: {
