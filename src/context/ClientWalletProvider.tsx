@@ -7,16 +7,16 @@ import {
   SolflareWalletAdapter,
   TorusWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import("@solana/wallet-adapter-react-ui/styles.css" as any);
-import React from "react";
 
 const ClientWalletProvider = (
   props: Omit<WalletProviderProps, "wallets">
 ): JSX.Element => {
   const network = WalletAdapterNetwork.Mainnet;
   // const network = WalletAdapterNetwork.Devnet;
+
   const wallets = useMemo(
     () => [
       new PhantomWalletAdapter(),
