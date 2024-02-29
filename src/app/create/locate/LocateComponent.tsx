@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use, useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { LayoutComponent } from "../../../components/layout/LayoutComponent";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import useMetadataStore from "../../../utils/useMetadataStore";
