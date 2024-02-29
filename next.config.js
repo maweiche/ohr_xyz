@@ -20,10 +20,9 @@ module.exports = {
     ],
   },
   env: {
-    NEXT_PUBLIC_GOOGLE_CLIENT_ID:
-      "992645609151-sd92v7e9v9cqquteccth22legc8rq47a.apps.googleusercontent.com",
-    NEXT_PUBLIC_GOOGLE_CLIENT_SECRET: "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",
-    NEXTAUTH_SECRET: "mQ46qpFwfE1BHuqMC+qlm19qBAD9fVPgh28werwe3ASFlAfnKjM=",
+    NEXT_PUBLIC_GOOGLE_CLIENT_ID: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+    NEXT_PUBLIC_GOOGLE_CLIENT_SECRET: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET,
+    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   },
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     // Resolve fallbacks
