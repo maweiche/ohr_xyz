@@ -44,7 +44,12 @@ export default function Home() {
 
   useEffect(() => {
     const browser = getBrowser();
-    alert("browser: " + browser);
+    if (browser === "iOS_webview" || browser === "Android_webview") {
+      // set locationDisabled to true in local storage
+      localStorage.setItem("locationDisabled", "true");
+    } else {
+      localStorage.setItem("locationDisabled", "false");
+    }
   }, []);
   return (
     <>
