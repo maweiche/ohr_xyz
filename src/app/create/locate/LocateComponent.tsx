@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { use, useCallback, useEffect, useState } from "react";
 import { LayoutComponent } from "../../../components/layout/LayoutComponent";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import useMetadataStore from "../../../utils/useMetadataStore";
@@ -113,6 +113,13 @@ const LocateComponent: React.FC = () => {
 
     router.push(route + "?" + queryString);
   };
+
+  useEffect(() => {
+    const locationDisabled = localStorage.getItem("locationDisabled");
+    if (locationDisabled === "true") {
+      handleChangeRoute("/create/mint")
+    }
+  }, []);
 
   return (
     <LayoutComponent showTitle="Locate" showFooter={false}>
