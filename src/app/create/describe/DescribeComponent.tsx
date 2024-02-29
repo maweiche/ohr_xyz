@@ -28,7 +28,13 @@ const DescribeComponent = () => {
       setTheVibe("Bullish");
     }
 
-    router.push("/create/locate");
+    const locationDisabled = localStorage.getItem("locationDisabled");
+    
+    if (locationDisabled === "true") {
+      router.push("/create/mint")
+    } else {
+      router.push("/create/locate");
+    }
   };
 
   return (

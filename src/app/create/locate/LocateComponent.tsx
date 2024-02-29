@@ -114,13 +114,6 @@ const LocateComponent: React.FC = () => {
     router.push(route + "?" + queryString);
   };
 
-  useEffect(() => {
-    const locationDisabled = localStorage.getItem("locationDisabled");
-    if (locationDisabled === "true") {
-      handleChangeRoute("/create/mint")
-    }
-  }, []);
-
   return (
     <LayoutComponent showTitle="Locate" showFooter={false}>
       <div
