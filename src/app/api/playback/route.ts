@@ -27,9 +27,10 @@ export async function GET(request: NextRequest) {
       );
 
       const data = await response.json();
-      const audioUrl = `https://stream.mux.com/${data?.data.id}/audio.m4a`;
+      // const audioUrl = `https://stream.mux.com/${data?.id}/audio.m4a`;
 
-      return NextResponse.json(audioUrl);
+      // return NextResponse.json(audioUrl);
+      return NextResponse.json(data);
     } else {
       return NextResponse.json({ error: "Invalid uploadId" });
     }

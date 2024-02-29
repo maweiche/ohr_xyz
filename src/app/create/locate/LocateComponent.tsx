@@ -116,35 +116,11 @@ const LocateComponent: React.FC = () => {
 
   return (
     <LayoutComponent showTitle="Locate" showFooter={false}>
-      <div className="flex flex-col justify-center align-center items-center h-full">
+      <div
+        className="flex flex-col justify-center align-center items-center h-full py-16"
+        style={{ height: "100dvh" }}
+      >
         <p className="text-2xl text-center">Add your location?</p>
-        {modalType === ModalType.SkipLocation && (
-          <PopupMessage
-            showModal={true}
-            handleContinue={() => handleChangeRoute("/create/mint")}
-            buttonText="Don't add"
-            secondaryButtonText="Cancel"
-            secondaryHandleClick={() => setModalType(ModalType.None)}
-            description="Your øhr will only be available in your wallet. No one will see it on the map."
-            title="Are you sure?"
-            handleClose={() => {
-              setModalType(ModalType.None);
-            }}
-          />
-        )}
-
-        {modalType === ModalType.Error && errorMessage && (
-          <ErrorMessage
-            showModal={true}
-            handleContinue={() => setModalType(ModalType.None)}
-            buttonText="Try again"
-            secondaryButtonText="Back to start"
-            secondaryHandleClick={() => handleChangeRoute("/create/listen")}
-            description={errorMessage}
-            title="Something went wrong"
-            handleClose={() => setModalType(ModalType.None)}
-          />
-        )}
         <div className="flex flex-col text-center mt-8">
           <div className="flex justify-center gap-8 ">
             <button className="secondary-btn text-xl" onClick={skipAddLocation}>
@@ -156,6 +132,33 @@ const LocateComponent: React.FC = () => {
           </div>
         </div>
       </div>
+      {modalType === ModalType.SkipLocation && (
+        <PopupMessage
+          showModal={true}
+          handleContinue={() => handleChangeRoute("/create/mint")}
+          buttonText="Don't add"
+          secondaryButtonText="Cancel"
+          secondaryHandleClick={() => setModalType(ModalType.None)}
+          description="Your øhr will only be available in your wallet. No one will see it on the map."
+          title="Are you sure?"
+          handleClose={() => {
+            setModalType(ModalType.None);
+          }}
+        />
+      )}
+
+      {modalType === ModalType.Error && errorMessage && (
+        <ErrorMessage
+          showModal={true}
+          handleContinue={() => setModalType(ModalType.None)}
+          buttonText="Try again"
+          secondaryButtonText="Back to start"
+          secondaryHandleClick={() => handleChangeRoute("/create/listen")}
+          description={errorMessage}
+          title="Something went wrong"
+          handleClose={() => setModalType(ModalType.None)}
+        />
+      )}
     </LayoutComponent>
   );
 };

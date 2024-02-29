@@ -7,7 +7,7 @@ interface NavBarTopProps {
 
 export const NavBarTop: React.FC<NavBarTopProps> = ({ shouldBeSticky }) => {
   return (
-    <div className={`navbar ${shouldBeSticky && "sticky top-0"} z-5`}>
+    <div className="navbar z-5">
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost btn-circle">

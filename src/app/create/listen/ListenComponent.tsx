@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import ErrorMessage from "../../../components/ErrorMessage";
-import { LoadingComponent } from "../../../components/LoadingComponent";
+import LoadingComponent from "../../../components/LoadingComponent";
 import { getRecordingUrl } from "../../../components/create/minting/MintNFT";
 import { LayoutComponent } from "../../../components/layout/LayoutComponent";
 import { motion } from "framer-motion";
@@ -80,33 +80,18 @@ const ListenComponent = () => {
 
   return (
     <LayoutComponent showTitle="Listen" showFooter={false}>
-      {hasErrored && (
-        <ErrorMessage
-          showModal={Boolean(hasErrored)}
-          handleContinue={() => router.push("/create/listen")}
-          buttonText="Try again"
-          secondaryButtonText="Report a bug"
-          secondaryHandleClick={() => {
-            console.log("report to mux");
-            router.push("/");
-            // TODO: send them to telegram
-          }}
-          description={hasErrored}
-          title="Something went wrong"
-          handleClose={() => setHasErrored(undefined)}
-        />
-      )}
       <motion.div
-        className="flex flex-col justify-center items-center h-full"
+        className="flex flex-col justify-center items-center h-full p-16"
         initial="initial"
         animate="animate"
         variants={containerAnimation}
         transition={{ duration: 1 }}
+        style={{ height: "100dvh" }}
       >
         {isLoading ? (
           <LoadingComponent />
         ) : (
-          <div className="flex flex-col justify-center align-center items-center h-full">
+          <div className="flex flex-col justify-center items-center h-full">
             <h1 className="text-2xl text-center mx-10">
               Do you want to keep this recording?
             </h1>
@@ -130,6 +115,22 @@ const ListenComponent = () => {
           </div>
         )}
       </motion.div>
+      {hasErrored && (
+        <ErrorMessage
+          showModal={Boolean(hasErrored)}
+          handleContinue={() => router.push("/create/listen")}
+          buttonText="Try again"
+          secondaryButtonText="Report a bug"
+          secondaryHandleClick={() => {
+            console.log("report to mux");
+            router.push("/");
+            // TODO: send them to telegram
+          }}
+          description={hasErrored}
+          title="Something went wrong"
+          handleClose={() => setHasErrored(undefined)}
+        />
+      )}
     </LayoutComponent>
   );
 };

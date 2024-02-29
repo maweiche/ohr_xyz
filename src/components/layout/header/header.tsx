@@ -17,10 +17,7 @@ export const Header: React.FC<HeaderProps> = ({
   };
   const { isMenuDisabled } = useMenuStore();
   return (
-    <header
-      className={`w-full ${showTitle === "About" && "sticky top-0"}`}
-      style={{ height: "5dvh" }}
-    >
+    <header className="w-full top-0 left-0 fixed ">
       {(showTitle === "Record" ||
         showTitle === "Explore" ||
         showTitle === "About" ||

@@ -1,6 +1,6 @@
 "use client";
 
-import { LoadingComponent } from "../../../components/LoadingComponent";
+import LoadingComponent from "../../../components/LoadingComponent";
 import { LayoutComponent } from "../../../components/layout/LayoutComponent";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
@@ -34,10 +34,11 @@ const DescribeComponent = () => {
   return (
     <LayoutComponent showTitle="Describe" showFooter={false}>
       <motion.div
-        className="flex flex-col items-center justify-center h-full"
+        className="flex flex-col items-center justify-center h-full py-16"
         initial="initial"
         animate="animate"
         variants={containerAnimation}
+        style={{ height: "100dvh" }}
       >
         {isLoading ? (
           <LoadingComponent />

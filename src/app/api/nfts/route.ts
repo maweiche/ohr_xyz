@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { AudioNFT } from "../../../components/map/NFTModal";
-import { NextApiRequest, NextApiResponse } from "next";
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -9,56 +8,40 @@ export async function GET(request: NextRequest) {
     return;
   }
 
-  let pageNumber: number = Number(initialPageNumber);
-
   const limit = 100;
-  // const apiUrl = `https://mainnet.underdogprotocol.com/v2/projects/1/nfts`;
-  const apiUrl = `https://devnet.underdogprotocol.com/v2/projects/6/nfts`;
+  const devnetRPC = process.env.NEXT_PUBLIC_HELIUS_DEVNET;
+  const mainnetRPC = process.env.NEXT_PUBLIC_HELIUS_MAINNET;
 
-  const options: RequestInit = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      authorization: `Bearer ${process.env.NEXT_PUBLIC_UNDERDOG_API_KEY}`,
-    },
-  };
-
-  // create a set to store existing IDs
   const existingIds = new Set<number>();
   const results: AudioNFT[] = [];
 
   try {
-    while (true) {
-      const response = await fetch(
-        `${apiUrl}?page=${pageNumber}&limit=${limit}`,
-        options
-      );
+    console.log("fetching nfts from mainnet");
+    const response = await fetch(mainnetRPC!, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        jsonrpc: "2.0",
+        id: "my-id",
+        method: "getAssetsByGroup",
+        params: {
+          groupKey: "collection",
+          groupValue: "7zLBMxtrJoKmBdCbn35J8YYjRcDQbAt3HprcBs6Poykv",
+          page: 1, // Starts at 1
+          limit: limit,
+        },
+      }),
+    });
+    const { result } = await response.json();
 
-      if (!response.ok) {
-        throw new Error(`Failed to fetch NFTs: ${response.statusText}`);
+    result.items.forEach((nft: AudioNFT) => {
+      if (!existingIds.has(nft.id) && nft.burnt === false) {
+        existingIds.add(nft.id);
+        results.push(nft);
       }
-
-      const data = await response.json();
-
-      if (data.results.length > 0) {
-        // filter out items with existing IDs before adding to the state
-        const filteredResults = data.results.filter(
-          (result: AudioNFT) => !existingIds.has(result.id)
-        );
-
-        // add the new IDs to the set
-        filteredResults.forEach((result: AudioNFT) =>
-          existingIds.add(result.id)
-        );
-
-        results.push(...filteredResults);
-
-        pageNumber++;
-      } else {
-        // if no more data to fetch, exit the loop
-        break;
-      }
-    }
+    });
 
     return NextResponse.json(results);
   } catch (error) {

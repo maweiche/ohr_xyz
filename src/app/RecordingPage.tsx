@@ -5,11 +5,11 @@ import { useRouter } from "next/navigation";
 import ErrorMessage from "../components/ErrorMessage";
 import { getCurrentDateFormatted } from "../utils/formatUtils";
 import useMetadataStore from "../utils/useMetadataStore";
+import LoadingComponent from "../components/LoadingComponent";
 import EarBtn from "../components/create/recording/EarBtn";
 import Timer from "../components/create/recording/Timer";
 import styles from "@styles/Home.module.css";
 import useMenuStore from "../utils/useMenuStore";
-import LoadingComponent from "@components/LoadingComponent";
 
 const getUserMedia = async () => {
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -109,7 +109,10 @@ const RecordingPage = () => {
   const showHelpText = !isRecordingCompleted && !isRecording;
 
   return (
-    <div className="flex flex-col justify-center align-center items-center h-full overflow-none">
+    <div
+      className="flex flex-col justify-center align-center items-center overflow-none pb-16"
+      style={{ height: "100dvh" }}
+    >
       {(isRecordingTooShort || hasErrored) && (
         <ErrorMessage
           showModal={true}
@@ -145,7 +148,7 @@ const RecordingPage = () => {
         />
       )}
       {showHelpText && (
-        <p className={styles["help-text"]}>click the ear to record</p>
+        <p className={styles["help-text"]}>tap the ear to record</p>
       )}
     </div>
   );
