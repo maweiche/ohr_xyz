@@ -1,17 +1,18 @@
 import { Dialog, Transition } from "@headlessui/react";
-import React, {
-  Dispatch,
-  Fragment,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
-import { useCopyToClipboard } from "react-use";
-import Image from "next/image";
-import ShareTweetBtn from "./ShareTweetBtn";
+import React, { Dispatch, Fragment, SetStateAction, useState } from "react";
 import { NFTattributes } from "../../utils/nftUtils";
+import { useCopyToClipboard } from "react-use";
+import Image from "next/legacy/image";
+import ShareTweetBtn from "./ShareTweetBtn";
+import SharePostModal from "@components/feed/SharePostModal";
+import TipCreatorModal from "@components/feed/TipCreatorModal";
+import { SoundWave } from "@components/feed/SoundWave";
 
 export interface AudioNFT {
+  [x: string]: any;
+  attributesObj: any;
+  owner: string;
+  metadata: AudioNFT | undefined;
   animationUrl: string;
   attributes: NFTattributes;
   description: string;
@@ -23,6 +24,7 @@ export interface AudioNFT {
   projectId: number;
   status: string;
   symbol: string;
+  ownerAddress: string;
 }
 
 interface NFTModalProps {
@@ -40,13 +42,14 @@ const NFTModal: React.FC<NFTModalProps> = ({
 }) => {
   const [state, copyToClipboard] = useCopyToClipboard();
   const [isCopied, setIsCopied] = useState(false);
+  const [showTipModal, setShowTipModal] = useState<boolean>(false);
+  const [showShareModal, setShowShareModal] = useState<boolean>(false);
   setTimeout(() => setIsCopied(false), 3000);
-
   return (
     <Transition appear show={showModal} as={Fragment}>
       <Dialog
         as="div"
-        className="relative z-50"
+        className="relative z-1"
         onClose={() => {
           setShowModal(false);
           setSharedNFTisShown(true);
@@ -80,54 +83,64 @@ const NFTModal: React.FC<NFTModalProps> = ({
                   as="h3"
                   className="py-2 px-6 font-black flex flex-col justify-center align-center items-center text-[#64ed14]"
                 >
-                  <p className="text-center secondary-font text-4xl">{`"${audioNFT.attributes.Vibe}"`}</p>
+                  <p className="text-center secondary-font text-4xl">{`"${audioNFT.attributesObj.Vibe}"`}</p>
                   <p className="mt-1 text-white text-sm">
                     {" "}
-                    {audioNFT.attributes.Date} - {audioNFT.symbol}
+                    {audioNFT.attributesObj.Date}
                   </p>
                 </Dialog.Title>
 
-                <div className="mt-2 px-6">
-                  <p className="text-center text-md "></p>
-                </div>
-
-                <div className="flex justify-center self-center mt-3">
-                  <audio controls>
-                    <source src={audioNFT.animationUrl} type="audio/mp4" />
-                    Your browser does not support the audio element.
-                  </audio>
-                </div>
-
-                <div className="mt-2 w-full flex justify-center align-center items-center">
-                  <Image
-                    src={audioNFT.image}
-                    alt="AudioNFT image"
-                    width={250}
-                    height={250}
-                    blurDataURL={"../../assets/ohr-general.png"}
-                    className="rounded-xl"
-                  />
-                </div>
-
-                <div className="flex justify-center w-full px-2">
+                <div className="mt-2 px-6 justify-center flex flex-row gap-5">
                   <button
-                    className="gap-2 border-2 m-3 p-2 px-4 flex justify-center rounded-xl"
-                    onClick={() => {
-                      copyToClipboard(
-                        `https://ohr-app.xyz/map?id=${audioNFT.id}&latitude=${audioNFT.attributes.Lat}&longitude=${audioNFT.attributes.Long}`
-                      );
-                      setIsCopied(true);
-                    }}
+                    onClick={() => setShowTipModal(true)}
+                    className="m-0 p-0 flex justify-center align-center items-center"
                   >
-                    <p className="text-md text-white ">
-                      {isCopied ? "Copied" : "Copy link"}
-                    </p>
+                    <Image src={"/tip.png"} alt="Tip" width={20} height={18} />
                   </button>
 
-                  <ShareTweetBtn
-                    link={`https://ohr-app.xyz/map?id=${audioNFT.id}&latitude=${audioNFT.attributes.Lat}&longitude=${audioNFT.attributes.Long}`}
-                  />
+                  <button
+                    onClick={() => setShowShareModal(true)}
+                    className="m-0 p-0 flex justify-center align-center items-center"
+                  >
+                    {" "}
+                    <Image
+                      src={"/share.png"}
+                      alt="Share"
+                      width={20}
+                      height={20}
+                    />
+                  </button>
                 </div>
+
+                <div className="pr-10 m-5">
+                  <SoundWave audioUrl={audioNFT.animationUrl} />
+                </div>
+
+                {showTipModal && (
+                  <div className="fixed inset-0 overflow-y-auto z-10 justify-center items-center">
+                    <TipCreatorModal
+                      showModal={showTipModal}
+                      owner={audioNFT.owner}
+                      mintAddress={audioNFT.assetId!}
+                      setShowModal={setShowTipModal}
+                      long={audioNFT.attributesObj.Long}
+                      lat={audioNFT.attributesObj.Lat}
+                      id={audioNFT.assetId!}
+                      vibe={audioNFT.attributesObj.Vibe}
+                    />
+                  </div>
+                )}
+                {showShareModal && (
+                  <div className="fixed inset-0 overflow-y-auto z-10 justify-center items-center">
+                    <SharePostModal
+                      showModal={showShareModal}
+                      setShowModal={setShowShareModal}
+                      longitude={audioNFT.attributesObj.Long}
+                      latitude={audioNFT.attributesObj.Lat}
+                      id={audioNFT.assetId!}
+                    />
+                  </div>
+                )}
               </Dialog.Panel>
             </Transition.Child>{" "}
           </div>

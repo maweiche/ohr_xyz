@@ -1,8 +1,9 @@
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useWallet } from "@solana/wallet-adapter-react";
+import React from "react";
 interface ActiveAppDescriptionProps {
   setShowSignUpModal: Dispatch<SetStateAction<boolean>>;
   wallet: WalletContextState;

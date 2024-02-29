@@ -124,3 +124,7 @@ a {
   border-radius: 2rem;
   padding: 0.2rem;
 }
+
+canvas {
+  z-index: 1;
+}

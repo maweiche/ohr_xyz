@@ -1,44 +1,49 @@
-import { useRouter } from "next/router";
+import { usePathname, useRouter } from "next/navigation";
 import styles from "./layout.module.css";
 import React from "react";
-import Image from "next/image";
+import Image from "next/legacy/image";
 
 export const NavBarBottom = () => {
   const router = useRouter();
+  const pathname = usePathname();
 
   return (
-    <div className={`${styles["navbar"]}`}>
+    <div className={`${styles["navbar"]} sticky bottom-0`}>
       <button
         className={
-          router.pathname === "/" ||
-          router.pathname === "/create/locate" ||
-          router.pathname === "/create/listen" ||
-          router.pathname === "/create/describe" ||
-          router.pathname === "/create/mint" ||
-          router.pathname === "/create/success"
+          pathname === "/feed" ? styles["active"] : styles["navbar-btn"]
+        }
+        onClick={() => router.push("/feed")}
+      >
+        <div>
+          <p className="text-2xl m-2">👂</p>
+        </div>
+      </button>
+      <button
+        className={
+          pathname === "/" ||
+          pathname === "/create/locate" ||
+          pathname === "/create/listen" ||
+          pathname === "/create/describe" ||
+          pathname === "/create/mint" ||
+          pathname === "/create/success"
             ? styles["active"]
             : styles["navbar-btn"]
         }
         onClick={() => router.push("/")}
       >
-        <div className={styles["ear-icon"]}>
-          <p className="text-3xl m-2">👂</p>
+        <div className="m-2">
+          <Image src={"/create.png"} alt="Create" width={25} height={25} />
         </div>
-        {/* <Image src={earIcon} alt="Ear" width={20} height={28} /> */}
       </button>
       <button
         className={
-          router.pathname === "/map" ? styles["active"] : styles["navbar-btn"]
+          pathname === "/profile" ? styles["active"] : styles["navbar-btn"]
         }
-        onClick={() => router.push("/map")}
+        onClick={() => router.push("/profile")}
       >
         <div className="m-2">
-          <Image
-            src={"/NFT_icon-01.png"}
-            alt="NFT location"
-            width={32}
-            height={32}
-          />
+          <Image src={"/profile.png"} alt="Profile" width={25} height={25} />
         </div>
       </button>
     </div>

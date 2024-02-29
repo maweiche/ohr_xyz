@@ -7,7 +7,8 @@ export const createMuxUpload = async (audioBlob: Blob): Promise<string> => {
     headers: { "Content-Type": "application/json" },
   });
   const initialData = await response.json();
-  const uploadUrl = initialData.url;
+
+  const uploadUrl = initialData.data.url;
 
   // upload audioBlob to asset endpoint (uploadUrl)
   await fetch(uploadUrl, {
@@ -16,7 +17,7 @@ export const createMuxUpload = async (audioBlob: Blob): Promise<string> => {
     headers: { "content-type": audioBlob.type },
   });
 
-  return initialData.id;
+  return initialData.data.id;
 };
 
 export const waitFor = async (seconds: number) => {
@@ -31,7 +32,8 @@ export const getMuxAssetId = async (uploadId: string): Promise<string> => {
   const res = await fetch(`/api/upload/?uploadId=${uploadId}`, {
     method: "GET",
   });
-  const data = (await res.json()) as Upload;
+  const { data } = await res.json(); // as Upload
+
   if (data.status === "waiting") {
     await waitFor(1);
     return getMuxAssetId(uploadId);
@@ -46,6 +48,7 @@ export const getMuxAssetId = async (uploadId: string): Promise<string> => {
   if (!data.asset_id) {
     throw new Error("Upload does not contain asset id.");
   }
+
   return data.asset_id;
 };
 

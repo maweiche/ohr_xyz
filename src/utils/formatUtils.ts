@@ -1,4 +1,4 @@
-import { StaticImageData } from "next/image";
+import { StaticImageData } from "next/legacy/image";
 
 export const getCurrentDateFormatted = (): string => {
   const now = new Date();
@@ -78,3 +78,29 @@ export const convertBlobToBase64 = (blob: Blob) =>
     };
     reader.readAsDataURL(blob);
   });
+
+export function formatDateAgoOrShortDate(dateString: string): string {
+  const currentDate: Date = new Date();
+  const inputDate: Date = new Date(dateString);
+  const timeDifferenceInMilliseconds: number =
+    currentDate.getTime() - inputDate.getTime();
+
+  const minutes: number = Math.floor(timeDifferenceInMilliseconds / 60000);
+  const hours: number = Math.floor(minutes / 60);
+
+  if (timeDifferenceInMilliseconds < 86400000) {
+    // Less than 24 hours
+    if (minutes < 60) {
+      return `${minutes}m`;
+    } else {
+      return `${hours}h`;
+    }
+  } else {
+    // 24 hours or more
+    const day: number = inputDate.getDate();
+    const month: number = inputDate.getMonth() + 1;
+    const year: number = inputDate.getFullYear();
+
+    return `${day}/${month}/${year < 10 ? "0" : ""}${year}`;
+  }
+}
