@@ -3,8 +3,8 @@
 import LoadingComponent from "../../../components/LoadingComponent";
 import { LayoutComponent } from "../../../components/layout/LayoutComponent";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState, useCallback } from "react";
 import useMetadataStore from "../../../utils/useMetadataStore";
 import React from "react";
 
@@ -15,11 +15,36 @@ const containerAnimation = {
 
 const DescribeComponent = () => {
   const router = useRouter();
+  const searchParams = useSearchParams()!;
   const {
-    metadata: { theVibe },
+    metadata: { theVibe, timeStamp, uploadID },
     setTheVibe,
   } = useMetadataStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const createQueryString = useCallback(
+    (queryParams: Record<string, string>) => {
+      const params = new URLSearchParams(searchParams);
+
+      for (const [name, value] of Object.entries(queryParams)) {
+        params.set(name, value);
+      }
+
+      return params.toString();
+    },
+    [searchParams]
+  );
+
+  const handleChangeRoute = (route: string) => {
+    const queryParams = {
+      theVibe: theVibe,
+      uploadID: uploadID,
+      timeStamp: timeStamp,
+    };
+    const queryString = createQueryString(queryParams);
+
+    router.push(route + "?" + queryString);
+  };
 
   const handleClick = () => {
     setIsLoading(true);
@@ -28,7 +53,13 @@ const DescribeComponent = () => {
       setTheVibe("Bullish");
     }
 
-    router.push("/create/locate");
+    const locationDisabled = localStorage.getItem("locationDisabled");
+
+    if (locationDisabled === "true") {
+      handleChangeRoute("/create/mint");
+    } else {
+      router.push("/create/locate");
+    }
   };
 
   return (

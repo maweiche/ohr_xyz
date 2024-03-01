@@ -5,10 +5,52 @@ import Toaster from "../components/Toaster";
 import RecordingPage from "./RecordingPage";
 import Script from "next/script";
 import useMenuStore from "../utils/useMenuStore";
-import React from "react";
+import React, { useEffect } from "react";
+
+const platforms = [
+  "Android",
+  "Android_webview",
+  "iOS",
+  "iOS_webview",
+  "Desktop",
+] as const;
+
+type OperatingSystem = (typeof platforms)[number];
 
 export default function Home() {
   const { isMenuDisabled } = useMenuStore();
+
+  function getBrowser(): OperatingSystem {
+    const userAgent = navigator.userAgent;
+    if (/android/i.test(userAgent)) {
+      if (userAgent.includes("wv")) return "Android_webview";
+      return "Android";
+    }
+
+    const lowerUserAgent = userAgent.toLowerCase(),
+      safari = /safari/.test(lowerUserAgent),
+      ios = /iphone|ipod|ipad/.test(lowerUserAgent);
+
+    if (ios) {
+      if (safari) {
+        return "iOS";
+      } else {
+        return "iOS_webview";
+      }
+    }
+
+    return "Desktop";
+  }
+
+  useEffect(() => {
+    const browser = getBrowser();
+    if (browser === "iOS_webview" || browser === "Android_webview") {
+      // set locationDisabled to true in local storage
+      localStorage.setItem("locationDisabled", "true");
+    } else {
+      localStorage.setItem("locationDisabled", "false");
+    }
+  }, []);
   return (
     <>
       <Script src="https://www.googletagmanager.com/gtag/js?id=G-1RPC444F7W" />
