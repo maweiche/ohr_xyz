@@ -208,5 +208,6 @@ export const Post: React.FC<PostProps> = ({
 //     leafOwner: assetWithProof.leafOwner,
 //     currentMetadata: assetWithProof.metadata,
 //     updateArgs,
-//    }).sendAndConfirm(umi);
+//  }).sendAndConfirm(umi);
+
 // }
