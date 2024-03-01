@@ -7,7 +7,7 @@ import {
   SolflareWalletAdapter,
   TorusWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import("@solana/wallet-adapter-react-ui/styles.css" as any);
 
