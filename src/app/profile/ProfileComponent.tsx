@@ -58,6 +58,7 @@ export const ProfileComponent = () => {
   useEffect(() => {
     if (publicKey) {
       setShouldConnectWallet(false);
+      console.log(publicKey);
       searchAssets();
     } else {
       setShouldConnectWallet(true);
