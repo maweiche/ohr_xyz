@@ -5,19 +5,12 @@ import { CgGoogle, CgArrowRight } from "react-icons/cg";
 import { useEffect, useState } from "react";
 import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
 import { SolanaPrivateKeyProvider } from "@web3auth/solana-provider";
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import { useWallet } from "@solana/wallet-adapter-react";
 import RPC from "./solanaRPC";
-import { useRouter, useSearchParams } from "next/navigation";
 
 function Web3AuthLogin() {
-  const { publicKey } = useWallet();
-  const router = useRouter();
-  const searchParams = useSearchParams();
   const [web3auth, setWeb3auth] = useState(null);
   const [provider, setProvider] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
-  // console.log('ENV VALUE: ' + process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID)
   const clientId = process.env.NEXT_PUBLIC_AUTH_CLIENT_ID;
 
   function uiConsole(...args) {
@@ -26,15 +19,6 @@ function Web3AuthLogin() {
       el.innerHTML = JSON.stringify(args || {}, null, 2);
     }
   }
-
-  // const getUserInfo = async () => {
-  //   if (!web3auth) {
-  //     uiConsole("web3auth not initialized yet");
-  //     return;
-  //   }
-  //   const user = await web3auth.getUserInfo();
-  //   uiConsole(user);
-  // };
 
   const login = async () => {
     if (!web3auth) {
@@ -65,18 +49,6 @@ function Web3AuthLogin() {
       }
     );
     setProvider(web3authProvider);
-  };
-
-  const logout = async () => {
-    if (!web3auth) {
-      uiConsole("web3auth not initialized yet");
-      return;
-    }
-    await web3auth.logout();
-    setProvider(null);
-    // clear the "web3pubkey" from localStorage
-    localStorage.removeItem("web3pubkey");
-    setLoggedIn(false);
   };
 
   useEffect(() => {
@@ -119,12 +91,7 @@ function Web3AuthLogin() {
         const rpc = new RPC(web3auth.provider);
         if (web3auth.connected) {
           setLoggedIn(true);
-          console.log("web3auth.connected: " + web3auth.connected);
-          if (!rpc || !provider) {
-            console.log("rpc is null");
-          }
           const account = await rpc.getAccounts();
-          console.log("account: " + account);
           localStorage.setItem("web3pubkey", account[0]);
         }
       } catch (error) {
@@ -157,18 +124,13 @@ function Web3AuthLogin() {
         <div className="social-login-option">
           <p className="social-login-text">Login with Social Accounts</p>
           <div className="web3auth-container">
-            {!loggedIn ? (
+            {!loggedIn && (
               <button
                 onClick={login}
                 className="w-full flex flex-row items-center justify-center"
               >
                 <CgGoogle onClick={login} className="google-icon" />
                 <p className="google-login-text">Sign in with Google</p>
-              </button>
-            ) : (
-              <button onClick={logout} className="google-login-btn">
-                <CgGoogle onClick={login} className="google-icon" />
-                Log Out
               </button>
             )}
           </div>

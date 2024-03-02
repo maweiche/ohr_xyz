@@ -17,6 +17,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import Web3AuthLogin from "../../web3Auth/Web3AuthLogin";
 import Web3AuthLogout from "../../web3Auth/Web3AuthLogout";
+import { checkLogin } from "../../../utils/checkLogin";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "utils/authOptions";
@@ -192,14 +193,18 @@ export const MintNFT: React.FC<MintNFTProps> = ({
   };
 
   useEffect(() => {
-    // check local storage for web3pubkey
-    const web3pubkey = localStorage.getItem("web3pubkey");
-    console.log("web3pubkey", web3pubkey);
-    if (web3pubkey != "undefined") {
-      setWeb3AuthPublicKey(web3pubkey);
-    } else {
-      setWeb3AuthPublicKey(null);
-    }
+    checkLogin().then((res: boolean) => {
+      console.log("res", res);
+      if (res) {
+        const web3pubkey = localStorage.getItem("web3pubkey");
+        console.log("web3pubkey", web3pubkey);
+        if (web3pubkey != "undefined") {
+          setWeb3AuthPublicKey(web3pubkey);
+        } else {
+          setWeb3AuthPublicKey(null);
+        }
+      }
+    });
   }, []);
 
   return (

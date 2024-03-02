@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/legacy/image";
 import TipCreatorModal from "./TipCreatorModal";
 import { SoundWave } from "./SoundWave";
@@ -11,8 +11,9 @@ import { walletAdapterIdentity } from "@metaplex-foundation/umi-signer-wallet-ad
 import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
 import { dasApi } from "@metaplex-foundation/digital-asset-standard-api";
 import { getAssetWithProof, burn } from "@metaplex-foundation/mpl-bubblegum";
-import { Connection, PublicKey, Transaction } from "@solana/web3.js";
+import { Connection } from "@solana/web3.js";
 import { formatDateAgoOrShortDate } from "utils/formatUtils";
+import { checkLogin } from "../../utils/checkLogin";
 
 interface PostProps {
   title: string;
@@ -39,7 +40,9 @@ export const Post: React.FC<PostProps> = ({
 }) => {
   const [showTipModal, setShowTipModal] = useState<boolean>(false);
   const [showShareModal, setShowShareModal] = useState<boolean>(false);
-
+  const [web3AuthPublicKey, setWeb3AuthPublicKey] = useState<string | null>(
+    null
+  );
   const router = useRouter();
   const { publicKey } = useWallet();
   const wallet = useWallet();
@@ -84,6 +87,16 @@ export const Post: React.FC<PostProps> = ({
     console.log(tx);
     window.location.reload();
   }
+
+  useEffect(() => {
+    checkLogin().then((res: boolean) => {
+      if (res) {
+        console.log("res: " + res);
+        const pubkey = localStorage.getItem("web3pubkey");
+        setWeb3AuthPublicKey(pubkey);
+      }
+    });
+  }, []);
 
   return (
     <div className="w-full">
@@ -141,7 +154,7 @@ export const Post: React.FC<PostProps> = ({
             </button>
             {profile && (
               <>
-                {publicKey!.toString() === owner && (
+                {publicKey?.toString() === owner || web3AuthPublicKey === owner && (
                   <button
                     onClick={() => burnPost()}
                     className="m-0 p-0 flex justify-center align-center items-center"

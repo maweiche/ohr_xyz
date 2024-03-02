@@ -1,6 +1,8 @@
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import Web3AuthLogin from "@components/web3Auth/Web3AuthLogin";
+import { checkLogin } from "utils/checkLogin";
 import { useRouter } from "next/navigation";
 import { useWallet } from "@solana/wallet-adapter-react";
 import React from "react";
@@ -19,6 +21,12 @@ export const ActiveAppDescription: React.FC<ActiveAppDescriptionProps> = ({
   useEffect(() => {
     if (publicKey) {
       router.push("/");
+    } else {
+      checkLogin().then((res: boolean) => {
+        if (res) {
+          router.push("/");
+        }
+      });
     }
   }, [publicKey, router]);
 
@@ -29,6 +37,7 @@ export const ActiveAppDescription: React.FC<ActiveAppDescriptionProps> = ({
       </p>
       <div className="m-6">
         <WalletMultiButton />
+        <Web3AuthLogin />
       </div>
     </div>
   );
