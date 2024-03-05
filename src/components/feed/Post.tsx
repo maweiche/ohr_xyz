@@ -9,11 +9,24 @@ import Link from "next/link";
 import SharePostModal from "./SharePostModal";
 import { walletAdapterIdentity } from "@metaplex-foundation/umi-signer-wallet-adapters";
 import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
+import {
+  keypairIdentity,
+  createSignerFromKeypair,
+} from "@metaplex-foundation/umi";
 import { dasApi } from "@metaplex-foundation/digital-asset-standard-api";
-import { getAssetWithProof, burn } from "@metaplex-foundation/mpl-bubblegum";
+import {
+  getAssetWithProof,
+  burn,
+  AssetWithProof,
+} from "@metaplex-foundation/mpl-bubblegum";
 import { Connection } from "@solana/web3.js";
 import { formatDateAgoOrShortDate } from "utils/formatUtils";
 import { checkLogin } from "../../utils/checkLogin";
+import RPC from "@components/web3Auth/solanaRPC";
+import { Web3AuthNoModal } from "@web3auth/no-modal";
+import { CHAIN_NAMESPACES } from "@web3auth/base";
+import { SolanaPrivateKeyProvider } from "@web3auth/solana-provider";
+import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
 
 interface PostProps {
   title: string;
@@ -75,28 +88,98 @@ export const Post: React.FC<PostProps> = ({
   async function burnPost() {
     const mainRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_MAINNET;
     const devnetRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_DEVNET;
+
     const umi = createUmi(new Connection(mainRpcEndpoint!)).use(dasApi());
     umi.use(walletAdapterIdentity(wallet));
-    // @ts-ignore
-    const assetWithProof = await getAssetWithProof(umi, assetId);
+    // @ts-expect-error : assetId is string
+    const assetWithProof: AssetWithProof = await getAssetWithProof(umi, assetId!);
+    console.log("assetWithProof", assetWithProof);
+
     const tx = await burn(umi, {
       ...assetWithProof,
       leafOwner: assetWithProof.leafOwner,
     }).sendAndConfirm(umi);
 
-    console.log(tx);
+    console.log("burn,", tx);
+
+    // window.location.reload();
+  }
+
+  async function burnPostWithWeb3Auth() {
+    console.log("sending burn tx");
+    const mainRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_MAINNET;
+    const devnetRpcEndpoint = process.env.NEXT_PUBLIC_HELIUS_DEVNET;
+
+    const umi = createUmi(new Connection(mainRpcEndpoint!)).use(dasApi());
+
+    // @ts-ignore
+    const assetWithProof = await getAssetWithProof(umi, assetId);
+    const clientId = process.env.NEXT_PUBLIC_AUTH_CLIENT_ID!;
+    const chainConfig = {
+      chainNamespace: CHAIN_NAMESPACES.SOLANA,
+      chainId: "0x3", // Please use 0x1 for Mainnet, 0x2 for Testnet, 0x3 for Devnet
+      rpcTarget: "https://api.devnet.solana.com",
+      displayName: "Solana Devnet",
+      blockExplorer: "https://explorer.solana.com",
+      ticker: "SOL",
+      tickerName: "Solana Token",
+    };
+    const web3auth = new Web3AuthNoModal({
+      clientId,
+      chainConfig,
+      // web3AuthNetwork: "sapphire_mainnet",
+      web3AuthNetwork: "sapphire_devnet",
+    });
+
+    const privateKeyProvider = new SolanaPrivateKeyProvider({
+      config: { chainConfig },
+    });
+
+    const openloginAdapter = new OpenloginAdapter({
+      privateKeyProvider,
+      adapterSettings: {
+        uxMode: "redirect",
+        redirectUrl: window.location.href,
+      },
+    });
+    web3auth.configureAdapter(openloginAdapter);
+
+    await web3auth.init();
+    const rpc = new RPC(web3auth.provider!);
+
+    const permission = await rpc.getPermission();
+    const uint8Array = new Uint8Array(
+      permission.match(/.{1,2}/g)!.map((byte) => parseInt(byte, 16))
+    );
+    const myPermission = umi.eddsa.createKeypairFromSecretKey(uint8Array);
+    const mySigner = createSignerFromKeypair(umi, myPermission);
+    umi.use(keypairIdentity(mySigner));
+
+    console.log('initiating burn...')
+
+    const tx = await burn(umi, {
+      ...assetWithProof,
+      leafOwner: assetWithProof.leafOwner,
+    }).sendAndConfirm(umi);
+
+    console.log("burn,", tx);
+
     window.location.reload();
   }
 
   useEffect(() => {
-    checkLogin().then((res: boolean) => {
-      if (res) {
-        console.log("res: " + res);
-        const pubkey = localStorage.getItem("web3pubkey");
-        setWeb3AuthPublicKey(pubkey);
-      }
-    });
-  }, []);
+    if(publicKey) {
+      return;
+    } else if(!publicKey && !web3AuthPublicKey) {
+      checkLogin().then((res: boolean) => {
+        if (res) {
+          console.log("res: " + res);
+          const pubkey = localStorage.getItem("web3pubkey");
+          setWeb3AuthPublicKey(pubkey);
+        }
+      });
+    }
+  }, [publicKey, web3AuthPublicKey]);
 
   return (
     <div className="w-full">
@@ -154,20 +237,23 @@ export const Post: React.FC<PostProps> = ({
             </button>
             {profile && (
               <>
-                {publicKey?.toString() === owner || web3AuthPublicKey === owner && (
-                  <button
-                    onClick={() => burnPost()}
-                    className="m-0 p-0 flex justify-center align-center items-center"
-                  >
-                    {" "}
-                    <Image
-                      src={"/delete.png"}
-                      alt="Delete"
-                      width={16}
-                      height={18}
-                    />
-                  </button>
-                )}
+                {publicKey?.toString() === owner ||
+                  (web3AuthPublicKey === owner && (
+                    <button
+                      onClick={() =>
+                        publicKey ? burnPost() : burnPostWithWeb3Auth()
+                      }
+                      className="m-0 p-0 flex justify-center align-center items-center"
+                    >
+                      {" "}
+                      <Image
+                        src={"/delete.png"}
+                        alt="Delete"
+                        width={16}
+                        height={18}
+                      />
+                    </button>
+                  ))}
               </>
             )}
           </div>

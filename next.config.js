@@ -40,7 +40,8 @@ module.exports = {
         process: "process/browser",
         Buffer: ["buffer", "Buffer"],
       }),
-      new webpack.IgnorePlugin({ resourceRegExp: /^react-native-fs$/ })
+      new webpack.IgnorePlugin({ resourceRegExp: /^react-native-fs$/ }),
+      new webpack.IgnorePlugin({ resourceRegExp: /^fd$/})
     );
 
     // Exclude transpilation of Mapbox GL JS bundle
