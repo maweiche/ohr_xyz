@@ -1,19 +1,86 @@
-import "./web3.module.css";
 import { Web3AuthNoModal } from "@web3auth/no-modal";
-import { CHAIN_NAMESPACES, WALLET_ADAPTERS } from "@web3auth/base";
+import { CHAIN_NAMESPACES, WALLET_ADAPTERS, IAdapter, IProvider} from "@web3auth/base";
 import { CgGoogle, CgArrowRight } from "react-icons/cg";
 import { useEffect, useState } from "react";
 import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
 import { SolanaPrivateKeyProvider } from "@web3auth/solana-provider";
 import RPC from "./solanaRPC";
 
-function Web3AuthLogin() {
-  const [web3auth, setWeb3auth] = useState(null);
-  const [provider, setProvider] = useState(null);
-  const [loggedIn, setLoggedIn] = useState(false);
-  const clientId = process.env.NEXT_PUBLIC_AUTH_CLIENT_ID;
+// type chainConfig = {
+//   blockExplorer: string;
+//   blockExplorerUrl: string;
+//   chainId: string;
+//   chainNamespace: string;
+//   decimals: number;
+//   displayName: string;
+//   logo: string;
+//   rpcTarget: string;
+//   ticker: string;
+//   tickerName: string;
+// };
 
-  function uiConsole(...args) {
+// type CommonJRPCProvider = {
+//   chainConfig: chainConfig;
+//   defaultConfig: {
+//     chainConfig: chainConfig;
+//     networks: {
+//       0x3: chainConfig;
+//     }
+//   }
+//   defaultState: {
+//     chainId: string;
+//   }
+//   disabled: boolean;
+//   initialConfig: {
+//     chainConfig: chainConfig;
+//   }
+//   initalState?: {}
+//   internalConfig: {
+//     chainConfig: chainConfig;
+//     networks: {
+//       0x3: chainConfig;
+//     }
+//   }
+//   internalState: {
+//     chainId: string;
+//   }
+//   name: string;
+//   networks: {
+//     0x3: chainConfig;
+//   }
+//   events?: {}
+//   _eventsCount: number;
+//   _maxListeners?: number;
+//   _providerEngineProxy?: {}
+// };
+
+// interface Web3AuthLoginProps {
+//   cachedAdapter?: string;
+//   commonJRPCProvider: string;
+//   coreOptions: {
+//     chainConfig: chainConfig;
+//     clientId: string;
+//     web3AuthNetwork: string;
+//   }
+//   plugins?: {};
+//   status: string;
+//   walletAdapter?: {
+//     openlogin: OpenloginAdapter;
+//   }
+//   _events: {};
+//   _eventsCount: number;
+//   _maxListeners?: number;
+//   connected: boolean;
+//   provider: CommonJRPCProvider;
+// }
+
+function Web3AuthLogin() {
+  const [web3auth, setWeb3auth] = useState<Web3AuthNoModal>();
+  const [provider, setProvider] = useState<IProvider>();
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
+  const clientId = process.env.NEXT_PUBLIC_AUTH_CLIENT_ID!;
+
+  function uiConsole(...args: string[] | object[]) {
     const el = document.querySelector("#console>p");
     if (el) {
       el.innerHTML = JSON.stringify(args || {}, null, 2);
@@ -25,16 +92,20 @@ function Web3AuthLogin() {
       uiConsole("web3auth not initialized yet");
       return;
     }
-    const web3authProvider = await web3auth.connectTo(
+    const web3authProvider: IProvider | null = await web3auth.connectTo(
       WALLET_ADAPTERS.OPENLOGIN,
       {
         loginProvider: "google",
       }
     );
+    if(!web3authProvider) {
+      uiConsole("web3authProvider not initialized yet");
+      return;
+    }
     setProvider(web3authProvider);
   };
 
-  const loginWithEmail = async (email) => {
+  const loginWithEmail = async (email: string) => {
     if (!web3auth) {
       uiConsole("web3auth not initialized yet");
       return;
@@ -48,6 +119,10 @@ function Web3AuthLogin() {
         },
       }
     );
+    if(!web3authProvider) {
+      uiConsole("web3authProvider not initialized yet");
+      return;
+    }
     setProvider(web3authProvider);
   };
 
@@ -70,6 +145,8 @@ function Web3AuthLogin() {
           web3AuthNetwork: "sapphire_devnet",
         });
 
+        console.log("web3auth", web3auth)
+
         setWeb3auth(web3auth);
 
         const privateKeyProvider = new SolanaPrivateKeyProvider({
@@ -80,13 +157,16 @@ function Web3AuthLogin() {
           privateKeyProvider,
           adapterSettings: {
             uxMode: "redirect",
-            // redircectUrl should be the same as the current page
             redirectUrl: window.location.href,
           },
         });
         web3auth.configureAdapter(openloginAdapter);
 
         await web3auth.init();
+        if(!web3auth.provider) {
+          uiConsole("web3authProvider not initialized yet");
+          return;
+        }
         setProvider(web3auth.provider);
         const rpc = new RPC(web3auth.provider);
         if (web3auth.connected) {
@@ -110,10 +190,12 @@ function Web3AuthLogin() {
             className="email-form"
             onSubmit={(e) => {
               e.preventDefault();
-              loginWithEmail(e.target[0].value);
+              loginWithEmail(
+                e.currentTarget.querySelector("input")?.value || ""
+              );
             }}
           >
-            <input type="email" placeholder="Login with Email" />
+            <input type="email" placeholder="Login with Email"  />
             <button type="submit" className="email-btn">
               <CgArrowRight className="email-icon" />
             </button>

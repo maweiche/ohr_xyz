@@ -1,4 +1,3 @@
-import "./web3.module.css";
 import { Web3AuthNoModal } from "@web3auth/no-modal";
 import { CHAIN_NAMESPACES } from "@web3auth/base";
 import { useEffect, useState } from "react";
@@ -6,11 +5,11 @@ import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
 import { SolanaPrivateKeyProvider } from "@web3auth/solana-provider";
 
 function Web3AuthLogout() {
-  const [web3auth, setWeb3auth] = useState(null);
-  const [loggedIn, setLoggedIn] = useState(false);
-  const clientId = process.env.NEXT_PUBLIC_AUTH_CLIENT_ID;
+  const [web3auth, setWeb3auth] = useState<Web3AuthNoModal>();
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
+  const clientId = process.env.NEXT_PUBLIC_AUTH_CLIENT_ID!;
 
-  function uiConsole(...args) {
+  function uiConsole(...args: string[] | object[]) {
     const el = document.querySelector("#console>p");
     if (el) {
       el.innerHTML = JSON.stringify(args || {}, null, 2);
