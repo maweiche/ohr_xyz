@@ -1,4 +1,10 @@
-import React, { Dispatch, SetStateAction, useCallback } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useCallback,
+  useState,
+} from "react";
 import {
   getMuxAssetId,
   getPlaybackId as getAudioUrl,
@@ -9,6 +15,9 @@ import LoadingComponent from "../../LoadingComponent";
 import { motion } from "framer-motion";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import Web3AuthLogin from "../../web3Auth/Web3AuthLogin";
+import Web3AuthLogout from "../../web3Auth/Web3AuthLogout";
+import { checkLogin } from "../../../utils/checkLogin";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "utils/authOptions";
@@ -78,6 +87,9 @@ export const MintNFT: React.FC<MintNFTProps> = ({
 }) => {
   // const { data } = useSession();
   const { publicKey, connected, disconnect } = useWallet();
+  const [web3AuthPublicKey, setWeb3AuthPublicKey] = useState<string | null>(
+    null
+  );
   // const session = await getServerSession(authOptions);
 
   const router = useRouter();
@@ -142,7 +154,9 @@ export const MintNFT: React.FC<MintNFTProps> = ({
     //     setHasErrored("Something didn't work out with the mint. ");
     //   }
     // } else if (mintType === "Wallet") {
-    const receiverAddress = publicKey?.toBase58();
+    const receiverAddress = publicKey
+      ? publicKey.toBase58()
+      : web3AuthPublicKey;
 
     try {
       console.log(receiverAddress, attributes, recordingUrl);
@@ -178,11 +192,26 @@ export const MintNFT: React.FC<MintNFTProps> = ({
     // }
   };
 
+  useEffect(() => {
+    checkLogin().then((res: boolean) => {
+      console.log("res", res);
+      if (res) {
+        const web3pubkey = localStorage.getItem("web3pubkey");
+        console.log("web3pubkey", web3pubkey);
+        if (web3pubkey != "undefined") {
+          setWeb3AuthPublicKey(web3pubkey);
+        } else {
+          setWeb3AuthPublicKey(null);
+        }
+      }
+    });
+  }, []);
+
   return (
     <div className="flex justify-center align-center items-center h-full">
       {!isMinting ? (
         <div className="flex flex-col align-center items-center h-full rounded-xl">
-          {connected && publicKey?.toBase58() ? (
+          {publicKey?.toBase58() || web3AuthPublicKey != null ? (
             <>
               <motion.button
                 className="primary-btn text-3xl mt-5"
@@ -199,17 +228,22 @@ export const MintNFT: React.FC<MintNFTProps> = ({
               </motion.button>
               <div className="m-10 flex flex-col justify-center align-center items-center">
                 <h1>Your wallet is connected </h1>
-                <button
-                  onClick={() => disconnect()}
-                  className="mt-4 border-2 p-2 rounded-lg w-1/2 border-purple-200 text-sm"
-                >
-                  Disconnect
-                </button>
+                {publicKey && (
+                  <button
+                    onClick={() => disconnect()}
+                    className="mt-4 border-2 p-2 rounded-lg w-1/2 border-purple-200 text-sm"
+                  >
+                    Disconnect
+                  </button>
+                )}
+                {web3AuthPublicKey && <Web3AuthLogout />}
               </div>
             </>
           ) : (
-            <div className="m-2">
+            <div className="flex flex-col m-2 gap-2 items-center">
               <WalletMultiButton />
+
+              <Web3AuthLogin />
             </div>
           )}
         </div>

@@ -1,5 +1,6 @@
 // next.config.js
 
+const { browser } = require("process");
 const webpack = require("webpack");
 require("dotenv").config();
 
@@ -40,7 +41,7 @@ module.exports = {
         process: "process/browser",
         Buffer: ["buffer", "Buffer"],
       }),
-      new webpack.IgnorePlugin({ resourceRegExp: /^react-native-fs$/ })
+      new webpack.IgnorePlugin({ resourceRegExp: /^react-native-fs$/ }),
     );
 
     // Exclude transpilation of Mapbox GL JS bundle
